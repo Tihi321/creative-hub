@@ -24,7 +24,7 @@ VN Studio: analyse ► art ► music ► generate ► voice ► stage ► build 
 
 | Id | What | Repo | Port / MCP | Data folder | Run headless |
 |---|---|---|---|---|---|
-| `scriptorium` | Writes books (incl. visual-novel scripts) with ~16 agent roles | `C:\projects\Personal\scriptorium` | 7341 `/mcp` | `~\Scriptorium` | `electron . --headless` (or `yarn headless`, no covers) |
+| `scriptorium` | Writes books and series (incl. visual-novel scripts) with ~16 agent roles | `C:\projects\Personal\scriptorium` | 7341 `/mcp` | `~\Scriptorium` | `electron . --headless` (or `yarn headless`, no covers) |
 | `book-translator` | Translates EPUB/DOCX/MD/TXT/PDF | `C:\projects\Personal\book-translator` | 47811 `/mcp`, Bearer token | `~\BookTranslator` | `node out/engine/index.js headless` |
 | `vn-studio` | Book → Ren'Py visual novel; drives the tools below | `C:\projects\Personal\visual-novels-orchestrator` | 7459 `/mcp` | `~\VisualNovels` | `node out/engine/index.js --mcp-only` |
 | `pixel-studio` | Pixel-art editor: import/convert, palettes, draw, export | `C:\projects\Personal\pixel-art-generator` | 7457 `/mcp` | `~\PixelStudio` | `electron . --mcp-only` |
@@ -47,6 +47,7 @@ pwsh -File scripts\hub.ps1 setup               # once: Book Translator MCP token
 pwsh -File scripts\hub.ps1 setup -EnableVibeTts  # once: turn on the VibeTTS MCP server (restarts the tray app)
 pwsh -File scripts\hub.ps1 start               # default set: vn-studio, pixel-studio, chiptune-studio, book-translator, vibetts, comfyui, comfy-mcp, lmstudio
 pwsh -File scripts\hub.ps1 start scriptorium -Force   # resumes the book factory: it writes every open idea
+pwsh -File scripts\hub.ps1 start scriptorium -Force -Window   # with its window (Electron apps), MCP still on
 pwsh -File scripts\hub.ps1 stop                # stops the engines the hub started (not your apps)
 pwsh -File scripts\hub.ps1 build vn-studio     # rebuild a repo after pulling or editing it
 pwsh -File scripts\hub.ps1 logs vn-studio

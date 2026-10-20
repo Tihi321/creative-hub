@@ -44,6 +44,7 @@ Gaps found while connecting the tools (2026-10-20). Each item belongs to one rep
 - **Full book run over MCP never verified** (SCP-07).
 - ~~**No way for the MCP client to do the writing.**~~ Done on branch `SCP-08_client-provider` (2026-10-20, uncommitted). A provider `client` (model `client/claude-code`) parks requests for an MCP client. Tools: `list_client_tasks` / `get_client_task` / `submit_client_task` / `release_client_task`. Per-book models: `add_story {models}`, `set_book_model`, and `role_models` in book.md. 300 tests pass. Left: the live run (it needs a restart of Scriptorium, which resumes the factory), then merge.
 - ~~**Rejected books can't be rescued.**~~ `reopen_book {book, mode: rewrite|review, chapters?}` on the same branch: one more round (`extra_rounds` in book.md).
+- ~~**Series.**~~ Done on branch `SCP-09_series` (2026-10-20, uncommitted): series files, an order gate (a later book waits for the earlier one to be published), earlier books in the prompts, MCP tools `list_series` / `get_series` / `add_series` / `update_series`, and a Series panel in the Library.
 - **Clearing a book model on a published book is refused.** `set_book_model {model: null}` refuses published books, so `role_models` keeps the client model after the run (found live, the-local-patch). Removing an entry should be allowed at any stage.
 - **No second life for a published book.** `reopen_book` takes only rejected books. A published book that should get one more round, for example on chapters the last round did not touch, has no tool.
 - **A pin is not exclusive.** `assign_agent` makes an agent prefer its book, but other agents of the role still take the book's jobs after about 20 s. Use `set_book_model` to keep a book on one model.
@@ -69,6 +70,7 @@ Gaps found while connecting the tools (2026-10-20). Each item belongs to one rep
 
 ## Hub
 
+- `hub.ps1 start <id> -Window` added (2026-10-20, uncommitted, SCP-09): Electron apps start with their window and keep the MCP server on (`--mcp`). Not run live yet.
 - `hub.ps1 call` has a 15 s HTTP timeout and JSON depth 10: long tools (`vno_build`, `vno_lint`, `vno_plan` with wait) time out unless called with `wait: false` + `vno_wait`.
 - Auto-start: VN Studio could start the studios itself (VNO-02 `next-steps.md` §2.1); until then `hub.ps1 start`.
 - Not yet verified end to end: a full idea → published book → VN build → played game.
