@@ -30,6 +30,10 @@ Gaps found while connecting the tools (2026-10-20). Each item belongs to one rep
 - ~~**The MCP client cannot do the model steps.**~~ Done on branch `VNO-05_client-provider` (2026-10-20, uncommitted). Provider `client`; tools `vno_client_tasks` / `vno_get_task` / `vno_submit_task` / `vno_release_task`, with art-critic images sent as image content; `vno_wait` returns when a task waits; per-project `vno_update_settings {models}`. 556 tests pass. Left: the live run (build, restart, reconnect), then merge.
 - **A parked job holds its agent.** With `max_parallel` 1, a role works one client task at a time per agent. Hire more agents of the role or raise `max_parallel` to answer several in parallel.
 - **Pixel Studio draw loop with the client provider.** `pixel-studio-draw` is multi-turn and limited to `drawTimeoutS` 240, so with `client` it times out. Wanted: a client-friendly draw mode with no timeout per turn. Until then, draw sprites with the pixel-studio MCP and use `vno_asset_replace`.
+- **No image path without ComfyUI.** Backgrounds, sheets, sprites (edited from the sheet) and both pixel modes (`pixelProvider: pixel-studio` converts a render, `pixel-studio-draw` copies one) all start with `ctx.comfy.generate` (`assets/generate.ts`). Found in the-soother-that-fell-into-dragon-land (user: "no need for comfy ui"). Being fixed on branch `VNO-07_hand-drawn-art`: `art.provider: hand`, images never generated, art plan skipped, sheets optional.
+- **The main menu image is the cover, resized smoothly.** `renpy/images.ts:155` resizes the cover with sharp's default kernel and `fit: cover` to the game resolution: a pixel-art cover gets blurred unless it is exactly 1920x1080, and a portrait cover (the planned size is 1080x1920) is cut to a landscape strip. Use `kernel: nearest` for pixel books, and plan the cover landscape (or keep a separate menu image).
+- **Pixel art is built as lossy WebP.** `renpy/images.ts` `encode()` uses `webp({quality: 88})` for every image; chroma subsampling smears pixel-art edges. The only switch is the global `imageFormat` in `config/renpy.md`. Fixed on branch `VNO-07_hand-drawn-art` (c23bfb3): lossless WebP for pixel projects.
+- **The analysis can add assets after the art is done.** A `time` the script-analyst gives a scene changes its background id (`bg_<place>_<time>`), and a new expression adds a sprite; on a hand-drawn book that asset then has no file (with VNO-07 it waits instead of going to ComfyUI). The analyst should be told which times and expressions already have art.
 - **Model jobs that do no model work still wait for a model slot.** Analyse with 0 items and stage with `byHand` cues are examples (`scheduler.ts:300-336`).
 
 ## Scriptorium
@@ -48,10 +52,12 @@ Gaps found while connecting the tools (2026-10-20). Each item belongs to one rep
 
 - `import_image` caps at 512x512 and reads no WebP; `new_document` replaces the current document; no tool to switch the current document; one shared session for all clients.
 - No expression-set tool, no text/9-slice/UI-element support (textbox, buttons).
+- **Drawing a full background is slow by hand.** `draw_grid` is capped at 64x64, there is no polygon, gradient/dither or bitmap-text tool, and line + `flood_fill` leaks or leaves gaps. Workaround in the hub: `scripts/pxcanvas.py` composes the picture in code and sends it as `draw_grid` tiles. Wanted: `draw_polygon`, `draw_gradient {stops, dither}`, a bulk `draw_image`/`set_layer_pixels` that takes a whole layer, and a tiny pixel font.
+- **`render_preview` and every drawing tool act on the one current document**, shared by all clients: two agents drawing at once overwrite each other (the hub script takes a file lock). Tools should take a `document` id the way `export_png` does.
 
 ## Chiptune Studio (midi-generator)
 
-- `compose_track` has no motif/leitmotif input, no variation mode, no intro.
+- `compose_track` has no motif/leitmotif input, no variation mode, no intro. (Hand-writing a track with `write_melody` + `wrap` per channel works well: four 16-bar NES tracks in the soother run.)
 - No SFX, stingers or ambience. Headless port only by `--port` (no env var).
 
 ## comfy-mcp (ComfyUI MCP server)

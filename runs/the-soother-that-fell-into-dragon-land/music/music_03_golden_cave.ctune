@@ -1,0 +1,1054 @@
+{
+ "format": "chiptune-studio",
+ "version": 1,
+ "song": {
+  "format": 1,
+  "id": "song_mvgu3o901f80x9",
+  "name": "The Golden Cave",
+  "chip": "nes",
+  "chipConfig": {
+   "chip": "nes",
+   "region": "ntsc",
+   "dpcm": false,
+   "mixModel": "nonlinear"
+  },
+  "authenticity": "strict",
+  "meta": {
+   "key": "D",
+   "scale": "minor",
+   "moods": [],
+   "tags": []
+  },
+  "timing": {
+   "bpm": 80,
+   "speed": 6,
+   "rowsPerBeat": 4,
+   "beatsPerBar": 4
+  },
+  "patternLength": 64,
+  "channels": [
+   {
+    "id": "P1",
+    "name": "Pulse 1",
+    "kind": "pulse",
+    "fxColumns": 2
+   },
+   {
+    "id": "P2",
+    "name": "Pulse 2",
+    "kind": "pulse",
+    "fxColumns": 2
+   },
+   {
+    "id": "TR",
+    "name": "Triangle",
+    "kind": "triangle",
+    "fxColumns": 2
+   },
+   {
+    "id": "NO",
+    "name": "Noise",
+    "kind": "noise",
+    "fxColumns": 2
+   }
+  ],
+  "orders": [
+   [
+    0,
+    0,
+    0,
+    0
+   ],
+   [
+    1,
+    1,
+    1,
+    1
+   ],
+   [
+    2,
+    2,
+    2,
+    2
+   ],
+   [
+    3,
+    3,
+    3,
+    3
+   ]
+  ],
+  "patterns": {
+   "NO:0": [
+    [
+     0,
+     60,
+     3,
+     7
+    ],
+    [
+     8,
+     60,
+     4,
+     3
+    ],
+    [
+     16,
+     60,
+     3,
+     7
+    ],
+    [
+     24,
+     60,
+     4,
+     3
+    ],
+    [
+     32,
+     60,
+     3,
+     7
+    ],
+    [
+     40,
+     60,
+     4,
+     3
+    ],
+    [
+     48,
+     60,
+     3,
+     7
+    ],
+    [
+     56,
+     60,
+     4,
+     3
+    ]
+   ],
+   "NO:1": [
+    [
+     0,
+     60,
+     3,
+     7
+    ],
+    [
+     8,
+     60,
+     4,
+     3
+    ],
+    [
+     16,
+     60,
+     3,
+     7
+    ],
+    [
+     24,
+     60,
+     4,
+     3
+    ],
+    [
+     32,
+     60,
+     3,
+     7
+    ],
+    [
+     40,
+     60,
+     4,
+     3
+    ],
+    [
+     48,
+     60,
+     3,
+     7
+    ],
+    [
+     56,
+     60,
+     4,
+     3
+    ]
+   ],
+   "NO:2": [
+    [
+     0,
+     60,
+     3,
+     7
+    ],
+    [
+     8,
+     60,
+     4,
+     3
+    ],
+    [
+     16,
+     60,
+     3,
+     7
+    ],
+    [
+     24,
+     60,
+     4,
+     3
+    ],
+    [
+     32,
+     60,
+     3,
+     7
+    ],
+    [
+     40,
+     60,
+     4,
+     3
+    ],
+    [
+     48,
+     60,
+     3,
+     7
+    ],
+    [
+     56,
+     60,
+     4,
+     3
+    ]
+   ],
+   "NO:3": [
+    [
+     0,
+     60,
+     3,
+     7
+    ],
+    [
+     8,
+     60,
+     4,
+     3
+    ],
+    [
+     16,
+     60,
+     3,
+     7
+    ],
+    [
+     24,
+     60,
+     4,
+     3
+    ],
+    [
+     32,
+     60,
+     3,
+     7
+    ],
+    [
+     40,
+     60,
+     4,
+     3
+    ],
+    [
+     48,
+     60,
+     3,
+     7
+    ],
+    [
+     56,
+     60,
+     4,
+     3
+    ]
+   ],
+   "P1:0": [
+    [
+     0,
+     74,
+     0,
+     12
+    ],
+    [
+     4,
+     77,
+     null,
+     null
+    ],
+    [
+     8,
+     81,
+     null,
+     null
+    ],
+    [
+     16,
+     82,
+     null,
+     null
+    ],
+    [
+     20,
+     81,
+     null,
+     null
+    ],
+    [
+     24,
+     77,
+     null,
+     null
+    ],
+    [
+     32,
+     79,
+     null,
+     null
+    ],
+    [
+     36,
+     76,
+     null,
+     null
+    ],
+    [
+     40,
+     72,
+     null,
+     null
+    ],
+    [
+     44,
+     76,
+     null,
+     null
+    ],
+    [
+     48,
+     74,
+     null,
+     null
+    ],
+    [
+     60,
+     "off",
+     null,
+     null
+    ]
+   ],
+   "P1:1": [
+    [
+     0,
+     81,
+     null,
+     null
+    ],
+    [
+     4,
+     84,
+     null,
+     null
+    ],
+    [
+     8,
+     86,
+     null,
+     null
+    ],
+    [
+     16,
+     83,
+     null,
+     null
+    ],
+    [
+     20,
+     81,
+     null,
+     null
+    ],
+    [
+     24,
+     79,
+     null,
+     null
+    ],
+    [
+     32,
+     77,
+     null,
+     null
+    ],
+    [
+     36,
+     79,
+     null,
+     null
+    ],
+    [
+     40,
+     74,
+     null,
+     null
+    ],
+    [
+     48,
+     76,
+     null,
+     null
+    ],
+    [
+     56,
+     73,
+     null,
+     null
+    ]
+   ],
+   "P1:2": [
+    [
+     0,
+     77,
+     null,
+     null
+    ],
+    [
+     8,
+     74,
+     null,
+     null
+    ],
+    [
+     12,
+     77,
+     null,
+     null
+    ],
+    [
+     16,
+     79,
+     null,
+     null
+    ],
+    [
+     24,
+     76,
+     null,
+     null
+    ],
+    [
+     28,
+     79,
+     null,
+     null
+    ],
+    [
+     32,
+     81,
+     null,
+     null
+    ],
+    [
+     36,
+     79,
+     null,
+     null
+    ],
+    [
+     40,
+     76,
+     null,
+     null
+    ],
+    [
+     44,
+     72,
+     null,
+     null
+    ],
+    [
+     48,
+     74,
+     null,
+     null
+    ]
+   ],
+   "P1:3": [
+    [
+     0,
+     82,
+     null,
+     null
+    ],
+    [
+     4,
+     81,
+     null,
+     null
+    ],
+    [
+     8,
+     79,
+     null,
+     null
+    ],
+    [
+     12,
+     74,
+     null,
+     null
+    ],
+    [
+     16,
+     77,
+     null,
+     null
+    ],
+    [
+     24,
+     74,
+     null,
+     null
+    ],
+    [
+     32,
+     76,
+     null,
+     null
+    ],
+    [
+     36,
+     79,
+     null,
+     null
+    ],
+    [
+     40,
+     73,
+     null,
+     null
+    ],
+    [
+     48,
+     69,
+     null,
+     null
+    ],
+    [
+     60,
+     "off",
+     null,
+     null
+    ]
+   ],
+   "P2:0": [
+    [
+     0,
+     62,
+     1,
+     5,
+     "037"
+    ],
+    [
+     16,
+     58,
+     null,
+     null,
+     "047"
+    ],
+    [
+     32,
+     60,
+     null,
+     null,
+     "047"
+    ],
+    [
+     48,
+     62,
+     null,
+     null,
+     "037"
+    ]
+   ],
+   "P2:1": [
+    [
+     0,
+     62,
+     null,
+     null,
+     "037"
+    ],
+    [
+     16,
+     55,
+     null,
+     null,
+     "047"
+    ],
+    [
+     32,
+     58,
+     null,
+     null,
+     "047"
+    ],
+    [
+     48,
+     57,
+     null,
+     null,
+     "047"
+    ]
+   ],
+   "P2:2": [
+    [
+     0,
+     58,
+     null,
+     null,
+     "047"
+    ],
+    [
+     16,
+     60,
+     null,
+     null,
+     "047"
+    ],
+    [
+     32,
+     57,
+     null,
+     null,
+     "037"
+    ],
+    [
+     48,
+     62,
+     null,
+     null,
+     "037"
+    ]
+   ],
+   "P2:3": [
+    [
+     0,
+     55,
+     null,
+     null,
+     "037"
+    ],
+    [
+     16,
+     58,
+     null,
+     null,
+     "047"
+    ],
+    [
+     32,
+     57,
+     null,
+     null,
+     "047"
+    ],
+    [
+     48,
+     57,
+     null,
+     null,
+     "047"
+    ]
+   ],
+   "TR:0": [
+    [
+     0,
+     50,
+     2,
+     null
+    ],
+    [
+     8,
+     45,
+     null,
+     null
+    ],
+    [
+     16,
+     46,
+     null,
+     null
+    ],
+    [
+     24,
+     41,
+     null,
+     null
+    ],
+    [
+     32,
+     48,
+     null,
+     null
+    ],
+    [
+     40,
+     43,
+     null,
+     null
+    ],
+    [
+     48,
+     50,
+     null,
+     null
+    ],
+    [
+     56,
+     45,
+     null,
+     null
+    ]
+   ],
+   "TR:1": [
+    [
+     0,
+     50,
+     null,
+     null
+    ],
+    [
+     8,
+     45,
+     null,
+     null
+    ],
+    [
+     16,
+     43,
+     null,
+     null
+    ],
+    [
+     24,
+     50,
+     null,
+     null
+    ],
+    [
+     32,
+     46,
+     null,
+     null
+    ],
+    [
+     40,
+     41,
+     null,
+     null
+    ],
+    [
+     48,
+     45,
+     null,
+     null
+    ],
+    [
+     56,
+     40,
+     null,
+     null
+    ]
+   ],
+   "TR:2": [
+    [
+     0,
+     46,
+     null,
+     null
+    ],
+    [
+     8,
+     41,
+     null,
+     null
+    ],
+    [
+     16,
+     48,
+     null,
+     null
+    ],
+    [
+     24,
+     43,
+     null,
+     null
+    ],
+    [
+     32,
+     45,
+     null,
+     null
+    ],
+    [
+     40,
+     40,
+     null,
+     null
+    ],
+    [
+     48,
+     50,
+     null,
+     null
+    ],
+    [
+     56,
+     45,
+     null,
+     null
+    ]
+   ],
+   "TR:3": [
+    [
+     0,
+     43,
+     null,
+     null
+    ],
+    [
+     8,
+     50,
+     null,
+     null
+    ],
+    [
+     16,
+     46,
+     null,
+     null
+    ],
+    [
+     24,
+     41,
+     null,
+     null
+    ],
+    [
+     32,
+     45,
+     null,
+     null
+    ],
+    [
+     40,
+     40,
+     null,
+     null
+    ],
+    [
+     48,
+     45,
+     null,
+     null
+    ],
+    [
+     56,
+     49,
+     null,
+     null
+    ]
+   ]
+  },
+  "instruments": [
+   {
+    "name": "bell",
+    "kind": "nes-pulse",
+    "macros": {
+     "vol": {
+      "values": [
+       10,
+       9,
+       8,
+       7,
+       6,
+       5,
+       5,
+       4,
+       4,
+       3,
+       3,
+       2,
+       2,
+       1,
+       1,
+       0
+      ],
+      "loop": 15
+     },
+     "timbre": {
+      "values": [
+       1
+      ],
+      "loop": 0
+     }
+    },
+    "presetId": "nes.bell.soft",
+    "role": "bell",
+    "gm": {
+     "program": 14
+    }
+   },
+   {
+    "name": "pad",
+    "kind": "nes-pulse",
+    "macros": {
+     "vol": {
+      "values": [
+       0,
+       2,
+       3,
+       4,
+       5,
+       6,
+       6,
+       5,
+       4,
+       4,
+       3,
+       3,
+       2,
+       2,
+       1,
+       1,
+       0
+      ],
+      "loop": 6,
+      "release": 7
+     },
+     "timbre": {
+      "values": [
+       2
+      ],
+      "loop": 0
+     }
+    },
+    "presetId": "nes.pad.soft-long",
+    "role": "pad",
+    "gm": {
+     "program": 89
+    }
+   },
+   {
+    "name": "bass",
+    "kind": "nes-tri",
+    "macros": {},
+    "presetId": "nes.bass.tri",
+    "role": "bass",
+    "gm": {
+     "program": 38
+    }
+   },
+   {
+    "name": "kick",
+    "kind": "nes-noise",
+    "macros": {
+     "vol": {
+      "values": [
+       15,
+       14,
+       12,
+       9,
+       6,
+       3,
+       1,
+       0
+      ],
+      "loop": 7
+     },
+     "arp": {
+      "values": [
+       8,
+       6,
+       4,
+       2,
+       1,
+       0,
+       0,
+       0
+      ],
+      "loop": 7,
+      "mode": "fixed"
+     },
+     "timbre": {
+      "values": [
+       0
+      ],
+      "loop": 0
+     }
+    },
+    "presetId": "nes.kick.noise",
+    "role": "kick",
+    "gm": {
+     "drumNote": 36
+    }
+   },
+   {
+    "name": "hat",
+    "kind": "nes-noise",
+    "macros": {
+     "vol": {
+      "values": [
+       9,
+       5,
+       2,
+       0
+      ],
+      "loop": 3
+     },
+     "arp": {
+      "values": [
+       15
+      ],
+      "loop": 0,
+      "mode": "fixed"
+     },
+     "timbre": {
+      "values": [
+       1
+      ],
+      "loop": 0
+     }
+    },
+    "presetId": "nes.hat.noise",
+    "role": "hihat",
+    "gm": {
+     "drumNote": 42
+    }
+   }
+  ],
+  "loop": {
+   "order": 0
+  },
+  "references": []
+ },
+ "samples": []
+}
