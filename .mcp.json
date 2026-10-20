@@ -1,0 +1,35 @@
+{
+  "mcpServers": {
+    "scriptorium": {
+      "type": "http",
+      "url": "http://127.0.0.1:7341/mcp"
+    },
+    "book-translator": {
+      "type": "http",
+      "url": "http://127.0.0.1:47811/mcp",
+      "headers": {
+        "Authorization": "Bearer ${BOOK_TRANSLATOR_MCP_TOKEN}"
+      }
+    },
+    "vn-studio": {
+      "type": "http",
+      "url": "http://127.0.0.1:7459/mcp"
+    },
+    "pixel-studio": {
+      "type": "http",
+      "url": "http://127.0.0.1:7457/mcp"
+    },
+    "chiptune-studio": {
+      "type": "http",
+      "url": "http://127.0.0.1:7458/mcp"
+    },
+    "vibetts": {
+      "type": "http",
+      "url": "http://127.0.0.1:7723/mcp"
+    },
+    "comfy-mcp": {
+      "type": "http",
+      "url": "http://127.0.0.1:7460/mcp"
+    }
+  }
+}
