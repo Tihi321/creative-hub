@@ -104,7 +104,7 @@ Either way, the bible is what keeps the visuals consistent: every character and 
    - VibeTTS: `synthesize_to_file {text, voice, lang, format}` for extra clips (Kokoro `af_*`/`am_*` English only; `supertonic:F1`-`M5` any language).
    - comfy-mcp (ComfyUI directly): `generate_image {prompt, engine, width, height, out}` for CGs and extra art, `edit_image {prompt, image, out}` to change an existing sprite or CG while keeping the subject, `remove_background {image, out}` for a transparent sprite, `generate_music {tags, engine, seconds, out}`, `generate_speech {text, language, voice_ref, out}`. Pass absolute `out` paths. A call returns the paths, or a job id after its `wait` seconds (default 45); then `wait {job_ids}`.
 6. `vno_build {slug}` then `vno_lint {slug}`. The build lists any placeholder assets left. Optional: `vno_android_preflight`, `vno_android_build`.
-7. Play: `C:\projects\Local\renpy\renpy-8.5.3-sdk\renpy.exe "%USERPROFILE%\VisualNovels\projects\<slug>\game"`. Only the user can say it plays well; ask them, and write the answer in the run log.
+7. Play. Give the user the PowerShell form, because their terminal is PowerShell: `& "C:\projects\Local\renpy\renpy-8.5.3-sdk\renpy.exe" "$env:USERPROFILE\VisualNovels\projects\<slug>\game"`. PowerShell does not expand `%USERPROFILE%`, and with a wrong path Ren'Py quits without a word. In cmd the form is `...\renpy.exe "%USERPROFILE%\VisualNovels\projects\<slug>\game"`. A window titled with the book title means it started. Only the user can say it plays well; ask them, and write the answer in the run log.
 
 ## 4. Finish
 
