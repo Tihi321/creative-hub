@@ -6,6 +6,7 @@
 #   pwsh -File scripts\hub.ps1 start                start the default set (not scriptorium, not strata)
 #   pwsh -File scripts\hub.ps1 start vn-studio pixel-studio
 #   pwsh -File scripts\hub.ps1 start scriptorium -Force   (Scriptorium resumes its factory, see services.json)
+#   pwsh -File scripts\hub.ps1 start scriptorium -Force -Window   with its window (Electron apps only), MCP still on
 #   pwsh -File scripts\hub.ps1 stop [ids|all]       stops hub-managed engines only (-Force for the rest)
 #   pwsh -File scripts\hub.ps1 build [ids]          rebuild repos after pulling or editing them
 #   pwsh -File scripts\hub.ps1 logs vn-studio
@@ -18,6 +19,7 @@ param(
     [Parameter(Position = 0)][ValidateSet('status', 'start', 'stop', 'build', 'logs', 'setup', 'check', 'call')][string]$Command = 'status',
     [Parameter(Position = 1, ValueFromRemainingArguments)][string[]]$Ids,
     [switch]$Force,
+    [switch]$Window,
     [switch]$EnableVibeTts,
     [int]$WaitSeconds = 60
 )
@@ -88,6 +90,16 @@ function Start-Service1($s) {
     $st = $s.start
     $repo = if ($st.cwd) { Expand $st.cwd } else { $s.repo }
     $args2 = @($st.args | ForEach-Object { Expand $_ })
+    $showWindow = $false
+    if ($Window) {
+        if ($st.kind -eq 'electron') {
+            # Windowed start: drop the headless flags, keep the MCP server on.
+            $showWindow = $true
+            $args2 = @($args2 | Where-Object { $_ -notin '--headless', '--mcp-only' })
+            if ($args2 -notcontains '--mcp') { $args2 += '--mcp' }
+        }
+        else { Write-Host "$($s.id): -Window has no effect (only Electron apps get a window)" }
+    }
     switch ($st.kind) {
         'node' {
             if (-not (Test-Path (Join-Path $repo $args2[0]))) { throw "$($s.id): $($args2[0]) is missing. Run: hub.ps1 build $($s.id)" }
@@ -120,11 +132,11 @@ function Start-Service1($s) {
                 FilePath               = $exe
                 ArgumentList           = $args2
                 WorkingDirectory       = $repo
-                WindowStyle            = 'Hidden'
                 RedirectStandardOutput = Join-Path $logs "$($s.id).out.log"
                 RedirectStandardError  = Join-Path $logs "$($s.id).err.log"
                 PassThru               = $true
             }
+            if (-not $showWindow) { $p.WindowStyle = 'Hidden' }
             if ($env2.Count) { $p.Environment = $env2 }
             $proc = Start-Process @p
             Write-Host "$($s.id): started (pid $($proc.Id)), waiting for port $($s.port)..."

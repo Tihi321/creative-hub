@@ -44,6 +44,10 @@ Gaps found while connecting the tools (2026-10-20). Each item belongs to one rep
 - **Full book run over MCP never verified** (SCP-07).
 - ~~**No way for the MCP client to do the writing.**~~ Done on branch `SCP-08_client-provider` (2026-10-20, uncommitted). A provider `client` (model `client/claude-code`) parks requests for an MCP client. Tools: `list_client_tasks` / `get_client_task` / `submit_client_task` / `release_client_task`. Per-book models: `add_story {models}`, `set_book_model`, and `role_models` in book.md. 300 tests pass. Left: the live run (it needs a restart of Scriptorium, which resumes the factory), then merge.
 - ~~**Rejected books can't be rescued.**~~ `reopen_book {book, mode: rewrite|review, chapters?}` on the same branch: one more round (`extra_rounds` in book.md).
+- ~~**Series.**~~ Done on branch `SCP-09_series` (2026-10-20, commit 33c224b, not merged): series files, an order gate (a later book waits for the earlier one to be published), earlier books in the prompts, MCP tools `list_series` / `get_series` / `add_series` / `update_series`, and a Series panel in the Library. Used live for book 1 of *The Hartley & Varga Mysteries* (`runs/the-clockless-god.md`): the series section showed up in the pitch, outline and chapter prompts as designed. Book 2 (the gate, the carry-over) is not tried live yet.
+- **`add_story {models}` does not reach `start_book`.** The editor-in-chief's start job runs before `book.md` exists, so it used the global role list (a free OpenRouter model), not `client/claude-code` (found live, the-clockless-god). Apply the idea's `role_models` to `start_book` too.
+- **Check notes reach the writer as a summary only.** A continuity check with verdict `revise` puts only its first paragraph into the rewrite task ("Fix the phone/photographs problem"), not the numbered problems that the review file holds (found live, the-clockless-god ch11). Pass the whole check text, or its numbered list.
+- **Odd word target in check rewrites.** A rewrite of a 3,100-word chapter asked for "about 4091 words" (ch11, the-clockless-god). The number does not match the chapter or the format (1,500-3,000).
 - **Clearing a book model on a published book is refused.** `set_book_model {model: null}` refuses published books, so `role_models` keeps the client model after the run (found live, the-local-patch). Removing an entry should be allowed at any stage.
 - **No second life for a published book.** `reopen_book` takes only rejected books. A published book that should get one more round, for example on chapters the last round did not touch, has no tool.
 - **A pin is not exclusive.** `assign_agent` makes an agent prefer its book, but other agents of the role still take the book's jobs after about 20 s. Use `set_book_model` to keep a book on one model.
@@ -69,6 +73,7 @@ Gaps found while connecting the tools (2026-10-20). Each item belongs to one rep
 
 ## Hub
 
+- `hub.ps1 start <id> -Window` added (2026-10-20, commit 4c474a4, SCP-09): Electron apps start with their window and keep the MCP server on (`--mcp`). Run live for Scriptorium: the window opened and MCP answered (37 tools), but the `start` command itself never returned or printed anything. A guess, not verified: the windowed child keeps the caller's console handles.
 - `hub.ps1 call` has a 15 s HTTP timeout and JSON depth 10: long tools (`vno_build`, `vno_lint`, `vno_plan` with wait) time out unless called with `wait: false` + `vno_wait`.
 - Auto-start: VN Studio could start the studios itself (VNO-02 `next-steps.md` §2.1); until then `hub.ps1 start`.
 - Not yet verified end to end: a full idea → published book → VN build → played game.
