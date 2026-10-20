@@ -1,5 +1,48 @@
 # Changelog: Claude Code does the model work
 
+## 2026-10-20 (later): live verification after the merge
+
+**Outcome:** the user merged all three PRs. All three apps were built from `master` and restarted, and each one ran a real job end to end with Claude Code answering every model call. All three work.
+
+**Setup**
+- `yarn build` (Scriptorium) and `yarn build:engine` (VN Studio, Book Translator) all exited 0.
+- A `client` provider entry was added to `~/Scriptorium`, `~/VisualNovels` and `~/BookTranslator` `config/providers.md`: local, concurrency 8, model `claude-code` with `vision: true` and `context: 200000`. Backups are in `.claude/temp/providers-backup/`.
+- Scriptorium was idle, with no running jobs, when it was restarted.
+- `hub.ps1 check`: scriptorium 33 tools, vn-studio 66, book-translator 26. `list_models` shows `client/claude-code` in each app.
+
+**Book Translator.** Project `the-keeper-hr-cb2b62`, a short English text translated into Croatian, with every agent on `client/claude-code`.
+- The tasks came in order: glossary (JSON), translate (`<seg>`), proofread (`<seg>`), QA review (JSON). `wait_for_progress` returned at once each time a task waited.
+- A QA answer without `segId` was refused (`issues[0].segId: missing (required)`), and the task stayed leased. The fixed answer was accepted.
+- The project reached `done` with 1 of 1 chunks at $0. The export has correct Croatian diacritics, „…” quotes and **bold**.
+
+**VN Studio.** Project `quarter-tone-test`: 2 chapters, 2 characters, 1 place, illustrated art, NES chiptune. Every role was on `client/claude-code` through `vno_update_settings {models}`.
+- Claude answered 6 tasks: the art plan in 2 batches (10 assets + the cover), the music plan, staging (one task per chapter) and the run summary.
+- The music plan was submitted without the defaulted fields `prompt` and `seconds`, and was accepted. That is the defaults fix working live.
+- ComfyUI generated 12 assets in about 29 minutes, the slow part.
+- The game built with 0 placeholders and 0 warnings. Ren'Py lint is clean (7 dialogue blocks). 21 jobs done, 0 failed.
+- Claude looked at both sheets, one sprite and the cover, and they match the prompts. The game itself was not played.
+
+**Scriptorium.** The rejected book `the-local-patch` was rescued.
+- `set_book_model {writer: client/claude-code}`, then `reopen_book {rewrite, [3, 4]}`.
+- Claude wrote ch3 (1,256 words) and ch4 (1,899 words) from the rewrite tasks. A rewrite task carries the whole book, every review note and the research (98k characters).
+- The DeepSeek reviewers passed it, and it was **published** at 7.14, up from 6.29 rejected. EPUB, cover and reader were made. Round 3 cost about $0.02 (reviews only).
+
+**Found and fixed in the hub (uncommitted)**
+- `scripts/hub.ps1`: `call` printed through the console code page, so `š` became `s` and „” became quotes that broke the JSON. It now prints UTF-8. The data stored in the apps was always correct.
+- `scripts/hub.ps1`: `stop` killed only the process listening on the port. That is a child of Electron apps such as Scriptorium, so the main process lived on. `stop` now walks up to the top process of the same program and kills its tree. Checked as a dry run against the running Scriptorium (listener 31712 → main 16884 `--headless`).
+- The skill: `vno_wait` timeout lowered to 240 s, because Claude Code aborts an MCP call that is silent for 300 s. This was seen live.
+
+**Found, written in ROADMAP.md (not fixed)**
+- Every client task sends the prompt twice (`messages` alongside `system`/`user`).
+- `set_book_model {model: null}` is refused on a published book.
+- A published book can't be reopened.
+- Book Translator does not reload `providers.md` while running.
+- A client model without `context` defaults to 8,192 tokens.
+
+**Not checked**
+- Nobody played the VN, and the user has not read the EPUB.
+- Not tried: VN Studio's art-critic image tasks (art review was off), Scriptorium writing from a new story (`add_story {models}`), and parallel subagents taking tasks.
+
 ## 2026-10-20: SCP-08, VNO-05, BTT-09
 
 **Outcome:** Scriptorium, VN Studio and Book Translator each have a model provider `client` (model `client/claude-code`). A model request sent to it waits in an in-memory queue until Claude Code takes it over MCP and answers it, and nothing is spent. Each app can choose it per book or per project. Scriptorium can also reopen a rejected book. Everything is uncommitted on ticket branches, and nothing has been tried against the running apps.

@@ -14,7 +14,7 @@ Started 2026-10-20.
 | Tool | Id |
 |---|---|
 | Scriptorium story | `the-local-patch` |
-| Scriptorium book | `the-local-patch` (stage `rejected`) |
+| Scriptorium book | `the-local-patch` (stage `published`, round 3, score 7.14) |
 | Book Translator project | |
 | VN Studio project | |
 
@@ -32,12 +32,24 @@ Started 2026-10-20.
   - Some refrains repeat (the "bought hours, not days" line and the "number he had written down" line).
   - "grey" vs "gray".
 - Reviewers liked the ending: the coda with Sera and the Kaelen material. Setting chosen by the factory: the generation ship *Keres*.
+- 2026-10-20 SCP-08 / VNO-05 / BTT-09 merged, built and restarted, with the `client` provider added to each data folder.
+- 2026-10-20 Rescue:
+  - `set_book_model {writer: client/claude-code}`, then `reopen_book {mode: rewrite, chapters: [3, 4]}` gave round 3.
+  - Claude wrote both rewrites through `get_client_task` / `submit_client_task`.
+    - Ch3 (1,256 words) keeps Vera's sandbox tests and production patch, Aris's countdown (59 h) and Kaelen's chem-bank sums.
+    - Ch4 (1,899 words) holds the filter at hour 9, the harness, the second fit (found once and logged, not buried), the one Command Node meeting at hour 41 (chem-bank now 22 %), and the snap with the fine-structure physics corrected and emergency white light.
+    - The refrains and the tremor repeat were dropped.
+  - DeepSeek reviewed: 3 pass, 3 revise. **Published** at 7.14 (enjoyment 8, genre fit 8, structure 8, originality 8, continuity 6, mechanics 6, prose 6). EPUB, cover and reader were made.
+  - Round 3 cost about $0.02, reviews only. Total about $0.23.
+- `set_book_model ... null` is refused on a published book, so `role_models.writer` stays `client/claude-code`. This is harmless because a published book runs no jobs. It is in the ROADMAP.
 
 ## Checked
 
-- Read the round-2 reviews and `log.md` in `~/Scriptorium/books/the-local-patch/`. The chapters themselves have not been read yet.
+- Read the round-2 reviews and `log.md` in `~/Scriptorium/books/the-local-patch/`.
+- Round 3: Claude read the whole book (it comes in the rewrite task) and wrote ch3 and ch4. The published EPUB has not been opened by the user yet.
 
 ## Left to do
 
-- **On hold (user, 2026-10-20)** until two features exist: Scriptorium jobs that Claude Code can take over MCP, and the same for VN Studio's model work. Plan: `.claude/tickets/external-llm-jobs/plan.md`. After that, rescue or rewrite this book (fix ch3/ch4 by hand, or start over with Claude writing it), then publish, read it and `rate_book`.
+- The user reads the EPUB (`~/Scriptorium/books/the-local-patch/out/the-local-patch.epub`) and rates it (`rate_book`).
+- Optional, for a higher score: a round on ch1, ch2 and ch5. The notes left are the repeated refrains in ch1/ch2, "partial pressure" and "fission blanket" in ch2, and "winter", the slip and "grey" in ch5. `reopen_book` takes only rejected books, so a published book needs a new feature first (in the ROADMAP).
 - Optional: translate it (restart Claude Code first), or turn it into a visual novel.

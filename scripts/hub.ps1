@@ -23,6 +23,9 @@ param(
 )
 
 $ErrorActionPreference = 'Stop'
+# Tool results carry any language: print UTF-8, or the console code page turns "š" into "s" and „…” into quotes that break the JSON.
+[Console]::OutputEncoding = [Text.UTF8Encoding]::new($false)
+$OutputEncoding = [Text.UTF8Encoding]::new($false)
 $hub = Split-Path $PSScriptRoot -Parent
 $logs = Join-Path $hub 'logs'
 $registry = Get-Content (Join-Path $hub 'services.json') -Raw | ConvertFrom-Json
@@ -144,8 +147,16 @@ function Stop-Service1($s) {
     $l = Get-Listener $s.port
     if (-not $l) { Write-Host "$($s.id): not running"; return }
     if (-not $s.managed -and -not $Force) { Write-Host "$($s.id): not hub-managed (your app), left running. Add -Force to stop it."; return }
-    & taskkill.exe /PID $l.OwningProcess /T /F | Out-Null
-    Write-Host "$($s.id): stopped (pid $($l.OwningProcess))"
+    # Electron listens from a child (utility) process: kill the top process of the same program, or the main one lives on.
+    $root = Get-CimInstance Win32_Process -Filter "ProcessId=$($l.OwningProcess)"
+    while ($root) {
+        $parent = Get-CimInstance Win32_Process -Filter "ProcessId=$($root.ParentProcessId)"
+        if (-not $parent -or $parent.Name -ne $root.Name) { break }
+        $root = $parent
+    }
+    $rootId = if ($root) { $root.ProcessId } else { $l.OwningProcess }
+    & taskkill.exe /PID $rootId /T /F | Out-Null
+    Write-Host "$($s.id): stopped (pid $rootId)"
 }
 
 function Build-Service1($s) {

@@ -8,8 +8,8 @@ Checklist:
 - [x] VNO-05 steps 1-8: 557 tests, typecheck and lint ok.
 - [x] BTT-09 steps 1-10: 241 tests, typecheck and lint ok.
 - [x] Hub skill, ROADMAP and README.
-- [ ] Live runs (SCP-08 step 17, VNO-05 step 9, BTT-09 step 11). Each needs a build and restart. Ask before restarting Scriptorium.
-- [ ] Commit and PRs (when the user asks).
+- [x] Live runs (SCP-08 step 17, VNO-05 step 9, BTT-09 step 11), 2026-10-20 after the merge: all three passed. See changelog.md.
+- [x] Commit and PRs. The user merged them. The hub fixes from the live run are uncommitted.
 Branches:
 - scriptorium `SCP-08_client-provider`, from origin/master 26371be
 - visual-novels-orchestrator `VNO-05_client-provider`, from origin/master c67409b

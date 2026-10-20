@@ -2,10 +2,16 @@
 
 Gaps found while connecting the tools (2026-10-20). Each item belongs to one repo; fix it there. Most important first.
 
+## All three (client provider)
+
+- **Every task sends the prompt twice.** `get_client_task` / `vno_get_task` return `system` + `user` and also `messages` whenever there are 2 or more messages, which is every task. Send `messages` only when there is more than one user message or an assistant turn. This halves big tasks such as Scriptorium's whole-book rewrite (98k characters).
+
 ## Book Translator
 
 - ~~**Script-aware adapter + folder input.**~~ Done on branch `BTT-08_vn-script-adapter` (2026-10-20, not merged yet): a book folder is one project (format `vn`, `src/engine/formats/vn.ts`), one segment per script line, markers/tags/frontmatter keys kept, exported as a mirrored folder; over MCP (`create_project` / `analyze_file` with the folder) and the CLI. A mock run over the soother book aligned in VN Studio with 381/381 beats, 0 missing, 0 extra. Left: a real-model run into Croatian, merging the branch, and the app's New project screen (it picks files only).
 - ~~**Only the first-pass translation could be done by the MCP client.**~~ Done on branch `BTT-09_client-provider` (2026-10-20, uncommitted). Provider `client`, the same four tools, `wait_for_progress` / `get_project` show `clientTasks`, and a `translate_with_full_pipeline` prompt. The glossary, proofreader and QA can now be done by Claude too. 240 tests pass. Left: the live run (build, restart, and the session's token fix), then merge.
+- **`config/providers.md` is not reloaded while the engine runs.** Adding the client provider, or changing its `context`, took effect only after a restart. Scriptorium reloads it, according to its code (`engine.ts`), but that was not checked live.
+- **A client model without `context` defaults to 8,192 tokens,** which sizes the chunks small. Give the client entry `context: 200000` (done in the data folders on 2026-10-20). The seeds should carry it too, in all three repos.
 - **The client provider must be added by hand to existing data folders.** Seeds are copied only when missing. The same is true in Scriptorium and VN Studio.
 - **Translated bible (optional).** The bible and cover brief are copied untranslated (art reference; names must match the speaker tags). If localised character names are wanted, they would need translated speaker tags and bible names together.
 
@@ -33,6 +39,8 @@ Gaps found while connecting the tools (2026-10-20). Each item belongs to one rep
 - **Full book run over MCP never verified** (SCP-07).
 - ~~**No way for the MCP client to do the writing.**~~ Done on branch `SCP-08_client-provider` (2026-10-20, uncommitted). A provider `client` (model `client/claude-code`) parks requests for an MCP client. Tools: `list_client_tasks` / `get_client_task` / `submit_client_task` / `release_client_task`. Per-book models: `add_story {models}`, `set_book_model`, and `role_models` in book.md. 300 tests pass. Left: the live run (it needs a restart of Scriptorium, which resumes the factory), then merge.
 - ~~**Rejected books can't be rescued.**~~ `reopen_book {book, mode: rewrite|review, chapters?}` on the same branch: one more round (`extra_rounds` in book.md).
+- **Clearing a book model on a published book is refused.** `set_book_model {model: null}` refuses published books, so `role_models` keeps the client model after the run (found live, the-local-patch). Removing an entry should be allowed at any stage.
+- **No second life for a published book.** `reopen_book` takes only rejected books. A published book that should get one more round, for example on chapters the last round did not touch, has no tool.
 - **A pin is not exclusive.** `assign_agent` makes an agent prefer its book, but other agents of the role still take the book's jobs after about 20 s. Use `set_book_model` to keep a book on one model.
 
 ## Pixel Studio (pixel-art-generator)
