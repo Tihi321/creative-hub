@@ -5,6 +5,8 @@ Gaps found while connecting the tools (2026-10-20). Each item belongs to one rep
 ## Book Translator
 
 - ~~**Script-aware adapter + folder input.**~~ Done on branch `BTT-08_vn-script-adapter` (2026-10-20, not merged yet): a book folder is one project (format `vn`, `src/engine/formats/vn.ts`), one segment per script line, markers/tags/frontmatter keys kept, exported as a mirrored folder; over MCP (`create_project` / `analyze_file` with the folder) and the CLI. A mock run over the soother book aligned in VN Studio with 381/381 beats, 0 missing, 0 extra. Left: a real-model run into Croatian, merging the branch, and the app's New project screen (it picks files only).
+- ~~**Only the first-pass translation could be done by the MCP client.**~~ Done on branch `BTT-09_client-provider` (2026-10-20, uncommitted). Provider `client`, the same four tools, `wait_for_progress` / `get_project` show `clientTasks`, and a `translate_with_full_pipeline` prompt. The glossary, proofreader and QA can now be done by Claude too. 240 tests pass. Left: the live run (build, restart, and the session's token fix), then merge.
+- **The client provider must be added by hand to existing data folders.** Seeds are copied only when missing. The same is true in Scriptorium and VN Studio.
 - **Translated bible (optional).** The bible and cover brief are copied untranslated (art reference; names must match the speaker tags). If localised character names are wanted, they would need translated speaker tags and bible names together.
 
 ## VN Studio (visual-novels-orchestrator)
@@ -18,6 +20,10 @@ Gaps found while connecting the tools (2026-10-20). Each item belongs to one rep
 - **Restart needed.** The VN Studio engine running for the hub predates VNO-04: `hub.ps1 build vn-studio` was run, but the new tools appear only after `hub.ps1 stop vn-studio` + `start vn-studio`.
 - **Non-Latin titles.** Project slugs are ASCII; a title with no Latin letters gives the slug `book` unless `slug` is passed.
 - **Studio tokens.** Tokens are not forwarded to Pixel Studio / Chiptune Studio.
+- ~~**The MCP client cannot do the model steps.**~~ Done on branch `VNO-05_client-provider` (2026-10-20, uncommitted). Provider `client`; tools `vno_client_tasks` / `vno_get_task` / `vno_submit_task` / `vno_release_task`, with art-critic images sent as image content; `vno_wait` returns when a task waits; per-project `vno_update_settings {models}`. 556 tests pass. Left: the live run (build, restart, reconnect), then merge.
+- **A parked job holds its agent.** With `max_parallel` 1, a role works one client task at a time per agent. Hire more agents of the role or raise `max_parallel` to answer several in parallel.
+- **Pixel Studio draw loop with the client provider.** `pixel-studio-draw` is multi-turn and limited to `drawTimeoutS` 240, so with `client` it times out. Wanted: a client-friendly draw mode with no timeout per turn. Until then, draw sprites with the pixel-studio MCP and use `vno_asset_replace`.
+- **Model jobs that do no model work still wait for a model slot.** Analyse with 0 items and stage with `byHand` cues are examples (`scheduler.ts:300-336`).
 
 ## Scriptorium
 
@@ -25,6 +31,9 @@ Gaps found while connecting the tools (2026-10-20). Each item belongs to one rep
 - **Absolute paths.** `get_book` paths are relative and `factory_status` does not report the data folder.
 - **Parsed script.** No tool returns a chapter as parsed JSON (the shape suggested in `docs/visual-novel.md`).
 - **Full book run over MCP never verified** (SCP-07).
+- ~~**No way for the MCP client to do the writing.**~~ Done on branch `SCP-08_client-provider` (2026-10-20, uncommitted). A provider `client` (model `client/claude-code`) parks requests for an MCP client. Tools: `list_client_tasks` / `get_client_task` / `submit_client_task` / `release_client_task`. Per-book models: `add_story {models}`, `set_book_model`, and `role_models` in book.md. 300 tests pass. Left: the live run (it needs a restart of Scriptorium, which resumes the factory), then merge.
+- ~~**Rejected books can't be rescued.**~~ `reopen_book {book, mode: rewrite|review, chapters?}` on the same branch: one more round (`extra_rounds` in book.md).
+- **A pin is not exclusive.** `assign_agent` makes an agent prefer its book, but other agents of the role still take the book's jobs after about 20 s. Use `set_book_model` to keep a book on one model.
 
 ## Pixel Studio (pixel-art-generator)
 

@@ -13,6 +13,48 @@ The hub is `C:\projects\Personal\creative-hub`. `README.md` there maps every rep
 2. If an MCP tool is missing from your tool list, the server was down when the session started. Start it, then ask the user to reconnect it (`/mcp`) or restart the session. Until then call any tool through the hub: `pwsh -File scripts\hub.ps1 call <service> <tool> '<json args>'` (or `@args.json` for long arguments; it prints the JSON result). `hub.ps1 check` confirms each server answers.
 3. Open a run log: `runs/<slug>.md` (copy `runs/_template.md`). Write every id you get (story slug, book slug, translator project id, VN project slug), each decision, and what you checked. A later session resumes from this file.
 4. Agree with the user, briefly and only if they did not say: linear or with choices, for adults or children, language(s), art style (illustrated or pixel), voices on or off. Defaults: linear, adults, English, illustrated, voices off.
+5. Agree who does the model work: the apps' own models (LM Studio, Strata or paid APIs), or **you**. See "Doing the model work yourself" below.
+
+## Doing the model work yourself (no LM Studio, $0)
+
+Scriptorium, VN Studio and Book Translator have a provider `client` with the model `client/claude-code`. A model request sent to it does not go to any model. It waits until you take it over MCP and answer it, then the app carries on as if a model had answered. Nothing is spent. It needs the branches SCP-08 / VNO-05 / BTT-09 (until merged), built and restarted.
+
+**Setup, once per data folder.** Each app's `config/providers.md` needs the provider. The seed has it disabled, and existing data folders do not get it automatically:
+```yaml
+- id: client
+  kind: client
+  local: true
+  concurrency: 8
+  models:
+    - id: claude-code
+      vision: true
+```
+
+**Choose what you do, per book or project.** Never change the global role lists, or every book waits for you:
+- Scriptorium:
+  - `add_story {..., models: {writer: "client/claude-code"}}` sets the model from the start. Add `architect`, `editor-in-chief` and the reviewers if you do those too.
+  - `set_book_model {book, role, model}` sets it on a running or rejected book. `model: null` removes it.
+  - Roles: editor-in-chief, architect, writer, researcher, archivist, and the reviewers (continuity-checker, developmental-editor, line-editor, copy-editor, beta-reader, originality-checker, plus child-safety-reviewer, read-aloud-reviewer and fact-checker in some formats). The publisher makes no model call.
+- VN Studio: `vno_update_settings {slug, models: {<role>: "client/claude-code"}}`. Roles: script-analyst, art-director, composer, stage-director, voice-director, edition-aligner, art-critic (it sends images), director. The Pixel Studio draw loop (`pixelProvider: pixel-studio-draw`) times out with `client`: draw sprites yourself with pixel-studio and `vno_asset_replace` instead.
+- Book Translator: `create_project` or `update_project_settings` with `agentModels: {translator|glossary|proofreader|qa: ["client/claude-code"]}`. The CLI `translate` refuses such a project.
+
+**The loop.** Run it until nothing waits.
+
+| | Scriptorium | VN Studio | Book Translator |
+|---|---|---|---|
+| What waits | `list_client_tasks`, `factory_status.clientTasks` | `vno_client_tasks`, `vno_status`, `vno_wait` (returns when a task waits) | `list_client_tasks`, `wait_for_progress` (returns when a task waits) |
+| Take one | `get_client_task {book?, role?, task?}` | `vno_get_task {…}` | `get_client_task {project?, role?, task?}` |
+| Answer | `submit_client_task {taskId, text}` | `vno_submit_task {…}` | `submit_client_task {…}` |
+| Give back | `release_client_task {taskId}` | `vno_release_task {…}` | `release_client_task {…}` |
+
+- A task gives `system`, `user`, an optional `schema` and an `output` rule. Follow `output` exactly: one JSON object matching the schema; or the text only; or, in Book Translator, the `<seg id>` segments with every tag kept.
+- A JSON answer is checked when you submit it. `accepted: false` comes with `problems`: fix them and submit again; the task stays yours.
+- A task is held for you for 30 minutes, then goes back to waiting. "Task not found" means the job was stopped, answered or restarted: take the next one.
+- Answer in the role's voice and to its brief. A writer's chapter must meet the word range in the prompt, and a reviewer must really review (honest scores and verdict), or the quality gate means nothing.
+- Big runs: start several subagents, each taking tasks with its own `role` or `book` filter. Tasks are handed out one at a time, so two never get the same one.
+- After the run, remove your model from the book or project (`set_book_model ... null`, or settings back), or later work on it waits for ever.
+
+**A rejected Scriptorium book** gets another round with `reopen_book {book, mode: "rewrite" | "review", chapters?}`. That is different from `retry_book`, which is for `failed`. Set `set_book_model` first if you will write the rewrite.
 
 ## 1. Write the book (Scriptorium)
 
@@ -21,7 +63,7 @@ Two ways. Pick A unless the user wants it fast or Scriptorium is not available.
 **A. Scriptorium writes it** (best quality, slow: tens of minutes to hours).
 - `scriptorium.add_story` with `title`, `premise`, `plot`, `characters` [{name, role, description}], `setting`, `style`, and `format`: `visual-novel` (linear), `choice-visual-novel` (choices and several endings), `kids-visual-story` or `kids-choice-visual-story` (ages 6-9). Put the looks of each character and place in `characters[].description` and `setting`: they become the art reference in the bible.
 - `list_stories {status: open}` first: other open ideas compete with yours (max 3 books in progress).
-- The story slug is not the book slug. Run `pwsh -File scripts\wait-book.ps1 -Story <story-slug>` in the background; it prints each stage and ends with the book folder when the stage is `published` (exit 1 on failed or rejected; then `get_book`, `read_book_file notes`, `retry_book`).
+- The story slug is not the book slug. Run `pwsh -File scripts\wait-book.ps1 -Story <story-slug>` in the background; it prints each stage and ends with the book folder when the stage is `published` (exit 1 on failed or rejected; then `get_book`, `read_book_file notes`, and `retry_book` for failed or `reopen_book` for rejected). If you do the writing yourself (`add_story {models}`), work the task loop instead of only waiting.
 - Steer while it writes with `add_book_note {book, text, chapter?}`. Rate the result with `rate_book`.
 
 **B. You write it straight into VN Studio** (minutes, no Scriptorium, no book folder). Write the story as JSON and call `vn-studio.vno_create_project {book, lang?, settings?}`; it returns the project `slug`, and you skip `vno_import` in step 3. The JSON shape, the beat forms and the ids are in `C:\projects\Personal\visual-novels-orchestrator\docs\mcp-guide.md` ("Write the story yourself"). In short:

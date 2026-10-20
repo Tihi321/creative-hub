@@ -17,7 +17,7 @@ VN Studio: analyse ► art ► music ► generate ► voice ► stage ► build 
                │         │            └── ComfyUI (Qwen-Image, BiRefNet, ACE-Step) / Pixel Studio
                │         │                (standalone CGs, edits, cutouts, music, speech: comfy-mcp)
                │         └── Chiptune Studio or ComfyUI music
-               └── LLMs: LM Studio, Strata, or paid APIs (per repo config/roles.md)
+               └── LLMs: LM Studio, Strata, paid APIs (per repo config/roles.md), or Claude Code itself (`client` provider, see the skill)
 ```
 
 ## The tools
@@ -54,6 +54,8 @@ pwsh -File scripts\hub.ps1 check               # real MCP handshake + tool count
 pwsh -File scripts\hub.ps1 call vn-studio vno_status '{"slug":"my-book"}'   # call any tool without a Claude MCP link
 pwsh -File scripts\wait-book.ps1 -Story <story-slug>   # wait for a Scriptorium book to be published
 ```
+
+Scriptorium, VN Studio and Book Translator can hand their model work to the Claude session instead of a model: the `client` provider, with the tools `get_client_task` / `submit_client_task` (`vno_get_task` / `vno_submit_task` in VN Studio). How to use it is in the skill, under "Doing the model work yourself".
 
 `.mcp.json` registers all seven MCP servers for Claude sessions opened in this folder. A server that is down when the session starts stays disconnected until you reconnect it with `/mcp` or restart the session.
 
