@@ -91,8 +91,8 @@ Started 2026-10-21.
 - 2026-10-21 The user played the **linear VN: "clockless god works"**.
 
 Play:
-- Linear: `& "C:\projects\Localenpyenpy-8.5.3-sdkenpy.exe" "$env:USERPROFILE\VisualNovels\projects	he-clockless-god-3\game"`
-- Choices: `& "C:\projects\Localenpyenpy-8.5.3-sdkenpy.exe" "$env:USERPROFILE\VisualNovels\projects	he-clockless-god-2\game"`
+- Linear: `& "C:\projects\Local\renpy\renpy-8.5.3-sdk\renpy.exe" "$env:USERPROFILE\VisualNovels\projects\the-clockless-god-3\game"`
+- Choices: `& "C:\projects\Local\renpy\renpy-8.5.3-sdk\renpy.exe" "$env:USERPROFILE\VisualNovels\projects\the-clockless-god-2\game"`
 
 ## Checked
 
