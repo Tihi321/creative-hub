@@ -206,4 +206,58 @@ Branches:
 - [x] B SCP-11 script writer: commit f5a2e49. 348 tests, test:ui 4/4, typecheck, lint and the build pass.
 - [ ] C SCP-12 newspaper
 - [x] D BTT-10 client-only: commit 323e16c. 247 tests pass, typecheck, lint, build:engine and build are clean. The engine running now predates it; the hr project sets all four agents to client explicitly.
-- [x] E1 Croatian translation: done, exported to runs/the-clockless-god/the-clockless-god.hr.epub, $0 · [ ] E2 humanizer test book · [ ] E3 test article · [ ] E4 VN adaptation
+- [x] E1 Croatian translation: done, exported to runs/the-clockless-god/the-clockless-god.hr.epub, $0 · [x] E2 humanizer test book: published at 9, humanizer measured (runs/the-lighthouse-that-kept-lists.md) · [x] E3 test article: published round 3 at 7.27 after client web research + Part G; bug in the refresh cap being fixed · [ ] E4 VN adaptation
+
+## F. SCP-13 Client web search + humanizer hardening (added 2026-10-21, from the live runs)
+
+Why:
+- The test article was rejected (6.27). With no Tavily key, every web search failed, the researcher only had Wikipedia, and the fact-checker would not pass the uncited "not on record" claims.
+- The user chose: **Claude Code does the web research**, with no key and nothing spent.
+- The humanizer, running on the line-editor chain (it fell back to a free model), cut too much and was refused by the guard on the article. On the test story it added em dashes, moved a fact (the key "under the third flowerpot") and loosened a formal speaker.
+
+Scriptorium, branch `SCP-13_client-search` from SCP-12:
+1. **Client search provider.** A search provider of `kind: search` with `engine: client`.
+   - Each query becomes a client task on the existing `ClientTaskQueue`: role `searcher`, task `web_search`, with the query, `news`/`days` and the limit in the prompt.
+   - Claude answers with JSON `{results: [{title, url, content, published?}]}`. `content` is the relevant excerpt, quoted from the page.
+   - `SearchService` treats it like any other provider. If nobody takes a search task within `wait_minutes` (default 10, set in providers.md), it resolves to no results and the next provider is tried, so books never stall without a session.
+   - Seed and migration: a `client` search entry, enabled, inserted in `search_order` after `tavily` and before `wikipedia`.
+   - The existing MCP client tools serve the tasks, filterable by `role: searcher`; `factory_status.clientTasks` counts them. The `get_client_task` output rule tells the client to search the web itself and cite real URLs.
+   - docs/mcp.md: "Do the web research yourself".
+2. **Humanizer hardening.**
+   - The prompt forbids em dashes outright, keeps every concrete fact (objects, positions, numbers, dates, names) and keeps each speaker's register (formal stays formal, no added contractions).
+   - New guards keep the original (and log why) when:
+     - the output adds em dashes that the input does not have;
+     - the output drops or changes a number or year;
+     - a capitalised name in the output is not in the input or the bible.
+   - The ±10% length guard stays.
+   - The humanizer's seed chain prefers a capable model (the line editor's first model), not a free fallback, and the docs say so.
+3. **Tests:**
+   - a client search task end to end (taken and answered → notes; untaken → timeout → next provider);
+   - the migration for the providers;
+   - each new humanizer guard.
+   - Plus typecheck, lint, test, test:ui and build.
+
+Live, after the build and a restart:
+- `ask_researcher` (or a research rerun) for the article, with Claude answering the search tasks with real sources;
+- then `reopen_book {mode: rewrite}`, and check that it publishes with references;
+- record the result in `runs/france-als162-article.md`.
+
+## G. SCP-13 (cont.) Late research reaches the fact base (added 2026-10-21, from the live article)
+
+Why: the article was reopened after 4 new client web searches (`ask_researcher`). The new notes landed in `research/`, but:
+- (a) the rewrite prompt's sources and notes were still the round-1 Wikipedia ones (`nfcontext.chapterNotes` picks 6 notes by relevance, and the new notes were not among them);
+- (b) `factbase/sources.md` and `facts.md` never got the new sources, so the writer had no [n] numbers for them;
+- (c) the fact-checker checks against the fact base only.
+
+It was rejected again (6.91; accuracy 9; enjoyment 6; genre fit 5).
+
+Scriptorium, branch `SCP-13_client-search` (a new commit):
+1. **Refresh the fact base after late research.** A non-fiction or article book that gets new research notes after its fact step must update its fact base before the next draft or rewrite. The new notes come in through `ask_researcher` for that book, or through research done after `factbase_update`.
+   - Track the notes already merged: a `factbase` frontmatter list, or note dates compared with the last update.
+   - When `reopen_book` (and `advance` before a rewrite round) finds unmerged notes, it queues a `factbase_update` (archivist, `factbase_refresh` unit) that merges them. New sources get the next [n] numbers, and the facts carry their source numbers.
+   - Reuse the existing `factbase_update` handler (`pipeline/nonfiction.ts:46`) and the FactBase store (`memory/factbase.ts`).
+2. **Newest research first in context.** `nonfictionContext` (`pipeline/nfcontext.ts:71`) always includes the book's notes added since the chapter's last draft (newest first, within budget), not only the 6 most relevant. Their sources appear in the numbered source list the writer cites from.
+3. **The fact-checker reads what the writer had.** The fact-check context includes the same numbered sources and key facts the writer saw, including facts added by the refresh. A claim with a valid [n] from the fact base is not flagged as unsourced.
+4. **Tests:**
+   - an article published, then given `ask_researcher` + `reopen_book`, gets a fact-base refresh, the new [n] sources appear in the rewrite prompt and in the references, and the fact-checker gets them;
+   - books without late notes are unchanged.

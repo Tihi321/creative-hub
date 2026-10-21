@@ -52,6 +52,16 @@ Gaps found while connecting the tools (2026-10-20). Each item belongs to one rep
 - **No second life for a published book.** `reopen_book` takes only rejected books. A published book that should get one more round, for example on chapters the last round did not touch, has no tool.
 - **A pin is not exclusive.** `assign_agent` makes an agent prefer its book, but other agents of the role still take the book's jobs after about 20 s. Use `set_book_model` to keep a book on one model.
 
+- ~~**Humanizer, script writer, newspaper, client web search.**~~ Done on stacked branches `SCP-10_humanizer` → `SCP-11_script-writer` → `SCP-12_newspaper` → `SCP-13_client-search` (2026-10-21, committed, not merged). Live: a short story published at 9, an article at 7.27 after client web research, and the linear VN adaptation of *The Clockless God* at 7.5. See `runs/`.
+- **Humanizer quality depends on the default paid model.** Its chain (copied from the line editor's) falls back to `paid`, which resolves to `default_paid_model` (a free OpenRouter Nemotron here). On that model it added em dashes, chopped sentences into fragments and moved canon facts. SCP-13's guards now refuse em dashes, changed numbers and new names, but **fragmenting is not guarded**. Also, the name guard gave one false positive ("Hz").
+- **Late research only reaches a book's fact base on reopen.** SCP-13 refreshes the fact base before a rewrite or review round (with a fix for the cap). There is still no way to refresh a published book.
+- **The researcher's notes drop facts the search returned.** The client searcher returned the 2023 outages and the "decision by end 2027" with verbatim excerpts, but the researcher model's summarised notes left them out, so the writer could not cite them.
+- **Article slugs.** An `add_story` for an article without a title takes its slug from the premise (very long). The editor-in-chief's headline then becomes a book slug cut at about 48 characters (`france-s-atomic-clock-on-air-the-als162-signal-t`).
+- **News mode for evergreen articles.** Every article research question is sent as news from the last 7 days. An explainer needs older official sources (the searcher returned them anyway). Use news mode only when the angle is current.
+- **Adaptations name places freely.** The linear VN imported with "24 scene(s) have a place that matches no bible place". The adapter should reuse the bible's place names in `SCENE:` lines, or VN Studio should map them.
+- **The choice wording is fixed at the outline.** Rewrites cannot change a choice's text, even when an editor asks for it.
+- **Word targets are not enforced for scripts.** VN chapters ran 2,000-2,500 words against a 1,667 target and were never flagged. The choice VN reached about 26k words against 22k.
+
 ## Pixel Studio (pixel-art-generator)
 
 - `import_image` caps at 512x512 and reads no WebP; `new_document` replaces the current document; no tool to switch the current document; one shared session for all clients.
