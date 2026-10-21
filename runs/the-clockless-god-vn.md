@@ -17,8 +17,8 @@ Started 2026-10-21.
 |---|---|
 | Scriptorium book (choices) | `the-clockless-god-2` (published, 7.57) |
 | Scriptorium book (linear) | `the-clockless-god-3` (published, 7.5) |
-| VN Studio project (linear) | `the-clockless-god-3` (imported, not yet generated) |
-| VN Studio project (choices) | `the-clockless-god-2` (imported, not yet generated) |
+| VN Studio project (linear) | `the-clockless-god-3` (built, lint clean, 0 placeholders) |
+| VN Studio project (choices) | `the-clockless-god-2` (built, lint clean, 0 placeholders) |
 
 ## Log
 
@@ -52,10 +52,55 @@ Started 2026-10-21.
   - one em dash in the blurb.
 - 2026-10-21 `vno_import {source: the-clockless-god-2}` worked: choice, 16 chapters, 21 characters, 24 places. Warnings: speakers RADIO, VOICE and HOODS have no sprite (on purpose); **58 scenes have a place that matches no bible place** (line them up before the art).
 
+- 2026-10-21 Scriptorium was reloaded on the latest SCP-13 build (5c93340). All repos are clean; Book Translator BTT-10 was merged by the user.
+- 2026-10-21 **Bible places lined up** (`.claude/temp/vn/places.py`, one `vno_story_edit` per project):
+  - **Linear:** 24 scenes repointed and 9 new places with full looks: rue des Gravilliers, the old railway tunnel, the room at Le Balancier, the track to Combe-Noire, the cheese cellar, the holding cell, a serious restaurant, the Debt Clock chamber and the Clockmaker's Cell.
+  - **Choices:** 58 scenes repointed and 8 new places, which add a school courtyard and the valley road at night; the crypt and the Debt Clock chamber already existed.
+  - Both projects now have **0 unmatched scenes**. The only warnings left are the voice-only speakers VOICE, RADIO and HOODS, which have no sprite on purpose.
+- 2026-10-21 User's choices for the VN production: **illustrated art** (ComfyUI qwen-image 2.1; BiRefNet cut-outs), **ACE-Step music** (5 tracks), **voices off**.
+  - The VN Studio text roles of both projects (script-analyst, composer, stage-director) are set to `deepseek/deepseek-flash` by `vno_update_settings {models}`. Strata is down, and the local LM Studio model would compete with ComfyUI.
+  - LM Studio's models were unloaded (`lms unload --all`); they reload on demand. ComfyUI and comfy-mcp were started; the GPU has about 108 GB free.
+- 2026-10-21 `vno_run_pipeline {slug: the-clockless-god-3}` (run 1). The linear VN goes first; its characters and the places they share are to be reused for the choice VN.
+
+- 2026-10-21 **Art direction changed** after the first sheet came out gritty watercolour, muddy and torn.
+  - The user chose **clean hand-drawn**, like the classic 1990s point-and-click adventures: `art.stylePrompt` on both projects.
+  - 49 planned prompts were restyled by `vno_asset_set` (`.claude/temp/vn/restyle.py`).
+  - The 7 old-style sheets were regenerated through comfy-mcp and set with `vno_asset_replace` before any sprite was made (`gen_sheets.py`). VN Studio runs jobs oldest first, so a regen job would have run after the sprites.
+  - La Taupe's prompt now says "young woman"; her first sheet read as male.
+- 2026-10-21 Scriptorium was stopped and LM Studio's models unloaded, to free memory. ComfyUI ran qwen-image 2.1 at about 1-2 minutes per image on the AMD 8060S (about 108 GB of GPU memory).
+- 2026-10-21 **Linear VN built.** 132 jobs, 0 failed:
+  - assets: 14 sheets, 60 backgrounds, 67 sprites, cover, 5 ACE-Step tracks;
+  - staging, build, and Ren'Py lint ok (1,221 dialogue blocks, about 17k words), 0 placeholders.
+  - Fixed by hand (comfy-mcp, then `vno_asset_replace` and `vno_asset_lock`):
+    - the cover: Inès had brown curly hair in a bun, and the cover was portrait, which the menu crops. It is now a **landscape** key art of Dec and Inès at Roux's clock window under the eclipse;
+    - `bg_pont_de_sully_day` had a stray figure.
+  - Rebuilt; lint clean.
+  - The build only notes VOICE (the hidden speaker, no sprite, on purpose).
+- 2026-10-21 Choice VN:
+  - The alias characters `the_bald_man` (60 cast lines), `the_young_man_in_grey` (6) and `declan_hartley` (1) were remapped to Kessler, Fabien and Dec, and the aliases removed (`vno_story_edit`).
+  - Reused from the linear VN (`copy_assets.py`): 13 sheets, 61 sprites, the cover, 5 music tracks, and 28 backgrounds mapped by place.
+  - Only the choice VN's own art is generated: Vey, Lassalle, Zoltán, the old lady in the fur hat, Madame Ferré, a few extra expressions, Pichon's office, the priory, the school courtyard.
+  - Its analysis ran on strata, with an LM Studio fallback (gemma), not on the DeepSeek models set for the project: check `vno_update_settings {models}` against the run.
+
+- 2026-10-21 **Choice VN built.** 64 jobs, 0 failed. Lint ok: 1,257 dialogue blocks, about 19k words, **12 choice menus**. 0 placeholders. The build notes RADIO, VOICE and HOODS as ad hoc characters with no sprite, on purpose.
+- Spot check: the old lady in the fur hat is good. Brother Anselm Vey came out as a young man in a waistcoat, which showed the real fault, a **wrong cast**:
+  - In ch4 s5 (the chapel), the names Inès reads in the ledger had become cast beats, putting Kessler, Roux, Vey and then Lassalle on screen.
+  - In ch14 s3, "the silver-haired man" (Vaulmont) was cast as Zoltán, with 4 people on screen.
+  - Fixed: the ledger beats keep Inès, Dec and La Taupe on screen; the extra cast beats were removed; ch14 now shows Dec, Vaulmont and Inès. Vey, Lassalle and Zoltán no longer appear (their assets are orphaned). Rebuilt; lint clean.
+  - The linear VN was checked too: those characters are never on screen there.
+- 2026-10-21 The user played the **linear VN: "clockless god works"**.
+
+Play:
+- Linear: `& "C:\projects\Localenpyenpy-8.5.3-sdkenpy.exe" "$env:USERPROFILE\VisualNovels\projects	he-clockless-god-3\game"`
+- Choices: `& "C:\projects\Localenpyenpy-8.5.3-sdkenpy.exe" "$env:USERPROFILE\VisualNovels\projects	he-clockless-god-2\game"`
+
 ## Checked
 
 - what was looked at or played, by whom
 
 ## Left to do
+
+- The user plays the **choice VN** (all 4 endings) and says how it plays.
+- Optional: Croatian VN editions (the Croatian book exists; a VN edition needs the script translated, see skill step 2), Android builds, voices.
 
 -
