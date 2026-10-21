@@ -61,6 +61,7 @@ Gaps found while connecting the tools (2026-10-20). Each item belongs to one rep
 - **Article slugs.** An `add_story` for an article without a title takes its slug from the premise (very long). The editor-in-chief's headline then becomes a book slug cut at about 48 characters (`france-s-atomic-clock-on-air-the-als162-signal-t`).
 - **News mode for evergreen articles.** Every article research question is sent as news from the last 7 days. An explainer needs older official sources (the searcher returned them anyway). Use news mode only when the angle is current.
 - **Adaptations name places freely.** The linear VN imported with "24 scene(s) have a place that matches no bible place". The adapter should reuse the bible's place names in `SCENE:` lines, or VN Studio should map them.
+- **A client answer can carry leaked prompt text.** A writer agent's chapter ended with 3 paragraphs of the task's instructions, and `submit_client_task` accepted it, so it was published (choice VN ch9, fixed by hand). Wanted: reject a script or chapter answer that repeats lines of its own prompt, or that contains the closing instruction sentences.
 - **The choice wording is fixed at the outline.** Rewrites cannot change a choice's text, even when an editor asks for it.
 - **Word targets are not enforced for scripts.** VN chapters ran 2,000-2,500 words against a 1,667 target and were never flagged. The choice VN reached about 26k words against 22k.
 

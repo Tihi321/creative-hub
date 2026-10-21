@@ -206,7 +206,7 @@ Branches:
 - [x] B SCP-11 script writer: commit f5a2e49. 348 tests, test:ui 4/4, typecheck, lint and the build pass.
 - [ ] C SCP-12 newspaper
 - [x] D BTT-10 client-only: commit 323e16c. 247 tests pass, typecheck, lint, build:engine and build are clean. The engine running now predates it; the hr project sets all four agents to client explicitly.
-- [x] E1 Croatian translation: done, exported to runs/the-clockless-god/the-clockless-god.hr.epub, $0 · [x] E2 humanizer test book: published at 9, humanizer measured (runs/the-lighthouse-that-kept-lists.md) · [x] E3 test article: published round 3 at 7.27 after client web research + Part G; bug in the refresh cap being fixed · [ ] E4 VN adaptation
+- [x] E1 Croatian translation: done, exported to runs/the-clockless-god/the-clockless-god.hr.epub, $0 · [x] E2 humanizer test book: published at 9, humanizer measured (runs/the-lighthouse-that-kept-lists.md) · [x] E3 test article: published round 3 at 7.27 after client web research + Part G; bug in the refresh cap being fixed · [x] E4 VN adaptation: both published (linear 7.5, choices 7.57) and imported into VN Studio
 
 ## F. SCP-13 Client web search + humanizer hardening (added 2026-10-21, from the live runs)
 

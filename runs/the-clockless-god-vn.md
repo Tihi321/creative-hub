@@ -15,9 +15,10 @@ Started 2026-10-21.
 
 | Tool | Id |
 |---|---|
-| Scriptorium book (choices) | `the-clockless-god-2` |
-| Scriptorium book (linear) | `the-clockless-god-3` |
+| Scriptorium book (choices) | `the-clockless-god-2` (published, 7.57) |
+| Scriptorium book (linear) | `the-clockless-god-3` (published, 7.5) |
 | VN Studio project (linear) | `the-clockless-god-3` (imported, not yet generated) |
+| VN Studio project (choices) | `the-clockless-god-2` (imported, not yet generated) |
 
 ## Log
 
@@ -34,7 +35,22 @@ Started 2026-10-21.
 - 2026-10-21 VN Studio started. `vno_import {source: the-clockless-god-3}` worked: 9 chapters, 21 characters, 22 places, linear, en.
   - Warnings: the speaker VOICE (the hooded Vaulmont in ch3) has no sprite, which is right for a hidden voice; **24 scenes have a place that matches no bible place**.
   - Before generating art: line up the scene places with the bible's places (`vno_scene_update`), or improve the adapter so it reuses bible place names (ROADMAP).
-- **Choice VN (`the-clockless-god-2`)**: all 16 chapters drafted (ch13 true ending; ch14-16 alternative endings), about 26.5k words. The round-1 rewrites are in progress with a fourth agent.
+
+
+- 2026-10-21 **Choices (`the-clockless-god-2`): published at 7.57** after 2 rewrite rounds: enjoyment 8, genre fit 9, prose 8, originality 9, continuity 6, mechanics 6, structure 6. It has 16 chapters (about 26k words) and 6 writer agents worked on it. The choice map is in `.claude/temp/live/the-clockless-god-2-notes.md`:
+  - 3 choice points: ch4 (lamps), ch7 (the tea), ch9 (Pichon);
+  - the true ending is ch13;
+  - the alternative endings are ch14 "Caught by the Brotherhood" (the face is seen, then lost on the bridge), ch15 "Dec Stopped" and ch16 "The Miracle at None" (the bank calls in the atelier's loan).
+- From the 2nd round on, the humanizer ran on `deepseek/deepseek-flash` with the SCP-13 prompts (switched at the user's request; see the ROADMAP).
+- **Defect fixed by hand after publication:** `chapters/ch-09.md` ended with 3 paragraphs of leaked task instructions ("Write the improved chapter. ..."). A writer agent's answer file still held them, and Scriptorium accepted the submission.
+  - They were removed from `ch-09.md`, from `out/the-clockless-god-2.epub` (chapter-09.xhtml patched, `mimetype` kept first) and from the reader (`node out/engine/index.js rebuild-reader`).
+  - The originals are in `.claude/temp/scp-backup/`.
+- Still open in the published text:
+  - ch12, the "Already on R" detail;
+  - ch13, quai des Orfèvres against rue du Bastion;
+  - some speaker lines without an expression (valid; VN Studio uses neutral);
+  - one em dash in the blurb.
+- 2026-10-21 `vno_import {source: the-clockless-god-2}` worked: choice, 16 chapters, 21 characters, 24 places. Warnings: speakers RADIO, VOICE and HOODS have no sprite (on purpose); **58 scenes have a place that matches no bible place** (line them up before the art).
 
 ## Checked
 
