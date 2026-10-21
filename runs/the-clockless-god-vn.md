@@ -96,11 +96,13 @@ Play:
 
 ## Checked
 
+- 2026-10-21 The user played both VNs: the linear one ("clockless god works") and the choice one ("it is ok"). **Production done.**
+
 - what was looked at or played, by whom
 
 ## Left to do
 
-- The user plays the **choice VN** (all 4 endings) and says how it plays.
+- ~~The user plays the choice VN.~~ Done 2026-10-21: "i played it it is ok".
 - Optional: Croatian VN editions (the Croatian book exists; a VN edition needs the script translated, see skill step 2), Android builds, voices.
 
 -
