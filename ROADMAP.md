@@ -2,6 +2,26 @@
 
 Gaps found while connecting the tools (2026-10-20). Each item belongs to one repo; fix it there. Most important first.
 
+## Added on 2026-10-22: Flow, Flow Music and the ACP proxy (pushed, not merged)
+
+| Repo | Branch | What |
+|---|---|---|
+| flow-music-mcp (new) | `FMM-01_mcp-server` | MCP server for Google Flow Music: 9 tools, own Chrome profile (CDP 9334), HTTP on 7462. Verified live: generate (instrumental, WAV), download (MP3), library list |
+| api-acp-proxy | `AAP-05_ignore-sampling` | `PROXY_IGNORE_SAMPLING` so Scriptorium and Book Translator can use it (112 tests pass) |
+| creative-hub | `FMM-01_hub-flow-tools` | `acp-proxy` (7461), `flow-mcp` (stdio, panel 8787) and `flow-music-mcp` in `services.json`, `.mcp.json`, README and the skill; this roadmap |
+| flow-mcp | `main` (fork `Tihi321/flow-mcp`, upstream `GTAI-1/flow-mcp`) | cloned and built, no changes yet |
+
+Details: "Flow" and "Scriptorium and Book Translator: Antigravity models" below.
+
+**Flow Music plan (user, 2026-10-22):** Google AI Pro, 10,000 Flow Music credits a month; the user reckons about 2,000 songs a month. A web summary the user found says an instrumental costs about 10 credits and a song with AI lyrics 15-30 (not measured here). The Plus plan's 12 concurrent generations may not apply to AI Pro; the tool runs one at a time anyway.
+
+**Left for the next session:**
+1. Merge the three pull requests (`github.com/Tihi321/<repo>/pull/new/<branch>`), then `hub.ps1 build flow-music-mcp` and `acp-proxy`.
+2. flow-music-mcp: try lyrics (a vocal song), Advanced (BPM, Length, Seed), the Model menu, M4A, and measure the credits one song costs, if Flow Music shows them anywhere.
+3. flow-mcp: `npm run login` in its Chrome, then a free Nano Banana image and a `flow_narrate` line through the MCP (restart the session so `.mcp.json` loads it). Fix what breaks on Windows on a `FLM-01_...` branch.
+4. ACP proxy: install and log in the Antigravity provider (the user does the login), start it with `hub.ps1 start acp-proxy`, add the `acp` provider to both apps' `providers.md` (entry below), and run one real Scriptorium and one Book Translator request through it.
+5. VN Studio: Flow as an image, voice and music provider (`art.provider: flow`, a Flow Music music provider) instead of `vno_asset_replace` by hand.
+
 ## Next steps (2026-10-22)
 
 The 2026-10-21 fix round is on three pushed branches, not merged. Each repo's ticket folder has a plan and a changelog.
