@@ -31,11 +31,6 @@
       "type": "http",
       "url": "http://127.0.0.1:7460/mcp"
     },
-    "flow-mcp": {
-      "type": "stdio",
-      "command": "node",
-      "args": ["C:\\projects\\Personal\\flow-mcp\\dist\\index.js"]
-    },
     "flow-music-mcp": {
       "type": "http",
       "url": "http://127.0.0.1:7462/mcp"
