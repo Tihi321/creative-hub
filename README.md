@@ -55,7 +55,7 @@ pwsh -File scripts\hub.ps1 build vn-studio     # rebuild a repo after pulling or
 pwsh -File scripts\hub.ps1 logs vn-studio
 pwsh -File scripts\hub.ps1 check               # real MCP handshake + tool count per server
 pwsh -File scripts\hub.ps1 call vn-studio vno_status '{"slug":"my-book"}'   # call any tool without a Claude MCP link
-pwsh -File scripts\wait-book.ps1 -Story <story-slug>   # wait for a Scriptorium book to be published
+pwsh -File scripts\wait-book.ps1 -Story <story-slug>   # fallback when the MCP link is down; otherwise scriptorium wait_for_book {slug}
 ```
 
 Scriptorium, VN Studio and Book Translator can hand their model work to the Claude session instead of a model: the `client` provider, with the tools `get_client_task` / `submit_client_task` (`vno_get_task` / `vno_submit_task` in VN Studio). How to use it is in the skill, under "Doing the model work yourself".
@@ -67,7 +67,7 @@ Scriptorium, VN Studio and Book Translator can hand their model work to the Clau
 - `services.json`: the registry `hub.ps1` reads (ports, start commands, warnings).
 - `.mcp.json`: MCP servers for Claude.
 - `.claude/skills/make-visual-novel/`: the end-to-end workflow.
-- `scripts/`: `hub.ps1`, `wait-book.ps1`.
+- `scripts/`: `hub.ps1`, `wait-book.ps1` (fallback for `wait_for_book` when the MCP link is down).
 - `runs/<slug>.md`: one log per production (ids, decisions, what was checked). `runs/<slug>/` holds books written by hand and translated editions.
 - `ROADMAP.md`: the hub's tasks in order (live checks, productions, features across tools; each `HUB-NN` has a plan in `.claude/tickets/`), and where each tool's own `ROADMAP.md` lives.
 - `logs/`: output of engines started by `hub.ps1` (not tracked).
