@@ -18,7 +18,7 @@ Details: "Flow" and "Scriptorium and Book Translator: Antigravity models" below.
 **Left for the next session:**
 1. Merge the three pull requests (`github.com/Tihi321/<repo>/pull/new/<branch>`), then `hub.ps1 build flow-music-mcp` and `acp-proxy`.
 2. flow-music-mcp: try lyrics (a vocal song), Advanced (BPM, Length, Seed), the Model menu, M4A, and measure the credits one song costs, if Flow Music shows them anywhere.
-3. flow-mcp: `npm run login` in its Chrome, then a free Nano Banana image and a `flow_narrate` line through the MCP (restart the session so `.mcp.json` loads it). Fix what breaks on Windows on a `FLM-01_...` branch.
+3. ~~flow-mcp: login and a first image.~~ Superseded: flow-mcp broke on Flow's redesign and is retired; its tools are rebuilt in flow-music-mcp (FMM-02, see "Flow" below).
 4. ACP proxy: install and log in the Antigravity provider (the user does the login), start it with `hub.ps1 start acp-proxy`, add the `acp` provider to both apps' `providers.md` (entry below), and run one real Scriptorium and one Book Translator request through it.
 5. VN Studio: Flow as an image, voice and music provider (`art.provider: flow`, a Flow Music music provider) instead of `vno_asset_replace` by hand.
 
@@ -202,11 +202,18 @@ The user has access to Google Flow (https://flow.google.com/) and Flow Music (ht
     - Checked: build, MCP handshake, `hub.ps1 start` / `check` (9 tools) / `call` / `stop`, and live on 2026-10-22 (user signed in, two paid instrumentals): `music_generate` end to end (one take, 46 s, WAV 48 kHz stereo), `music_download` (MP3), `music_songs`. Test files are in `output/flow-music/fmm-01-test/`.
     - The first live run found three bugs, now fixed: the first Generate on a brand-new session does nothing (the driver presses again when nothing renders after 20 s); the download submenu closes under a moving pointer (now by keyboard); and Compose makes one take, not two.
     - Not checked: lyrics (vocal songs), Advanced (BPM, Length, Seed), the Model menu, M4A, a failed take, running out of credits, and the cost per song.
-  - Ports: acp-proxy 7461, flow-music-mcp 7462 (CDP 9334), flow-mcp panel 8787 (CDP 9333).
-- **Cost (user, 2026-10-21):** the user has a Flow Pro account. Image generation (Nano Banana) and TTS through flow-mcp cost no credits. Video and Flow Music use the Pro credits.
+  - Ports: acp-proxy 7461, flow-music-mcp 7462 (CDP 9334). flow-mcp's panel 8787 and CDP 9333 are no longer used by the hub.
+- **Decision (user, 2026-10-22, later the same day): one MCP for both sites; flow-mcp retired.** Flow was redesigned (the composer now opens on an agent session panel; the `Agent` switch flow-mcp looked for is gone), so flow-mcp failed at its first step ("locator.getAttribute: Timeout ... getByRole('button', { name: 'Agent', exact: true })"). The user chose to rebuild it inside flow-music-mcp, with all its tools, rather than patch the fork.
+  - **FMM-02** (`flow-music-mcp`, branch `FMM-02_flow-tools`; plan and changelog in its `.claude/tickets/FMM-02_flow-tools/`): done and verified live on 2026-10-22. 32 tools: all 20 of flow-mcp's plus `flow_inspect`, `flow_set_key`, `flow_speech_setup`, next to the 9 Flow Music tools. Single shots and videos use Flow's direct composer (the live credit quote is checked against `max_credits` before anything starts); image sets use the agent. Tests spent 40 Flow credits (1,050 -> 1,010).
+  - **Upload rights (user, 2026-10-22):** Flow asks "Rights to use this image" (I agree / Cancel) before it takes a local image. The tool agrees only when the user has written `FLOW_MUSIC_MCP_UPLOAD_RIGHTS=agree` in flow-music-mcp's `.env`, and only for files the user gives; otherwise it cancels and nothing is uploaded (`asset:<media_id>` works either way). The agree path is not tested yet: that waits until the user has set it.
+  - **Credit cap (user, 2026-10-22):** images are free; a paid call without `max_credits` gets `FLOW_MUSIC_MCP_MAX_CREDITS` from `.env` (default 50), and Flow's live quote is checked against it before anything starts (a Veo 3.1 Quality clip quoted 100 was refused at 50, nothing spent). Not run yet: likeness mode of `flow_continue`, 720p and Veo models, 4K image download.
+  - The hub's `.mcp.json` and `services.json` no longer list flow-mcp. The fork `Tihi321/flow-mcp` stays as a reference; its Studio panel (8787) and Chrome (9333) are the user's to stop.
+  - **Keys:** `GEMINI_API_KEY` in `flow-music-mcp\.env` (or `%USERPROFILE%\.flow-music-mcp\.env`), see `.env.example`; the old `~/.flow-mcp/gemini-key` is still read.
+  - **Later (user: "tools now, panel later"):** a Studio web panel like flow-mcp's (cast, frames, shots, voice, restyle, cut, captions, library) as its own ticket in flow-music-mcp.
+- **Cost (user, 2026-10-21):** the user has a Flow Pro account. Image generation (Nano Banana) and Gemini/Windows TTS cost no credits. Video and Flow Music use the Pro credits.
 - **What it is for:**
   - **Images first:** Flow's free Nano Banana images are a fast alternative to ComfyUI for backgrounds, character sheets, sprites (edits from the sheet with `flow_edit` / `flow_character`), CGs and covers. VN Studio could add it as an image engine (for example `art.provider: flow`) next to ComfyUI, Pixel Studio and `hand`. Sprites still need a cutout, done with comfy-mcp `remove_background` or VN Studio's post-processing.
-  - **Voices:** flow-mcp `flow_narrate` is free TTS, so it could be a VN Studio voice engine next to VibeTTS. Check which languages it covers, Croatian in particular.
+  - **Voices:** `flow_narrate` (engines gemini, windows) is free TTS, so it could be a VN Studio voice engine next to VibeTTS. Check which languages it covers, Croatian in particular.
   - VN Studio could also take Flow as a music provider.
   - It is the video back end for the planned screenplay writer (see Scriptorium). A story would go to a screenplay, then to Flow shots, then to an assembled video.
   - That needs a video assembler in the hub, or a new "video studio" step.

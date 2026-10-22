@@ -159,23 +159,8 @@
       "docs": ["README.md"]
     },
     {
-      "id": "flow-mcp",
-      "name": "flow-mcp (Google Flow: images, video, voices)",
-      "repo": "C:\\projects\\Personal\\flow-mcp",
-      "data": "~\\.flow-mcp",
-      "port": 8787,
-      "http": "http://127.0.0.1:8787/api/health",
-      "transport": "stdio",
-      "default": false,
-      "managed": true,
-      "start": { "kind": "node", "args": ["dist/studio.js"] },
-      "build": "npm run build",
-      "note": "MCP over stdio: Claude Code starts node dist/index.js itself (.mcp.json), and that process also serves the Flow Studio panel on 8787. hub.ps1 start flow-mcp runs the panel alone and opens it in the browser. Own Chrome profile (~/.flow-mcp/chrome-profile, CDP 9333); sign in once with npm run login. Images (Nano Banana) are free; video and Flow voices spend credits. origin is the user's fork github.com/Tihi321/flow-mcp, upstream github.com/GTAI-1/flow-mcp; fixes go on a branch pushed to the fork.",
-      "docs": ["README.md", "CLAUDE.md", "GETTING-STARTED.md"]
-    },
-    {
       "id": "flow-music-mcp",
-      "name": "flow-music-mcp (Google Flow Music: songs)",
+      "name": "flow-music-mcp (Google Flow and Flow Music: images, video, characters, voices, songs, assembly, captions)",
       "repo": "C:\\projects\\Personal\\flow-music-mcp",
       "data": "~\\.flow-music-mcp",
       "port": 7462,
@@ -184,7 +169,7 @@
       "managed": true,
       "start": { "kind": "node", "args": ["dist/index.js"] },
       "build": "yarn build",
-      "note": "Own Chrome profile (~/.flow-music-mcp/chrome-profile, CDP 9334), opened on the first tool call; sign in once with yarn login. music_generate spends Flow Music credits.",
+      "note": "One MCP for both Google sites (replaces flow-mcp, retired 2026-10-22: Flow was redesigned). Own Chrome profile (~/.flow-music-mcp/chrome-profile, CDP 9334) with a tab per site, opened on the first tool call; sign in once with yarn login. Free: Flow images, Gemini and Windows voices, assembly, captions (own whisper.cpp, installed on first use). Credits: Flow video and Flow voices (max_credits), Flow Music songs. Keys and settings: .env in the repo or ~/.flow-music-mcp/.env (see .env.example).",
       "docs": ["README.md", "CLAUDE.md"]
     }
   ]
