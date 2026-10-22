@@ -239,10 +239,10 @@ Hub doc edits go on a hub branch `HUB-06_scriptorium-vn-media-lines`. The hub wo
 
 ### H1: contract check, no Scriptorium needed
 
-- [ ] `pwsh -File scripts\hub.ps1` (status). If VN Studio's `out/` predates master 7ff8a2d: `hub.ps1 build vn-studio`, `hub.ps1 stop vn-studio`, `hub.ps1 start vn-studio`, then `/mcp` reconnect.
-- [ ] Write a tiny book folder by hand in `runs/hub-06-media-lines/book/` (Scriptorium layout: `book.md` with `script: true`, `outline.md`, `bible/bible.md`, `chapters/ch-01.md`), using the new `docs/visual-novel.md` example: one character with `Aliases:`, a speaker line under the alias, one of each cue line, a prop that would once have been `ON SCREEN:`.
-- [ ] `vno_import {source: <absolute folder>}`. Check: no "has no beat after it" warning, no speaker `CG`/`SFX`, `vno_get_story` lists the `images` (one full, one insert), the `sounds` (sfx and ambience), the alias on the character, and the alias line mapped to it.
-- [ ] Log it in `runs/hub-06-media-lines.md` (copy `runs/_template.md`).
+- [x] `pwsh -File scripts\hub.ps1` (status). If VN Studio's `out/` predates master 7ff8a2d: `hub.ps1 build vn-studio`, `hub.ps1 stop vn-studio`, `hub.ps1 start vn-studio`, then `/mcp` reconnect. Result: Done: vn-studio up on 7459 from master 81abb9e (includes VNO-08), so no rebuild.
+- [x] Write a tiny book folder by hand in `runs/hub-06-media-lines/book/` (Scriptorium layout: `book.md` with `script: true`, `outline.md`, `bible/bible.md`, `chapters/ch-01.md`), using the new `docs/visual-novel.md` example: one character with `Aliases:`, a speaker line under the alias, one of each cue line, a prop that would once have been `ON SCREEN:`. Result: Done: `runs/hub-06-media-lines/book/` written (alias Kessler, one of each cue except `CG: none`, prop as INSERT).
+- [x] `vno_import {source: <absolute folder>}`. Check: no "has no beat after it" warning, no speaker `CG`/`SFX`, `vno_get_story` lists the `images` (one full, one insert), the `sounds` (sfx and ambience), the alias on the character, and the alias line mapped to it. Result: Done: imported as `hub-06-media-lines`, `warnings: []`; images 1 full + 1 insert (no `characters`, VNO-16 absent), sounds 1 sfx + 1 ambience, alias on Kessler, THE BALD MAN mapped to kessler, no speaker CG/SFX.
+- [x] Log it in `runs/hub-06-media-lines.md` (copy `runs/_template.md`). Result: Done: `runs/hub-06-media-lines.md`.
 
 ### H2: live run with Scriptorium (needs the user's go-ahead)
 
