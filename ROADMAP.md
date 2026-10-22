@@ -6,19 +6,22 @@ Work that touches only one tool is in that tool's own `ROADMAP.md` (table at the
 
 ## Tasks, in order
 
-| # | Ticket | What | Code in | Needs |
-|---|---|---|---|---|
-| 1 | HUB-12 | `hub.ps1 start` returns when piped; deep `call` arguments survive | hub | |
-| 2 | HUB-02 | Book Translator live check (BTT-11), with a Croatian VN edition of *The Clockless God* | none | HUB-12 helps |
-| 3 | HUB-03 | VN Studio live check (VNO-08): a test game with CG, insert, SFX, ambience, scene music; Japanese, Arabic and Croatian editions; the user plays it | none | user plays |
-| 4 | HUB-04 | Scriptorium live check (SCP-14), then the skill uses `wait_for_book` | hub | user's go-ahead to start Scriptorium |
-| 5 | HUB-05 | Production: *The Hour That Happens Twice* in Croatian (EPUB) | none | HUB-02; user reads it |
-| 6 | HUB-06 | Scriptorium writes VN Studio's new script lines (`CG:`, `INSERT:`, `SFX:`, `AMBIENCE:`, `Aliases:`) | scriptorium `SCP-16`, visual-novels-orchestrator `VNO-16` (CG characters at import, recommended) | HUB-03, HUB-04 |
-| 7 | HUB-08 | VN Studio starts the studios it needs | visual-novels-orchestrator `VNO-11` | HUB-03 |
-| 8 | HUB-07 | Flow as a VN Studio provider: images, then voices, then music | visual-novels-orchestrator `VNO-10`, flow-music-mcp `FMM-11` | HUB-03, flow-music-mcp's FMM-04 |
-| 9 | HUB-10 | Puzzle visual novels: proof of concept, then VN Studio, then Scriptorium | visual-novels-orchestrator `VNO-12` (proof of concept), then `VNO-13`–`VNO-15`; scriptorium `SCP-18` | HUB-06 for the Scriptorium phase |
-| 10 | HUB-11 | Screenplay → video: Scriptorium screenplay writer, Flow production, assembled video | scriptorium `SCP-17`, flow-music-mcp `FMM-12`, hub (`make-video` skill) | HUB-04, HUB-07 |
-| — | HUB-09 | ACP proxy as a provider for Scriptorium and Book Translator | none | **on hold** (user, 2026-10-22) |
+| # | Ticket | What | Code in | Needs | Status (2026-10-22) |
+|---|---|---|---|---|---|
+| 1 | HUB-12 | `hub.ps1 start` returns when piped; deep `call` arguments survive | hub | | Done |
+| 2 | HUB-02 | Book Translator live check (BTT-11), with a Croatian VN edition of *The Clockless God* | none | HUB-12 helps | Done: edition aligned 1221/0/0; the user plays it |
+| 3 | HUB-03 | VN Studio live check (VNO-08): a test game with CG, insert, SFX, ambience, scene music; Japanese, Arabic and Croatian editions; the user plays it | none | user plays | Done up to the user's play (`vno-media-test`) |
+| 4 | HUB-04 | Scriptorium live check (SCP-14), then the skill uses `wait_for_book` | hub | user's go-ahead to start Scriptorium | Done (*The Umbrella Conductor*; `wait_for_book` is in the skill) |
+| 5 | HUB-05 | Production: *The Hour That Happens Twice* in Croatian (EPUB) | none | HUB-02; user reads it | Done; EPUB in `runs/the-hour-that-happens-twice/`; the user reads it |
+| 6 | HUB-06 | Scriptorium writes VN Studio's new script lines (`CG:`, `INSERT:`, `SFX:`, `AMBIENCE:`, `Aliases:`) | scriptorium `SCP-16`, visual-novels-orchestrator `VNO-16` (CG characters at import, recommended) | HUB-03, HUB-04 | Code done (SCP-16, VNO-16); H1 contract check passed; H2 live adaptation after the PRs merge |
+| 7 | HUB-13 | VN Studio makes sound effects and ambience with Chiptune Studio (`sound.sfxEngine` / `ambienceEngine: "chiptune"`); from midi-generator's roadmap | visual-novels-orchestrator `VNO-19` | HUB-03 | Code done; live check after the PRs merge |
+| 8 | HUB-08 | VN Studio starts the studios it needs | visual-novels-orchestrator `VNO-11` | HUB-03 | Code done; live check after the PRs merge |
+| 9 | HUB-07 | Flow as a VN Studio provider: images, then voices, then music | visual-novels-orchestrator `VNO-10`, flow-music-mcp `FMM-11` | HUB-03, flow-music-mcp's FMM-04 | Code done; live check after the PRs merge (music spends credits) |
+| 10 | HUB-10 | Puzzle visual novels: proof of concept, then VN Studio, then Scriptorium | visual-novels-orchestrator `VNO-12` (proof of concept), then `VNO-13`–`VNO-15`; scriptorium `SCP-18` | HUB-06 for the Scriptorium phase | Phases 1-2 done (VNO-12, VNO-13); phases 3-4 in progress (VNO-14, VNO-15, SCP-18); phase 5 production after the PRs merge |
+| 11 | HUB-11 | Screenplay → video: Scriptorium screenplay writer, Flow production, assembled video | scriptorium `SCP-17`, flow-music-mcp `FMM-12`, hub (`make-video` skill) | HUB-04, HUB-07 | Phases 1, 2a, 2b done (SCP-17, FMM-12, `make-video` skill; not tried live); phase 3 production after the PRs merge |
+| — | HUB-09 | ACP proxy as a provider for Scriptorium and Book Translator | none | **on hold** (user, 2026-10-22) | On hold |
+
+The code of HUB-06, 07, 08, 10, 11 and 13 sits on branches, not merged yet: VN Studio `VNO-10-19_hub-roadmap`, Scriptorium `SCP-16-18_hub-roadmap`, flow-music-mcp `FMM-11-12_hub-roadmap`. The PRs come next; the live checks and productions marked "after the PRs merge" start then.
 
 Each plan has its open questions for the user at the top. When a ticket is done, its plan's checklist is ticked, a `changelog.md` sits next to it, and its row moves to "Done" below.
 
@@ -26,8 +29,17 @@ Still open with no ticket: a native-speaker check of VN Studio's model-written g
 
 ## Done
 
+- **2026-10-22, hub roadmap run (code on branches, PRs next):** HUB-12, HUB-02 to HUB-05 done; HUB-06, 07, 08, 10, 11 and 13 coded (VNO-10 to VNO-16 and VNO-19, SCP-16 to SCP-18 in part, FMM-11, FMM-12, the `make-video` skill). Productions: the Croatian VN edition of *The Clockless God* and *The Hour That Happens Twice* in Croatian (EPUB), model work by Claude, $0. Open: the user plays or reads them, and the live checks after the PRs merge.
 - **2026-10-20 to 2026-10-22, all merged to master:** Scriptorium SCP-08 to SCP-14, Book Translator BTT-08 to BTT-11, VN Studio VNO-04 to VNO-08, api-acp-proxy AAP-05, flow-music-mcp FMM-01 to FMM-03, and the hub's FMM-01 to FMM-03 (flow-music-mcp and acp-proxy registered, flow-mcp retired). Every item of the 2026-10-21 fix round is closed in code; the live checks are tasks 2 to 4 above.
 - **End to end:** idea → Scriptorium book → VN Studio build → played by the user (*The Clockless God*, linear and choice VNs, `runs/the-clockless-god-vn.md`). Also a series book 2 (`runs/the-hour-that-happens-twice.md`) and a Croatian translation done by Claude through Book Translator (`runs/the-clockless-god.md`).
+
+## Found during the run
+
+Bugs and gaps found on 2026-10-22, in `.claude/tickets/HUB-02-13-roadmap-tasks/followups.md`. Each goes into that tool's own `ROADMAP.md`:
+
+- Book Translator: QA flags kept lines as "untranslated" in VN folders (speaker tag counts as words); the glossary pass overwrites a brief; glossary matching is a case-insensitive substring; an EPUB export keeps the English cover and alt text; a reused pid fools the `engine.lock` takeover; `wait_for_progress` limits; a stopped client's lease stalls the pipeline for 30 min.
+- Scriptorium: `title_fixed` ignored; a false story year in rewrite prompts; `log.md` interleaves parallel reviewers; a pitch over 300 words accepted; research tasks for a bedtime story; a packaged `Scriptorium.exe` holds the single-instance lock and `hub.ps1 start` exits silently (hub could name the pid).
+- VN Studio: a generate job stays "running" after ComfyUI crashed; partial Croatian UI strings in older projects. (The `Aliases:` sentence left in a character's looks was fixed in VNO-16, cdc82f2.)
 
 ## Flow (through flow-music-mcp, since 2026-10-22)
 
@@ -69,11 +81,11 @@ Work that touches only one tool, done in its repo on its own ticket branch.
 
 | Tool | Roadmap | Open there |
 |---|---|---|
-| Scriptorium | `C:\projects\Personal\scriptorium\ROADMAP.md` | fallbacks as an open list, small SCP-14 follow-ups, Electron tests |
-| Book Translator | `C:\projects\Personal\book-translator\ROADMAP.md` | BTT-11 UI check, reload during a run |
-| VN Studio | `C:\projects\Personal\visual-novels-orchestrator\ROADMAP.md` | VNO-08 test gaps |
+| Scriptorium | `C:\projects\Personal\scriptorium\ROADMAP.md` | fallbacks as an open list, small SCP-14 follow-ups, Electron tests; `title_fixed` ignored, false story year in rewrite prompts, `log.md` interleaving, packaged-app instance lock |
+| Book Translator | `C:\projects\Personal\book-translator\ROADMAP.md` | BTT-11 UI check, reload during a run; QA false "untranslated" on VN lines, brief overwritten by the glossary pass, glossary substring matching, English cover in exports, stale lock pid reuse |
+| VN Studio | `C:\projects\Personal\visual-novels-orchestrator\ROADMAP.md` | VNO-08 test gaps; lost ComfyUI job, partial `hr` UI strings in older projects |
 | Pixel Studio | `C:\projects\Personal\pixel-art-generator\ROADMAP.md` | per-document tools, faster drawing, VN UI elements |
-| Chiptune Studio | `C:\projects\Personal\midi-generator\ROADMAP.md` | motifs, SFX and ambience, port env var |
+| Chiptune Studio | `C:\projects\Personal\midi-generator\ROADMAP.md` | motifs, port env var (SFX and ambience done by VN Studio, VNO-19; nothing else open from it) |
 | comfy-mcp | `C:\projects\Personal\comfy-mcp\ROADMAP.md` | subgraph workflows, more speech engines, jobs lost on restart |
 | ACP proxy | `C:\projects\Personal\api-acp-proxy\ROADMAP.md` | limits seen from the hub |
-| flow-music-mcp | `C:\projects\Personal\flow-music-mcp\ROADMAP.md` | vocal songs, cost per song, Veo/720p, tests, Studio panel |
+| flow-music-mcp | `C:\projects\Personal\flow-music-mcp\ROADMAP.md` | vocal songs, cost per song, Veo/720p, tests, Studio panel (FMM-11 voice hooks and FMM-12 `flow_assemble` timeline on a branch) |

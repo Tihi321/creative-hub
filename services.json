@@ -1,5 +1,5 @@
 {
-  "_about": "Registry of every tool the creative hub drives. scripts/hub.ps1 reads this file. To add a tool: add one entry here, one server in .mcp.json, and a line in README.md.",
+  "_about": "Registry of every tool the creative hub drives. scripts/hub.ps1 reads this file. To add a tool: add one entry here, one server in .mcp.json, and a line in README.md. VN Studio also reads this file to start pixel-studio, chiptune-studio and comfyui when a job needs them: keep their fields (id, repo, port, mcp, http, managed, warning, startTimeout, start {kind, path, cwd, args, env}); kinds other than electron and exe are ignored for these three.",
   "services": [
     {
       "id": "scriptorium",
