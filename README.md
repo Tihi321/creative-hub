@@ -24,7 +24,7 @@ VN Studio: analyse ► art ► music ► generate ► voice ► stage ► build 
 
 | Id | What | Repo | Port / MCP | Data folder | Run headless |
 |---|---|---|---|---|---|
-| `scriptorium` | Writes books and series (incl. visual-novel scripts) with ~16 agent roles | `C:\projects\Personal\scriptorium` | 7341 `/mcp` | `~\Scriptorium` | `electron . --headless` (or `yarn headless`, no covers) |
+| `scriptorium` | Writes books, series and newspaper articles (incl. visual-novel scripts and book-to-VN adaptations) with ~17 agent roles, a humanizer pass on every chapter | `C:\projects\Personal\scriptorium` | 7341 `/mcp` | `~\Scriptorium` | `electron . --headless` (or `yarn headless`, no covers) |
 | `book-translator` | Translates EPUB/DOCX/MD/TXT/PDF | `C:\projects\Personal\book-translator` | 47811 `/mcp`, Bearer token | `~\BookTranslator` | `node out/engine/index.js headless` |
 | `vn-studio` | Book → Ren'Py visual novel; drives the tools below | `C:\projects\Personal\visual-novels-orchestrator` | 7459 `/mcp` | `~\VisualNovels` | `node out/engine/index.js --mcp-only` |
 | `pixel-studio` | Pixel-art editor: import/convert, palettes, draw, export | `C:\projects\Personal\pixel-art-generator` | 7457 `/mcp` | `~\PixelStudio` | `electron . --mcp-only` |

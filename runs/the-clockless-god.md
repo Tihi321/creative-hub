@@ -22,7 +22,7 @@ Started 2026-10-20. Book 1 of the series *The Hartley & Varga Mysteries*.
 | Scriptorium series | `the-hartley-varga-mysteries` |
 | Scriptorium story | `the-clockless-god` (series_index 1) |
 | Scriptorium book | `the-clockless-god` (stage `published`, round 1, score 7.73) |
-| Book Translator project | |
+| Book Translator project | `the-clockless-god-hr-2945aa` (Croatian, done, all agents `client/claude-code`, $0) |
 | VN Studio project | |
 
 ## Log
@@ -71,6 +71,24 @@ Started 2026-10-20. Book 1 of the series *The Hartley & Varga Mysteries*.
 - `set_book_model ... null` was refused on the published book, as already listed in the ROADMAP.
 - `get_series` lists book 1 as published, at 7.73.
 
+- 2026-10-20 **Croatian translation** with Book Translator. Every model task was done by Claude through the client provider; the outside-model spend was $0. Steps:
+  - Project `the-clockless-god-hr-2945aa`: hr, with all four agents (glossary, translator, proofreader, qa) on `client/claude-code`. BTT-10 adds a `clientOnly` switch for this, merged later; this run predates it, so the four agents were set by hand. A Croatian brief went in with `set_brief`.
+  - Glossary: 14 passes, answered by Claude. The series terms are Bratovština Devetog sata, Bezsatni, Zaustavljeni sat, Siva pričest, Devetorica, Sedmi, Sat duga, sat bez kazaljki, slovna brava, "pribor za jelo" and Bdijenje pomrčine.
+  - 62 chunks, worked in parallel by 6 translator, 3 proofreader and 2 QA subagents (about 170 tasks). Book Translator releases the tasks in waves, so the first stop rule (stop after 2 idle minutes) was too short and was changed to "stop when the project leaves translating".
+  - QA flagged French, Latin and Hungarian text as "untranslated" several times. These were false alarms, and the brief now says so.
+  - 6 chunks were left flagged at the end.
+  - A final editorial pass by 3 editor subagents with `edit_chunk` touched about 140 segments:
+    - one tense (the perfect, no aorist dialogue tags);
+    - the address rules (Dec and Inès use "ti" from chapter 4);
+    - the same word for each object and term (kalauz, leptirić, usadna brava, urezi, procjep, sajla...);
+    - the twist kept: the Brotherhood's "Naš je restaurator" is masculine, because a feminine form would give away early that they mean Morel;
+    - the real QA findings fixed;
+    - the contents page matched to the chapter headings.
+
+    All 62 chunks are done.
+  - Exported to `runs/the-clockless-god/the-clockless-god.hr.epub`: about 44k words, `dc:language hr`, title "Bezsatni bog".
+- Found during the translation: the English ch17 has Dec lift "the hand that was not holding the pistol" after an officer has already taken it. It is fixed in Croatian (d19.71). The English book is published and cannot be reopened, so the English slip stays.
+
 ## Checked
 
 - Claude wrote and reread every chapter, and read every check and every review.
@@ -83,7 +101,8 @@ Started 2026-10-20. Book 1 of the series *The Hartley & Varga Mysteries*.
 
 - The user reads the EPUB and rates it (`rate_book`).
 - Optional: one more round on the act 1-2 notes. That needs a published book to be reopenable, which is a ROADMAP item.
-- Optional: translate it, or turn it into a visual novel. The bible has full looks for every character and place.
+- Croatian EPUB: the user reads it.
+- Visual novel: the SCP-11 adaptation (`runs/the-clockless-god-vn.md`).
 - Book 2 of the series: `add_story {series: "the-hartley-varga-mysteries", ...}`. It gets book 1's summaries, the cast's end state and the open threads (the Nine, the Keeper of the Last Hour, Vey's ledger, HUIT).
 - `hub.ps1 start -Window` started the app but never returned or printed anything. Find out why.
 - Merge `SCP-09_series` (scriptorium) and `SCP-09_series-hub` (hub) when the user is happy.
