@@ -2,6 +2,26 @@
 
 Gaps found while connecting the tools (2026-10-20). Each item belongs to one repo; fix it there. Most important first.
 
+## Added on 2026-10-22: Flow, Flow Music and the ACP proxy (pushed, not merged)
+
+| Repo | Branch | What |
+|---|---|---|
+| flow-music-mcp (new) | `FMM-01_mcp-server` | MCP server for Google Flow Music: 9 tools, own Chrome profile (CDP 9334), HTTP on 7462. Verified live: generate (instrumental, WAV), download (MP3), library list |
+| api-acp-proxy | `AAP-05_ignore-sampling` | `PROXY_IGNORE_SAMPLING` so Scriptorium and Book Translator can use it (112 tests pass) |
+| creative-hub | `FMM-01_hub-flow-tools` | `acp-proxy` (7461), `flow-mcp` (stdio, panel 8787) and `flow-music-mcp` in `services.json`, `.mcp.json`, README and the skill; this roadmap |
+| flow-mcp | `main` (fork `Tihi321/flow-mcp`, upstream `GTAI-1/flow-mcp`) | cloned and built, no changes yet |
+
+Details: "Flow" and "Scriptorium and Book Translator: Antigravity models" below.
+
+**Flow Music plan (user, 2026-10-22):** Google AI Pro, 10,000 Flow Music credits a month; the user reckons about 2,000 songs a month. A web summary the user found says an instrumental costs about 10 credits and a song with AI lyrics 15-30 (not measured here). The Plus plan's 12 concurrent generations may not apply to AI Pro; the tool runs one at a time anyway.
+
+**Left for the next session:**
+1. Merge the three pull requests (`github.com/Tihi321/<repo>/pull/new/<branch>`), then `hub.ps1 build flow-music-mcp` and `acp-proxy`.
+2. flow-music-mcp: try lyrics (a vocal song), Advanced (BPM, Length, Seed), the Model menu, M4A, and measure the credits one song costs, if Flow Music shows them anywhere.
+3. flow-mcp: `npm run login` in its Chrome, then a free Nano Banana image and a `flow_narrate` line through the MCP (restart the session so `.mcp.json` loads it). Fix what breaks on Windows on a `FLM-01_...` branch.
+4. ACP proxy: install and log in the Antigravity provider (the user does the login), start it with `hub.ps1 start acp-proxy`, add the `acp` provider to both apps' `providers.md` (entry below), and run one real Scriptorium and one Book Translator request through it.
+5. VN Studio: Flow as an image, voice and music provider (`art.provider: flow`, a Flow Music music provider) instead of `vno_asset_replace` by hand.
+
 ## Next steps (2026-10-22)
 
 The 2026-10-21 fix round is on three pushed branches, not merged. Each repo's ticket folder has a plan and a changelog.
@@ -35,6 +55,38 @@ The 2026-10-21 fix round is on three pushed branches, not merged. Each repo's ti
 ## All three (client provider)
 
 - ~~**Every task sends the prompt twice.**~~ `get_client_task` / `vno_get_task` return `system` + `user` and also `messages` whenever there are 2 or more messages, which is every task. Send `messages` only when there is more than one user message or an assistant turn. This halves big tasks such as Scriptorium's whole-book rewrite (98k characters). **Fixed in all three (2026-10-22, pushed, not merged):** `BTT-11_roadmap-fixes`, `SCP-14_roadmap-fixes`, `VNO-08_roadmap-fixes`. A plain task carries its prompt once, and `messages` comes only with an assistant turn or several user turns.
+
+## Scriptorium and Book Translator: Antigravity models (asked by the user 2026-10-22)
+
+The question was whether the two apps could sign in with the user's Antigravity (Google) account and use its models (Gemini 3.x, plus the Claude and GPT-OSS models in its list), the way the DeepSeek Harness does. **Decision (user, 2026-10-22): no Antigravity login of our own in the apps; use the ACP proxy, accepting the terms risk below.**
+
+- **How the DeepSeek Harness does it:** the plugin `dsh-tool-antigravity` 0.3.6, built on `@cortexkit/antigravity-auth-core`, in `~\.dsh\profiles\desktop`.
+  - It runs its own Google OAuth (PKCE) with Antigravity's OAuth client id and keeps the tokens itself, in `auth.json` / `accounts.json`.
+  - It calls Google's private Cloud Code endpoints (`cloudcode-pa.googleapis.com/v1internal:streamGenerateContent`, `loadCodeAssist`, `retrieveUserQuota`) and sends the Antigravity CLI's User-Agent and fingerprint (`antigravity/cli/1.1.24`) so the calls look like they come from Antigravity.
+  - It also rotates across several accounts when one hits a 429.
+  - That is the pattern Google suspends accounts for (see Terms below).
+- **The less risky route already on this PC:** `C:\projects\Personal\api-acp-proxy`. It runs Google's own signed `agy_acp_server`, so the tokens never leave Google's program. It exposes an OpenAI-compatible API with models named like `antigravity/gemini-3.8-flash` (plus Codex and Claude subscription models).
+  - **Port 7461** in the hub (`services.json` id `acp-proxy`, `PROXY_PORT=7461`), not its default 8787, which flow-mcp's panel uses (flow-mcp treats anything on 8787 as another flow-mcp).
+  - **A code change was needed after all (AAP-05, done, not merged):** both apps send `stream_options` on every chat request and often `max_tokens` / `temperature`, and the proxy answered each with 400 `unsupported_parameter`. Branch `AAP-05_ignore-sampling` adds `server.ignoreSampling` / `PROXY_IGNORE_SAMPLING=1` (and a settings checkbox) to drop those fields. 112 tests pass; not yet tried with a real request.
+  - Provider entry for `config/providers.md` in both apps, once the proxy runs and a provider is logged in (take the model ids from `GET http://127.0.0.1:7461/v1/models`):
+    ```yaml
+    - id: acp
+      kind: openai-compat
+      base_url: http://127.0.0.1:7461/v1
+      json_schema: false        # the proxy rejects response_format
+      concurrency: 2
+      models:
+        - id: antigravity/gemini-3.8-flash
+          family: gemini
+          context: 1000000
+    ```
+  - Limits: text only, no JSON schema (the apps' prompt + repair step handle JSON), no token limit, no usage numbers in the stream (cost shows as 0), and each request is a fresh agent session.
+  - Setup left for the user: install the Antigravity server (`npm run antigravity:install` or the app's button), acknowledge its terms, enable it, and log in (the app's Login button). Claude must not do the Google login.
+- **Terms:** clause 6 of https://antigravity.google/terms forbids "using the Service in connection with products not provided by us" and "using third party software, tools, or services to access the Service". It gives "using OpenClaw with Antigravity OAuth" as an example of a breach, and says it "may be grounds for suspension or termination of your Antigravity and/or Gemini CLI accounts". Accounts were suspended from February 2026 (Antigravity, Gemini CLI and Code Assist together), and appeals were slow.
+  - Both routes break clause 6 when a book factory is the client. The proxy is only less detectable than the plugin; it is not allowed either.
+  - If used at all, use an account the user can afford to lose, not the one that holds the Flow Pro plan.
+- **The allowed way to get Gemini:** a Gemini API key (AI Studio, has a free tier) or OpenRouter, both already provider kinds in the apps. Scriptorium's `providers.md` already has `openrouter` (Gemini 2.5 Flash) and a `gemini` entry.
+- **Also check:** whether the DeepSeek Harness setup is itself at risk. It uses the same plugin with the same Google account.
 
 ## Book Translator
 
@@ -143,7 +195,14 @@ The user has access to Google Flow (https://flow.google.com/) and Flow Music (ht
     - Transport is stdio (`node dist/index.js`). There is an optional panel on 127.0.0.1:8787, and it drives Chrome over DevTools on port 9333.
   - **Caveats:** it may break when Google changes the UI, and its README warns that it may conflict with Google's terms of service. It has no music tool.
   - **Integration steps:** clone it next to the other repos, add it to `services.json`, `.mcp.json` and the README table (a stdio server, unlike the others), add a step to the skill, and put its limits here.
-- **Flow Music:** no MCP server is known. The user has a Pro account, so drive it through the browser the way flow-mcp drives Flow and spend the account's credits, not an API. That means a signed-in Chrome profile and tools such as `music_generate`, `music_wait` and `music_download`. It could be added to flow-mcp, or be its own small MCP server. It is for scene music, next to Chiptune Studio and ACE-Step.
+- **Flow Music:** no public MCP server existed, so the hub has its own, `flow-music-mcp` (see the decision below). It is for scene music, next to Chiptune Studio and ACE-Step. The account shows the "Plus" plan.
+- **Decision (user, 2026-10-22): dedicated Chrome profiles over CDP, for both.** flow-mcp for Flow, and a new `flow-music-mcp` built the same way for Flow Music. The Claude in Chrome extension on the user's own browser is for mapping the sites and debugging a broken selector, not for production.
+  - **flow-mcp:** `C:\projects\Personal\flow-mcp`, `origin` = the user's fork `Tihi321/flow-mcp`, `upstream` = `GTAI-1/flow-mcp` (both `main` at 404c4d3 on 2026-10-22); `npm install && npm run build` done on Windows. In `services.json` (id `flow-mcp`), `.mcp.json` (stdio, `node dist/index.js`) and the README table. Its author never ran the Windows code paths (`src/platform.ts`). Fixes go on a ticket branch (`FLM-NN_<what>`) pushed to the fork; take upstream changes with `git fetch upstream && git merge upstream/main`. Not checked: login and a first image.
+  - **flow-music-mcp:** `C:\projects\Personal\flow-music-mcp` (`Tihi321/flow-music-mcp`), branch `FMM-01_mcp-server` (committed, not pushed). Streamable HTTP on 7462, its own Chrome profile on CDP 9334 (flow-mcp's Chrome is 9333; two CDP clients on one Chrome break downloads). Nine tools: `music_status`, `music_generate`, `music_wait`, `music_jobs`, `music_cancel`, `music_retry`, `music_download`, `music_songs`, `music_inspect`. It drives the Compose panel (Sound, Lyrics or instrumental, title, Advanced: BPM, Length, Seed, Model) rather than the Producer chat. The UI map is in its `CLAUDE.md`.
+    - Checked: build, MCP handshake, `hub.ps1 start` / `check` (9 tools) / `call` / `stop`, and live on 2026-10-22 (user signed in, two paid instrumentals): `music_generate` end to end (one take, 46 s, WAV 48 kHz stereo), `music_download` (MP3), `music_songs`. Test files are in `output/flow-music/fmm-01-test/`.
+    - The first live run found three bugs, now fixed: the first Generate on a brand-new session does nothing (the driver presses again when nothing renders after 20 s); the download submenu closes under a moving pointer (now by keyboard); and Compose makes one take, not two.
+    - Not checked: lyrics (vocal songs), Advanced (BPM, Length, Seed), the Model menu, M4A, a failed take, running out of credits, and the cost per song.
+  - Ports: acp-proxy 7461, flow-music-mcp 7462 (CDP 9334), flow-mcp panel 8787 (CDP 9333).
 - **Cost (user, 2026-10-21):** the user has a Flow Pro account. Image generation (Nano Banana) and TTS through flow-mcp cost no credits. Video and Flow Music use the Pro credits.
 - **What it is for:**
   - **Images first:** Flow's free Nano Banana images are a fast alternative to ComfyUI for backgrounds, character sheets, sprites (edits from the sheet with `flow_edit` / `flow_character`), CGs and covers. VN Studio could add it as an image engine (for example `art.provider: flow`) next to ComfyUI, Pixel Studio and `hand`. Sprites still need a cutout, done with comfy-mcp `remove_background` or VN Studio's post-processing.
