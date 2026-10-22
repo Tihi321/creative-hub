@@ -2,25 +2,25 @@
 
 Gaps found while connecting the tools (2026-10-20). Each item belongs to one repo; fix it there. Most important first.
 
-## Added on 2026-10-22: Flow, Flow Music and the ACP proxy (pushed, not merged)
+## Done on 2026-10-22: Flow, Flow Music and the ACP proxy (all merged)
 
-| Repo | Branch | What |
+| Repo | Tickets (merged to master) | What |
 |---|---|---|
-| flow-music-mcp (new) | `FMM-01_mcp-server` | MCP server for Google Flow Music: 9 tools, own Chrome profile (CDP 9334), HTTP on 7462. Verified live: generate (instrumental, WAV), download (MP3), library list |
-| api-acp-proxy | `AAP-05_ignore-sampling` | `PROXY_IGNORE_SAMPLING` so Scriptorium and Book Translator can use it (112 tests pass) |
-| creative-hub | `FMM-01_hub-flow-tools` | `acp-proxy` (7461), `flow-mcp` (stdio, panel 8787) and `flow-music-mcp` in `services.json`, `.mcp.json`, README and the skill; this roadmap |
-| flow-mcp | `main` (fork `Tihi321/flow-mcp`, upstream `GTAI-1/flow-mcp`) | cloned and built, no changes yet |
+| flow-music-mcp (new) | FMM-01, FMM-02 | One MCP server for Google Flow and Google Flow Music on 7462, 32 tools: songs (`music_*`), Flow images, video, characters, edits (`flow_*`), and local narration (Gemini, Windows, Flow voices), assembly, transcription and captions (own whisper.cpp). Its own Chrome profile (CDP 9334). Settings and keys in its `.env` (Gemini key, `FLOW_MUSIC_MCP_UPLOAD_RIGHTS=agree`, `FLOW_MUSIC_MCP_MAX_CREDITS=50`), all set by the user. |
+| creative-hub | FMM-01, FMM-02 | `flow-music-mcp` and `acp-proxy` in `services.json`, `.mcp.json`, README and the skill; flow-mcp removed |
+| api-acp-proxy | AAP-05 | `PROXY_IGNORE_SAMPLING` so Scriptorium and Book Translator can use it (112 tests pass) |
+| flow-mcp (fork) | none | retired: Flow's redesign broke it; its 20 tools were rebuilt in flow-music-mcp |
 
-Details: "Flow" and "Scriptorium and Book Translator: Antigravity models" below.
+**flow-music-mcp has its own `ROADMAP.md` now** (what is missing and unverified there: vocal songs, Flow Music's cost per song, Veo/720p, likeness continue, tests, the Studio panel...). Work on that repo continues from there; this file keeps only the hub's side.
 
-**Flow Music plan (user, 2026-10-22):** Google AI Pro, 10,000 Flow Music credits a month; the user reckons about 2,000 songs a month. A web summary the user found says an instrumental costs about 10 credits and a song with AI lyrics 15-30 (not measured here). The Plus plan's 12 concurrent generations may not apply to AI Pro; the tool runs one at a time anyway.
+**Credits after the tests (2026-10-22):** Flow 1,010 (40 spent, PRO). Flow Music: Google AI Pro, 10,000 credits a month; the user reckons about 2,000 songs, a web summary says about 10 credits an instrumental and 15-30 with AI lyrics (not measured).
 
-**Left for the next session:**
-1. Merge the three pull requests (`github.com/Tihi321/<repo>/pull/new/<branch>`), then `hub.ps1 build flow-music-mcp` and `acp-proxy`.
-2. flow-music-mcp: try lyrics (a vocal song), Advanced (BPM, Length, Seed), the Model menu, M4A, and measure the credits one song costs, if Flow Music shows them anywhere.
-3. ~~flow-mcp: login and a first image.~~ Superseded: flow-mcp broke on Flow's redesign and is retired; its tools are rebuilt in flow-music-mcp (FMM-02, see "Flow" below).
-4. ACP proxy: install and log in the Antigravity provider (the user does the login), start it with `hub.ps1 start acp-proxy`, add the `acp` provider to both apps' `providers.md` (entry below), and run one real Scriptorium and one Book Translator request through it.
-5. VN Studio: Flow as an image, voice and music provider (`art.provider: flow`, a Flow Music music provider) instead of `vno_asset_replace` by hand.
+**Left from that day:**
+1. ~~Merge the pull requests.~~ Done.
+2. ~~flow-music-mcp: vocal songs, Advanced, cost.~~ Moved to flow-music-mcp's `ROADMAP.md`.
+3. ~~flow-mcp login.~~ Superseded by FMM-02.
+4. ACP proxy: on hold (user, 2026-10-22: "no need for now, later if needed"). When it is wanted: install and log in the Antigravity provider (the user does the login), `hub.ps1 start acp-proxy`, add the `acp` provider to both apps' `providers.md` (entry below), and run one real Scriptorium and one Book Translator request.
+5. VN Studio: Flow as an image, voice and music provider (`art.provider: flow`, a Flow Music music provider) instead of `vno_asset_replace` by hand. See "Flow" below.
 
 ## Next steps (2026-10-22)
 
@@ -183,33 +183,23 @@ The question was whether the two apps could sign in with the user's Antigravity 
 - **Qwen-Image 2.1 Turbo edit.** Not an engine: its template uses ManualSigmas + SamplerCustomAdvanced instead of KSampler, so it needs its own graph.
 - **Jobs live in memory.** A restart forgets job ids (written files stay).
 
-## Flow (to integrate; planned by the user 2026-10-21)
+## Flow (integrated 2026-10-22 through flow-music-mcp)
 
-The user has access to Google Flow (https://flow.google.com/) and Flow Music (https://www.flowmusic.app/). Using them for video, images, music and speech could be faster than local ComfyUI.
+The user has Google Flow (https://flow.google.com/, PRO) and Flow Music (https://www.flowmusic.app/, through Google AI Pro). Both are driven by **flow-music-mcp** (`C:\projects\Personal\flow-music-mcp`, `hub.ps1 start flow-music-mcp`). Its own `ROADMAP.md` lists what is missing there; its `CLAUDE.md` has the UI maps and what was verified.
 
-- **flow-mcp** (https://github.com/GTAI-1/flow-mcp): an MCP server that drives Flow's web UI from its own Chrome window, using Flow credits rather than a paid API.
-  - **Tools:** `flow_generate`, `flow_wait`, `flow_edit`, `flow_continue`, `flow_character` (consistent characters), `flow_narrate` (TTS through AI Studio voices or the system's own voices), `flow_captions`, `flow_transcribe`, `flow_assemble` (FFmpeg cut with music), `flow_assets`, `flow_download` and more.
-  - **Setup:**
-    - Node 22+ and Chrome.
-    - `npm install && npm run build`, then `npm run login` once to sign in by hand. The profile is kept in `~/.flow-mcp/chrome-profile`.
-    - Transport is stdio (`node dist/index.js`). There is an optional panel on 127.0.0.1:8787, and it drives Chrome over DevTools on port 9333.
-  - **Caveats:** it may break when Google changes the UI, and its README warns that it may conflict with Google's terms of service. It has no music tool.
-  - **Integration steps:** clone it next to the other repos, add it to `services.json`, `.mcp.json` and the README table (a stdio server, unlike the others), add a step to the skill, and put its limits here.
-- **Flow Music:** no public MCP server existed, so the hub has its own, `flow-music-mcp` (see the decision below). It is for scene music, next to Chiptune Studio and ACE-Step. The account shows the "Plus" plan.
-- **Decision (user, 2026-10-22): dedicated Chrome profiles over CDP, for both.** flow-mcp for Flow, and a new `flow-music-mcp` built the same way for Flow Music. The Claude in Chrome extension on the user's own browser is for mapping the sites and debugging a broken selector, not for production.
-  - **flow-mcp:** `C:\projects\Personal\flow-mcp`, `origin` = the user's fork `Tihi321/flow-mcp`, `upstream` = `GTAI-1/flow-mcp` (both `main` at 404c4d3 on 2026-10-22); `npm install && npm run build` done on Windows. In `services.json` (id `flow-mcp`), `.mcp.json` (stdio, `node dist/index.js`) and the README table. Its author never ran the Windows code paths (`src/platform.ts`). Fixes go on a ticket branch (`FLM-NN_<what>`) pushed to the fork; take upstream changes with `git fetch upstream && git merge upstream/main`. Not checked: login and a first image.
-  - **flow-music-mcp:** `C:\projects\Personal\flow-music-mcp` (`Tihi321/flow-music-mcp`), branch `FMM-01_mcp-server` (committed, not pushed). Streamable HTTP on 7462, its own Chrome profile on CDP 9334 (flow-mcp's Chrome is 9333; two CDP clients on one Chrome break downloads). Nine tools: `music_status`, `music_generate`, `music_wait`, `music_jobs`, `music_cancel`, `music_retry`, `music_download`, `music_songs`, `music_inspect`. It drives the Compose panel (Sound, Lyrics or instrumental, title, Advanced: BPM, Length, Seed, Model) rather than the Producer chat. The UI map is in its `CLAUDE.md`.
-    - Checked: build, MCP handshake, `hub.ps1 start` / `check` (9 tools) / `call` / `stop`, and live on 2026-10-22 (user signed in, two paid instrumentals): `music_generate` end to end (one take, 46 s, WAV 48 kHz stereo), `music_download` (MP3), `music_songs`. Test files are in `output/flow-music/fmm-01-test/`.
-    - The first live run found three bugs, now fixed: the first Generate on a brand-new session does nothing (the driver presses again when nothing renders after 20 s); the download submenu closes under a moving pointer (now by keyboard); and Compose makes one take, not two.
-    - Not checked: lyrics (vocal songs), Advanced (BPM, Length, Seed), the Model menu, M4A, a failed take, running out of credits, and the cost per song.
-  - Ports: acp-proxy 7461, flow-music-mcp 7462 (CDP 9334). flow-mcp's panel 8787 and CDP 9333 are no longer used by the hub.
-- **Decision (user, 2026-10-22, later the same day): one MCP for both sites; flow-mcp retired.** Flow was redesigned (the composer now opens on an agent session panel; the `Agent` switch flow-mcp looked for is gone), so flow-mcp failed at its first step ("locator.getAttribute: Timeout ... getByRole('button', { name: 'Agent', exact: true })"). The user chose to rebuild it inside flow-music-mcp, with all its tools, rather than patch the fork.
-  - **FMM-02** (`flow-music-mcp`, branch `FMM-02_flow-tools`; plan and changelog in its `.claude/tickets/FMM-02_flow-tools/`): done and verified live on 2026-10-22. 32 tools: all 20 of flow-mcp's plus `flow_inspect`, `flow_set_key`, `flow_speech_setup`, next to the 9 Flow Music tools. Single shots and videos use Flow's direct composer (the live credit quote is checked against `max_credits` before anything starts); image sets use the agent. Tests spent 40 Flow credits (1,050 -> 1,010).
-  - **Upload rights (user, 2026-10-22):** Flow asks "Rights to use this image" (I agree / Cancel) before it takes a local image. The tool agrees only when the user has written `FLOW_MUSIC_MCP_UPLOAD_RIGHTS=agree` in flow-music-mcp's `.env`, and only for files the user gives; otherwise it cancels and nothing is uploaded (`asset:<media_id>` works either way). The agree path is not tested yet: that waits until the user has set it.
-  - **Credit cap (user, 2026-10-22):** images are free; a paid call without `max_credits` gets `FLOW_MUSIC_MCP_MAX_CREDITS` from `.env` (default 50), and Flow's live quote is checked against it before anything starts (a Veo 3.1 Quality clip quoted 100 was refused at 50, nothing spent). Not run yet: likeness mode of `flow_continue`, 720p and Veo models, 4K image download.
-  - The hub's `.mcp.json` and `services.json` no longer list flow-mcp. The fork `Tihi321/flow-mcp` stays as a reference; its Studio panel (8787) and Chrome (9333) are the user's to stop.
-  - **Keys:** `GEMINI_API_KEY` in `flow-music-mcp\.env` (or `%USERPROFILE%\.flow-music-mcp\.env`), see `.env.example`; the old `~/.flow-mcp/gemini-key` is still read.
-  - **Later (user: "tools now, panel later"):** a Studio web panel like flow-mcp's (cast, frames, shots, voice, restyle, cut, captions, library) as its own ticket in flow-music-mcp.
+- **How we got here (2026-10-21/22):**
+  - First plan: flow-mcp (GTAI-1/flow-mcp, stdio, its own Chrome) for Flow, and a new flow-music-mcp for Flow Music. The Claude in Chrome extension on the user's own browser is for mapping sites and debugging selectors, not for production.
+  - Flow was then redesigned (an agent session panel; the `Agent` switch flow-mcp looked for is gone), and flow-mcp failed at its first step. The user chose one MCP for both sites: FMM-02 rebuilt all 20 flow-mcp tools in flow-music-mcp, plus inspect, key and speech setup. The fork `Tihi321/flow-mcp` stays as a reference only.
+- **How the hub uses it:**
+  - Single shots and videos go through Flow's direct composer: the exact prompt, and the live credit quote checked against `max_credits` (default `FLOW_MUSIC_MCP_MAX_CREDITS`, 50) before anything starts.
+  - Image sets go through Flow's agent.
+  - Images and Gemini/Windows voices are free.
+- **Decisions the user made, in flow-music-mcp's `.env`:**
+  - Upload rights: `FLOW_MUSIC_MCP_UPLOAD_RIGHTS=agree` lets the tool answer Flow's "Rights to use this image" for files the user gives (verified 2026-10-22 with a local reference image).
+  - The default credit cap per paid call (50).
+  - The Gemini key.
+- **Speech:** whisper.cpp is the tool's own copy (not VibeFlow's: that app may change or drop it), installed in `%USERPROFILE%\.flow-music-mcp\whisper`, with models in `...\models`.
+- **Ports:** acp-proxy 7461, flow-music-mcp 7462 (Chrome CDP 9334). The old flow-mcp Studio panel (8787, Chrome 9333) is not used by the hub.
 - **Cost (user, 2026-10-21):** the user has a Flow Pro account. Image generation (Nano Banana) and Gemini/Windows TTS cost no credits. Video and Flow Music use the Pro credits.
 - **What it is for:**
   - **Images first:** Flow's free Nano Banana images are a fast alternative to ComfyUI for backgrounds, character sheets, sprites (edits from the sheet with `flow_edit` / `flow_character`), CGs and covers. VN Studio could add it as an image engine (for example `art.provider: flow`) next to ComfyUI, Pixel Studio and `hand`. Sprites still need a cutout, done with comfy-mcp `remove_background` or VN Studio's post-processing.
