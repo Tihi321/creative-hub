@@ -34,6 +34,9 @@ VN Studio: analyse ► art ► music ► generate ► voice ► stage ► build 
 | `comfy-mcp` | MCP for ComfyUI: images (Z-Image, Qwen-Image 2.1, Krea 2), Qwen edits, BiRefNet cutouts, music (ACE-Step, YuE2, MiniMax), speech (Chatterbox), saved workflows | `C:\projects\Personal\comfy-mcp` | 7460 `/mcp` | `.\output\comfy` (default; every tool takes an absolute `out`) | `node out/index.js --out <dir>` |
 | `lmstudio` | Local LLMs + `nomic-embed-text-v1.5` (Scriptorium RAG) | LM Studio | 1234 `/v1` | `~\.lmstudio` | `lms server start` |
 | `strata` | Qwen3.8-Flash-Next server, first model choice of Scriptorium and Book Translator | `D:\Strata` | 8080 `/v1` | `D:\Strata-data` | `D:\Strata\run-iq3_s.bat` |
+| `acp-proxy` | OpenAI-compatible API over the Codex, Antigravity and Claude agents (subscription logins); an `openai-compat` provider for Scriptorium and Book Translator | `C:\projects\Personal\api-acp-proxy` | 7461 `/v1` | `%APPDATA%\api-acp-proxy` | `node dist/index.js` with `PROXY_PORT=7461`, `PROXY_IGNORE_SAMPLING=1` |
+| `flow-mcp` | Google Flow in its own Chrome: images (free), video, character sheets, voices, captions, assembly | `C:\projects\Personal\flow-mcp` | **stdio** (panel 8787, Chrome CDP 9333) | `~\.flow-mcp` | Claude Code starts `node dist/index.js`; sign in once with `npm run login` |
+| `flow-music-mcp` | Google Flow Music in its own Chrome: songs from a sound description and lyrics, MP3/WAV/M4A | `C:\projects\Personal\flow-music-mcp` | 7462 `/mcp` (Chrome CDP 9334) | `~\.flow-music-mcp` | `node dist/index.js`; sign in once with `yarn login` |
 
 All Electron/Node repos use Node 24 through `fnm` and yarn 4. MCP servers listen on 127.0.0.1 only. Each data folder can be used by one engine at a time (`engine.lock`): if the desktop app is open, its MCP server is the one on that port, and a headless start of the same tool fails.
 
@@ -58,7 +61,7 @@ pwsh -File scripts\wait-book.ps1 -Story <story-slug>   # wait for a Scriptorium 
 
 Scriptorium, VN Studio and Book Translator can hand their model work to the Claude session instead of a model: the `client` provider, with the tools `get_client_task` / `submit_client_task` (`vno_get_task` / `vno_submit_task` in VN Studio). How to use it is in the skill, under "Doing the model work yourself".
 
-`.mcp.json` registers all seven MCP servers for Claude sessions opened in this folder. A server that is down when the session starts stays disconnected until you reconnect it with `/mcp` or restart the session.
+`.mcp.json` registers all nine MCP servers for Claude sessions opened in this folder (flow-mcp over stdio, the rest over HTTP). A server that is down when the session starts stays disconnected until you reconnect it with `/mcp` or restart the session.
 
 ## Folder
 
