@@ -9,7 +9,7 @@ idea / theme
    │
    ▼
 Scriptorium ──► book folder (script + bible + outline) ──► Book Translator (EPUB, 32 languages)
-   │                                                        │ (VN edition: en/hr, see ROADMAP)
+   │                                                        │ (VN edition: book folder → vno_add_edition)
    ▼                                                        ▼
 VN Studio: analyse ► art ► music ► generate ► voice ► stage ► build ► lint ──► Ren'Py game (PC, Android)
                │         │            │           │
@@ -69,7 +69,7 @@ Scriptorium, VN Studio and Book Translator can hand their model work to the Clau
 - `.claude/skills/make-visual-novel/`: the end-to-end workflow.
 - `scripts/`: `hub.ps1`, `wait-book.ps1`.
 - `runs/<slug>.md`: one log per production (ids, decisions, what was checked). `runs/<slug>/` holds books written by hand and translated editions.
-- `ROADMAP.md`: what is missing in each tool, found while connecting them.
+- `ROADMAP.md`: the hub's tasks in order (live checks, productions, features across tools; each `HUB-NN` has a plan in `.claude/tickets/`), and where each tool's own `ROADMAP.md` lives.
 - `logs/`: output of engines started by `hub.ps1` (not tracked).
 - `output/comfy/`: default output folder of `comfy-mcp` (not tracked).
 
@@ -77,4 +77,4 @@ Scriptorium, VN Studio and Book Translator can hand their model work to the Clau
 
 1. Give it an MCP server (Streamable HTTP on 127.0.0.1, like the others) and a headless start.
 2. Add it to `services.json`, `.mcp.json` and the table above.
-3. Add the step to the skill, and note its limits in `ROADMAP.md`.
+3. Add the step to the skill, note its limits in a `ROADMAP.md` in its repo, and add that repo to the table in the hub's `ROADMAP.md`.

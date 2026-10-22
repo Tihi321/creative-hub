@@ -118,7 +118,7 @@ Either way, the bible is what keeps the visuals consistent: every character and 
 ## 4. Finish
 
 - Update `runs/<slug>.md`: what was made, where the files are, what was checked, what is left.
-- Any tool limit you hit that a code change would fix: add it to `ROADMAP.md` under the repo, with the symptom.
+- Any tool limit you hit that a code change would fix: add it to that tool's own `ROADMAP.md` (in its repo, listed in the hub's `ROADMAP.md`), with the symptom. If the fix needs two or more tools, add it to the hub's `ROADMAP.md` as a new `HUB-NN` task instead.
 
 ## Things that go wrong
 
