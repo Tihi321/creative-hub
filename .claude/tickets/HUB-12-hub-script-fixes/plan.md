@@ -19,11 +19,11 @@
 
 ## Steps
 
-- [ ] 1. Reproduce: from Bash, `pwsh -File scripts/hub.ps1 start comfy-mcp | cat` hangs (stop it first; comfy-mcp is cheap to restart). Record it.
-- [ ] 2. Add a `Start-Detached` function in `hub.ps1` (WMI create as above), and use it in `Start-Service1` for managed engines instead of `Start-Process @p`. Keep the pid in the message (the WMI result has `ProcessId`).
-- [ ] 3. `Invoke-Mcp`: `ConvertTo-Json -Depth 100 -Compress`.
-- [ ] 4. Update the header comment and the `Hub scripts` section of `ROADMAP.md` (remove the timeout item, it was already fixed).
-- [ ] 5. Verify:
+- [x] 1. Reproduce: from Bash, `pwsh -File scripts/hub.ps1 start comfy-mcp | cat` hangs (stop it first; comfy-mcp is cheap to restart). Record it. Reproduced 2026-10-22: `start comfy-mcp | cat | tail` did not return in 120 s; returned only after `stop` closed the engine.
+- [x] 2. Add a `Start-Detached` function in `hub.ps1` (WMI create as above), and use it in `Start-Service1` for managed engines instead of `Start-Process @p`. Keep the pid in the message (the WMI result has `ProcessId`).
+- [x] 3. `Invoke-Mcp`: `ConvertTo-Json -Depth 100 -Compress`.
+- [x] 4. Update the header comment (done). Deviation: ROADMAP.md left alone, the orchestrator moves its rows.
+- [~] 5. Verify (2026-10-22; book-translator part NOT verified):
   - `pwsh -File scripts/hub.ps1 start comfy-mcp | cat` returns, and the engine stays up after the shell exits.
   - Logs still fill `logs\comfy-mcp.out.log` / `.err.log`.
   - `start book-translator` gets `BOOK_TRANSLATOR_MCP_TOKEN` (MCP `check` passes with the bearer token).
@@ -31,10 +31,19 @@
   - `stop` stops each of them; `status` shows down.
   - `hub.ps1 call vn-studio vno_story_edit @<file>` (or another tool with deep args) gets the args unflattened: no "depth" warning, and the result reflects the nested values.
   - `Invoke-ScriptAnalyzer` / a parse check reports no errors.
-- [ ] 6. Commit on the hub branch `HUB-12_hub-script-fixes`.
+- [x] 6. Committed on the current branch `HUB-02-13_roadmap-tasks` (deviation: not on `HUB-12_hub-script-fixes`, per orchestrator).
 
 ## Acceptance
 
 - Piped `start` returns within the wait time, for node and electron engines.
 - Logs, env vars, `-Window`, `stop` and `call` behave as before.
 - Deep tool arguments survive `call`.
+
+## Verification results (2026-10-22)
+
+- Parse check (`Parser::ParseFile`): 0 errors. PSScriptAnalyzer is not installed (not run).
+- `pwsh -File scripts/hub.ps1 start comfy-mcp 2>&1 | cat | tail -8` returned in 8.4 s (before the fix: hung). Engine stayed up (port 7460, node); `logs\comfy-mcp.out.log` has "MCP listening", `.err.log` filled. Logs are now appended, not truncated per start.
+- `start vn-studio` and `start pixel-studio -Window` piped through `cat`: both returned; `check` shows vn-studio 66 tools, pixel-studio 71 tools. `-Window` start answered on MCP; the window was not visually inspected.
+- `stop comfy-mcp vn-studio pixel-studio` stopped all three, `status` showed down; restarted headless, `check` OK, left running.
+- Deep args: against a local echo listener (a temp copy of hub.ps1 pointed at it), `call vn-studio vno_status @deep.json` with 9 levels of nesting sent the body intact (`"extra":{"a":{"b":{"c":{"d":{"e":{"f":{"g":{"h":"leaf"}}}}}}}}`), no depth warning. Against the real vn-studio it returned `no project "nonexistent-hub12"` (no warning; the tool does not reflect nested values).
+- NOT verified: `start book-translator` (token env var, headless Electron piped). It started (pid 31384) but exited: `error: another Book Translator engine is using C:\Users\Infplane\BookTranslator (pid 15408)`. `engine.lock` there is stale (Oct 20 23:08) and pid 15408 is now an unrelated svchost.exe. Deleting the lock was denied by the permission system, so it was left. Delete `~\BookTranslator\engine.lock`, then rerun `hub.ps1 start book-translator` and `check book-translator` to finish this item. Unrelated to the fix.
