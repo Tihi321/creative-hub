@@ -1,0 +1,61 @@
+{
+  "slug": "harbour-test",
+  "title": "The Last Boat",
+  "author": "Mara Quill",
+  "genre": "Drama",
+  "format": "short-film",
+  "aspect": "16:9",
+  "style": "Moody, rain-soaked, warm interiors against cold exteriors, soft film grain.",
+  "runtimeSeconds": 16,
+  "runtimeRange": [60, 180],
+  "characters": [
+    { "name": "Mara", "looks": "Seventeen, small and wiry, dark curly hair tied with a red scarf, grey eyes, a yellow oilskin raincoat.", "voice": "a girl, short sentences, dry, worried", "aliases": [] },
+    { "name": "Tomas", "looks": "Eighteen, tall and loud, freckles, a blue jumper.", "voice": "a boy, grinning, quick", "aliases": [] }
+  ],
+  "places": [{ "name": "The harbour wall", "looks": "A long stone pier at dusk, wet black stones, a rusted iron rail, fishing boats on grey water, the lighthouse beam across a purple sky." }],
+  "music": [{ "id": "m1", "description": "slow solo piano, melancholic, sparse", "from": "ch01.s01.sh01", "to": "ch01.s01.sh03" }],
+  "chapters": [
+    {
+      "n": 1,
+      "title": "The Wait",
+      "scenes": [
+        {
+          "id": "ch01.s01",
+          "place": "The harbour wall",
+          "time": "dusk",
+          "background": "Rain needles the grey water. The lighthouse beam sweeps over the boats.",
+          "shots": [
+            {
+              "id": "ch01.s01.sh01", "framing": "extreme wide", "move": "static", "seconds": 6, "continuous": false,
+              "action": "The pier at dusk, a small figure at its far end, the beam passing over her.",
+              "cast": [], "sfx": [], "title": null,
+              "lines": [{ "speaker": "Narrator", "delivery": "", "text": "Every evening, Mara waited for the last boat.", "kind": "voice-over" }]
+            },
+            {
+              "id": "ch01.s01.sh02", "framing": "medium", "move": "slow push-in", "seconds": 4, "continuous": false,
+              "action": "Mara grips the rusted rail, rain running off her hood.",
+              "cast": [{ "name": "Mara", "look": "soaked yellow raincoat, worried" }],
+              "sfx": ["wind, rain on oilskin"], "title": null,
+              "lines": [{ "speaker": "Mara", "delivery": "worried", "text": "He said he'd be back before the lamp was lit.", "kind": "dialogue" }]
+            },
+            {
+              "id": "ch01.s01.sh03", "framing": "medium two-shot", "move": "static", "seconds": 6, "continuous": false,
+              "action": "Tomas skids to a stop beside her, out of breath, grinning.",
+              "cast": [{ "name": "Mara", "look": "startled" }, { "name": "Tomas", "look": "out of breath, grinning" }],
+              "sfx": [], "title": null,
+              "lines": [
+                { "speaker": "Tomas", "delivery": "grinning", "text": "Did you miss me?", "kind": "dialogue" },
+                { "speaker": "Mara", "delivery": "annoyed", "text": "You're *late*.", "kind": "dialogue" }
+              ]
+            },
+            {
+              "id": "ch01.s01.sh04", "framing": "title", "move": "static", "seconds": 3, "continuous": false,
+              "action": "", "cast": [], "sfx": [], "title": "The End",
+              "lines": []
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
