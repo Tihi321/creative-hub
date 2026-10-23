@@ -26,7 +26,8 @@ test('the estimate: seen prices for 4 s and 8 s, pro rata and marked guessed oth
   assert.deepEqual(price('omni-720p', 4), { credits: 7, status: 'seen' })
   assert.deepEqual(price('omni-720p', 8), { credits: 12, status: 'seen' })
   assert.deepEqual(price('omni-360p', 6), { credits: 6, status: 'guessed' })
-  assert.deepEqual(price('omni-720p', 6), { credits: 10, status: 'guessed' })
+  assert.deepEqual(price('omni-720p', 6), { credits: 10, status: 'seen' })
+  assert.deepEqual(price('omni-720p', 10), { credits: 15, status: 'seen' })
   assert.deepEqual(price('veo-lite', 4), { credits: 10, status: 'seen' }) // Veo clips are 8 s whatever is asked
   assert.equal(price('veo-fast', 8).credits, 20)
   assert.equal(price('veo-quality', 8).credits, 100)
@@ -156,7 +157,11 @@ test('record: adds to spent, and the same shot and file twice counts once', () =
   recordResult(plan, 'ch01.s01.sh02', { clip: { file: 'C:/c/2.mp4', credits: 5 } })
   assert.equal(plan.budget.spent, 11)
   recordResult(plan, 'music:m1', { file: 'C:/m/m1.wav', credits: 5 })
-  assert.equal(spentOf(plan), 16)
+  assert.equal(spentOf(plan), 11) // Flow Music credits are a separate balance
+  assert.equal(plan.budget.spent, 11)
+  assert.equal(plan.budget.musicSpent, 5)
+  assert.equal(totals(plan).musicLeft, 5)
+  assert.match(dryRun(plan), /Flow Music budget: 10, spent 5, left 5/)
   assert.equal(plan.music[0].file, 'C:/m/m1.wav')
   assert.throws(() => recordResult(plan, 'ch09.s09.sh09', {}), /no shot/)
   assert.throws(() => recordResult(plan, 'music:m9', {}), /no music cue/)
@@ -258,4 +263,28 @@ test('the command line: plan writes plan.json and prints the dry run, record and
 
 test('every price in the table is marked seen or guessed by price()', () => {
   for (const [model, p] of Object.entries(PRICES)) for (const s of [4, 6, 8, 10]) assert.ok(['seen', 'guessed'].includes(price(model, s).status), `${model} ${s}`)
+})
+
+test('HUB-14: the title card asks for its text, voice-over lines get a style, insert shots carry no cast', () => {
+  const f = film()
+  f.style = 'Live-action film look, no text on screen.'
+  const withInsert = { ...f.chapters[0].scenes[0].shots[0], id: 'ch01.s01.sh09', framing: 'insert', action: 'A yellow button on a desk.' }
+  f.chapters[0].scenes[0].shots.push(withInsert, { ...withInsert, id: 'ch01.s01.sh10', action: 'Mara presses the yellow button.' })
+  f.chapters[0].scenes[0].shots[0].cast = [{ name: 'Mara', look: '' }]
+  f.chapters[0].scenes[0].shots[4].cast = [{ name: 'Mara', look: '' }]
+  f.chapters[0].scenes[0].shots[5].cast = [{ name: 'Mara', look: '' }]
+  f.chapters[0].scenes[0].shots[0].lines = [{ speaker: 'Ante', delivery: '', text: 'Old words.', kind: 'voice-over' }]
+  const { plan } = buildPlan(f)
+  const title = plan.shots.find((s) => s.kind === 'title')
+  assert.doesNotMatch(title.keyframePrompt, /no text/i)
+  assert.match(title.keyframePrompt, /Live-action film look\./)
+  assert.match(title.keyframePrompt, /Title card with the words "The End" shown clearly/)
+  assert.match(plan.shots[0].keyframePrompt, /no text on screen/i)
+  assert.deepEqual(plan.shots[4].cast, [])
+  assert.deepEqual(plan.shots[4].refs, [])
+  assert.doesNotMatch(plan.shots[4].keyframePrompt, /Mara/)
+  assert.deepEqual(plan.shots[5].refs, ['Mara'])
+  const kf = keyframeScenes(plan)
+  assert.equal(kf[4].reference_images, undefined)
+  assert.equal(voiceCalls(plan)[0].style, 'as a voice-over narrator')
 })
