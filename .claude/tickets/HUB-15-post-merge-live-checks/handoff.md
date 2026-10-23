@@ -1,6 +1,6 @@
 # Handoff: HUB-15 post-merge live checks
 
-Refreshed 2026-10-23, about 20:00, after C1 and C3. Plan: `plan.md` next to this file (C1 and C3 ticked, with notes). Results: `changelog.md`.
+Refreshed 2026-10-23, about 20:15, after C1, C2 and C3. Plan: `plan.md` next to this file (C1 and C3 ticked, with notes). Results: `changelog.md`.
 
 ## State
 
@@ -10,7 +10,7 @@ Refreshed 2026-10-23, about 20:00, after C1 and C3. Plan: `plan.md` next to this
   - VN Studio (`visual-novels-orchestrator`) `master` at `f73ed28`, pushed (roadmap VNO-36 to VNO-38).
   - All working trees clean. No tool code changed.
 - **Services running:** scriptorium (7341), vn-studio (7459), vibetts, flow-music-mcp (7462). Down: book-translator, pixel-studio, chiptune-studio, comfyui and comfy-mcp; C4 needs ComfyUI started.
-- **Scriptorium spend today:** about $0.25 of the $5 cap, all on reviewers. Client tasks: none waiting.
+- **Scriptorium spend today:** about $0.27 of the $5 cap, all on reviewers. Client tasks: none waiting.
 - **Credits:** Flow 858, Flow Music 13,169 (unchanged this session).
 
 ## Done this session
@@ -19,10 +19,11 @@ Refreshed 2026-10-23, about 20:00, after C1 and C3. Plan: `plan.md` next to this
 |---|---|---|---|
 | C1 VN adaptation | `the-local-patch-2` (from `the-local-patch`), score 7.36, VN Studio preview import | SCP-28, 35, 36 and the SCP-37 target verified; SCP-34 verified for bare weekdays only. New: SCP-38 to 42. | `runs/the-local-patch-2.md` |
 | C3 puzzle mystery | `the-trap-room-at-the-lanterna`, score 8.36, imported with the art and music plan (no images) | SCP-30, 31, 33, VNO-26, 29 verified; VNO-30 verified in the data only; SCP-32 not exercised; VNO-25 and VNO-31 partly fixed. New: VNO-36, 37, 38. | `runs/the-trap-room-at-the-lanterna.md` |
+| C2 screenplay | `the-local-patch-3` (short-film), score 7.09 at round 2 (round 1 rejected at 6.73 under `max_rounds: 1`; reopened with `reopen_book {mode: "rewrite"}`), runtime 120 s in [60, 180], 18 shots | SCP-29 verified: prompts in seconds, length gate `ok, seconds: 120`, no length rewrite. Notes for the user (not filed): `max_rounds: 1` for short-film, and an unused `target_words`. | `runs/the-local-patch-3.md` |
 
 ## What is left
 
-1. **C2 screenplay (SCP-29):** `adapt_book {book: "the-local-patch", format: "short-film", models: {architect: "client/claude-code", writer: "client/claude-code"}}`. Answer that book's client tasks only. Check that any length request is in seconds or shots (never words), and that `get_screenplay` `runtimeSeconds` is inside `runtimeRange`. Stop at the published screenplay (no Flow video). Write `runs/<slug>.md`.
+1. ~~C2 screenplay~~: done (see above).
 2. **C4 Flow and ComfyUI side by side (VNO-28):** start ComfyUI (`scripts\hub.ps1 start comfyui`, plus comfy-mcp if needed). Then run two small VN projects at once, one with `art.provider: flow` and one on ComfyUI, and check that `vno_status` shows an image job of each running at the same time. A candidate is to build C3's `the-trap-room-at-the-lanterna` with Flow images (free) alongside a small ComfyUI project. That would also do C3's optional build for the user to play.
 3. **C5 Gemini quota (VNO-24, FMM-15):** after about 09:00 on 2026-10-24, run `vno_run_pipeline {slug: "hub07-flow-test", from: "voice"}` to make the 6 missing Croatian clips, and transcribe two with `flow_transcribe {language: "hr"}`. If the quota runs out again, check for one "daily quota, resets at ..." stop and that `flow_narrate`'s error says "daily".
 4. **C6 the user's verdicts:** ask the user to play or watch, and write their notes in each run log.
@@ -52,4 +53,4 @@ Refreshed 2026-10-23, about 20:00, after C1 and C3. Plan: `plan.md` next to this
 
 ## Next step
 
-Run C2, the screenplay of `the-local-patch`. Then start ComfyUI for C4.
+Start ComfyUI for C4 (the user said subagents run as the orchestrator's workers; they asked for Sonnet, but only inherit/pro/flash/flash_lite can be picked, and C2 ran on flash).

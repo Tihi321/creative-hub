@@ -25,9 +25,9 @@ Branch: `HUB-15_post-merge-live-checks` (hub; run logs, this plan, the changelog
 
 ### C2. Scriptorium screenplay (SCP-29)
 
-- [ ] `adapt_book {book: <same book>, format: "short-film", models: {architect, writer: "client/claude-code"}}`.
-- [ ] No word-count length requests; any length request is in seconds / shots; `get_screenplay` runtime inside the format's range.
-- [ ] Stop at the published screenplay (no Flow video).
+- [x] `adapt_book {book: <same book>, format: "short-film", models: {architect, writer: "client/claude-code"}}`. **`the-local-patch-3`, published at round 2, score 7.09. Round 1 was rejected at 6.73 under `max_rounds: 1` and reopened with `reopen_book {mode: "rewrite"}`.**
+- [x] No word-count length requests; any length request is in seconds / shots; `get_screenplay` runtime inside the format's range. **Verified: the prompts ask for "about 60 seconds ... count seconds, not words". Length gate `ok, seconds: 120`; no `--len` rewrite; runtime 120 s in [60, 180], 18 shots.**
+- [x] Stop at the published screenplay (no Flow video).
 
 ### C3. Puzzle mystery (SCP-30, 31, 32, 33; VNO-25, 26, 29, 30, 31)
 

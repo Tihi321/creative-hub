@@ -1,0 +1,595 @@
+{
+  "slug": "the-local-patch-3",
+  "title": "The Local Patch",
+  "author": "Culo",
+  "genre": "science fiction",
+  "format": "short-film",
+  "aspect": "16:9",
+  "style": "Cinematic sci-fi with restrained dialogue, concrete visual cues of machinery, lighting shifts, and tense atmospheric soundscapes.",
+  "runtimeSeconds": 120,
+  "runtimeRange": [
+    60,
+    180
+  ],
+  "characters": [
+    {
+      "name": "Aris Thorne",
+      "looks": "Gaunt data scientist in his late forties, dark rumpled uniform, hollow sleepless eyes, obsessive demeanor. From the source book \"The Local Patch\": Data scientist, late 40s, gaunt from ship-cycle insomnia. Treats physics as code and anomaly as message. Desperate for external meaning, he reads shifting decay rates as patch notes from a Programmer. His brilliance is shadowed by apophenia — the mind's hunger for pattern in noise.",
+      "voice": "Tense, breathless, urgent, seeking hidden meaning.",
+      "aliases": [
+        "Aris",
+        "Dr Thorne"
+      ]
+    },
+    {
+      "name": "Vera Lin",
+      "looks": "Evolutionary biologist and systems coder, early forties, tied-back hair, grease-stained grey lab jumpsuit, sharp focused gaze. From the source book \"The Local Patch\": Evolutionary biologist and systems coder, early 40s, hands stained from bench work. Pragmatic to the bone — she doesn't care why constants drift, only how life can persist through the drift. Builds software that mutates like a genome. Driven by curiosity and the dopamine of solving, not by faith or fear.",
+      "voice": "Calm, precise, pragmatic, clipped delivery.",
+      "aliases": [
+        "Vera",
+        "Dr Lin"
+      ]
+    },
+    {
+      "name": "Kaelen Vance",
+      "looks": "Security chief in his fifties, heavy shoulders, neat charcoal uniform, calm steady eyes, low gravity posture. From the source book \"The Local Patch\": Security chief, 50s, posture of someone who has carried heavy things in low gravity. Views populations as immune systems: unrest is inflammation, riot is cytokine storm. Modulates atmosphere and light instead of drawing weapons. Determinist who believes free will is a useful fiction for people who don't know their own chemistry.",
+      "voice": "Quiet, measured, low baritone, reassuring authority.",
+      "aliases": [
+        "Kaelen",
+        "Chief Vance"
+      ]
+    }
+  ],
+  "places": [
+    {
+      "name": "Observation Core",
+      "looks": "A dark cylindrical control room dominated by curved amber telemetry screens, glowing decay monitors, and tangled diagnostic consoles."
+    },
+    {
+      "name": "Bio-Integration Lab",
+      "looks": "A crowded laboratory cluttered with nutrient tubes, glowing culture racks, diagnostic monitors, and workstation terminals wrapped in loose cabling."
+    },
+    {
+      "name": "Main Concourse",
+      "looks": "A wide curved corridor with ribbed metal bulkheads, overhead environmental diffusers, and glowing amber safety lighting where habitat citizens gather."
+    },
+    {
+      "name": "Reactor Control Deck",
+      "looks": "A high-ceilinged industrial gallery overlooking the fusion containment core, bathed in blue warning lights and cooling vents."
+    }
+  ],
+  "music": [
+    {
+      "id": "m1",
+      "description": "tense synth pulse with subtle low drone, steady, mysterious",
+      "from": "ch01.s01.sh01",
+      "to": "ch01.s03.sh03"
+    },
+    {
+      "id": "m2",
+      "description": "dark low cello and rising electronic pulse, urgent, mounting",
+      "from": "ch02.s01.sh01",
+      "to": "ch02.s06.sh02"
+    }
+  ],
+  "chapters": [
+    {
+      "n": 1,
+      "title": "The Drift Interval",
+      "sourceChapters": [
+        1,
+        2,
+        3
+      ],
+      "scenes": [
+        {
+          "id": "ch01.s01",
+          "place": "Observation Core",
+          "time": "ship night",
+          "background": "Amber telemetry monitors flicker across circular metal bulkheads. The deep silence of interstellar transit hums through the deck.",
+          "shots": [
+            {
+              "id": "ch01.s01.sh01",
+              "framing": "title",
+              "move": "static",
+              "seconds": 3,
+              "continuous": false,
+              "action": "",
+              "cast": [],
+              "sfx": [],
+              "title": "The Local Patch",
+              "lines": []
+            },
+            {
+              "id": "ch01.s01.sh02",
+              "framing": "wide",
+              "move": "slow push-in",
+              "seconds": 7,
+              "continuous": false,
+              "action": "In the darkened control room, Aris Thorne leans over an illuminated terminal, tracing fluctuating decay curves on a glowing phosphor screen.",
+              "cast": [
+                {
+                  "name": "Aris Thorne",
+                  "look": "rumpled dark uniform, hollow sleepless eyes, obsessive"
+                }
+              ],
+              "sfx": [
+                "low electrical hum, faint electronic clicks"
+              ],
+              "title": null,
+              "lines": []
+            },
+            {
+              "id": "ch01.s01.sh03",
+              "framing": "close-up",
+              "move": "static",
+              "seconds": 8,
+              "continuous": false,
+              "action": "Amber curves flicker on the display as Aris stares at the jagged peak with hollow, fervent eyes.",
+              "cast": [
+                {
+                  "name": "Aris Thorne",
+                  "look": "intense, haggard"
+                }
+              ],
+              "sfx": [],
+              "title": null,
+              "lines": [
+                {
+                  "speaker": "Aris Thorne",
+                  "delivery": "breathless",
+                  "text": "Decay climbed zero point zero three percent. Not drift. A prime sequence. The Creator is patching us.",
+                  "kind": "dialogue"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ch01.s02",
+          "place": "Main Concourse",
+          "time": "ship cycle",
+          "background": "Curved ribbed corridors stretch beneath overhead ductwork. Amber emergency lights wash over a restless crowd of colonists whispering near the AI Core gateway.",
+          "shots": [
+            {
+              "id": "ch01.s02.sh01",
+              "framing": "wide",
+              "move": "slow tracking",
+              "seconds": 7,
+              "continuous": false,
+              "action": "A dense gathering of citizens murmurs anxiously before sealed bulkhead doors as Kaelen Vance approaches from down the corridor.",
+              "cast": [
+                {
+                  "name": "Kaelen Vance",
+                  "look": "heavy shoulders, neat charcoal uniform, observant"
+                }
+              ],
+              "sfx": [
+                "low murmur of a crowd, distant ventilation hum"
+              ],
+              "title": null,
+              "lines": []
+            },
+            {
+              "id": "ch01.s02.sh02",
+              "framing": "two-shot",
+              "move": "static",
+              "seconds": 7,
+              "continuous": false,
+              "action": "Kaelen taps a recessed wall panel; soft amber diffusers overhead mist a faint translucent vapor into the air current.",
+              "cast": [
+                {
+                  "name": "Kaelen Vance",
+                  "look": "watchful, patient"
+                }
+              ],
+              "sfx": [
+                "soft hiss of aerosol diffusers"
+              ],
+              "title": null,
+              "lines": [
+                {
+                  "speaker": "Kaelen Vance",
+                  "delivery": "quiet",
+                  "text": "Oxytocin analogs and five hundred nanometer amber. Let the mist work.",
+                  "kind": "dialogue"
+                }
+              ]
+            },
+            {
+              "id": "ch01.s02.sh03",
+              "framing": "medium",
+              "move": "slow pan",
+              "seconds": 7,
+              "continuous": false,
+              "action": "The gathered citizens inhale slowly, their raised voices softening as posture eases and the cluster begins to disperse along the walkways.",
+              "cast": [
+                {
+                  "name": "Kaelen Vance",
+                  "look": "hands behind his back, watchful"
+                }
+              ],
+              "sfx": [],
+              "title": null,
+              "lines": [
+                {
+                  "speaker": "Kaelen Vance",
+                  "delivery": "quiet",
+                  "text": "Walkway clearance in two minutes. Return to your quarters.",
+                  "kind": "dialogue"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ch01.s03",
+          "place": "Bio-Integration Lab",
+          "time": "ship cycle",
+          "background": "Dense racks of glowing bioreactors and nutrient manifolds line the bulkheads. Bundles of diagnostic fiber-optic cables spill across stainless workstations.",
+          "shots": [
+            {
+              "id": "ch01.s03.sh01",
+              "framing": "wide",
+              "move": "slow push-in",
+              "seconds": 7,
+              "continuous": false,
+              "action": "Vera Lin stands over a glowing holographic chassis at a crowded bench, fingers darting across tactile code pads as diagnostic alarms ping softly.",
+              "cast": [
+                {
+                  "name": "Vera Lin",
+                  "look": "tied-back hair, grease-stained grey lab jumpsuit, sharp focused gaze"
+                }
+              ],
+              "sfx": [
+                "rhythmic bubbling of culture vats, soft diagnostic chime"
+              ],
+              "title": null,
+              "lines": []
+            },
+            {
+              "id": "ch01.s03.sh02",
+              "framing": "close-up",
+              "move": "static",
+              "seconds": 7,
+              "continuous": false,
+              "action": "Telemetry reads erratic core fluctuations while code lines compile in rapid green cascades on Vera's terminal.",
+              "cast": [
+                {
+                  "name": "Vera Lin",
+                  "look": "hands flying across keyboard, intense"
+                }
+              ],
+              "sfx": [],
+              "title": null,
+              "lines": [
+                {
+                  "speaker": "Aris Thorne",
+                  "delivery": "",
+                  "text": "Vera, the primes are ticking down.",
+                  "kind": "off-screen"
+                },
+                {
+                  "speaker": "Vera Lin",
+                  "delivery": "clipped",
+                  "text": "No programmer, Aris. Just falling core absorption.",
+                  "kind": "dialogue"
+                }
+              ]
+            },
+            {
+              "id": "ch01.s03.sh03",
+              "framing": "medium",
+              "move": "slow push-in",
+              "seconds": 7,
+              "continuous": false,
+              "action": "Vera plugs a thick gold-plated coupling into the main diagnostic trunk, watching her self-mutating algorithm bloom into the ship grid.",
+              "cast": [
+                {
+                  "name": "Vera Lin",
+                  "look": "resolute, focused"
+                }
+              ],
+              "sfx": [],
+              "title": null,
+              "lines": [
+                {
+                  "speaker": "Vera Lin",
+                  "delivery": "clipped",
+                  "text": "Constants won't hold. Then the firmware bends with them.",
+                  "kind": "dialogue"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "n": 2,
+      "title": "The Living Patch",
+      "sourceChapters": [
+        4,
+        5
+      ],
+      "scenes": [
+        {
+          "id": "ch02.s01",
+          "place": "Observation Core",
+          "time": "ship cycle",
+          "background": "Curved monitors pulse with an accelerating amber strobe as a countdown drops toward zero.",
+          "shots": [
+            {
+              "id": "ch02.s01.sh01",
+              "framing": "medium",
+              "move": "static",
+              "seconds": 6,
+              "continuous": false,
+              "action": "Aris stares unblinking at the descending digits on his screen, his trembling fingers hovering over the data board.",
+              "cast": [
+                {
+                  "name": "Aris Thorne",
+                  "look": "hollow eyes, sweating, obsessive"
+                }
+              ],
+              "sfx": [
+                "sharp rhythmic countdown beeps, rising electrical whine"
+              ],
+              "title": null,
+              "lines": [
+                {
+                  "speaker": "Aris Thorne",
+                  "delivery": "feverish",
+                  "text": "The sequence is collapsing. Three. Two.",
+                  "kind": "dialogue"
+                }
+              ]
+            },
+            {
+              "id": "ch02.s01.sh02",
+              "framing": "close-up",
+              "move": "slow push-in",
+              "seconds": 6,
+              "continuous": false,
+              "action": "The counter blinks to zero; the prime sequence shatters into static, replaced by flatline noise. Aris slumps forward, hollowed out.",
+              "cast": [
+                {
+                  "name": "Aris Thorne",
+                  "look": "stricken, hollowed out"
+                }
+              ],
+              "sfx": [
+                "harsh electronic static, sudden power drop"
+              ],
+              "title": null,
+              "lines": [
+                {
+                  "speaker": "Aris Thorne",
+                  "delivery": "whispering",
+                  "text": "Zero. It is only noise.",
+                  "kind": "dialogue"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ch02.s02",
+          "place": "Main Concourse",
+          "time": "ship emergency",
+          "background": "Amber overhead lights flicker and brown out into darkness as the hull groans. Colonists look upward in sudden alarm as emergency klaxons echo down the deck.",
+          "shots": [
+            {
+              "id": "ch02.s02.sh01",
+              "framing": "wide",
+              "move": "handheld",
+              "seconds": 6,
+              "continuous": false,
+              "action": "The concourse lights dip into pitch blackness before red reserve strips flare; citizens brace against bulkheads as distant power grids whine.",
+              "cast": [
+                {
+                  "name": "Kaelen Vance",
+                  "look": "standing before the crowd, bracing citizens, voice calm"
+                }
+              ],
+              "sfx": [
+                "power grid brownout drone, distant klaxon wail"
+              ],
+              "title": null,
+              "lines": [
+                {
+                  "speaker": "Kaelen Vance",
+                  "delivery": "commanding",
+                  "text": "Power transient in sector four. Stand steady.",
+                  "kind": "dialogue"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ch02.s03",
+          "place": "Reactor Control Deck",
+          "time": "ship emergency",
+          "background": "The industrial gallery shudders violently. Magnetic containment rings pulse erratically, throwing jagged blue arcs across viewports as deck monitors drop into warning red.",
+          "shots": [
+            {
+              "id": "ch02.s03.sh01",
+              "framing": "wide",
+              "move": "slow push-in",
+              "seconds": 7,
+              "continuous": false,
+              "action": "Deep tremors shake the deck as blue containment rings shudder behind the glass, the central fusion core surging violently.",
+              "cast": [
+                {
+                  "name": "Kaelen Vance",
+                  "look": "braced against the console, monitoring readouts"
+                }
+              ],
+              "sfx": [
+                "deep shuddering metal groans, klaxon wail"
+              ],
+              "title": null,
+              "lines": [
+                {
+                  "speaker": "Kaelen Vance",
+                  "delivery": "quiet",
+                  "text": "Life support draw spiking twelve percent. Hold your stations.",
+                  "kind": "dialogue"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ch02.s04",
+          "place": "Bio-Integration Lab",
+          "time": "ship emergency",
+          "background": "Power flickers across racks of culture tanks. Green compiler matrices flash frantically across the central holographic chassis.",
+          "shots": [
+            {
+              "id": "ch02.s04.sh01",
+              "framing": "wide",
+              "move": "slow tracking",
+              "seconds": 7,
+              "continuous": false,
+              "action": "Vera slams a manual bypass switch, her polymorphic algorithm igniting across the diagnostic array in a sudden cascade of brilliant emerald light.",
+              "cast": [
+                {
+                  "name": "Vera Lin",
+                  "look": "hands flying across controls, desperate, focused"
+                }
+              ],
+              "sfx": [
+                "electrical crackle, high-speed compiler chime"
+              ],
+              "title": null,
+              "lines": [
+                {
+                  "speaker": "Vera Lin",
+                  "delivery": "clipped",
+                  "text": "Rerouting neutron logic. Now.",
+                  "kind": "dialogue"
+                }
+              ]
+            },
+            {
+              "id": "ch02.s04.sh02",
+              "framing": "close-up",
+              "move": "static",
+              "seconds": 6,
+              "continuous": false,
+              "action": "Red warning flags across the terminal screen waver, then dissolve as thousands of adaptive nodes snap into steady emerald alignment.",
+              "cast": [
+                {
+                  "name": "Vera Lin",
+                  "look": "staring at screen, jaw clenched, exhaling"
+                }
+              ],
+              "sfx": [
+                "smooth cooling fans spinning up"
+              ],
+              "title": null,
+              "lines": []
+            }
+          ]
+        },
+        {
+          "id": "ch02.s05",
+          "place": "Reactor Control Deck",
+          "time": "ship cycle",
+          "background": "The violent shaking subsides. Overhead emergency lights switch back to warm running amber.",
+          "shots": [
+            {
+              "id": "ch02.s05.sh01",
+              "framing": "medium",
+              "move": "slow pull-out",
+              "seconds": 7,
+              "continuous": false,
+              "action": "Blue containment rings stabilize into a deep steady glow behind the glass; Kaelen checks Vera's incoming green telemetry and lowers his pad.",
+              "cast": [
+                {
+                  "name": "Kaelen Vance",
+                  "look": "lowering pad, composed"
+                }
+              ],
+              "sfx": [
+                "sirens winding down, steady reactor hum returning"
+              ],
+              "title": null,
+              "lines": [
+                {
+                  "speaker": "Kaelen Vance",
+                  "delivery": "calm",
+                  "text": "Vera's patch took. Life support is secure.",
+                  "kind": "dialogue"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ch02.s06",
+          "place": "Bio-Integration Lab",
+          "time": "ship cycle",
+          "background": "Green diagnostics hum in quiet equilibrium across every workstation. Steady coolant flows smoothly through clear manifolds.",
+          "shots": [
+            {
+              "id": "ch02.s06.sh01",
+              "framing": "two-shot",
+              "move": "slow push-in",
+              "seconds": 8,
+              "continuous": false,
+              "action": "Aris stands by the entrance with his dark tablet; Vera leans against her bench, looking at him with quiet compassion.",
+              "cast": [
+                {
+                  "name": "Aris Thorne",
+                  "look": "defeated, weary"
+                },
+                {
+                  "name": "Vera Lin",
+                  "look": "calm, compassionate"
+                }
+              ],
+              "sfx": [],
+              "title": null,
+              "lines": [
+                {
+                  "speaker": "Aris Thorne",
+                  "delivery": "hollow",
+                  "text": "There was no message from outside.",
+                  "kind": "dialogue"
+                },
+                {
+                  "speaker": "Vera Lin",
+                  "delivery": "gently",
+                  "text": "The universe does not send messages, Aris. It changes.",
+                  "kind": "dialogue"
+                }
+              ]
+            },
+            {
+              "id": "ch02.s06.sh02",
+              "framing": "medium",
+              "move": "slow pull-out",
+              "seconds": 7,
+              "continuous": false,
+              "action": "Vera turns back to the console as the ship deep engine resonance vibrates through the deck; through the observation port, distant stars glide past.",
+              "cast": [
+                {
+                  "name": "Vera Lin",
+                  "look": "resolute, looking out at stars"
+                }
+              ],
+              "sfx": [
+                "deep rhythmic thrum of the ship engines"
+              ],
+              "title": null,
+              "lines": []
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
