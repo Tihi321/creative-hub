@@ -14,14 +14,14 @@ Branch: `HUB-15_post-merge-live-checks` (hub; run logs, this plan, the changelog
 
 ### C1. Scriptorium VN adaptation (SCP-28, 34, 35, 36, 37)
 
-- [ ] Pick a short published book (`list_books`; not the lighthouse one, which already has two adaptations). Write the brief so some `SCENE:` lines carry a weekday.
-- [ ] `adapt_book {book, format: "visual-novel", models: {architect, writer, humanizer: "client/claude-code"}}`. Answer client tasks for that book only.
-- [ ] SCP-28: the start job makes no model call (job log), the book has the source's title and genre.
-- [ ] SCP-37: `book.md` has `target_words` about 1.7 x the source words (clamped to the VN range, min 8,000) and `target_from_source_words`; no "grow every chapter" length rewrites.
-- [ ] SCP-34: a `SCENE: Place, Weekday, time` line keeps its weekday after drafting and humanizing.
-- [ ] SCP-35: no cue line is the last line of a scene (log shows a move if one was); VN Studio's `vno_import` gives no "dropped cue" warning.
-- [ ] SCP-36: the book's repetition report lists no `scene ...`, `on screen ...`, `ambience ...` phrases.
-- [ ] Stop at the published book plus `vno_import` (preview only); no images needed.
+- [x] Pick a short published book (`list_books`; not the lighthouse one, which already has two adaptations). Write the brief so some `SCENE:` lines carry a weekday.
+- [x] `adapt_book {book, format: "visual-novel", models: {architect, writer, humanizer: "client/claude-code"}}`. Answer client tasks for that book only.
+- [x] SCP-28: the start job makes no model call (job log), the book has the source's title and genre.
+- [x] SCP-37: `book.md` has `target_words` about 1.7 x the source words (clamped to the VN range, min 8,000) and `target_from_source_words`; no "grow every chapter" length rewrites. **Target verified; a grow rewrite still ran (drafts at 77%): SCP-42.**
+- [x] SCP-34: a `SCENE: Place, Weekday, time` line keeps its weekday after drafting and humanizing. **Bare weekdays verified; other day words cut: SCP-38, SCP-39.**
+- [x] SCP-35: no cue line is the last line of a scene (log shows a move if one was); VN Studio's `vno_import` gives no "dropped cue" warning.
+- [x] SCP-36: the book's repetition report lists no `scene ...`, `on screen ...`, `ambience ...` phrases.
+- [x] Stop at the published book plus `vno_import` (preview only); no images needed.
 
 ### C2. Scriptorium screenplay (SCP-29)
 
@@ -31,12 +31,12 @@ Branch: `HUB-15_post-merge-live-checks` (hub; run logs, this plan, the changelog
 
 ### C3. Puzzle mystery (SCP-30, 31, 32, 33; VNO-25, 26, 29, 30, 31)
 
-- [ ] `vno_puzzle_generate` a Murdle and a Knights and Knaves core (and a testimony core: VNO-25 should no longer repeat; check `repeats()` is empty), then `add_story {format: "mystery-puzzle-visual-novel", puzzles}` with full names in the brief and short names used in the outline (as *The Winter Garden Clock* did).
-- [ ] SCP-33: one bible entry per person, the short name as an alias.
-- [ ] SCP-30: the knights statements are planted only in the puzzle chapter.
-- [ ] SCP-31: no hint of the knights answer before `PUZZLE:`; later chapters agree with it.
-- [ ] SCP-32: no review round asks to change a `CLUE:` line (dropped requests are logged).
-- [ ] VN Studio import: VNO-26 every knights speaker has a statement; VNO-29 the read-back includes the intro rule and passes (separate reader subagent); VNO-30 evidence pictures are shown on their lines; VNO-31 the art plan's place descriptions are complete.
+- [x] `vno_puzzle_generate` a Murdle and a Knights and Knaves core (and a testimony core: VNO-25 should no longer repeat; check `repeats()` is empty), then `add_story {format: "mystery-puzzle-visual-novel", puzzles}` with full names in the brief and short names used in the outline (as *The Winter Garden Clock* did).
+- [x] SCP-33: one bible entry per person, the short name as an alias.
+- [x] SCP-30: the knights statements are planted only in the puzzle chapter.
+- [x] SCP-31: no hint of the knights answer before `PUZZLE:`; later chapters agree with it.
+- [x] SCP-32: no review round asks to change a `CLUE:` line (dropped requests are logged). **Not exercised (no such request came).**
+- [x] VN Studio import: VNO-26 every knights speaker has a statement; VNO-29 the read-back includes the intro rule and passes (separate reader subagent); VNO-30 evidence pictures are shown on their lines; VNO-31 the art plan's place descriptions are complete. **VNO-26, 29 verified; VNO-30 verified in data only; VNO-25 and VNO-31 partly (VNO-36, VNO-37).**
 - [ ] Optional: build it with Flow images and give it to the user to play.
 
 ### C4. Flow and ComfyUI side by side (VNO-28)
