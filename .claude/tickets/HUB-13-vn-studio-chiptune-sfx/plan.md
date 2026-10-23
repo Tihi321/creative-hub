@@ -16,7 +16,7 @@ Opened 2026-10-22 during the hub roadmap run (umbrella plan `.claude/tickets/HUB
 - [x] VN Studio `VNO-19` (branch `VNO-10-19_hub-roadmap`, commit 98e81d0): engine value, `composeSfx` client call, sound-name picker with a `blip` / `drone` fallback and a warning, `vno_update_settings {sound}`, docs, 10 tests (752 pass).
 - [x] midi-generator `MDI-06_vn-sfx-done`: its roadmap item closed (docs only).
 - [x] Hub: the skill says how to set the engines (make-visual-novel step 3).
-- [ ] Live check after the PRs merge: a small project with `sfxEngine` and `ambienceEngine` set to `chiptune`; the build has no `sfx_`/`amb_` placeholder; the user hears them in the game.
+- [x] Live check (2026-10-23, `hub08-13-autostart`): a small project with `sfxEngine` and `ambienceEngine` set to `chiptune`; the build has no `sfx_`/`amb_` placeholder; the user hears them in the game (open: the user has not listened yet).
 
 ## Acceptance
 
