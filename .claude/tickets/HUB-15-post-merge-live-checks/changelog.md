@@ -11,7 +11,7 @@
 ## 2026-10-23 evening: C2
 
 - **C2 (screenplay, SCP-29):** `the-local-patch-3` from `the-local-patch` as a `short-film`. Published at round 2 with score 7.09: 2 sequences, 9 scenes, 18 shots, runtime 120 s in [60, 180]. The SCENE places match the bible. SCP-29 verified: the writer prompts ask for seconds, not words. The length gate read `ok, seconds: 120` against a `target_words: 1200`. No length rewrite ran. Reviewer spend was $0.023. Run log `runs/the-local-patch-3.md`, screenplay `runs/the-local-patch-3/screenplay.json`.
-- Notes (not filed, for the user to decide):
-  - Round 1 scored 6.73 and was rejected, because `short-film` has `max_rounds: 1` like the other short formats. The worker reopened it with `reopen_book {mode: "rewrite"}`.
+- Notes:
+  - Round 1 scored 6.73 and was rejected, because `short-film` has `max_rounds: 1` like the other short formats. The worker reopened it with `reopen_book {mode: "rewrite"}`. Filed as SCP-43 (user OK, Scriptorium `d7c4499`).
   - `book.md` still carries a word target (`target_words: 1200`) that nothing uses for screenplays.
 - Still open: C4 (Flow and ComfyUI side by side), C5 (after the Gemini quota resets, about 09:00 on 2026-10-24), C6 (the user's verdicts).

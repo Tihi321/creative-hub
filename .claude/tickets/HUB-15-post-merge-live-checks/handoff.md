@@ -6,7 +6,7 @@ Refreshed 2026-10-23, about 20:15, after C1, C2 and C3. Plan: `plan.md` next to 
 
 - **Repos:**
   - Hub on `HUB-15_post-merge-live-checks` at `d181f82`, pushed (run logs, plan, changelog).
-  - Scriptorium `master` at `d1c0ef6`, pushed (roadmap SCP-38 to SCP-42).
+  - Scriptorium `master` at `d7c4499`, pushed (roadmap SCP-38 to SCP-43).
   - VN Studio (`visual-novels-orchestrator`) `master` at `f73ed28`, pushed (roadmap VNO-36 to VNO-38).
   - All working trees clean. No tool code changed.
 - **Services running:** scriptorium (7341), vn-studio (7459), vibetts, flow-music-mcp (7462). Down: book-translator, pixel-studio, chiptune-studio, comfyui and comfy-mcp; C4 needs ComfyUI started.
@@ -19,7 +19,7 @@ Refreshed 2026-10-23, about 20:15, after C1, C2 and C3. Plan: `plan.md` next to 
 |---|---|---|---|
 | C1 VN adaptation | `the-local-patch-2` (from `the-local-patch`), score 7.36, VN Studio preview import | SCP-28, 35, 36 and the SCP-37 target verified; SCP-34 verified for bare weekdays only. New: SCP-38 to 42. | `runs/the-local-patch-2.md` |
 | C3 puzzle mystery | `the-trap-room-at-the-lanterna`, score 8.36, imported with the art and music plan (no images) | SCP-30, 31, 33, VNO-26, 29 verified; VNO-30 verified in the data only; SCP-32 not exercised; VNO-25 and VNO-31 partly fixed. New: VNO-36, 37, 38. | `runs/the-trap-room-at-the-lanterna.md` |
-| C2 screenplay | `the-local-patch-3` (short-film), score 7.09 at round 2 (round 1 rejected at 6.73 under `max_rounds: 1`; reopened with `reopen_book {mode: "rewrite"}`), runtime 120 s in [60, 180], 18 shots | SCP-29 verified: prompts in seconds, length gate `ok, seconds: 120`, no length rewrite. Notes for the user (not filed): `max_rounds: 1` for short-film, and an unused `target_words`. | `runs/the-local-patch-3.md` |
+| C2 screenplay | `the-local-patch-3` (short-film), score 7.09 at round 2 (round 1 rejected at 6.73 under `max_rounds: 1`; reopened with `reopen_book {mode: "rewrite"}`), runtime 120 s in [60, 180], 18 shots | SCP-29 verified: prompts in seconds, length gate `ok, seconds: 120`, no length rewrite. Filed SCP-43 (short film gets 2 rewrite rounds, user OK); the unused `target_words` not filed. | `runs/the-local-patch-3.md` |
 
 ## What is left
 
@@ -32,7 +32,7 @@ Refreshed 2026-10-23, about 20:15, after C1, C2 and C3. Plan: `plan.md` next to 
    - *The Lighthouse That Kept Lists (VN)*.
    - `hub07-flow-test` and `hub08-13-autostart`.
    - *The Trap Room at the Lanterna*, if it gets built.
-5. **Then:** the open bugs are tool tickets, not part of this ticket: Scriptorium SCP-38 to 42, and VN Studio VNO-36 to 38 plus its earlier open items. Fix them in each tool's repo, one ticket branch per fix, using the `implement` skill, only when the user asks.
+5. **Then:** the open bugs are tool tickets, not part of this ticket: Scriptorium SCP-38 to 43, and VN Studio VNO-36 to 38 plus its earlier open items. Fix them in each tool's repo, one ticket branch per fix, using the `implement` skill, only when the user asks.
 6. **Close HUB-15:** fill `changelog.md`, tick the plan, set the HUB-15 status in `ROADMAP.md`, and open a PR from `HUB-15_post-merge-live-checks` to `master`.
 
 ## How to work (lessons)
