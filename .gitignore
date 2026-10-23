@@ -2,3 +2,5 @@ logs/
 output/
 .claude/temp/
 __pycache__/
+# Film media (clips, keyframes, voices, music, final MP4): kept local, too big for git; plan and screenplay JSON are tracked
+runs/*/video/*/
