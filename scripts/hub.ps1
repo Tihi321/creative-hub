@@ -1,6 +1,7 @@
 # Starts, stops and checks every tool in the creative hub (see ..\services.json).
 # Run it before a production run, or whenever an MCP server in .mcp.json fails to connect.
-# Rerunnable; needs no admin rights. Headless engines log to ..\logs\<id>.out.log / .err.log.
+# Rerunnable; needs no admin rights. Managed engines are started detached (no inherited handles, so piping
+# `start` into tail/cat returns) and append to ..\logs\<id>.out.log / .err.log.
 #
 #   pwsh -File scripts\hub.ps1                      status of every service
 #   pwsh -File scripts\hub.ps1 start                start the default set (not scriptorium, not strata)
@@ -81,6 +82,23 @@ function Show-Status {
     }
 }
 
+# Starts a process that inherits no handles from this one (Start-Process with redirected output does, so a piped
+# `hub.ps1 start ... | tail` never saw EOF). WMI creates it outside our process tree; cmd.exe appends its output to the logs.
+function Start-Detached([string]$exe, [string[]]$argList, [string]$workDir, [string]$outLog, [string]$errLog, [hashtable]$extraEnv, [bool]$visible) {
+    $line = "cmd.exe /d /c `"`"$exe`" $($argList -join ' ') 1>>`"$outLog`" 2>>`"$errLog`"`""
+    $vars = @{}
+    foreach ($e in [Environment]::GetEnvironmentVariables().GetEnumerator()) { $vars[[string]$e.Key] = [string]$e.Value }
+    foreach ($k in $extraEnv.Keys) { $vars[$k] = [string]$extraEnv[$k] }
+    $startup = New-CimInstance -ClassName Win32_ProcessStartup -ClientOnly -Property @{
+        ShowWindow           = [uint16]$(if ($visible) { 1 } else { 0 })
+        EnvironmentVariables = [string[]]@($vars.GetEnumerator() | ForEach-Object { "$($_.Key)=$($_.Value)" })
+    }
+    $r = Invoke-CimMethod -ClassName Win32_Process -MethodName Create -Arguments @{
+        CommandLine = $line; CurrentDirectory = $workDir; ProcessStartupInformation = $startup }
+    if ($r.ReturnValue -ne 0) { throw "Could not start $exe (WMI Win32_Process.Create returned $($r.ReturnValue))" }
+    [int]$r.ProcessId
+}
+
 function Start-Service1($s) {
     if (Get-Listener $s.port) { Write-Host "$($s.id): already up on $($s.port)"; return }
     if ($s.warning -and -not $Force) {
@@ -128,18 +146,8 @@ function Start-Service1($s) {
                 if (-not $tok) { throw 'book-translator: BOOK_TRANSLATOR_MCP_TOKEN is not set. Run: hub.ps1 setup' }
                 $env2['BOOK_TRANSLATOR_MCP_TOKEN'] = $tok
             }
-            $p = @{
-                FilePath               = $exe
-                ArgumentList           = $args2
-                WorkingDirectory       = $repo
-                RedirectStandardOutput = Join-Path $logs "$($s.id).out.log"
-                RedirectStandardError  = Join-Path $logs "$($s.id).err.log"
-                PassThru               = $true
-            }
-            if (-not $showWindow) { $p.WindowStyle = 'Hidden' }
-            if ($env2.Count) { $p.Environment = $env2 }
-            $proc = Start-Process @p
-            Write-Host "$($s.id): started (pid $($proc.Id)), waiting for port $($s.port)..."
+            $procId = Start-Detached $exe $args2 $repo (Join-Path $logs "$($s.id).out.log") (Join-Path $logs "$($s.id).err.log") $env2 $showWindow
+            Write-Host "$($s.id): started (pid $procId), waiting for port $($s.port)..."
         }
         else {
             Start-Process -FilePath $exe -ArgumentList $args2 | Out-Null
@@ -181,7 +189,7 @@ function Build-Service1($s) {
 
 function Invoke-Mcp([string]$url, [hashtable]$headers, [object]$body, [int]$timeoutSec = 15) {
     $h = @{ Accept = 'application/json, text/event-stream' } + $headers
-    $r = Invoke-WebRequest -Uri $url -Method Post -ContentType 'application/json' -Headers $h -Body ($body | ConvertTo-Json -Depth 10 -Compress) -TimeoutSec $timeoutSec -SkipHttpErrorCheck
+    $r = Invoke-WebRequest -Uri $url -Method Post -ContentType 'application/json' -Headers $h -Body ($body | ConvertTo-Json -Depth 100 -Compress) -TimeoutSec $timeoutSec -SkipHttpErrorCheck
     if ($r.StatusCode -ge 400) { throw "HTTP $($r.StatusCode): $($r.Content)" }
     $text = if ($r.Content -is [byte[]]) { [Text.Encoding]::UTF8.GetString($r.Content) } else { [string]$r.Content }
     # Streamable HTTP answers with JSON or with an SSE stream whose data lines hold the JSON.

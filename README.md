@@ -10,13 +10,16 @@ idea / theme
    ▼
 Scriptorium ──► book folder (script + bible + outline) ──► Book Translator (EPUB, 32 languages)
    │                                                        │ (VN edition: book folder → vno_add_edition)
+   │  └─► screenplay (short film, cartoon; get_screenplay) ──► make-video skill ──► Flow (images, video, voices) ──► assembled video
    ▼                                                        ▼
 VN Studio: analyse ► art ► music ► generate ► voice ► stage ► build ► lint ──► Ren'Py game (PC, Android)
                │         │            │           │
                │         │            │           └── VibeTTS (Kokoro / Supertonic)
                │         │            └── ComfyUI (Qwen-Image, BiRefNet, ACE-Step) / Pixel Studio
                │         │                (standalone CGs, edits, cutouts, music, speech: comfy-mcp)
-               │         └── Chiptune Studio or ComfyUI music
+               │         └── Chiptune Studio or ComfyUI music (Chiptune Studio also makes SFX and ambience)
+               │     art, voices and music can also come from Google Flow (flow-music-mcp)
+               │     a story can stop for a logic puzzle (puzzle beats, code-made and proved)
                └── LLMs: LM Studio, Strata, paid APIs (per repo config/roles.md), or Claude Code itself (`client` provider, see the skill)
 ```
 
@@ -24,9 +27,9 @@ VN Studio: analyse ► art ► music ► generate ► voice ► stage ► build 
 
 | Id | What | Repo | Port / MCP | Data folder | Run headless |
 |---|---|---|---|---|---|
-| `scriptorium` | Writes books, series and newspaper articles (incl. visual-novel scripts and book-to-VN adaptations) with ~17 agent roles, a humanizer pass on every chapter | `C:\projects\Personal\scriptorium` | 7341 `/mcp` | `~\Scriptorium` | `electron . --headless` (or `yarn headless`, no covers) |
+| `scriptorium` | Writes books, series and newspaper articles (incl. visual-novel scripts with CG/INSERT/SFX/AMBIENCE lines and aliases, book-to-VN adaptations, screenplays via `get_screenplay`) with ~17 agent roles, a humanizer pass on every chapter | `C:\projects\Personal\scriptorium` | 7341 `/mcp` | `~\Scriptorium` | `electron . --headless` (or `yarn headless`, no covers) |
 | `book-translator` | Translates EPUB/DOCX/MD/TXT/PDF | `C:\projects\Personal\book-translator` | 47811 `/mcp`, Bearer token | `~\BookTranslator` | `node out/engine/index.js headless` |
-| `vn-studio` | Book → Ren'Py visual novel; drives the tools below | `C:\projects\Personal\visual-novels-orchestrator` | 7459 `/mcp` | `~\VisualNovels` | `node out/engine/index.js --mcp-only` |
+| `vn-studio` | Book → Ren'Py visual novel; drives the tools below, starts Pixel Studio, Chiptune Studio and ComfyUI when a job needs them, can use Flow as art/voice/music provider, builds puzzle beats | `C:\projects\Personal\visual-novels-orchestrator` | 7459 `/mcp` | `~\VisualNovels` | `node out/engine/index.js --mcp-only` |
 | `pixel-studio` | Pixel-art editor: import/convert, palettes, draw, export | `C:\projects\Personal\pixel-art-generator` | 7457 `/mcp` | `~\PixelStudio` | `electron . --mcp-only` |
 | `chiptune-studio` | Chiptune/MIDI composer: compose, render ogg/wav/mp3, MIDI | `C:\projects\Personal\midi-generator` | 7458 `/mcp` | `~\ChiptuneStudio` | `electron . --mcp-only` |
 | `vibetts` | Text to speech (Kokoro English, Supertonic 31 languages) | `C:\projects\Personal\vibe-tts-flow` | 7723 `/mcp` | `D:\Programs\VibeTTS` (installed app, autostarts) | tray app; or `python -m vibetts --mcp-only` |
@@ -39,7 +42,7 @@ VN Studio: analyse ► art ► music ► generate ► voice ► stage ► build 
 
 All Electron/Node repos use Node 24 through `fnm` and yarn 4. MCP servers listen on 127.0.0.1 only. Each data folder can be used by one engine at a time (`engine.lock`): if the desktop app is open, its MCP server is the one on that port, and a headless start of the same tool fails.
 
-Docs inside the repos: Scriptorium `docs/mcp.md` and `docs/visual-novel.md` (the script format VN Studio reads); VN Studio `docs/mcp-guide.md`; Pixel Studio and Chiptune Studio `docs/llm-guide.md`; Book Translator, VibeTTS and comfy-mcp `README.md`.
+Docs inside the repos: Scriptorium `docs/mcp.md` and `docs/visual-novel.md` (the script format VN Studio reads); Scriptorium `docs/screenplay.md` (the screenplay format); VN Studio `docs/mcp-guide.md` (incl. "Puzzles"); Pixel Studio and Chiptune Studio `docs/llm-guide.md`; Book Translator, VibeTTS and comfy-mcp `README.md`.
 
 ## Running it
 
@@ -55,10 +58,14 @@ pwsh -File scripts\hub.ps1 build vn-studio     # rebuild a repo after pulling or
 pwsh -File scripts\hub.ps1 logs vn-studio
 pwsh -File scripts\hub.ps1 check               # real MCP handshake + tool count per server
 pwsh -File scripts\hub.ps1 call vn-studio vno_status '{"slug":"my-book"}'   # call any tool without a Claude MCP link
-pwsh -File scripts\wait-book.ps1 -Story <story-slug>   # wait for a Scriptorium book to be published
+pwsh -File scripts\wait-book.ps1 -Story <story-slug>   # fallback when the MCP link is down; otherwise scriptorium wait_for_book {slug}
 ```
 
 Scriptorium, VN Studio and Book Translator can hand their model work to the Claude session instead of a model: the `client` provider, with the tools `get_client_task` / `submit_client_task` (`vno_get_task` / `vno_submit_task` in VN Studio). How to use it is in the skill, under "Doing the model work yourself".
+
+VN Studio starts Pixel Studio, Chiptune Studio and ComfyUI itself when a job needs them (it reads `services.json` and waits up to `startTimeout`). It never starts Scriptorium, Strata, VibeTTS or LM Studio, and not ComfyUI while Strata answers. Off: `enabled: false` in `~\VisualNovels\config\autostart.md`, or `VNO_AUTOSTART=0`. Their output goes to `logs\<id>.out.log` / `.err.log` after a `--- started by VN Studio ... ---` line. `hub.ps1 stop` stops them; a hard kill of VN Studio leaves them running. A desktop app that holds the data folder makes the started copy exit; the job says why.
+
+VN Studio can also use Google Flow through flow-music-mcp (`art`, `voice` and `music` provider `flow`, `vno_studios_status` shows it). Auto-start does not cover flow-music-mcp: `hub.ps1 start flow-music-mcp` first. Flow Music songs spend credits.
 
 `.mcp.json` registers all eight MCP servers for Claude sessions opened in this folder (all over HTTP). A server that is down when the session starts stays disconnected until you reconnect it with `/mcp` or restart the session.
 
@@ -67,7 +74,8 @@ Scriptorium, VN Studio and Book Translator can hand their model work to the Clau
 - `services.json`: the registry `hub.ps1` reads (ports, start commands, warnings).
 - `.mcp.json`: MCP servers for Claude.
 - `.claude/skills/make-visual-novel/`: the end-to-end workflow.
-- `scripts/`: `hub.ps1`, `wait-book.ps1`.
+- `.claude/skills/make-video/`: screenplay to assembled video through Scriptorium and Flow.
+- `scripts/`: `hub.ps1`, `wait-book.ps1` (fallback for `wait_for_book` when the MCP link is down), `video-plan.mjs` (credit estimate and `max_credits` per call for a video; with `video-plan.test.mjs` and `fixtures/`; test: `fnm exec --using=24 node --test`).
 - `runs/<slug>.md`: one log per production (ids, decisions, what was checked). `runs/<slug>/` holds books written by hand and translated editions.
 - `ROADMAP.md`: the hub's tasks in order (live checks, productions, features across tools; each `HUB-NN` has a plan in `.claude/tickets/`), and where each tool's own `ROADMAP.md` lives.
 - `logs/`: output of engines started by `hub.ps1` (not tracked).

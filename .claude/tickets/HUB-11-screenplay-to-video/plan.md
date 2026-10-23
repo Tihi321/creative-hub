@@ -234,7 +234,7 @@ Plus "Things that go wrong": Flow high demand (wait, no blind retries), a refuse
 **Other hub files:**
 - [ ] `CLAUDE.md`: "For a short film, cartoon or video from an idea or a book, use the `make-video` skill." Credits rule: video spends Flow credits, agree a budget first.
 - [ ] `README.md`: the chain diagram gets the video branch; Scriptorium's row says "screenplays"; `scripts/` lists `video-plan.mjs`.
-- [ ] `runs/_template.md`: a "Video" block (format, aspect, model, budget, spent, Flow project, plan path).
+- [x] `runs/_template.md`: a "Video" block (format, aspect, model, budget, spent, Flow project, plan path). Done 2026-10-22.
 - [ ] `ROADMAP.md`: "Plans across tools → Screenplay → video" points to this ticket and its phases; the Scriptorium and flow-music-mcp rows list SCP-17 and FMM-12.
 - [ ] `make-visual-novel` SKILL.md: one line pointing to `make-video` for videos.
 
@@ -277,5 +277,5 @@ Not verifiable by Claude: how the film looks and sounds as a whole, and how the 
 
 - [ ] Phase 1 SCP-17 (Scriptorium)
 - [ ] Phase 2a FMM-12 (flow-music-mcp)
-- [ ] Phase 2b HUB-11 (hub skill and planner)
+- [~] Phase 2b HUB-11 (hub skill and planner): `scripts/video-plan.mjs` with 14 unit tests (`node --test`, `scripts/fixtures/screenplay-harbour.json`), `.claude/skills/make-video/SKILL.md` and the run-template Video block are written (2026-10-22, not committed). Still to do: the `CLAUDE.md`, `README.md`, `ROADMAP.md` and `make-visual-novel` SKILL.md lines (listed in the implementer's report), and the free-path run of the fixture through skill steps 2-6 with FMM-12 running (acceptance of 2b).
 - [ ] Phase 3 first production, watched by the user
