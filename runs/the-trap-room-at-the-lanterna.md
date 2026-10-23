@@ -64,12 +64,34 @@ Testimony core generated (random seed 911973614, medium) only to check VNO-25; n
 - VN Studio, small, not filed: the ch3 CG line was written right before `PUZZLE: lanterna_game`; the import put the image on the first beat after the puzzle (ch03.s04.b021), so the CG shows after the puzzle, not during it. The CG `nada_stands_circle_ghost` lists only Nada, Teodor and Pina as characters, though the text names Zlatko and Luka as well (probably the 3-person cap the analyst uses; not looked into).
 - My own slip: I called `vno_plan` before checking that the settings call had gone through, so the art plan used the default deepseek model instead of this session.
 
+## C4 build
+
+Built 2026-10-23 20:41-21:50 during HUB-15 check C4 (in parallel with ComfyUI project `hub08-13-autostart`, verifying VNO-28).
+
+- Settings: `art.provider: flow`, `style: illustrated` (Nano Banana free images), `music: ace-step-v1-instrumental` (ComfyUI, 3 tracks), `sound.ambienceEngine: ace-step-v1-instrumental` (ComfyUI, 10 tracks), `sound.sfxEngine: ""` (8 cues skipped as expected).
+- Pipeline: run 2 from `generate`. 63 assets generated (9 sheets, 14 cutout sprites with BiRefNet alpha transparency, 10 backgrounds, 8 CGs/inserts, 1 cover, 3 music tracks, 10 ambiences). Stage: 4 chapters staged. Build: theme noir, 0 placeholders, 8 warnings (skipped SFX).
+- Lint: clean (`ok: true, messages: []`), 311 dialogue blocks, 4,878 words, 33 screens.
+- Flow credits: 858 before, 858 after (0 spent; Flow images are free).
+- Game directory: `C:\Users\Infplane\VisualNovels\projects\the-trap-room-at-the-lanterna\game`
+
+### Play (PowerShell)
+
+```powershell
+& "C:\projects\Local\renpy\renpy-8.5.3-sdk\renpy.exe" "$env:USERPROFILE\VisualNovels\projects\the-trap-room-at-the-lanterna\game"
+```
+
+In cmd:
+```cmd
+"C:\projects\Local\renpy\renpy-8.5.3-sdk\renpy.exe" "%USERPROFILE%\VisualNovels\projects\the-trap-room-at-the-lanterna\game"
+```
+
 ## Not verified
 
-- No images, music or sounds were made; no build, no lint, nobody played it. The puzzle screens, the evidence inserts in a running game and the stage-door background are unchecked.
+- Human playthrough of all puzzle deduction branches in Ren'Py runtime (pending user verdict in C6).
 - SCP-32 was not exercised (no reviewer asked to change a clue).
 
 ## Left to do
 
-- Optional: build it (Flow images, `vno_run_pipeline`) and give it to the user to play; it can also be C4's Flow project.
+- ~~Optional: build it (Flow images, `vno_run_pipeline`) and give it to the user to play~~ (done in C4).
+- User's verdict in C6.
 - Plans for VNO-36 to VNO-38 in VN Studio's `.claude/tickets/`.

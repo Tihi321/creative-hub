@@ -14,4 +14,13 @@
 - Notes:
   - Round 1 scored 6.73 and was rejected, because `short-film` has `max_rounds: 1` like the other short formats. The worker reopened it with `reopen_book {mode: "rewrite"}`. Filed as SCP-43 (user OK, Scriptorium `d7c4499`).
   - `book.md` still carries a word target (`target_words: 1200`) that nothing uses for screenplays.
-- Still open: C4 (Flow and ComfyUI side by side), C5 (after the Gemini quota resets, about 09:00 on 2026-10-24), C6 (the user's verdicts).
+- Still open (then): C4, C5, C6.
+
+
+## 2026-10-23 night: C4
+
+- **C4 (Flow and ComfyUI side by side, VNO-28):** Flow project `the-trap-room-at-the-lanterna` (63 assets) built concurrently with ComfyUI project `hub08-13-autostart` (2 forced images: `bg_harbour_night` v3, `cover` v2). VNO-28 verified: 19 consecutive `vno_status` polling captures show Flow jobs (`sheet_luka_bencic`, `sheet_bruno_orsini`, `sheet_mira_valenti` with `lane: flow`) and ComfyUI jobs (`bg_harbour_night`, `cover` with `lane: null`) running simultaneously under `agent: art-director-default` without deadlock or slot starvation.
+- **Game build:** `the-trap-room-at-the-lanterna` completed full build and lint cleanly at `C:\Users\Infplane\VisualNovels\projects\the-trap-room-at-the-lanterna\game` (noir theme, 0 placeholders, 311 dialogue blocks, 4,878 words, 33 screens). Playable in Ren'Py.
+- **Credits & Spend:** Flow credits 858 -> 858 (0 spent; Flow illustrations are free); Flow Music credits 13,169 -> 13,169 (0 spent; ACE-Step on ComfyUI was used).
+- Run log: `runs/hub15-c4-parallel.md`; updated `runs/the-trap-room-at-the-lanterna.md` with C4 build details and launch command.
+- Still open: C5 (after Gemini quota resets, ~09:00 on 2026-10-24), C6 (the user's verdicts).

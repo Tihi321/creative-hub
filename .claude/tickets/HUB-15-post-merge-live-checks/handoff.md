@@ -1,6 +1,6 @@
 # Handoff: HUB-15 post-merge live checks
 
-Refreshed 2026-10-23, about 20:15, after C1, C2 and C3. Plan: `plan.md` next to this file (C1, C2 and C3 ticked, with notes). Results: `changelog.md`.
+Refreshed 2026-10-23, about 22:15, after C1, C2, C3 and C4. Plan: `plan.md` next to this file (C1, C2, C3 and C4 ticked, with notes). Results: `changelog.md`.
 
 ## State
 
@@ -9,7 +9,7 @@ Refreshed 2026-10-23, about 20:15, after C1, C2 and C3. Plan: `plan.md` next to 
   - Scriptorium `master` at `d7c4499`, pushed (roadmap SCP-38 to SCP-43).
   - VN Studio (`visual-novels-orchestrator`) `master` at `f73ed28`, pushed (roadmap VNO-36 to VNO-38).
   - All working trees clean. No tool code changed.
-- **Services running:** scriptorium (7341), vn-studio (7459), vibetts, flow-music-mcp (7462). Down: book-translator, pixel-studio, chiptune-studio, comfyui and comfy-mcp; C4 needs ComfyUI started.
+- **Services running:** scriptorium (7341), vn-studio (7459), pixel-studio (7457), vibetts, comfyui (8188), comfy-mcp (7460), flow-music-mcp (7462). Down: book-translator, chiptune-studio, strata, lmstudio, acp-proxy.
 - **Scriptorium spend today:** about $0.27 of the $5 cap, all on reviewers. Client tasks: none waiting.
 - **Credits:** Flow 858, Flow Music 13,169 (unchanged this session).
 
@@ -20,6 +20,7 @@ Refreshed 2026-10-23, about 20:15, after C1, C2 and C3. Plan: `plan.md` next to 
 | C1 VN adaptation | `the-local-patch-2` (from `the-local-patch`), score 7.36, VN Studio preview import | SCP-28, 35, 36 and the SCP-37 target verified; SCP-34 verified for bare weekdays only. New: SCP-38 to 42. | `runs/the-local-patch-2.md` |
 | C3 puzzle mystery | `the-trap-room-at-the-lanterna`, score 8.36, imported with the art and music plan (no images) | SCP-30, 31, 33, VNO-26, 29 verified; VNO-30 verified in the data only; SCP-32 not exercised; VNO-25 and VNO-31 partly fixed. New: VNO-36, 37, 38. | `runs/the-trap-room-at-the-lanterna.md` |
 | C2 screenplay | `the-local-patch-3` (short-film), score 7.09 at round 2 (round 1 rejected at 6.73 under `max_rounds: 1`; reopened with `reopen_book {mode: "rewrite"}`), runtime 120 s in [60, 180], 18 shots | SCP-29 verified: prompts in seconds, length gate `ok, seconds: 120`, no length rewrite. Filed SCP-43 (short film gets 2 rewrite rounds, user OK); the unused `target_words` not filed. | `runs/the-local-patch-3.md` |
+| C4 parallel images | `the-trap-room-at-the-lanterna` (Flow, 63 assets) + `hub08-13-autostart` (ComfyUI) | VNO-28 verified: 19 consecutive polling captures show Flow jobs and ComfyUI jobs running simultaneously without deadlock. Lanterna game built cleanly and linted. | `runs/hub15-c4-parallel.md` |
 
 ## What is left
 
@@ -53,4 +54,4 @@ Refreshed 2026-10-23, about 20:15, after C1, C2 and C3. Plan: `plan.md` next to 
 
 ## Next step
 
-Start ComfyUI for C4 (the user said subagents run as the orchestrator's workers; they asked for Sonnet, but only inherit/pro/flash/flash_lite can be picked, and C2 ran on flash).
+C6 (user verdicts on built games/films) or C5 tomorrow morning after 09:00 (Gemini quota reset). User can play *The Trap Room at the Lanterna* now!

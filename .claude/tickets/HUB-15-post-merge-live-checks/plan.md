@@ -37,11 +37,11 @@ Branch: `HUB-15_post-merge-live-checks` (hub; run logs, this plan, the changelog
 - [x] SCP-31: no hint of the knights answer before `PUZZLE:`; later chapters agree with it.
 - [x] SCP-32: no review round asks to change a `CLUE:` line (dropped requests are logged). **Not exercised (no such request came).**
 - [x] VN Studio import: VNO-26 every knights speaker has a statement; VNO-29 the read-back includes the intro rule and passes (separate reader subagent); VNO-30 evidence pictures are shown on their lines; VNO-31 the art plan's place descriptions are complete. **VNO-26, 29 verified; VNO-30 verified in data only; VNO-25 and VNO-31 partly (VNO-36, VNO-37).**
-- [ ] Optional: build it with Flow images and give it to the user to play.
+- [x] Optional: build it with Flow images and give it to the user to play. **Done during C4: 63 assets generated (42 Flow images, 13 ACE-Step music/ambience tracks), game cleanly built and linted.**
 
 ### C4. Flow and ComfyUI side by side (VNO-28)
 
-- [ ] Two small VN projects at once, one `art.provider: flow`, one ComfyUI; `vno_status` shows an image job of each running at the same time. (C3's build can be the Flow one.)
+- [x] Two small VN projects at once, one `art.provider: flow`, one ComfyUI; `vno_status` shows an image job of each running at the same time. (C3's build can be the Flow one.) **Verified: Flow image jobs (`sheet_luka_bencic`, `sheet_bruno_orsini`, `sheet_mira_valenti`) and ComfyUI image jobs (`bg_harbour_night`, `cover`) captured running simultaneously across 19 polling samples. Run log `runs/hub15-c4-parallel.md`.**
 
 ### C5. Gemini daily quota (VNO-24, FMM-15)
 
