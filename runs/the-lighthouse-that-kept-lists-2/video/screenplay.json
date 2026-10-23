@@ -1,0 +1,701 @@
+{
+  "slug": "the-lighthouse-that-kept-lists-2",
+  "title": "The Lighthouse That Kept Lists",
+  "author": "Mara Quill",
+  "genre": "literary comedy",
+  "format": "short-film",
+  "aspect": "16:9",
+  "style": "Live-action short film with a 35mm film look: warm natural Adriatic light against cold blue-grey sea and stone, the bright yellow of Mara's raincoat as the one strong colour, tungsten-warm interiors, soft film grain, shallow depth of field, gentle handheld and slow push-ins, realistic faces, no text on screen.",
+  "runtimeSeconds": 123,
+  "runtimeRange": [
+    60,
+    180
+  ],
+  "characters": [
+    {
+      "name": "Mara",
+      "looks": "A woman of 34, slim, pale olive skin, short dark hair cut to the jaw, dark brown eyes, a smudge of machine oil on her fingers; always in her late grandfather's bright yellow oilskin raincoat, two sizes too big, sleeves rolled twice over grey jeans and black boots; the oversized yellow raincoat makes her easy to spot. Mara Bašić, a radio engineer from Zagreb, Ante's granddaughter, home for one week to empty his house; dry, practical, sceptical, explains feelings away with technology. From the source book \"The Lighthouse That Kept Lists\": 34, radio engineer from Zagreb, Ante's granddaughter, home for one week to empty his house. Practical, dry, sceptical. Short dark hair, oil on her fingers, wears her grandfather's yellow raincoat, which is too big. Carries a laptop and a radio dongle everywhere. Avoids feelings by explaining the technology instead.",
+      "voice": "a woman in her thirties, low, dry and quick, softening when she stops explaining",
+      "aliases": [
+        "Mara Bašić"
+      ]
+    },
+    {
+      "name": "Dino",
+      "looks": "A big broad man in his mid fifties, weathered tanned face, grey-black moustache with salt in it, short grey hair, navy harbour-master jacket with brass buttons and a peaked cap, a brown clipboard pressed flat to his chest like a breastplate; the clipboard makes him easy to recognise. Dino Kovač, the harbour master, officious and secretly sentimental, with a form for everything, including a heritage form he has never filled in. His father was lost with the boat Sv. Nikola in 1983. From the source book \"The Lighthouse That Kept Lists\": Harbour master, mid-fifties, officious and secretly sentimental. Carries a clipboard to every conversation, with a form for everything, including a heritage-listing form he has never used. His father was lost with the boat Sv. Nikola in 1983.",
+      "voice": "a man in his fifties, deep, formal and careful, every sentence filed",
+      "aliases": [
+        "Dino Kovač"
+      ]
+    },
+    {
+      "name": "Ivka",
+      "looks": "A tiny old woman of 80, quick and bird-like, wrinkled tanned face, white hair under a grey knitted hat, sharp dark eyes, reading glasses on a silver chain, a black wool cardigan over a dark dress; the glasses on a chain and the black cardigan make her easy to recognise. The widow who runs the island's only shop; Ante's oldest friend, stood up by him for a dance in 1971; knows everything and admits nothing. From the source book \"The Lighthouse That Kept Lists\": 80, widow of Frane, runs the island's only shop. Small, quick, black cardigan, reading glasses on a chain. Knows everything on the island and admits nothing. Ante's oldest friend; he once stood her up for a dance in 1971.",
+      "voice": "an old woman, dry, quick and warm, teasing",
+      "aliases": []
+    },
+    {
+      "name": "Ante",
+      "looks": "An old man, never seen on screen: only his voice reading his lists as the teleprinter prints them in capitals. Ante Bašić, Mara's grandfather, the last lighthouse keeper of Galebnjak, a radio amateur who wrote everything down; died in spring. From the source book \"The Lighthouse That Kept Lists\": Mara's grandfather, the last lighthouse keeper of Galebnjak, a radio amateur who kept lists of everything in his logbooks. Died in spring. Appears only through his lists, logbooks and the cassettes. Widower of Katica.",
+      "voice": "an old man, gravelly, slow and plain, reading a list like a ship's log",
+      "aliases": [
+        "Ante Bašić",
+        "Nono"
+      ]
+    },
+    {
+      "name": "Katica Bašić",
+      "looks": "From the source book \"The Lighthouse That Kept Lists\": Mara's grandmother, Ante's wife, died years ago. She liked lemon in her tea; Ante kept buying lemons every Monday after her death.",
+      "voice": "",
+      "aliases": []
+    },
+    {
+      "name": "Luka",
+      "looks": "From the source book \"The Lighthouse That Kept Lists\": Dino's nephew, forty-one, the island's youngest resident, mends nets and phones. Minor.",
+      "voice": "",
+      "aliases": []
+    }
+  ],
+  "places": [
+    {
+      "name": "The harbour",
+      "looks": "Outdoors. A small stone harbour on a grey Dalmatian island in November: a curved stone quay (the riva) with bollards, stone houses climbing a hill behind, café chairs stacked and chained on tables, a white car ferry at the ramp, and at the far end a long low stone causeway with an iron rail leading to a white lighthouse on a rock. Bora wind, white streaks on dark blue-grey water, sea smoke at night, warm yellow lamplight from one shop window."
+    },
+    {
+      "name": "Ante's house",
+      "looks": "Indoors and doorway. A small old stone house above the harbour: a green wooden front door, a narrow kitchen with whitewashed walls, a gas ring, an oilcloth table with bin bags and a laptop, handwritten lists in capitals pinned on every wall and the fridge. Cool morning light through a small window."
+    },
+    {
+      "name": "Ivka's shop",
+      "looks": "Indoors. A tiny village shop: wooden counter with an old metal till and a biscuit tin, shelves of tinned fish, bread loaves, a crate of yellow lemons, dried figs strung on a cord behind the till, batteries and rope. Warm yellow bulb light against the grey day outside the window."
+    },
+    {
+      "name": "Ivka's back room",
+      "looks": "Indoors at night. A narrow warm storeroom behind the shop: shelves of tinned tomatoes to the ceiling, a crooked 2011 calendar, a ticking paraffin heater with an orange glow, a card table under the window holding a silver cassette recorder, a black ham radio with a hand microphone, a shoebox of cassettes, a cup of coffee."
+    },
+    {
+      "name": "The service room",
+      "looks": "Indoors, at the foot of the lighthouse. A small round room with whitewashed curved walls and a steel door: a grey teleprinter the size of a sewing machine on a steel desk, yellowed paper rolling up out of it, a cream metal radio receiver with one big dial and two small lamps, one red and one green, an upturned wooden crate, a shelf with two jam jars. A single bare bulb; the sweep of the lighthouse beam flashes past the small window at night."
+    }
+  ],
+  "music": [
+    {
+      "id": "m1",
+      "description": "solo mandolin and soft accordion, wistful and light, slow",
+      "from": "ch01.s01.sh01",
+      "to": "ch01.s05.sh03"
+    },
+    {
+      "id": "m2",
+      "description": "slow solo piano with a soft mandolin, tender, warm",
+      "from": "ch02.s03.sh01",
+      "to": "ch02.s05.sh01"
+    }
+  ],
+  "chapters": [
+    {
+      "n": 1,
+      "title": "Bread, Lemons",
+      "sourceChapters": [
+        1,
+        2
+      ],
+      "scenes": [
+        {
+          "id": "ch01.s01",
+          "place": "The harbour",
+          "time": "late afternoon",
+          "background": "The bora combs the grey sea into white stripes. The white lighthouse at the end of its causeway is not yet lit.",
+          "shots": [
+            {
+              "id": "ch01.s01.sh01",
+              "framing": "title",
+              "move": "static",
+              "seconds": 3,
+              "continuous": false,
+              "action": "",
+              "cast": [],
+              "sfx": [],
+              "title": "The Lighthouse That Kept Lists",
+              "lines": []
+            },
+            {
+              "id": "ch01.s01.sh02",
+              "framing": "extreme wide",
+              "move": "slow push-in",
+              "seconds": 6,
+              "continuous": false,
+              "action": "A small white ferry ploughs through wind-streaked water toward a low grey island; at the end of a long stone causeway stands a white lighthouse on a rock.",
+              "cast": [],
+              "sfx": [
+                "wind, ferry engine, waves slapping the hull"
+              ],
+              "title": null,
+              "lines": []
+            },
+            {
+              "id": "ch01.s01.sh03",
+              "framing": "medium",
+              "move": "handheld",
+              "seconds": 4,
+              "continuous": false,
+              "action": "On the open deck Mara rolls the cuffs of a yellow raincoat two sizes too big; the wind unrolls them at once.",
+              "cast": [
+                {
+                  "name": "Mara",
+                  "look": "oversized yellow raincoat, short dark hair blown flat, tired"
+                }
+              ],
+              "sfx": [
+                "wind"
+              ],
+              "title": null,
+              "lines": []
+            }
+          ]
+        },
+        {
+          "id": "ch01.s02",
+          "place": "Ante's house",
+          "time": "morning",
+          "background": "Grey light on the green front door; lists in capitals pinned on the kitchen walls behind.",
+          "shots": [
+            {
+              "id": "ch01.s02.sh01",
+              "framing": "two-shot",
+              "move": "static",
+              "seconds": 6,
+              "continuous": false,
+              "action": "Dino fills the doorway, clipboard pressed to his chest, and holds up a strip of yellowed teleprinter paper to Mara.",
+              "cast": [
+                {
+                  "name": "Dino",
+                  "look": "navy harbour-master jacket, peaked cap, official"
+                },
+                {
+                  "name": "Mara",
+                  "look": "yellow raincoat over a sweater, sleepy"
+                }
+              ],
+              "sfx": [],
+              "title": null,
+              "lines": [
+                {
+                  "speaker": "Dino",
+                  "delivery": "official",
+                  "text": "The lighthouse printed this. Bread. Lemons. One apology to Ivka.",
+                  "kind": "dialogue"
+                }
+              ]
+            },
+            {
+              "id": "ch01.s02.sh02",
+              "framing": "two-shot",
+              "move": "slow push-in",
+              "seconds": 6,
+              "continuous": false,
+              "action": "Mara hands the strip back with a shrug; Dino glances up the empty street, where a plastic bag tumbles past.",
+              "cast": [
+                {
+                  "name": "Mara",
+                  "look": "dry"
+                },
+                {
+                  "name": "Dino",
+                  "look": "unimpressed"
+                }
+              ],
+              "sfx": [],
+              "title": null,
+              "lines": [
+                {
+                  "speaker": "Mara",
+                  "delivery": "dry",
+                  "text": "A prank. Kids.",
+                  "kind": "dialogue"
+                },
+                {
+                  "speaker": "Dino",
+                  "delivery": "flat",
+                  "text": "The youngest person on this island is forty-one.",
+                  "kind": "dialogue"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ch01.s03",
+          "place": "Ivka's shop",
+          "time": "day",
+          "background": "Warm bulb light, dried figs on a cord behind the old till, a crate of lemons on the counter.",
+          "shots": [
+            {
+              "id": "ch01.s03.sh01",
+              "framing": "medium",
+              "move": "slow push-in",
+              "seconds": 10,
+              "continuous": false,
+              "action": "Behind the counter Ivka folds two lemons into a paper bag and looks at Mara over her glasses.",
+              "cast": [
+                {
+                  "name": "Ivka",
+                  "look": "black cardigan, glasses on a chain, grey knitted hat, knowing"
+                },
+                {
+                  "name": "Mara",
+                  "look": "yellow raincoat, a loaf under her arm"
+                }
+              ],
+              "sfx": [],
+              "title": null,
+              "lines": [
+                {
+                  "speaker": "Ivka",
+                  "delivery": "matter-of-fact",
+                  "text": "Two lemons every Monday. Fifteen years after Katica died.",
+                  "kind": "dialogue"
+                },
+                {
+                  "speaker": "Ivka",
+                  "delivery": "dry",
+                  "text": "I said, she's not drinking tea. He said, you don't know that.",
+                  "kind": "dialogue"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ch01.s04",
+          "place": "Ante's house",
+          "time": "evening",
+          "background": "",
+          "shots": [
+            {
+              "id": "ch01.s04.sh01",
+              "framing": "medium",
+              "move": "slow push-in",
+              "seconds": 4,
+              "continuous": false,
+              "action": "At the oilcloth kitchen table Mara sets the bag of lemons beside her laptop and a radio dongle, looks at a photo of the paper strip on her phone, and stands up.",
+              "cast": [
+                {
+                  "name": "Mara",
+                  "look": "yellow raincoat, oil on her fingers, decided"
+                }
+              ],
+              "sfx": [],
+              "title": null,
+              "lines": [
+                {
+                  "speaker": "Mara",
+                  "delivery": "to herself",
+                  "text": "Somebody's transmitting.",
+                  "kind": "dialogue"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ch01.s05",
+          "place": "The service room",
+          "time": "night",
+          "background": "One bare bulb; the lighthouse beam flashes past the small window.",
+          "shots": [
+            {
+              "id": "ch01.s05.sh01",
+              "framing": "medium",
+              "move": "static",
+              "seconds": 6,
+              "continuous": false,
+              "action": "Mara sits on an upturned crate beside the grey teleprinter; the red lamp flickers, then the green, and the machine crashes awake. She jumps up.",
+              "cast": [
+                {
+                  "name": "Mara",
+                  "look": "yellow raincoat, startled"
+                }
+              ],
+              "sfx": [
+                "teleprinter clatter, wind"
+              ],
+              "title": null,
+              "lines": []
+            },
+            {
+              "id": "ch01.s05.sh02",
+              "framing": "close-up",
+              "move": "slow push-in",
+              "seconds": 8,
+              "continuous": false,
+              "action": "Yellowed paper climbs out of the teleprinter line by line, the red and green lamps glowing side by side.",
+              "cast": [
+                {
+                  "name": "Mara",
+                  "look": "yellow raincoat, startled"
+                }
+              ],
+              "sfx": [
+                "teleprinter keys hammering"
+              ],
+              "title": null,
+              "lines": [
+                {
+                  "speaker": "Ante",
+                  "delivery": "",
+                  "text": "Boats that did not come back. Galeb. Sveti Nikola, nineteen eighty-three.",
+                  "kind": "voice-over"
+                }
+              ]
+            },
+            {
+              "id": "ch01.s05.sh03",
+              "framing": "close-up",
+              "move": "static",
+              "seconds": 6,
+              "continuous": false,
+              "action": "Mara's face in the bulb light as the beam sweeps past the window behind her; her eyes fill.",
+              "cast": [
+                {
+                  "name": "Mara",
+                  "look": "yellow raincoat, shaken, eyes wet"
+                }
+              ],
+              "sfx": [],
+              "title": null,
+              "lines": [
+                {
+                  "speaker": "Ante",
+                  "delivery": "",
+                  "text": "Marica. Went to Italy.",
+                  "kind": "voice-over"
+                },
+                {
+                  "speaker": "Mara",
+                  "delivery": "whispering",
+                  "text": "Nobody knew that.",
+                  "kind": "dialogue"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "n": 2,
+      "title": "The Back Room",
+      "sourceChapters": [
+        3,
+        4
+      ],
+      "scenes": [
+        {
+          "id": "ch02.s01",
+          "place": "The harbour",
+          "time": "night",
+          "background": "",
+          "shots": [
+            {
+              "id": "ch02.s01.sh01",
+              "framing": "wide",
+              "move": "tracking",
+              "seconds": 6,
+              "continuous": false,
+              "action": "Dino marches along the riva holding up a fishbone antenna made of tape measures; Mara walks beside him with a chirping receiver.",
+              "cast": [
+                {
+                  "name": "Dino",
+                  "look": "navy jacket, cap, solemn"
+                },
+                {
+                  "name": "Mara",
+                  "look": "yellow raincoat, hood up, focused"
+                }
+              ],
+              "sfx": [
+                "wind, two warbling radio tones growing louder"
+              ],
+              "title": null,
+              "lines": [
+                {
+                  "speaker": "Mara",
+                  "delivery": "focused",
+                  "text": "Left. Slowly. Stop. There.",
+                  "kind": "dialogue"
+                },
+                {
+                  "speaker": "Dino",
+                  "delivery": "solemn",
+                  "text": "For the record, I feel ridiculous.",
+                  "kind": "dialogue"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ch02.s02",
+          "place": "Ivka's back room",
+          "time": "night",
+          "background": "",
+          "shots": [
+            {
+              "id": "ch02.s02.sh01",
+              "framing": "medium",
+              "move": "slow push-in",
+              "seconds": 8,
+              "continuous": false,
+              "action": "Ivka sits at the card table with coffee, her hand on a silver cassette recorder wired to a black radio; she looks up without surprise.",
+              "cast": [
+                {
+                  "name": "Ivka",
+                  "look": "black cardigan, grey knitted hat, glasses on a chain, unbothered"
+                }
+              ],
+              "sfx": [
+                "two tones squabbling from a small speaker, heater ticking"
+              ],
+              "title": null,
+              "lines": [
+                {
+                  "speaker": "Ivka",
+                  "delivery": "unbothered",
+                  "text": "Shut the door. You're letting the bora in.",
+                  "kind": "dialogue"
+                }
+              ]
+            },
+            {
+              "id": "ch02.s02.sh02",
+              "framing": "medium",
+              "move": "static",
+              "seconds": 8,
+              "continuous": false,
+              "action": "Ivka lays her hand on a shoebox of four cassettes; Mara and Dino stand dripping by the door.",
+              "cast": [
+                {
+                  "name": "Ivka",
+                  "look": "calm, a little proud"
+                },
+                {
+                  "name": "Mara",
+                  "look": "soaked, stunned"
+                },
+                {
+                  "name": "Dino",
+                  "look": "holding the antenna, embarrassed"
+                }
+              ],
+              "sfx": [],
+              "title": null,
+              "lines": [
+                {
+                  "speaker": "Ivka",
+                  "delivery": "",
+                  "text": "One a night, when Mara comes home. He said don't tell her. She'll explain it.",
+                  "kind": "dialogue"
+                }
+              ]
+            },
+            {
+              "id": "ch02.s02.sh03",
+              "framing": "close-up",
+              "move": "slow push-in",
+              "seconds": 10,
+              "continuous": false,
+              "action": "Ivka holds a strip of teleprinter paper at arm's length; her mouth tightens, then softens.",
+              "cast": [
+                {
+                  "name": "Ivka",
+                  "look": "reading, moved, hiding it"
+                }
+              ],
+              "sfx": [],
+              "title": null,
+              "lines": [
+                {
+                  "speaker": "Ante",
+                  "delivery": "",
+                  "text": "For Ivka. Nineteen seventy-one. I did not come to the dance. I dance like a winch. Sorry.",
+                  "kind": "voice-over"
+                },
+                {
+                  "speaker": "Ivka",
+                  "delivery": "dry",
+                  "text": "He did dance like a winch.",
+                  "kind": "dialogue"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ch02.s03",
+          "place": "The service room",
+          "time": "night",
+          "background": "",
+          "shots": [
+            {
+              "id": "ch02.s03.sh01",
+              "framing": "medium",
+              "move": "slow push-in",
+              "seconds": 6,
+              "continuous": false,
+              "action": "Mara reads the paper climbing from the teleprinter; behind her Ivka sits on the crate in a huge orange life jacket, Dino by the door.",
+              "cast": [
+                {
+                  "name": "Mara",
+                  "look": "yellow raincoat, reading"
+                },
+                {
+                  "name": "Ivka",
+                  "look": "orange life jacket over her black cardigan"
+                },
+                {
+                  "name": "Dino",
+                  "look": "clipboard to his chest"
+                }
+              ],
+              "sfx": [
+                "teleprinter keys"
+              ],
+              "title": null,
+              "lines": [
+                {
+                  "speaker": "Ante",
+                  "delivery": "",
+                  "text": "For Mara. Do not sell the house.",
+                  "kind": "voice-over"
+                }
+              ]
+            },
+            {
+              "id": "ch02.s03.sh02",
+              "framing": "close-up",
+              "move": "static",
+              "seconds": 6,
+              "continuous": false,
+              "action": "Mara's face in the red and green lamplight; she swallows.",
+              "cast": [
+                {
+                  "name": "Mara",
+                  "look": "yellow raincoat, holding back tears"
+                }
+              ],
+              "sfx": [],
+              "title": null,
+              "lines": [
+                {
+                  "speaker": "Ante",
+                  "delivery": "",
+                  "text": "You can stop explaining things now. I know how it works. I built it.",
+                  "kind": "voice-over"
+                }
+              ]
+            },
+            {
+              "id": "ch02.s03.sh03",
+              "framing": "two-shot",
+              "move": "static",
+              "seconds": 6,
+              "continuous": false,
+              "action": "Mara turns, explaining with her hands; Dino holds out an ironed handkerchief and she takes it, crying.",
+              "cast": [
+                {
+                  "name": "Mara",
+                  "look": "crying, still talking"
+                },
+                {
+                  "name": "Dino",
+                  "look": "gentle, handkerchief held out"
+                }
+              ],
+              "sfx": [],
+              "title": null,
+              "lines": [
+                {
+                  "speaker": "Mara",
+                  "delivery": "shaky",
+                  "text": "The tape plays into the radio, so it's actually...",
+                  "kind": "dialogue"
+                },
+                {
+                  "speaker": "Dino",
+                  "delivery": "gently",
+                  "text": "Mara.",
+                  "kind": "dialogue"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ch02.s04",
+          "place": "The harbour",
+          "time": "dusk",
+          "background": "",
+          "shots": [
+            {
+              "id": "ch02.s04.sh01",
+              "framing": "medium",
+              "move": "static",
+              "seconds": 6,
+              "continuous": false,
+              "action": "At the ferry ramp a workman in an orange jacket signs the heritage form on Dino's clipboard as the lighthouse lamp comes on behind them.",
+              "cast": [
+                {
+                  "name": "Dino",
+                  "look": "clipboard, quietly triumphant"
+                }
+              ],
+              "sfx": [],
+              "title": null,
+              "lines": [
+                {
+                  "speaker": "Dino",
+                  "delivery": "formal",
+                  "text": "The lighthouse is a cultural good now. Nobody touches it.",
+                  "kind": "dialogue"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ch02.s05",
+          "place": "The service room",
+          "time": "evening",
+          "background": "",
+          "shots": [
+            {
+              "id": "ch02.s05.sh01",
+              "framing": "close-up",
+              "move": "slow push-in",
+              "seconds": 8,
+              "continuous": false,
+              "action": "Mara writes in a new black notebook, a loaf and two lemons beside it.",
+              "cast": [
+                {
+                  "name": "Mara",
+                  "look": "yellow raincoat, calm, a small smile"
+                }
+              ],
+              "sfx": [],
+              "title": null,
+              "lines": [
+                {
+                  "speaker": "Mara",
+                  "delivery": "",
+                  "text": "Light on. Wind dropping. Teleprinter OK. Bread. Two lemons.",
+                  "kind": "voice-over"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
