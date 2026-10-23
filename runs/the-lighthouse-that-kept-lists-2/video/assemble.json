@@ -1,0 +1,223 @@
+{
+  "out": "C:\\projects\\Personal\\creative-hub\\runs\\the-lighthouse-that-kept-lists-2\\video\\out",
+  "clips": [
+    {
+      "image": "C:\\projects\\Personal\\creative-hub\\runs\\the-lighthouse-that-kept-lists-2\\video\\keyframes\\kf1-01.jpeg",
+      "seconds": 3
+    },
+    {
+      "file": "C:\\projects\\Personal\\creative-hub\\runs\\the-lighthouse-that-kept-lists-2\\video\\clips\\ch01-s01-sh02-02.mp4",
+      "from": 0,
+      "to": 6
+    },
+    {
+      "file": "C:\\projects\\Personal\\creative-hub\\runs\\the-lighthouse-that-kept-lists-2\\video\\clips\\ch01-s01-sh03-01.mp4",
+      "from": 0,
+      "to": 4
+    },
+    {
+      "file": "C:\\projects\\Personal\\creative-hub\\runs\\the-lighthouse-that-kept-lists-2\\video\\clips\\ch01-s02-sh01-01.mp4",
+      "from": 0,
+      "to": 6
+    },
+    {
+      "file": "C:\\projects\\Personal\\creative-hub\\runs\\the-lighthouse-that-kept-lists-2\\video\\clips\\ch01-s02-sh02-01.mp4",
+      "from": 0,
+      "to": 6
+    },
+    {
+      "file": "C:\\projects\\Personal\\creative-hub\\runs\\the-lighthouse-that-kept-lists-2\\video\\clips\\ch01-s03-sh01-01.mp4",
+      "from": 0,
+      "to": 10
+    },
+    {
+      "file": "C:\\projects\\Personal\\creative-hub\\runs\\the-lighthouse-that-kept-lists-2\\video\\clips\\ch01-s04-sh01-01.mp4",
+      "from": 0,
+      "to": 4
+    },
+    {
+      "file": "C:\\projects\\Personal\\creative-hub\\runs\\the-lighthouse-that-kept-lists-2\\video\\clips\\ch01-s05-sh01-01.mp4",
+      "from": 0,
+      "to": 6
+    },
+    {
+      "file": "C:\\projects\\Personal\\creative-hub\\runs\\the-lighthouse-that-kept-lists-2\\video\\clips\\ch01-s05-sh02-01.mp4",
+      "from": 0,
+      "to": 8
+    },
+    {
+      "file": "C:\\projects\\Personal\\creative-hub\\runs\\the-lighthouse-that-kept-lists-2\\video\\clips\\ch01-s05-sh03-01.mp4",
+      "from": 0,
+      "to": 6
+    },
+    {
+      "file": "C:\\projects\\Personal\\creative-hub\\runs\\the-lighthouse-that-kept-lists-2\\video\\clips\\ch02-s01-sh01-01.mp4",
+      "from": 0,
+      "to": 6
+    },
+    {
+      "file": "C:\\projects\\Personal\\creative-hub\\runs\\the-lighthouse-that-kept-lists-2\\video\\clips\\ch02-s02-sh01-01.mp4",
+      "from": 0,
+      "to": 8
+    },
+    {
+      "file": "C:\\projects\\Personal\\creative-hub\\runs\\the-lighthouse-that-kept-lists-2\\video\\clips\\ch02-s02-sh02-01.mp4",
+      "from": 0,
+      "to": 8
+    },
+    {
+      "file": "C:\\projects\\Personal\\creative-hub\\runs\\the-lighthouse-that-kept-lists-2\\video\\clips\\ch02-s02-sh03-01.mp4",
+      "from": 0,
+      "to": 10
+    },
+    {
+      "file": "C:\\projects\\Personal\\creative-hub\\runs\\the-lighthouse-that-kept-lists-2\\video\\clips\\ch02-s03-sh01-01.mp4",
+      "from": 0,
+      "to": 6
+    },
+    {
+      "file": "C:\\projects\\Personal\\creative-hub\\runs\\the-lighthouse-that-kept-lists-2\\video\\clips\\ch02-s03-sh02-01.mp4",
+      "from": 0,
+      "to": 6
+    },
+    {
+      "file": "C:\\projects\\Personal\\creative-hub\\runs\\the-lighthouse-that-kept-lists-2\\video\\clips\\ch02-s03-sh03-01.mp4",
+      "from": 0,
+      "to": 6
+    },
+    {
+      "file": "C:\\projects\\Personal\\creative-hub\\runs\\the-lighthouse-that-kept-lists-2\\video\\clips\\ch02-s04-sh01-01.mp4",
+      "from": 0,
+      "to": 6
+    },
+    {
+      "file": "C:\\projects\\Personal\\creative-hub\\runs\\the-lighthouse-that-kept-lists-2\\video\\clips\\ch02-s05-sh01-01.mp4",
+      "from": 0,
+      "to": 8
+    }
+  ],
+  "music_cues": [
+    {
+      "file": "C:\\projects\\Personal\\creative-hub\\runs\\the-lighthouse-that-kept-lists-2\\video\\music\\m1.wav",
+      "at": 0,
+      "until": 59,
+      "volume": 0.5
+    },
+    {
+      "file": "C:\\projects\\Personal\\creative-hub\\runs\\the-lighthouse-that-kept-lists-2\\video\\music\\m2.wav",
+      "at": 91,
+      "until": 123,
+      "volume": 0.5
+    }
+  ],
+  "voice_lines": [
+    {
+      "file": "C:\\projects\\Personal\\creative-hub\\runs\\the-lighthouse-that-kept-lists-2\\video\\voices\\ch01.s02.sh01-l1.wav",
+      "at": 13.3,
+      "max_seconds": 5.6
+    },
+    {
+      "file": "C:\\projects\\Personal\\creative-hub\\runs\\the-lighthouse-that-kept-lists-2\\video\\voices\\ch01.s02.sh02-l1.wav",
+      "at": 19.3,
+      "max_seconds": 5.6
+    },
+    {
+      "file": "C:\\projects\\Personal\\creative-hub\\runs\\the-lighthouse-that-kept-lists-2\\video\\voices\\ch01.s02.sh02-l2.wav",
+      "at": 20.85,
+      "max_seconds": 4.05
+    },
+    {
+      "file": "C:\\projects\\Personal\\creative-hub\\runs\\the-lighthouse-that-kept-lists-2\\video\\voices\\ch01.s03.sh01-l1.wav",
+      "at": 25.3,
+      "max_seconds": 9.6
+    },
+    {
+      "file": "C:\\projects\\Personal\\creative-hub\\runs\\the-lighthouse-that-kept-lists-2\\video\\voices\\ch01.s03.sh01-l2.wav",
+      "at": 29.62,
+      "max_seconds": 5.28
+    },
+    {
+      "file": "C:\\projects\\Personal\\creative-hub\\runs\\the-lighthouse-that-kept-lists-2\\video\\voices\\ch01.s04.sh01-l1.wav",
+      "at": 35.3,
+      "max_seconds": 3.6
+    },
+    {
+      "file": "C:\\projects\\Personal\\creative-hub\\runs\\the-lighthouse-that-kept-lists-2\\video\\voices\\ch01.s05.sh02-l1.wav",
+      "at": 45.3,
+      "max_seconds": 7.6
+    },
+    {
+      "file": "C:\\projects\\Personal\\creative-hub\\runs\\the-lighthouse-that-kept-lists-2\\video\\voices\\ch01.s05.sh03-l1.wav",
+      "at": 53.3,
+      "max_seconds": 5.6
+    },
+    {
+      "file": "C:\\projects\\Personal\\creative-hub\\runs\\the-lighthouse-that-kept-lists-2\\video\\voices\\ch01.s05.sh03-l2.wav",
+      "at": 55.51,
+      "max_seconds": 3.39
+    },
+    {
+      "file": "C:\\projects\\Personal\\creative-hub\\runs\\the-lighthouse-that-kept-lists-2\\video\\voices\\ch02.s01.sh01-l1.wav",
+      "at": 59.3,
+      "max_seconds": 5.6
+    },
+    {
+      "file": "C:\\projects\\Personal\\creative-hub\\runs\\the-lighthouse-that-kept-lists-2\\video\\voices\\ch02.s01.sh01-l2.wav",
+      "at": 61.24,
+      "max_seconds": 3.66
+    },
+    {
+      "file": "C:\\projects\\Personal\\creative-hub\\runs\\the-lighthouse-that-kept-lists-2\\video\\voices\\ch02.s02.sh01-l1.wav",
+      "at": 65.3,
+      "max_seconds": 7.6
+    },
+    {
+      "file": "C:\\projects\\Personal\\creative-hub\\runs\\the-lighthouse-that-kept-lists-2\\video\\voices\\ch02.s02.sh02-l1.wav",
+      "at": 73.3,
+      "max_seconds": 7.6
+    },
+    {
+      "file": "C:\\projects\\Personal\\creative-hub\\runs\\the-lighthouse-that-kept-lists-2\\video\\voices\\ch02.s02.sh03-l1.wav",
+      "at": 81.3,
+      "max_seconds": 9.6
+    },
+    {
+      "file": "C:\\projects\\Personal\\creative-hub\\runs\\the-lighthouse-that-kept-lists-2\\video\\voices\\ch02.s02.sh03-l2.wav",
+      "at": 88.9,
+      "max_seconds": 2
+    },
+    {
+      "file": "C:\\projects\\Personal\\creative-hub\\runs\\the-lighthouse-that-kept-lists-2\\video\\voices\\ch02.s03.sh01-l1.wav",
+      "at": 91.3,
+      "max_seconds": 5.6
+    },
+    {
+      "file": "C:\\projects\\Personal\\creative-hub\\runs\\the-lighthouse-that-kept-lists-2\\video\\voices\\ch02.s03.sh02-l1.wav",
+      "at": 97.3,
+      "max_seconds": 5.6
+    },
+    {
+      "file": "C:\\projects\\Personal\\creative-hub\\runs\\the-lighthouse-that-kept-lists-2\\video\\voices\\ch02.s03.sh03-l1.wav",
+      "at": 103.3,
+      "max_seconds": 5.6
+    },
+    {
+      "file": "C:\\projects\\Personal\\creative-hub\\runs\\the-lighthouse-that-kept-lists-2\\video\\voices\\ch02.s03.sh03-l2.wav",
+      "at": 105.96,
+      "max_seconds": 2.94
+    },
+    {
+      "file": "C:\\projects\\Personal\\creative-hub\\runs\\the-lighthouse-that-kept-lists-2\\video\\voices\\ch02.s04.sh01-l1.wav",
+      "at": 109.3,
+      "max_seconds": 5.6
+    },
+    {
+      "file": "C:\\projects\\Personal\\creative-hub\\runs\\the-lighthouse-that-kept-lists-2\\video\\voices\\ch02.s05.sh01-l1.wav",
+      "at": 115.3,
+      "max_seconds": 7.6
+    }
+  ],
+  "clip_volume": 0.3,
+  "duck": true,
+  "output_name": "final"
+}

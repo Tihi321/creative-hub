@@ -5,13 +5,13 @@
 //
 //   fnm exec --using=24 node scripts/video-plan.mjs <cmd> <run dir> [flags]
 //
-//   plan <dir> [--budget N] [--model omni-720p|omni-360p|veo-lite|veo-fast|veo-quality] [--aspect 16:9|9:16] [--balance N] [--force]
+//   plan <dir> [--budget N] [--model omni-720p|omni-360p|veo-lite|veo-fast|veo-quality] [--aspect 16:9|9:16] [--balance N] [--music-budget N] [--force]
 //        reads <dir>/screenplay.json, writes <dir>/plan.json and prints the dry run (nothing is spent)
 //   estimate <dir>             prints the dry run again from plan.json (after hand edits)
 //   keyframes <dir>            the flow_generate scenes for the free keyframes (one image per shot)
 //   voices <dir>               the flow_narrate calls for every spoken line
 //   next <dir> [--retake ID] [--cap N]   the next video shot to make, with its max_credits, or "budget reached"
-//   record <dir> <shot id> <json>        stores a result (keyframe, clip, voices) and updates `spent`; id music:m1 for a music cue
+//   record <dir> <shot id> <json>        stores a result (keyframe, clip, voices) and updates `spent` (Flow) and `musicSpent` (Flow Music); id music:m1 for a music cue
 //   timeline <dir> [--animatic]          writes <dir>/assemble.json, the flow_assemble arguments
 
 import { existsSync, readFileSync, writeFileSync, mkdirSync } from 'node:fs'
@@ -24,7 +24,7 @@ import { pathToFileURL } from 'node:url'
 // `guessed` = worked out pro rata. Update this table when flow-music-mcp measures more.
 export const PRICES = {
   'omni-360p': { label: 'Omni 1.1 Flash 360p', menu: 'Omni 1.1 Flash', resolution: '360p', durations: [4, 6, 8, 10], seen: { 4: 4 }, perSecond: 1 },
-  'omni-720p': { label: 'Omni 1.1 Flash 720p', menu: 'Omni 1.1 Flash', resolution: '720p', durations: [4, 6, 8, 10], seen: { 4: 7, 8: 12 }, perSecond: 1.25 },
+  'omni-720p': { label: 'Omni 1.1 Flash 720p', menu: 'Omni 1.1 Flash', resolution: '720p', durations: [4, 6, 8, 10], seen: { 4: 7, 6: 10, 8: 12, 10: 15 }, perSecond: 1.25 },
   'veo-lite': { label: 'Veo 3.1 Lite', menu: 'Veo 3.1 - Lite', fixed: 8, seen: { 8: 10 } },
   'veo-fast': { label: 'Veo 3.1 Fast', menu: 'Veo 3.1 - Fast', fixed: 8, seen: { 8: 20 } },
   'veo-quality': { label: 'Veo 3.1 Quality', menu: 'Veo 3.1 - Quality', fixed: 8, seen: { 8: 100 } }
@@ -39,6 +39,7 @@ export const LINE_GAP = 0.25 // between two lines of one shot
 export const RESERVE = 0.25 // the retake reserve of the dry run
 export const CAP_FACTOR = 1.25 // max_credits = estimate x this, at most
 export const DEFAULT_BUDGET = 150
+export const DEFAULT_MUSIC_BUDGET = 10 // Flow Music credits: two songs at about 5 each, a separate balance from Flow's
 export const DEFAULT_CAP = 50 // FLOW_MUSIC_MCP_MAX_CREDITS when unset
 export const CLIP_VOLUME = 0.3
 
@@ -133,15 +134,32 @@ export function assignVoices(characters, speakers = []) {
 const cap = (s) => String(s).replace(/\s+/g, ' ').trim()
 const sentence = (s) => cap(s).replace(/[.!?]*$/, '.')
 
+/** The style without its "no text on screen" clauses (a title card has to show text). */
+export function withoutNoText(style) {
+  return cap(style)
+    .replace(/[,;]?\s*\b(?:no|without)\s+(?:(?:on-screen|visible|any|burnt-in|burned-in)\s+)?(?:text|lettering|letters|captions?|watermarks?|typography|subtitles|titles?)(?:\s+(?:on[- ]screen|in (?:the )?(?:frame|picture|image)))?/gi, '')
+    .replace(/\s+([.,;])/g, '$1')
+    .replace(/^[,;.\s]+/, '')
+    .replace(/[,;]+\./g, '.')
+}
+
+/** An insert shot is a close look at a thing: it carries the cast only when its own text names a character. */
+export const isInsert = (shot) => /\binsert\b/i.test(shot.framing ?? '')
+export function shotCast(shot) {
+  if (!isInsert(shot)) return shot.cast
+  const text = `${shot.action ?? ''}`.toLowerCase()
+  return shot.cast.filter((c) => text.includes(String(c.name).toLowerCase()))
+}
+
 function keyframePrompt(film, scene, shot, looks) {
   const place = film.places.find((p) => p.name.toLowerCase() === String(scene.place).toLowerCase())
-  const who = shot.cast.map((c) => `${c.name} (${cap(c.look || looks.get(c.name) || '')})`.replace(/ \(\)/, ''))
+  const who = shotCast(shot).map((c) => `${c.name} (${cap(c.look || looks.get(c.name) || '')})`.replace(/ \(\)/, ''))
   const bits = [
-    `${cap(film.style || '')}`.replace(/^$/, ''),
-    shot.title ? `Title card with the words "${shot.title}", ${cap(scene.background || '')}` : `${shot.framing} shot${shot.move && shot.move !== 'static' ? `, ${shot.move}` : ''}: ${cap(shot.action)}`,
+    (shot.title ? withoutNoText(film.style || '') : cap(film.style || '')).replace(/^$/, ''),
+    shot.title ? `Title card with the words "${shot.title}" shown clearly in large, legible lettering, ${cap(scene.background || '')}` : `${shot.framing} shot${shot.move && shot.move !== 'static' ? `, ${shot.move}` : ''}: ${cap(shot.action)}`,
     place ? `Place: ${scene.place}, ${cap(scene.time)}. ${cap(place.looks)}` : scene.place ? `Place: ${scene.place}, ${cap(scene.time)}.` : '',
     who.length ? `In frame: ${who.join('; ')}.` : '',
-    shot.title ? 'The title is the only text.' : 'No text, no captions, no watermark.'
+    shot.title ? 'The title is the only text; spell it exactly.' : 'No text, no captions, no watermark.'
   ]
   return bits.filter(Boolean).map((b) => (/[.!?"]$/.test(b) ? b : `${b}.`)).join(' ')
 }
@@ -171,7 +189,7 @@ export function buildPlan(film, opts = {}) {
         const play = isTitle ? TITLE_SECONDS : Math.min(seconds, clip)
         if (!isTitle && speechNeed(sh.lines) > Math.min(10, play) + 1e-9) warnings.push(`${sh.id}: dialogue is longer than its shot (${speechNeed(sh.lines).toFixed(1)} s of speech in ${play} s): the lines are sped up or cut`)
         if (!isTitle && seconds > clip) warnings.push(`${sh.id}: ${PRICES[model].label} clips are ${clip} s: the shot of ${seconds} s is cut to ${clip} s`)
-        if (sh.cast.length > 3) warnings.push(`${sh.id}: ${sh.cast.length} people in a shot: only the first 3 are used as references`)
+        if (shotCast(sh).length > 3) warnings.push(`${sh.id}: ${shotCast(sh).length} people in a shot: only the first 3 are used as references`)
         if (sh.continuous) warnings.push(`${sh.id}: continuous shot is made as a normal keyframe shot (D11)`)
         const est = isTitle ? { credits: 0, status: 'seen' } : price(model, seconds)
         shots.push({
@@ -186,8 +204,8 @@ export function buildPlan(film, opts = {}) {
           move: sh.move,
           continuous: !!sh.continuous,
           action: sh.action,
-          cast: sh.cast,
-          refs: sh.cast.map((c) => c.name).slice(0, 3),
+          cast: shotCast(sh),
+          refs: shotCast(sh).map((c) => c.name).slice(0, 3),
           sfx: sh.sfx,
           title: sh.title,
           lines: sh.lines.map((l) => ({ speaker: l.speaker, delivery: l.delivery, text: l.text, kind: l.kind })),
@@ -208,7 +226,7 @@ export function buildPlan(film, opts = {}) {
     aspect,
     style: film.style ?? '',
     model,
-    budget: { credits: opts.budget ?? DEFAULT_BUDGET, spent: 0 },
+    budget: { credits: opts.budget ?? DEFAULT_BUDGET, spent: 0, musicCredits: opts.musicBudget ?? DEFAULT_MUSIC_BUDGET, musicSpent: 0 },
     ...(opts.balance !== undefined ? { balance: opts.balance } : {}),
     runtimeSeconds: runtime,
     characters: film.characters,
@@ -228,14 +246,19 @@ export function totals(plan) {
   const credits = videos.reduce((n, s) => n + s.estimate.credits, 0)
   const reserve = Math.ceil(credits * RESERVE)
   const spent = spentOf(plan)
-  return { shots: plan.shots.length, videoShots: videos.length, credits, reserve, withReserve: credits + reserve, spent, left: plan.budget.credits - spent, guessed: videos.filter((s) => s.estimate.status === 'guessed').length }
+  const musicSpent = musicSpentOf(plan)
+  const musicCredits = plan.budget.musicCredits ?? DEFAULT_MUSIC_BUDGET
+  return { shots: plan.shots.length, videoShots: videos.length, credits, reserve, withReserve: credits + reserve, spent, left: plan.budget.credits - spent, musicSpent, musicBudget: musicCredits, musicLeft: musicCredits - musicSpent, guessed: videos.filter((s) => s.estimate.status === 'guessed').length }
 }
 
-/** Credits spent so far: every recorded clip and music take (recomputed, so recording twice never counts twice). */
+/** Flow credits spent so far: every recorded video clip (recomputed, so recording twice never counts twice). Music is a separate balance: see musicSpentOf. */
 export function spentOf(plan) {
-  const clips = plan.shots.reduce((n, s) => n + (s.result.clips ?? []).reduce((m, c) => m + (c.credits ?? 0), 0), 0)
-  const music = plan.music.reduce((n, m) => n + (m.credits ?? 0), 0)
-  return clips + music
+  return plan.shots.reduce((n, s) => n + (s.result.clips ?? []).reduce((m, c) => m + (c.credits ?? 0), 0), 0)
+}
+
+/** Flow Music credits spent so far: every recorded music take. */
+export function musicSpentOf(plan) {
+  return plan.music.reduce((n, m) => n + (m.credits ?? 0), 0)
 }
 
 /** The dry run as text. */
@@ -254,7 +277,8 @@ export function dryRun(plan) {
     '',
     `Video credits: ${t.credits}${t.guessed ? ` (${t.guessed} clip(s) priced pro rata, not quoted by Flow)` : ''}`,
     `Retake reserve (${RESERVE * 100}%): ${t.reserve}  ->  ${t.withReserve} with the reserve`,
-    `Budget: ${plan.budget.credits}, spent ${t.spent}, left ${t.left}. ${t.withReserve <= plan.budget.credits ? 'Fits with the reserve.' : t.credits <= plan.budget.credits ? 'Fits, but without the full reserve.' : 'DOES NOT FIT: shorten the film, use a cheaper model or raise the budget.'}`,
+    `Flow budget: ${plan.budget.credits}, spent ${t.spent}, left ${t.left}. ${t.withReserve <= plan.budget.credits ? 'Fits with the reserve.' : t.credits <= plan.budget.credits ? 'Fits, but without the full reserve.' : 'DOES NOT FIT: shorten the film, use a cheaper model or raise the budget.'}`,
+    `Flow Music budget: ${t.musicBudget}, spent ${t.musicSpent}, left ${t.musicLeft} (a separate balance from Flow's video credits).`,
     plan.balance !== undefined ? `Last known balance: ${plan.balance} credits` : 'Last known balance: unknown (flow_status shows it)',
     `Music: ${plan.music.length} cue(s)${plan.music.length ? ` (${plan.music.map((x) => x.id).join(', ')}), each song costs credits and is asked first` : ''}. Images, voices and the assembly are free.`
   )
@@ -308,7 +332,7 @@ export function voiceCalls(plan) {
   return plan.shots.flatMap((s) =>
     s.lines.map((l, i) => {
       const v = plan.voices[l.speaker] ?? plan.voices[l.speaker?.replace(/\b\w/g, (c) => c.toUpperCase())] ?? { voice: NARRATOR_VOICE }
-      const how = [l.kind === 'voice-over' ? 'as a voice-over narrator' : '', l.delivery ? `say it ${l.delivery}` : ''].filter(Boolean).join(', ')
+      const how = [l.kind === 'voice-over' || /^narrator$/i.test(l.speaker ?? '') ? 'as a voice-over narrator' : '', l.delivery ? `say it ${l.delivery}` : ''].filter(Boolean).join(', ')
       return { shot: s.id, line: i, name: `${s.id}-l${i + 1}`, engine: 'gemini', voice: v.voice, format: 'wav', text: l.text, ...(how ? { style: how } : {}) }
     })
   )
@@ -336,6 +360,7 @@ export function recordResult(plan, id, data) {
     if (data.voices) shot.result.voices = data.voices.map((v) => (typeof v === 'string' ? { file: v } : v))
   }
   plan.budget.spent = spentOf(plan)
+  plan.budget.musicSpent = musicSpentOf(plan)
   return plan
 }
 
@@ -449,7 +474,8 @@ export function main(argv, log = console.log) {
       budget: f.budget !== undefined ? Number(f.budget) : undefined,
       model: f.model,
       aspect: f.aspect,
-      balance: f.balance !== undefined ? Number(f.balance) : undefined
+      balance: f.balance !== undefined ? Number(f.balance) : undefined,
+      musicBudget: f['music-budget'] !== undefined ? Number(f['music-budget']) : undefined
     })
     mkdirSync(dir, { recursive: true })
     writeJson(planFile(dir), plan)
@@ -466,7 +492,7 @@ export function main(argv, log = console.log) {
     const plan = recordResult(loadPlan(dir), id, json.startsWith('@') ? readJson(json.slice(1)) : JSON.parse(json))
     writeJson(planFile(dir), plan)
     const t = totals(plan)
-    log(`recorded ${id}: spent ${t.spent} of ${plan.budget.credits}, left ${t.left}`)
+    log(`recorded ${id}: Flow spent ${t.spent} of ${plan.budget.credits}, left ${t.left}; Flow Music spent ${t.musicSpent} of ${t.musicBudget}`)
   } else if (cmd === 'timeline') {
     const r = buildTimeline(loadPlan(dir), { animatic: f.animatic, dir })
     writeJson(path.join(dir, 'assemble.json'), r.args)

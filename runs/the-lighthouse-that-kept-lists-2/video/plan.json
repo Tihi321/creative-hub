@@ -1,0 +1,1243 @@
+{
+  "slug": "the-lighthouse-that-kept-lists-2",
+  "title": "The Lighthouse That Kept Lists",
+  "format": "short-film",
+  "aspect": "16:9",
+  "style": "Live-action short film with a 35mm film look: warm natural Adriatic light against cold blue-grey sea and stone, the bright yellow of Mara's raincoat as the one strong colour, tungsten-warm interiors, soft film grain, shallow depth of field, gentle handheld and slow push-ins, realistic faces, no text on screen.",
+  "model": "omni-720p",
+  "budget": {
+    "credits": 240,
+    "spent": 202
+  },
+  "balance": 1050,
+  "runtimeSeconds": 123,
+  "characters": [
+    {
+      "name": "Mara",
+      "looks": "A woman of 34, slim, pale olive skin, short dark hair cut to the jaw, dark brown eyes, a smudge of machine oil on her fingers; always in her late grandfather's bright yellow oilskin raincoat, two sizes too big, sleeves rolled twice over grey jeans and black boots; the oversized yellow raincoat makes her easy to spot. Mara Bašić, a radio engineer from Zagreb, Ante's granddaughter, home for one week to empty his house; dry, practical, sceptical, explains feelings away with technology. From the source book \"The Lighthouse That Kept Lists\": 34, radio engineer from Zagreb, Ante's granddaughter, home for one week to empty his house. Practical, dry, sceptical. Short dark hair, oil on her fingers, wears her grandfather's yellow raincoat, which is too big. Carries a laptop and a radio dongle everywhere. Avoids feelings by explaining the technology instead.",
+      "voice": "a woman in her thirties, low, dry and quick, softening when she stops explaining",
+      "aliases": [
+        "Mara Bašić"
+      ]
+    },
+    {
+      "name": "Dino",
+      "looks": "A big broad man in his mid fifties, weathered tanned face, grey-black moustache with salt in it, short grey hair, navy harbour-master jacket with brass buttons and a peaked cap, a brown clipboard pressed flat to his chest like a breastplate; the clipboard makes him easy to recognise. Dino Kovač, the harbour master, officious and secretly sentimental, with a form for everything, including a heritage form he has never filled in. His father was lost with the boat Sv. Nikola in 1983. From the source book \"The Lighthouse That Kept Lists\": Harbour master, mid-fifties, officious and secretly sentimental. Carries a clipboard to every conversation, with a form for everything, including a heritage-listing form he has never used. His father was lost with the boat Sv. Nikola in 1983.",
+      "voice": "a man in his fifties, deep, formal and careful, every sentence filed",
+      "aliases": [
+        "Dino Kovač"
+      ]
+    },
+    {
+      "name": "Ivka",
+      "looks": "A tiny old woman of 80, quick and bird-like, wrinkled tanned face, white hair under a grey knitted hat, sharp dark eyes, reading glasses on a silver chain, a black wool cardigan over a dark dress; the glasses on a chain and the black cardigan make her easy to recognise. The widow who runs the island's only shop; Ante's oldest friend, stood up by him for a dance in 1971; knows everything and admits nothing. From the source book \"The Lighthouse That Kept Lists\": 80, widow of Frane, runs the island's only shop. Small, quick, black cardigan, reading glasses on a chain. Knows everything on the island and admits nothing. Ante's oldest friend; he once stood her up for a dance in 1971.",
+      "voice": "an old woman, dry, quick and warm, teasing",
+      "aliases": []
+    },
+    {
+      "name": "Ante",
+      "looks": "An old man, never seen on screen: only his voice reading his lists as the teleprinter prints them in capitals. Ante Bašić, Mara's grandfather, the last lighthouse keeper of Galebnjak, a radio amateur who wrote everything down; died in spring. From the source book \"The Lighthouse That Kept Lists\": Mara's grandfather, the last lighthouse keeper of Galebnjak, a radio amateur who kept lists of everything in his logbooks. Died in spring. Appears only through his lists, logbooks and the cassettes. Widower of Katica.",
+      "voice": "an old man, gravelly, slow and plain, reading a list like a ship's log",
+      "aliases": [
+        "Ante Bašić",
+        "Nono"
+      ]
+    },
+    {
+      "name": "Katica Bašić",
+      "looks": "From the source book \"The Lighthouse That Kept Lists\": Mara's grandmother, Ante's wife, died years ago. She liked lemon in her tea; Ante kept buying lemons every Monday after her death.",
+      "voice": "",
+      "aliases": []
+    },
+    {
+      "name": "Luka",
+      "looks": "From the source book \"The Lighthouse That Kept Lists\": Dino's nephew, forty-one, the island's youngest resident, mends nets and phones. Minor.",
+      "voice": "",
+      "aliases": []
+    }
+  ],
+  "places": [
+    {
+      "name": "The harbour",
+      "looks": "Outdoors. A small stone harbour on a grey Dalmatian island in November: a curved stone quay (the riva) with bollards, stone houses climbing a hill behind, café chairs stacked and chained on tables, a white car ferry at the ramp, and at the far end a long low stone causeway with an iron rail leading to a white lighthouse on a rock. Bora wind, white streaks on dark blue-grey water, sea smoke at night, warm yellow lamplight from one shop window."
+    },
+    {
+      "name": "Ante's house",
+      "looks": "Indoors and doorway. A small old stone house above the harbour: a green wooden front door, a narrow kitchen with whitewashed walls, a gas ring, an oilcloth table with bin bags and a laptop, handwritten lists in capitals pinned on every wall and the fridge. Cool morning light through a small window."
+    },
+    {
+      "name": "Ivka's shop",
+      "looks": "Indoors. A tiny village shop: wooden counter with an old metal till and a biscuit tin, shelves of tinned fish, bread loaves, a crate of yellow lemons, dried figs strung on a cord behind the till, batteries and rope. Warm yellow bulb light against the grey day outside the window."
+    },
+    {
+      "name": "Ivka's back room",
+      "looks": "Indoors at night. A narrow warm storeroom behind the shop: shelves of tinned tomatoes to the ceiling, a crooked 2011 calendar, a ticking paraffin heater with an orange glow, a card table under the window holding a silver cassette recorder, a black ham radio with a hand microphone, a shoebox of cassettes, a cup of coffee."
+    },
+    {
+      "name": "The service room",
+      "looks": "Indoors, at the foot of the lighthouse. A small round room with whitewashed curved walls and a steel door: a grey teleprinter the size of a sewing machine on a steel desk, yellowed paper rolling up out of it, a cream metal radio receiver with one big dial and two small lamps, one red and one green, an upturned wooden crate, a shelf with two jam jars. A single bare bulb; the sweep of the lighthouse beam flashes past the small window at night."
+    }
+  ],
+  "voices": {
+    "Narrator": {
+      "voice": "Charon",
+      "note": "narrator"
+    },
+    "Mara": {
+      "voice": "Kore",
+      "note": "a woman in her thirties, low, dry and quick, softening when she stops explaining"
+    },
+    "Dino": {
+      "voice": "Umbriel",
+      "note": "a man in his fifties, deep, formal and careful, every sentence filed"
+    },
+    "Ivka": {
+      "voice": "Gacrux",
+      "note": "an old woman, dry, quick and warm, teasing"
+    },
+    "Ante": {
+      "voice": "Algenib",
+      "note": "an old man, gravelly, slow and plain, reading a list like a ship's log"
+    },
+    "Katica Bašić": {
+      "voice": "Erinome",
+      "note": "From the source book \"The Lighthouse That Kept Lists\": Mara's grandmother, Ante's wife, died years ago. She liked lemon in her tea; Ante kept buying lemons every Monday after her death."
+    },
+    "Luka": {
+      "voice": "Puck",
+      "note": "From the source book \"The Lighthouse That Kept Lists\": Dino's nephew, forty-one, the island's youngest resident, mends nets and phones. Minor."
+    }
+  },
+  "shots": [
+    {
+      "id": "ch01.s01.sh01",
+      "scene": "ch01.s01",
+      "place": "The harbour",
+      "kind": "title",
+      "seconds": 3,
+      "writerSeconds": 3,
+      "clipSeconds": 0,
+      "framing": "title",
+      "move": "static",
+      "continuous": false,
+      "action": "",
+      "cast": [],
+      "refs": [],
+      "sfx": [],
+      "title": "The Lighthouse That Kept Lists",
+      "lines": [],
+      "keyframePrompt": "Live-action short film with a 35mm film look: warm natural Adriatic light against cold blue-grey sea and stone, the bright yellow of Mara's raincoat as the one strong colour, tungsten-warm interiors, soft film grain, shallow depth of field, gentle handheld and slow push-ins, realistic faces, no text on screen. Title card with the words \"The Lighthouse That Kept Lists\", The bora combs the grey sea into white stripes. The white lighthouse at the end of its causeway is not yet lit. Place: The harbour, late afternoon. Outdoors. A small stone harbour on a grey Dalmatian island in November: a curved stone quay (the riva) with bollards, stone houses climbing a hill behind, café chairs stacked and chained on tables, a white car ferry at the ramp, and at the far end a long low stone causeway with an iron rail leading to a white lighthouse on a rock. Bora wind, white streaks on dark blue-grey water, sea smoke at night, warm yellow lamplight from one shop window. The title is the only text.",
+      "videoPrompt": "",
+      "estimate": {
+        "credits": 0,
+        "status": "seen"
+      },
+      "result": {
+        "keyframe": {
+          "media_id": "a41aeb39-193c-4ce4-8f3e-d31f68cf000a",
+          "file": "C:\\projects\\Personal\\creative-hub\\runs\\the-lighthouse-that-kept-lists-2\\video\\keyframes\\kf1-01.jpeg"
+        }
+      }
+    },
+    {
+      "id": "ch01.s01.sh02",
+      "scene": "ch01.s01",
+      "place": "The harbour",
+      "kind": "video",
+      "seconds": 6,
+      "writerSeconds": 6,
+      "clipSeconds": 6,
+      "framing": "extreme wide",
+      "move": "slow push-in",
+      "continuous": false,
+      "action": "A small white ferry ploughs through wind-streaked water toward a low grey island; at the end of a long stone causeway stands a white lighthouse on a rock.",
+      "cast": [],
+      "refs": [],
+      "sfx": [
+        "wind, ferry engine, waves slapping the hull"
+      ],
+      "title": null,
+      "lines": [],
+      "keyframePrompt": "Live-action short film with a 35mm film look: warm natural Adriatic light against cold blue-grey sea and stone, the bright yellow of Mara's raincoat as the one strong colour, tungsten-warm interiors, soft film grain, shallow depth of field, gentle handheld and slow push-ins, realistic faces, no text on screen. extreme wide shot, slow push-in: A small white ferry ploughs through wind-streaked water toward a low grey island; at the end of a long stone causeway stands a white lighthouse on a rock. Place: The harbour, late afternoon. Outdoors. A small stone harbour on a grey Dalmatian island in November: a curved stone quay (the riva) with bollards, stone houses climbing a hill behind, café chairs stacked and chained on tables, a white car ferry at the ramp, and at the far end a long low stone causeway with an iron rail leading to a white lighthouse on a rock. Bora wind, white streaks on dark blue-grey water, sea smoke at night, warm yellow lamplight from one shop window. No text, no captions, no watermark.",
+      "videoPrompt": "A small white ferry ploughs through wind-streaked water toward a low grey island; at the end of a long stone causeway stands a white lighthouse on a rock. Camera: extreme wide, slow push-in. No speech, ambient sound only: wind, ferry engine, waves slapping the hull.",
+      "estimate": {
+        "credits": 10,
+        "status": "guessed"
+      },
+      "result": {
+        "keyframe": {
+          "media_id": "a9cbbb06-c0c1-4c38-bb80-0d6580059585",
+          "file": "C:\\projects\\Personal\\creative-hub\\runs\\the-lighthouse-that-kept-lists-2\\video\\keyframes\\kf1-02.jpeg"
+        },
+        "clips": [
+          {
+            "file": "C:\\projects\\Personal\\creative-hub\\runs\\the-lighthouse-that-kept-lists-2\\video\\clips\\ch01-s01-sh02-02.mp4",
+            "credits": 10
+          }
+        ]
+      }
+    },
+    {
+      "id": "ch01.s01.sh03",
+      "scene": "ch01.s01",
+      "place": "The harbour",
+      "kind": "video",
+      "seconds": 4,
+      "writerSeconds": 4,
+      "clipSeconds": 4,
+      "framing": "medium",
+      "move": "handheld",
+      "continuous": false,
+      "action": "On the open deck Mara rolls the cuffs of a yellow raincoat two sizes too big; the wind unrolls them at once.",
+      "cast": [
+        {
+          "name": "Mara",
+          "look": "oversized yellow raincoat, short dark hair blown flat, tired"
+        }
+      ],
+      "refs": [
+        "Mara"
+      ],
+      "sfx": [
+        "wind"
+      ],
+      "title": null,
+      "lines": [],
+      "keyframePrompt": "Live-action short film with a 35mm film look: warm natural Adriatic light against cold blue-grey sea and stone, the bright yellow of Mara's raincoat as the one strong colour, tungsten-warm interiors, soft film grain, shallow depth of field, gentle handheld and slow push-ins, realistic faces, no text on screen. medium shot, handheld: On the open deck Mara rolls the cuffs of a yellow raincoat two sizes too big; the wind unrolls them at once. Place: The harbour, late afternoon. Outdoors. A small stone harbour on a grey Dalmatian island in November: a curved stone quay (the riva) with bollards, stone houses climbing a hill behind, café chairs stacked and chained on tables, a white car ferry at the ramp, and at the far end a long low stone causeway with an iron rail leading to a white lighthouse on a rock. Bora wind, white streaks on dark blue-grey water, sea smoke at night, warm yellow lamplight from one shop window. In frame: Mara (oversized yellow raincoat, short dark hair blown flat, tired). No text, no captions, no watermark.",
+      "videoPrompt": "On the open deck Mara rolls the cuffs of a yellow raincoat two sizes too big; the wind unrolls them at once. Camera: medium, handheld. No speech, ambient sound only: wind.",
+      "estimate": {
+        "credits": 7,
+        "status": "seen"
+      },
+      "result": {
+        "keyframe": {
+          "media_id": "9dec5f93-d0d9-4a33-ae26-4f158c45bdc8",
+          "file": "C:\\projects\\Personal\\creative-hub\\runs\\the-lighthouse-that-kept-lists-2\\video\\keyframes\\kf1-03.jpeg"
+        },
+        "clips": [
+          {
+            "file": "C:\\projects\\Personal\\creative-hub\\runs\\the-lighthouse-that-kept-lists-2\\video\\clips\\ch01-s01-sh03-01.mp4",
+            "credits": 7
+          }
+        ]
+      }
+    },
+    {
+      "id": "ch01.s02.sh01",
+      "scene": "ch01.s02",
+      "place": "Ante's house",
+      "kind": "video",
+      "seconds": 6,
+      "writerSeconds": 6,
+      "clipSeconds": 6,
+      "framing": "two-shot",
+      "move": "static",
+      "continuous": false,
+      "action": "Dino fills the doorway, clipboard pressed to his chest, and holds up a strip of yellowed teleprinter paper to Mara.",
+      "cast": [
+        {
+          "name": "Dino",
+          "look": "navy harbour-master jacket, peaked cap, official"
+        },
+        {
+          "name": "Mara",
+          "look": "yellow raincoat over a sweater, sleepy"
+        }
+      ],
+      "refs": [
+        "Dino",
+        "Mara"
+      ],
+      "sfx": [],
+      "title": null,
+      "lines": [
+        {
+          "speaker": "Dino",
+          "delivery": "official",
+          "text": "The lighthouse printed this. Bread. Lemons. One apology to Ivka.",
+          "kind": "dialogue"
+        }
+      ],
+      "keyframePrompt": "Live-action short film with a 35mm film look: warm natural Adriatic light against cold blue-grey sea and stone, the bright yellow of Mara's raincoat as the one strong colour, tungsten-warm interiors, soft film grain, shallow depth of field, gentle handheld and slow push-ins, realistic faces, no text on screen. two-shot shot: Dino fills the doorway, clipboard pressed to his chest, and holds up a strip of yellowed teleprinter paper to Mara. Place: Ante's house, morning. Indoors and doorway. A small old stone house above the harbour: a green wooden front door, a narrow kitchen with whitewashed walls, a gas ring, an oilcloth table with bin bags and a laptop, handwritten lists in capitals pinned on every wall and the fridge. Cool morning light through a small window. In frame: Dino (navy harbour-master jacket, peaked cap, official); Mara (yellow raincoat over a sweater, sleepy). No text, no captions, no watermark.",
+      "videoPrompt": "Dino fills the doorway, clipboard pressed to his chest, and holds up a strip of yellowed teleprinter paper to Mara. Camera: two-shot, static. No speech, ambient sound only.",
+      "estimate": {
+        "credits": 10,
+        "status": "guessed"
+      },
+      "result": {
+        "voices": [
+          {
+            "file": "C:/projects/Personal/creative-hub/runs/the-lighthouse-that-kept-lists-2/video/voices/ch01.s02.sh01-l1.wav",
+            "seconds": 5.35
+          }
+        ],
+        "keyframe": {
+          "media_id": "18f2ce99-2694-41a9-a39a-5b18535a8225",
+          "file": "C:\\projects\\Personal\\creative-hub\\runs\\the-lighthouse-that-kept-lists-2\\video\\keyframes\\kf1-04.jpeg"
+        },
+        "clips": [
+          {
+            "file": "C:\\projects\\Personal\\creative-hub\\runs\\the-lighthouse-that-kept-lists-2\\video\\clips\\ch01-s02-sh01-01.mp4",
+            "credits": 10
+          }
+        ]
+      }
+    },
+    {
+      "id": "ch01.s02.sh02",
+      "scene": "ch01.s02",
+      "place": "Ante's house",
+      "kind": "video",
+      "seconds": 6,
+      "writerSeconds": 6,
+      "clipSeconds": 6,
+      "framing": "two-shot",
+      "move": "slow push-in",
+      "continuous": false,
+      "action": "Mara hands the strip back with a shrug; Dino glances up the empty street, where a plastic bag tumbles past.",
+      "cast": [
+        {
+          "name": "Mara",
+          "look": "dry"
+        },
+        {
+          "name": "Dino",
+          "look": "unimpressed"
+        }
+      ],
+      "refs": [
+        "Mara",
+        "Dino"
+      ],
+      "sfx": [],
+      "title": null,
+      "lines": [
+        {
+          "speaker": "Mara",
+          "delivery": "dry",
+          "text": "A prank. Kids.",
+          "kind": "dialogue"
+        },
+        {
+          "speaker": "Dino",
+          "delivery": "flat",
+          "text": "The youngest person on this island is forty-one.",
+          "kind": "dialogue"
+        }
+      ],
+      "keyframePrompt": "Live-action short film with a 35mm film look: warm natural Adriatic light against cold blue-grey sea and stone, the bright yellow of Mara's raincoat as the one strong colour, tungsten-warm interiors, soft film grain, shallow depth of field, gentle handheld and slow push-ins, realistic faces, no text on screen. two-shot shot, slow push-in: Mara hands the strip back with a shrug; Dino glances up the empty street, where a plastic bag tumbles past. Place: Ante's house, morning. Indoors and doorway. A small old stone house above the harbour: a green wooden front door, a narrow kitchen with whitewashed walls, a gas ring, an oilcloth table with bin bags and a laptop, handwritten lists in capitals pinned on every wall and the fridge. Cool morning light through a small window. In frame: Mara (dry); Dino (unimpressed). No text, no captions, no watermark.",
+      "videoPrompt": "Mara hands the strip back with a shrug; Dino glances up the empty street, where a plastic bag tumbles past. Camera: two-shot, slow push-in. No speech, ambient sound only.",
+      "estimate": {
+        "credits": 10,
+        "status": "guessed"
+      },
+      "result": {
+        "voices": [
+          {
+            "file": "C:\\projects\\Personal\\creative-hub\\runs\\the-lighthouse-that-kept-lists-2\\video\\voices\\ch01.s02.sh02-l1.wav",
+            "seconds": 1.3
+          },
+          {
+            "file": "C:\\projects\\Personal\\creative-hub\\runs\\the-lighthouse-that-kept-lists-2\\video\\voices\\ch01.s02.sh02-l2.wav",
+            "seconds": 3.39
+          }
+        ],
+        "keyframe": {
+          "media_id": "5461fc8a-b1d5-4e2c-9a7e-4e34964b9645",
+          "file": "C:\\projects\\Personal\\creative-hub\\runs\\the-lighthouse-that-kept-lists-2\\video\\keyframes\\kf1-05.jpeg"
+        },
+        "clips": [
+          {
+            "file": "C:\\projects\\Personal\\creative-hub\\runs\\the-lighthouse-that-kept-lists-2\\video\\clips\\ch01-s02-sh02-01.mp4",
+            "credits": 10
+          }
+        ]
+      }
+    },
+    {
+      "id": "ch01.s03.sh01",
+      "scene": "ch01.s03",
+      "place": "Ivka's shop",
+      "kind": "video",
+      "seconds": 10,
+      "writerSeconds": 10,
+      "clipSeconds": 10,
+      "framing": "medium",
+      "move": "slow push-in",
+      "continuous": false,
+      "action": "Behind the counter Ivka folds two lemons into a paper bag and looks at Mara over her glasses.",
+      "cast": [
+        {
+          "name": "Ivka",
+          "look": "black cardigan, glasses on a chain, grey knitted hat, knowing"
+        },
+        {
+          "name": "Mara",
+          "look": "yellow raincoat, a loaf under her arm"
+        }
+      ],
+      "refs": [
+        "Ivka",
+        "Mara"
+      ],
+      "sfx": [],
+      "title": null,
+      "lines": [
+        {
+          "speaker": "Ivka",
+          "delivery": "matter-of-fact",
+          "text": "Two lemons every Monday. Fifteen years after Katica died.",
+          "kind": "dialogue"
+        },
+        {
+          "speaker": "Ivka",
+          "delivery": "dry",
+          "text": "I said, she's not drinking tea. He said, you don't know that.",
+          "kind": "dialogue"
+        }
+      ],
+      "keyframePrompt": "Live-action short film with a 35mm film look: warm natural Adriatic light against cold blue-grey sea and stone, the bright yellow of Mara's raincoat as the one strong colour, tungsten-warm interiors, soft film grain, shallow depth of field, gentle handheld and slow push-ins, realistic faces, no text on screen. medium shot, slow push-in: Behind the counter Ivka folds two lemons into a paper bag and looks at Mara over her glasses. Place: Ivka's shop, day. Indoors. A tiny village shop: wooden counter with an old metal till and a biscuit tin, shelves of tinned fish, bread loaves, a crate of yellow lemons, dried figs strung on a cord behind the till, batteries and rope. Warm yellow bulb light against the grey day outside the window. In frame: Ivka (black cardigan, glasses on a chain, grey knitted hat, knowing); Mara (yellow raincoat, a loaf under her arm). No text, no captions, no watermark.",
+      "videoPrompt": "Behind the counter Ivka folds two lemons into a paper bag and looks at Mara over her glasses. Camera: medium, slow push-in. No speech, ambient sound only.",
+      "estimate": {
+        "credits": 15,
+        "status": "guessed"
+      },
+      "result": {
+        "voices": [
+          {
+            "file": "C:\\projects\\Personal\\creative-hub\\runs\\the-lighthouse-that-kept-lists-2\\video\\voices\\ch01.s03.sh01-l1.wav",
+            "seconds": 4.07
+          },
+          {
+            "file": "C:\\projects\\Personal\\creative-hub\\runs\\the-lighthouse-that-kept-lists-2\\video\\voices\\ch01.s03.sh01-l2.wav",
+            "seconds": 3.52
+          }
+        ],
+        "keyframe": {
+          "media_id": "30547058-a799-4c94-b60c-beb6e480bd13",
+          "file": "C:\\projects\\Personal\\creative-hub\\runs\\the-lighthouse-that-kept-lists-2\\video\\keyframes\\kf2-01.jpeg"
+        },
+        "clips": [
+          {
+            "file": "C:\\projects\\Personal\\creative-hub\\runs\\the-lighthouse-that-kept-lists-2\\video\\clips\\ch01-s03-sh01-01.mp4",
+            "credits": 15
+          }
+        ]
+      }
+    },
+    {
+      "id": "ch01.s04.sh01",
+      "scene": "ch01.s04",
+      "place": "Ante's house",
+      "kind": "video",
+      "seconds": 4,
+      "writerSeconds": 4,
+      "clipSeconds": 4,
+      "framing": "medium",
+      "move": "slow push-in",
+      "continuous": false,
+      "action": "At the oilcloth kitchen table Mara sets the bag of lemons beside her laptop and a radio dongle, looks at a photo of the paper strip on her phone, and stands up.",
+      "cast": [
+        {
+          "name": "Mara",
+          "look": "yellow raincoat, oil on her fingers, decided"
+        }
+      ],
+      "refs": [
+        "Mara"
+      ],
+      "sfx": [],
+      "title": null,
+      "lines": [
+        {
+          "speaker": "Mara",
+          "delivery": "to herself",
+          "text": "Somebody's transmitting.",
+          "kind": "dialogue"
+        }
+      ],
+      "keyframePrompt": "Live-action short film with a 35mm film look: warm natural Adriatic light against cold blue-grey sea and stone, the bright yellow of Mara's raincoat as the one strong colour, tungsten-warm interiors, soft film grain, shallow depth of field, gentle handheld and slow push-ins, realistic faces, no text on screen. medium shot, slow push-in: At the oilcloth kitchen table Mara sets the bag of lemons beside her laptop and a radio dongle, looks at a photo of the paper strip on her phone, and stands up. Place: Ante's house, evening. Indoors and doorway. A small old stone house above the harbour: a green wooden front door, a narrow kitchen with whitewashed walls, a gas ring, an oilcloth table with bin bags and a laptop, handwritten lists in capitals pinned on every wall and the fridge. Cool morning light through a small window. In frame: Mara (yellow raincoat, oil on her fingers, decided). No text, no captions, no watermark.",
+      "videoPrompt": "At the oilcloth kitchen table Mara sets the bag of lemons beside her laptop and a radio dongle, looks at a photo of the paper strip on her phone, and stands up. Camera: medium, slow push-in. No speech, ambient sound only.",
+      "estimate": {
+        "credits": 7,
+        "status": "seen"
+      },
+      "result": {
+        "voices": [
+          {
+            "file": "C:\\projects\\Personal\\creative-hub\\runs\\the-lighthouse-that-kept-lists-2\\video\\voices\\ch01.s04.sh01-l1.wav",
+            "seconds": 1.54
+          }
+        ],
+        "keyframe": {
+          "media_id": "fcdc0d0d-1ec6-4486-ad07-b5c8b61142e2",
+          "file": "C:\\projects\\Personal\\creative-hub\\runs\\the-lighthouse-that-kept-lists-2\\video\\keyframes\\kf2-02.jpeg"
+        },
+        "clips": [
+          {
+            "file": "C:\\projects\\Personal\\creative-hub\\runs\\the-lighthouse-that-kept-lists-2\\video\\clips\\ch01-s04-sh01-01.mp4",
+            "credits": 7
+          }
+        ]
+      }
+    },
+    {
+      "id": "ch01.s05.sh01",
+      "scene": "ch01.s05",
+      "place": "The service room",
+      "kind": "video",
+      "seconds": 6,
+      "writerSeconds": 6,
+      "clipSeconds": 6,
+      "framing": "medium",
+      "move": "static",
+      "continuous": false,
+      "action": "Mara sits on an upturned crate beside the grey teleprinter; the red lamp flickers, then the green, and the machine crashes awake. She jumps up.",
+      "cast": [
+        {
+          "name": "Mara",
+          "look": "yellow raincoat, startled"
+        }
+      ],
+      "refs": [
+        "Mara"
+      ],
+      "sfx": [
+        "teleprinter clatter, wind"
+      ],
+      "title": null,
+      "lines": [],
+      "keyframePrompt": "Live-action short film with a 35mm film look: warm natural Adriatic light against cold blue-grey sea and stone, the bright yellow of Mara's raincoat as the one strong colour, tungsten-warm interiors, soft film grain, shallow depth of field, gentle handheld and slow push-ins, realistic faces, no text on screen. medium shot: Mara sits on an upturned crate beside the grey teleprinter; the red lamp flickers, then the green, and the machine crashes awake. She jumps up. Place: The service room, night. Indoors, at the foot of the lighthouse. A small round room with whitewashed curved walls and a steel door: a grey teleprinter the size of a sewing machine on a steel desk, yellowed paper rolling up out of it, a cream metal radio receiver with one big dial and two small lamps, one red and one green, an upturned wooden crate, a shelf with two jam jars. A single bare bulb; the sweep of the lighthouse beam flashes past the small window at night. In frame: Mara (yellow raincoat, startled). No text, no captions, no watermark.",
+      "videoPrompt": "Mara sits on an upturned crate beside the grey teleprinter; the red lamp flickers, then the green, and the machine crashes awake. She jumps up. Camera: medium, static. No speech, ambient sound only: teleprinter clatter, wind.",
+      "estimate": {
+        "credits": 10,
+        "status": "guessed"
+      },
+      "result": {
+        "keyframe": {
+          "media_id": "ef8cc62c-e473-496e-8cda-23d8750be2af",
+          "file": "C:\\projects\\Personal\\creative-hub\\runs\\the-lighthouse-that-kept-lists-2\\video\\keyframes\\kr-01.jpeg"
+        },
+        "clips": [
+          {
+            "file": "C:\\projects\\Personal\\creative-hub\\runs\\the-lighthouse-that-kept-lists-2\\video\\clips\\ch01-s05-sh01-01.mp4",
+            "credits": 10
+          }
+        ]
+      }
+    },
+    {
+      "id": "ch01.s05.sh02",
+      "scene": "ch01.s05",
+      "place": "The service room",
+      "kind": "video",
+      "seconds": 8,
+      "writerSeconds": 8,
+      "clipSeconds": 8,
+      "framing": "close-up",
+      "move": "slow push-in",
+      "continuous": false,
+      "action": "Yellowed paper climbs out of the teleprinter line by line, the red and green lamps glowing side by side.",
+      "cast": [
+        {
+          "name": "Mara",
+          "look": "yellow raincoat, startled"
+        }
+      ],
+      "refs": [
+        "Mara"
+      ],
+      "sfx": [
+        "teleprinter keys hammering"
+      ],
+      "title": null,
+      "lines": [
+        {
+          "speaker": "Ante",
+          "delivery": "",
+          "text": "Boats that did not come back. Galeb. Sveti Nikola, nineteen eighty-three.",
+          "kind": "voice-over"
+        }
+      ],
+      "keyframePrompt": "Live-action short film with a 35mm film look: warm natural Adriatic light against cold blue-grey sea and stone, the bright yellow of Mara's raincoat as the one strong colour, tungsten-warm interiors, soft film grain, shallow depth of field, gentle handheld and slow push-ins, realistic faces, no text on screen. close-up shot, slow push-in: Yellowed paper climbs out of the teleprinter line by line, the red and green lamps glowing side by side. Place: The service room, night. Indoors, at the foot of the lighthouse. A small round room with whitewashed curved walls and a steel door: a grey teleprinter the size of a sewing machine on a steel desk, yellowed paper rolling up out of it, a cream metal radio receiver with one big dial and two small lamps, one red and one green, an upturned wooden crate, a shelf with two jam jars. A single bare bulb; the sweep of the lighthouse beam flashes past the small window at night. In frame: Mara (yellow raincoat, startled). No text, no captions, no watermark.",
+      "videoPrompt": "Yellowed paper climbs out of the teleprinter line by line, the red and green lamps glowing side by side. Camera: close-up, slow push-in. No speech, ambient sound only: teleprinter keys hammering.",
+      "estimate": {
+        "credits": 12,
+        "status": "seen"
+      },
+      "result": {
+        "voices": [
+          {
+            "file": "C:\\projects\\Personal\\creative-hub\\runs\\the-lighthouse-that-kept-lists-2\\video\\voices\\ch01.s05.sh02-l1.wav",
+            "seconds": 5.82
+          }
+        ],
+        "keyframe": {
+          "media_id": "aba277ba-2758-4a4c-b3e2-1ad905e8978d",
+          "file": "C:\\projects\\Personal\\creative-hub\\runs\\the-lighthouse-that-kept-lists-2\\video\\keyframes\\kr-02.jpeg"
+        },
+        "clips": [
+          {
+            "file": "C:\\projects\\Personal\\creative-hub\\runs\\the-lighthouse-that-kept-lists-2\\video\\clips\\ch01-s05-sh02-01.mp4",
+            "credits": 12
+          }
+        ]
+      }
+    },
+    {
+      "id": "ch01.s05.sh03",
+      "scene": "ch01.s05",
+      "place": "The service room",
+      "kind": "video",
+      "seconds": 6,
+      "writerSeconds": 6,
+      "clipSeconds": 6,
+      "framing": "close-up",
+      "move": "static",
+      "continuous": false,
+      "action": "Mara's face in the bulb light as the beam sweeps past the window behind her; her eyes fill.",
+      "cast": [
+        {
+          "name": "Mara",
+          "look": "yellow raincoat, shaken, eyes wet"
+        }
+      ],
+      "refs": [
+        "Mara"
+      ],
+      "sfx": [],
+      "title": null,
+      "lines": [
+        {
+          "speaker": "Ante",
+          "delivery": "",
+          "text": "Marica. Went to Italy.",
+          "kind": "voice-over"
+        },
+        {
+          "speaker": "Mara",
+          "delivery": "whispering",
+          "text": "Nobody knew that.",
+          "kind": "dialogue"
+        }
+      ],
+      "keyframePrompt": "Live-action short film with a 35mm film look: warm natural Adriatic light against cold blue-grey sea and stone, the bright yellow of Mara's raincoat as the one strong colour, tungsten-warm interiors, soft film grain, shallow depth of field, gentle handheld and slow push-ins, realistic faces, no text on screen. close-up shot: Mara's face in the bulb light as the beam sweeps past the window behind her; her eyes fill. Place: The service room, night. Indoors, at the foot of the lighthouse. A small round room with whitewashed curved walls and a steel door: a grey teleprinter the size of a sewing machine on a steel desk, yellowed paper rolling up out of it, a cream metal radio receiver with one big dial and two small lamps, one red and one green, an upturned wooden crate, a shelf with two jam jars. A single bare bulb; the sweep of the lighthouse beam flashes past the small window at night. In frame: Mara (yellow raincoat, shaken, eyes wet). No text, no captions, no watermark.",
+      "videoPrompt": "Mara's face in the bulb light as the beam sweeps past the window behind her; her eyes fill. Camera: close-up, static. No speech, ambient sound only.",
+      "estimate": {
+        "credits": 10,
+        "status": "guessed"
+      },
+      "result": {
+        "voices": [
+          {
+            "file": "C:\\projects\\Personal\\creative-hub\\runs\\the-lighthouse-that-kept-lists-2\\video\\voices\\ch01.s05.sh03-l1.wav",
+            "seconds": 1.96
+          },
+          {
+            "file": "C:\\projects\\Personal\\creative-hub\\runs\\the-lighthouse-that-kept-lists-2\\video\\voices\\ch01.s05.sh03-l2.wav",
+            "seconds": 1.34
+          }
+        ],
+        "keyframe": {
+          "media_id": "2cadb771-ea8e-4ce3-a81a-1d55f051ffcc",
+          "file": "C:\\projects\\Personal\\creative-hub\\runs\\the-lighthouse-that-kept-lists-2\\video\\keyframes\\kr-03.jpeg"
+        },
+        "clips": [
+          {
+            "file": "C:\\projects\\Personal\\creative-hub\\runs\\the-lighthouse-that-kept-lists-2\\video\\clips\\ch01-s05-sh03-01.mp4",
+            "credits": 10
+          }
+        ]
+      }
+    },
+    {
+      "id": "ch02.s01.sh01",
+      "scene": "ch02.s01",
+      "place": "The harbour",
+      "kind": "video",
+      "seconds": 6,
+      "writerSeconds": 6,
+      "clipSeconds": 6,
+      "framing": "wide",
+      "move": "tracking",
+      "continuous": false,
+      "action": "Dino marches along the riva holding up a fishbone antenna made of tape measures; Mara walks beside him with a chirping receiver.",
+      "cast": [
+        {
+          "name": "Dino",
+          "look": "navy jacket, cap, solemn"
+        },
+        {
+          "name": "Mara",
+          "look": "yellow raincoat, hood up, focused"
+        }
+      ],
+      "refs": [
+        "Dino",
+        "Mara"
+      ],
+      "sfx": [
+        "wind, two warbling radio tones growing louder"
+      ],
+      "title": null,
+      "lines": [
+        {
+          "speaker": "Mara",
+          "delivery": "focused",
+          "text": "Left. Slowly. Stop. There.",
+          "kind": "dialogue"
+        },
+        {
+          "speaker": "Dino",
+          "delivery": "solemn",
+          "text": "For the record, I feel ridiculous.",
+          "kind": "dialogue"
+        }
+      ],
+      "keyframePrompt": "Live-action short film with a 35mm film look: warm natural Adriatic light against cold blue-grey sea and stone, the bright yellow of Mara's raincoat as the one strong colour, tungsten-warm interiors, soft film grain, shallow depth of field, gentle handheld and slow push-ins, realistic faces, no text on screen. wide shot, tracking: Dino marches along the riva holding up a fishbone antenna made of tape measures; Mara walks beside him with a chirping receiver. Place: The harbour, night. Outdoors. A small stone harbour on a grey Dalmatian island in November: a curved stone quay (the riva) with bollards, stone houses climbing a hill behind, café chairs stacked and chained on tables, a white car ferry at the ramp, and at the far end a long low stone causeway with an iron rail leading to a white lighthouse on a rock. Bora wind, white streaks on dark blue-grey water, sea smoke at night, warm yellow lamplight from one shop window. In frame: Dino (navy jacket, cap, solemn); Mara (yellow raincoat, hood up, focused). No text, no captions, no watermark.",
+      "videoPrompt": "Dino marches along the riva holding up a fishbone antenna made of tape measures; Mara walks beside him with a chirping receiver. Camera: wide, tracking. No speech, ambient sound only: wind, two warbling radio tones growing louder.",
+      "estimate": {
+        "credits": 10,
+        "status": "guessed"
+      },
+      "result": {
+        "voices": [
+          {
+            "file": "C:\\projects\\Personal\\creative-hub\\runs\\the-lighthouse-that-kept-lists-2\\video\\voices\\ch02.s01.sh01-l1.wav",
+            "seconds": 1.69
+          },
+          {
+            "file": "C:\\projects\\Personal\\creative-hub\\runs\\the-lighthouse-that-kept-lists-2\\video\\voices\\ch02.s01.sh01-l2.wav",
+            "seconds": 2.65
+          }
+        ],
+        "keyframe": {
+          "media_id": "8a69ab07-9d91-4628-a752-e2aa4dc80fc5",
+          "file": "C:\\projects\\Personal\\creative-hub\\runs\\the-lighthouse-that-kept-lists-2\\video\\keyframes\\kf3-01.jpeg"
+        },
+        "clips": [
+          {
+            "file": "C:\\projects\\Personal\\creative-hub\\runs\\the-lighthouse-that-kept-lists-2\\video\\clips\\ch02-s01-sh01-01.mp4",
+            "credits": 10
+          }
+        ]
+      }
+    },
+    {
+      "id": "ch02.s02.sh01",
+      "scene": "ch02.s02",
+      "place": "Ivka's back room",
+      "kind": "video",
+      "seconds": 8,
+      "writerSeconds": 8,
+      "clipSeconds": 8,
+      "framing": "medium",
+      "move": "slow push-in",
+      "continuous": false,
+      "action": "Ivka sits at the card table with coffee, her hand on a silver cassette recorder wired to a black radio; she looks up without surprise.",
+      "cast": [
+        {
+          "name": "Ivka",
+          "look": "black cardigan, grey knitted hat, glasses on a chain, unbothered"
+        }
+      ],
+      "refs": [
+        "Ivka"
+      ],
+      "sfx": [
+        "two tones squabbling from a small speaker, heater ticking"
+      ],
+      "title": null,
+      "lines": [
+        {
+          "speaker": "Ivka",
+          "delivery": "unbothered",
+          "text": "Shut the door. You're letting the bora in.",
+          "kind": "dialogue"
+        }
+      ],
+      "keyframePrompt": "Live-action short film with a 35mm film look: warm natural Adriatic light against cold blue-grey sea and stone, the bright yellow of Mara's raincoat as the one strong colour, tungsten-warm interiors, soft film grain, shallow depth of field, gentle handheld and slow push-ins, realistic faces, no text on screen. medium shot, slow push-in: Ivka sits at the card table with coffee, her hand on a silver cassette recorder wired to a black radio; she looks up without surprise. Place: Ivka's back room, night. Indoors at night. A narrow warm storeroom behind the shop: shelves of tinned tomatoes to the ceiling, a crooked 2011 calendar, a ticking paraffin heater with an orange glow, a card table under the window holding a silver cassette recorder, a black ham radio with a hand microphone, a shoebox of cassettes, a cup of coffee. In frame: Ivka (black cardigan, grey knitted hat, glasses on a chain, unbothered). No text, no captions, no watermark.",
+      "videoPrompt": "Ivka sits at the card table with coffee, her hand on a silver cassette recorder wired to a black radio; she looks up without surprise. Camera: medium, slow push-in. No speech, ambient sound only: two tones squabbling from a small speaker, heater ticking.",
+      "estimate": {
+        "credits": 12,
+        "status": "seen"
+      },
+      "result": {
+        "voices": [
+          {
+            "file": "C:\\projects\\Personal\\creative-hub\\runs\\the-lighthouse-that-kept-lists-2\\video\\voices\\ch02.s02.sh01-l1.wav",
+            "seconds": 2.5
+          }
+        ],
+        "keyframe": {
+          "media_id": "0aafc02d-d2e7-48f8-9e4f-aca48d5b978c",
+          "file": "C:\\projects\\Personal\\creative-hub\\runs\\the-lighthouse-that-kept-lists-2\\video\\keyframes\\kf3-02.jpeg"
+        },
+        "clips": [
+          {
+            "file": "C:\\projects\\Personal\\creative-hub\\runs\\the-lighthouse-that-kept-lists-2\\video\\clips\\ch02-s02-sh01-01.mp4",
+            "credits": 12
+          }
+        ]
+      }
+    },
+    {
+      "id": "ch02.s02.sh02",
+      "scene": "ch02.s02",
+      "place": "Ivka's back room",
+      "kind": "video",
+      "seconds": 8,
+      "writerSeconds": 8,
+      "clipSeconds": 8,
+      "framing": "medium",
+      "move": "static",
+      "continuous": false,
+      "action": "Ivka lays her hand on a shoebox of four cassettes; Mara and Dino stand dripping by the door.",
+      "cast": [
+        {
+          "name": "Ivka",
+          "look": "calm, a little proud"
+        },
+        {
+          "name": "Mara",
+          "look": "soaked, stunned"
+        },
+        {
+          "name": "Dino",
+          "look": "holding the antenna, embarrassed"
+        }
+      ],
+      "refs": [
+        "Ivka",
+        "Mara",
+        "Dino"
+      ],
+      "sfx": [],
+      "title": null,
+      "lines": [
+        {
+          "speaker": "Ivka",
+          "delivery": "",
+          "text": "One a night, when Mara comes home. He said don't tell her. She'll explain it.",
+          "kind": "dialogue"
+        }
+      ],
+      "keyframePrompt": "Live-action short film with a 35mm film look: warm natural Adriatic light against cold blue-grey sea and stone, the bright yellow of Mara's raincoat as the one strong colour, tungsten-warm interiors, soft film grain, shallow depth of field, gentle handheld and slow push-ins, realistic faces, no text on screen. medium shot: Ivka lays her hand on a shoebox of four cassettes; Mara and Dino stand dripping by the door. Place: Ivka's back room, night. Indoors at night. A narrow warm storeroom behind the shop: shelves of tinned tomatoes to the ceiling, a crooked 2011 calendar, a ticking paraffin heater with an orange glow, a card table under the window holding a silver cassette recorder, a black ham radio with a hand microphone, a shoebox of cassettes, a cup of coffee. In frame: Ivka (calm, a little proud); Mara (soaked, stunned); Dino (holding the antenna, embarrassed). No text, no captions, no watermark.",
+      "videoPrompt": "Ivka lays her hand on a shoebox of four cassettes; Mara and Dino stand dripping by the door. Camera: medium, static. No speech, ambient sound only.",
+      "estimate": {
+        "credits": 12,
+        "status": "seen"
+      },
+      "result": {
+        "voices": [
+          {
+            "file": "C:\\projects\\Personal\\creative-hub\\runs\\the-lighthouse-that-kept-lists-2\\video\\voices\\ch02.s02.sh02-l1.wav",
+            "seconds": 5.11
+          }
+        ],
+        "keyframe": {
+          "media_id": "288676bf-fe2b-4c94-be0c-da255cddf7be",
+          "file": "C:\\projects\\Personal\\creative-hub\\runs\\the-lighthouse-that-kept-lists-2\\video\\keyframes\\kf3-03.jpeg"
+        },
+        "clips": [
+          {
+            "file": "C:\\projects\\Personal\\creative-hub\\runs\\the-lighthouse-that-kept-lists-2\\video\\clips\\ch02-s02-sh02-01.mp4",
+            "credits": 12
+          }
+        ]
+      }
+    },
+    {
+      "id": "ch02.s02.sh03",
+      "scene": "ch02.s02",
+      "place": "Ivka's back room",
+      "kind": "video",
+      "seconds": 10,
+      "writerSeconds": 10,
+      "clipSeconds": 10,
+      "framing": "close-up",
+      "move": "slow push-in",
+      "continuous": false,
+      "action": "Ivka holds a strip of teleprinter paper at arm's length; her mouth tightens, then softens.",
+      "cast": [
+        {
+          "name": "Ivka",
+          "look": "reading, moved, hiding it"
+        }
+      ],
+      "refs": [
+        "Ivka"
+      ],
+      "sfx": [],
+      "title": null,
+      "lines": [
+        {
+          "speaker": "Ante",
+          "delivery": "",
+          "text": "For Ivka. Nineteen seventy-one. I did not come to the dance. I dance like a winch. Sorry.",
+          "kind": "voice-over"
+        },
+        {
+          "speaker": "Ivka",
+          "delivery": "dry",
+          "text": "He did dance like a winch.",
+          "kind": "dialogue"
+        }
+      ],
+      "keyframePrompt": "Live-action short film with a 35mm film look: warm natural Adriatic light against cold blue-grey sea and stone, the bright yellow of Mara's raincoat as the one strong colour, tungsten-warm interiors, soft film grain, shallow depth of field, gentle handheld and slow push-ins, realistic faces, no text on screen. close-up shot, slow push-in: Ivka holds a strip of teleprinter paper at arm's length; her mouth tightens, then softens. Place: Ivka's back room, night. Indoors at night. A narrow warm storeroom behind the shop: shelves of tinned tomatoes to the ceiling, a crooked 2011 calendar, a ticking paraffin heater with an orange glow, a card table under the window holding a silver cassette recorder, a black ham radio with a hand microphone, a shoebox of cassettes, a cup of coffee. In frame: Ivka (reading, moved, hiding it). No text, no captions, no watermark.",
+      "videoPrompt": "Ivka holds a strip of teleprinter paper at arm's length; her mouth tightens, then softens. Camera: close-up, slow push-in. No speech, ambient sound only.",
+      "estimate": {
+        "credits": 15,
+        "status": "guessed"
+      },
+      "result": {
+        "voices": [
+          {
+            "file": "C:\\projects\\Personal\\creative-hub\\runs\\the-lighthouse-that-kept-lists-2\\video\\voices\\ch02.s02.sh03-l1.wav",
+            "seconds": 7.35
+          },
+          {
+            "file": "C:\\projects\\Personal\\creative-hub\\runs\\the-lighthouse-that-kept-lists-2\\video\\voices\\ch02.s02.sh03-l2.wav",
+            "seconds": 2.09
+          }
+        ],
+        "keyframe": {
+          "media_id": "6f100cc1-d76d-40ea-a5e0-d6aa1d9cf2e7",
+          "file": "C:\\projects\\Personal\\creative-hub\\runs\\the-lighthouse-that-kept-lists-2\\video\\keyframes\\kf3-04.jpeg"
+        },
+        "clips": [
+          {
+            "file": "C:\\projects\\Personal\\creative-hub\\runs\\the-lighthouse-that-kept-lists-2\\video\\clips\\ch02-s02-sh03-01.mp4",
+            "credits": 15
+          }
+        ]
+      }
+    },
+    {
+      "id": "ch02.s03.sh01",
+      "scene": "ch02.s03",
+      "place": "The service room",
+      "kind": "video",
+      "seconds": 6,
+      "writerSeconds": 6,
+      "clipSeconds": 6,
+      "framing": "medium",
+      "move": "slow push-in",
+      "continuous": false,
+      "action": "Mara reads the paper climbing from the teleprinter; behind her Ivka sits on the crate in a huge orange life jacket, Dino by the door.",
+      "cast": [
+        {
+          "name": "Mara",
+          "look": "yellow raincoat, reading"
+        },
+        {
+          "name": "Ivka",
+          "look": "orange life jacket over her black cardigan"
+        },
+        {
+          "name": "Dino",
+          "look": "clipboard to his chest"
+        }
+      ],
+      "refs": [
+        "Mara",
+        "Ivka",
+        "Dino"
+      ],
+      "sfx": [
+        "teleprinter keys"
+      ],
+      "title": null,
+      "lines": [
+        {
+          "speaker": "Ante",
+          "delivery": "",
+          "text": "For Mara. Do not sell the house.",
+          "kind": "voice-over"
+        }
+      ],
+      "keyframePrompt": "Live-action short film with a 35mm film look: warm natural Adriatic light against cold blue-grey sea and stone, the bright yellow of Mara's raincoat as the one strong colour, tungsten-warm interiors, soft film grain, shallow depth of field, gentle handheld and slow push-ins, realistic faces, no text on screen. medium shot, slow push-in: Mara reads the paper climbing from the teleprinter; behind her Ivka sits on the crate in a huge orange life jacket, Dino by the door. Place: The service room, night. Indoors, at the foot of the lighthouse. A small round room with whitewashed curved walls and a steel door: a grey teleprinter the size of a sewing machine on a steel desk, yellowed paper rolling up out of it, a cream metal radio receiver with one big dial and two small lamps, one red and one green, an upturned wooden crate, a shelf with two jam jars. A single bare bulb; the sweep of the lighthouse beam flashes past the small window at night. In frame: Mara (yellow raincoat, reading); Ivka (orange life jacket over her black cardigan); Dino (clipboard to his chest). No text, no captions, no watermark.",
+      "videoPrompt": "Mara reads the paper climbing from the teleprinter; behind her Ivka sits on the crate in a huge orange life jacket, Dino by the door. Camera: medium, slow push-in. No speech, ambient sound only: teleprinter keys.",
+      "estimate": {
+        "credits": 10,
+        "status": "guessed"
+      },
+      "result": {
+        "voices": [
+          {
+            "file": "C:\\projects\\Personal\\creative-hub\\runs\\the-lighthouse-that-kept-lists-2\\video\\voices\\ch02.s03.sh01-l1.wav",
+            "seconds": 2.35
+          }
+        ],
+        "keyframe": {
+          "media_id": "7699a4ea-8348-4a4d-8077-c37b9ce9c8c4",
+          "file": "C:\\projects\\Personal\\creative-hub\\runs\\the-lighthouse-that-kept-lists-2\\video\\keyframes\\kf3-05.jpeg"
+        },
+        "clips": [
+          {
+            "file": "C:\\projects\\Personal\\creative-hub\\runs\\the-lighthouse-that-kept-lists-2\\video\\clips\\ch02-s03-sh01-01.mp4",
+            "credits": 10
+          }
+        ]
+      }
+    },
+    {
+      "id": "ch02.s03.sh02",
+      "scene": "ch02.s03",
+      "place": "The service room",
+      "kind": "video",
+      "seconds": 6,
+      "writerSeconds": 6,
+      "clipSeconds": 6,
+      "framing": "close-up",
+      "move": "static",
+      "continuous": false,
+      "action": "Mara's face in the red and green lamplight; she swallows.",
+      "cast": [
+        {
+          "name": "Mara",
+          "look": "yellow raincoat, holding back tears"
+        }
+      ],
+      "refs": [
+        "Mara"
+      ],
+      "sfx": [],
+      "title": null,
+      "lines": [
+        {
+          "speaker": "Ante",
+          "delivery": "",
+          "text": "You can stop explaining things now. I know how it works. I built it.",
+          "kind": "voice-over"
+        }
+      ],
+      "keyframePrompt": "Live-action short film with a 35mm film look: warm natural Adriatic light against cold blue-grey sea and stone, the bright yellow of Mara's raincoat as the one strong colour, tungsten-warm interiors, soft film grain, shallow depth of field, gentle handheld and slow push-ins, realistic faces, no text on screen. close-up shot: Mara's face in the red and green lamplight; she swallows. Place: The service room, night. Indoors, at the foot of the lighthouse. A small round room with whitewashed curved walls and a steel door: a grey teleprinter the size of a sewing machine on a steel desk, yellowed paper rolling up out of it, a cream metal radio receiver with one big dial and two small lamps, one red and one green, an upturned wooden crate, a shelf with two jam jars. A single bare bulb; the sweep of the lighthouse beam flashes past the small window at night. In frame: Mara (yellow raincoat, holding back tears). No text, no captions, no watermark.",
+      "videoPrompt": "Mara's face in the red and green lamplight; she swallows. Camera: close-up, static. No speech, ambient sound only.",
+      "estimate": {
+        "credits": 10,
+        "status": "guessed"
+      },
+      "result": {
+        "voices": [
+          {
+            "file": "C:\\projects\\Personal\\creative-hub\\runs\\the-lighthouse-that-kept-lists-2\\video\\voices\\ch02.s03.sh02-l1.wav",
+            "seconds": 5.39
+          }
+        ],
+        "keyframe": {
+          "media_id": "9c1d5c85-e4d2-4c25-8399-7c5fd4545e63",
+          "file": "C:\\projects\\Personal\\creative-hub\\runs\\the-lighthouse-that-kept-lists-2\\video\\keyframes\\kr-06.jpeg"
+        },
+        "clips": [
+          {
+            "file": "C:\\projects\\Personal\\creative-hub\\runs\\the-lighthouse-that-kept-lists-2\\video\\clips\\ch02-s03-sh02-01.mp4",
+            "credits": 10
+          }
+        ]
+      }
+    },
+    {
+      "id": "ch02.s03.sh03",
+      "scene": "ch02.s03",
+      "place": "The service room",
+      "kind": "video",
+      "seconds": 6,
+      "writerSeconds": 6,
+      "clipSeconds": 6,
+      "framing": "two-shot",
+      "move": "static",
+      "continuous": false,
+      "action": "Mara turns, explaining with her hands; Dino holds out an ironed handkerchief and she takes it, crying.",
+      "cast": [
+        {
+          "name": "Mara",
+          "look": "crying, still talking"
+        },
+        {
+          "name": "Dino",
+          "look": "gentle, handkerchief held out"
+        }
+      ],
+      "refs": [
+        "Mara",
+        "Dino"
+      ],
+      "sfx": [],
+      "title": null,
+      "lines": [
+        {
+          "speaker": "Mara",
+          "delivery": "shaky",
+          "text": "The tape plays into the radio, so it's actually...",
+          "kind": "dialogue"
+        },
+        {
+          "speaker": "Dino",
+          "delivery": "gently",
+          "text": "Mara.",
+          "kind": "dialogue"
+        }
+      ],
+      "keyframePrompt": "Live-action short film with a 35mm film look: warm natural Adriatic light against cold blue-grey sea and stone, the bright yellow of Mara's raincoat as the one strong colour, tungsten-warm interiors, soft film grain, shallow depth of field, gentle handheld and slow push-ins, realistic faces, no text on screen. two-shot shot: Mara turns, explaining with her hands; Dino holds out an ironed handkerchief and she takes it, crying. Place: The service room, night. Indoors, at the foot of the lighthouse. A small round room with whitewashed curved walls and a steel door: a grey teleprinter the size of a sewing machine on a steel desk, yellowed paper rolling up out of it, a cream metal radio receiver with one big dial and two small lamps, one red and one green, an upturned wooden crate, a shelf with two jam jars. A single bare bulb; the sweep of the lighthouse beam flashes past the small window at night. In frame: Mara (crying, still talking); Dino (gentle, handkerchief held out). No text, no captions, no watermark.",
+      "videoPrompt": "Mara turns, explaining with her hands; Dino holds out an ironed handkerchief and she takes it, crying. Camera: two-shot, static. No speech, ambient sound only.",
+      "estimate": {
+        "credits": 10,
+        "status": "guessed"
+      },
+      "result": {
+        "voices": [
+          {
+            "file": "C:\\projects\\Personal\\creative-hub\\runs\\the-lighthouse-that-kept-lists-2\\video\\voices\\ch02.s03.sh03-l1.wav",
+            "seconds": 2.41
+          },
+          {
+            "file": "C:\\projects\\Personal\\creative-hub\\runs\\the-lighthouse-that-kept-lists-2\\video\\voices\\ch02.s03.sh03-l2.wav",
+            "seconds": 0.92
+          }
+        ],
+        "keyframe": {
+          "media_id": "c0468e80-d2fd-434c-986a-d2ecc8fe70d2",
+          "file": "C:\\projects\\Personal\\creative-hub\\runs\\the-lighthouse-that-kept-lists-2\\video\\keyframes\\kf4-02.jpeg"
+        },
+        "clips": [
+          {
+            "file": "C:\\projects\\Personal\\creative-hub\\runs\\the-lighthouse-that-kept-lists-2\\video\\clips\\ch02-s03-sh03-01.mp4",
+            "credits": 10
+          }
+        ]
+      }
+    },
+    {
+      "id": "ch02.s04.sh01",
+      "scene": "ch02.s04",
+      "place": "The harbour",
+      "kind": "video",
+      "seconds": 6,
+      "writerSeconds": 6,
+      "clipSeconds": 6,
+      "framing": "medium",
+      "move": "static",
+      "continuous": false,
+      "action": "At the ferry ramp a workman in an orange jacket signs the heritage form on Dino's clipboard as the lighthouse lamp comes on behind them.",
+      "cast": [
+        {
+          "name": "Dino",
+          "look": "clipboard, quietly triumphant"
+        }
+      ],
+      "refs": [
+        "Dino"
+      ],
+      "sfx": [],
+      "title": null,
+      "lines": [
+        {
+          "speaker": "Dino",
+          "delivery": "formal",
+          "text": "The lighthouse is a cultural good now. Nobody touches it.",
+          "kind": "dialogue"
+        }
+      ],
+      "keyframePrompt": "Live-action short film with a 35mm film look: warm natural Adriatic light against cold blue-grey sea and stone, the bright yellow of Mara's raincoat as the one strong colour, tungsten-warm interiors, soft film grain, shallow depth of field, gentle handheld and slow push-ins, realistic faces, no text on screen. medium shot: At the ferry ramp a workman in an orange jacket signs the heritage form on Dino's clipboard as the lighthouse lamp comes on behind them. Place: The harbour, dusk. Outdoors. A small stone harbour on a grey Dalmatian island in November: a curved stone quay (the riva) with bollards, stone houses climbing a hill behind, café chairs stacked and chained on tables, a white car ferry at the ramp, and at the far end a long low stone causeway with an iron rail leading to a white lighthouse on a rock. Bora wind, white streaks on dark blue-grey water, sea smoke at night, warm yellow lamplight from one shop window. In frame: Dino (clipboard, quietly triumphant). No text, no captions, no watermark.",
+      "videoPrompt": "At the ferry ramp a workman in an orange jacket signs the heritage form on Dino's clipboard as the lighthouse lamp comes on behind them. Camera: medium, static. No speech, ambient sound only.",
+      "estimate": {
+        "credits": 10,
+        "status": "guessed"
+      },
+      "result": {
+        "voices": [
+          {
+            "file": "C:\\projects\\Personal\\creative-hub\\runs\\the-lighthouse-that-kept-lists-2\\video\\voices\\ch02.s04.sh01-l1.wav",
+            "seconds": 4.2
+          }
+        ],
+        "keyframe": {
+          "media_id": "92539739-d4ae-451a-9a7e-d3b6990d15f2",
+          "file": "C:\\projects\\Personal\\creative-hub\\runs\\the-lighthouse-that-kept-lists-2\\video\\keyframes\\ks-07.jpeg"
+        },
+        "clips": [
+          {
+            "file": "C:\\projects\\Personal\\creative-hub\\runs\\the-lighthouse-that-kept-lists-2\\video\\clips\\ch02-s04-sh01-01.mp4",
+            "credits": 10
+          }
+        ]
+      }
+    },
+    {
+      "id": "ch02.s05.sh01",
+      "scene": "ch02.s05",
+      "place": "The service room",
+      "kind": "video",
+      "seconds": 8,
+      "writerSeconds": 8,
+      "clipSeconds": 8,
+      "framing": "close-up",
+      "move": "slow push-in",
+      "continuous": false,
+      "action": "Mara writes in a new black notebook, a loaf and two lemons beside it.",
+      "cast": [
+        {
+          "name": "Mara",
+          "look": "yellow raincoat, calm, a small smile"
+        }
+      ],
+      "refs": [
+        "Mara"
+      ],
+      "sfx": [],
+      "title": null,
+      "lines": [
+        {
+          "speaker": "Mara",
+          "delivery": "",
+          "text": "Light on. Wind dropping. Teleprinter OK. Bread. Two lemons.",
+          "kind": "voice-over"
+        }
+      ],
+      "keyframePrompt": "Live-action short film with a 35mm film look: warm natural Adriatic light against cold blue-grey sea and stone, the bright yellow of Mara's raincoat as the one strong colour, tungsten-warm interiors, soft film grain, shallow depth of field, gentle handheld and slow push-ins, realistic faces, no text on screen. close-up shot, slow push-in: Mara writes in a new black notebook, a loaf and two lemons beside it. Place: The service room, evening. Indoors, at the foot of the lighthouse. A small round room with whitewashed curved walls and a steel door: a grey teleprinter the size of a sewing machine on a steel desk, yellowed paper rolling up out of it, a cream metal radio receiver with one big dial and two small lamps, one red and one green, an upturned wooden crate, a shelf with two jam jars. A single bare bulb; the sweep of the lighthouse beam flashes past the small window at night. In frame: Mara (yellow raincoat, calm, a small smile). No text, no captions, no watermark.",
+      "videoPrompt": "Mara writes in a new black notebook, a loaf and two lemons beside it. Camera: close-up, slow push-in. No speech, ambient sound only.",
+      "estimate": {
+        "credits": 12,
+        "status": "seen"
+      },
+      "result": {
+        "voices": [
+          {
+            "file": "C:\\projects\\Personal\\creative-hub\\runs\\the-lighthouse-that-kept-lists-2\\video\\voices\\ch02.s05.sh01-l1.wav",
+            "seconds": 4.2
+          }
+        ],
+        "keyframe": {
+          "media_id": "169dd49c-fdd4-4c4e-af9b-48b04fc55546",
+          "file": "C:\\projects\\Personal\\creative-hub\\runs\\the-lighthouse-that-kept-lists-2\\video\\keyframes\\kf4-04.jpeg"
+        },
+        "clips": [
+          {
+            "file": "C:\\projects\\Personal\\creative-hub\\runs\\the-lighthouse-that-kept-lists-2\\video\\clips\\ch02-s05-sh01-01.mp4",
+            "credits": 12
+          }
+        ]
+      }
+    }
+  ],
+  "music": [
+    {
+      "id": "m1",
+      "description": "solo mandolin and soft accordion, wistful and light, slow",
+      "from": "ch01.s01.sh01",
+      "to": "ch01.s05.sh03",
+      "file": "C:/projects/Personal/creative-hub/runs/the-lighthouse-that-kept-lists-2/video/music/m1.wav",
+      "credits": 5
+    },
+    {
+      "id": "m2",
+      "description": "slow solo piano with a soft mandolin, tender, warm",
+      "from": "ch02.s03.sh01",
+      "to": "ch02.s05.sh01",
+      "file": "C:/projects/Personal/creative-hub/runs/the-lighthouse-that-kept-lists-2/video/music/m2.wav",
+      "credits": 5
+    }
+  ],
+  "warnings": []
+}
