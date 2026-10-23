@@ -1,6 +1,6 @@
 # Handoff: HUB-15 post-merge live checks
 
-Refreshed 2026-10-23, about 20:15, after C1, C2 and C3. Plan: `plan.md` next to this file (C1 and C3 ticked, with notes). Results: `changelog.md`.
+Refreshed 2026-10-23, about 20:15, after C1, C2 and C3. Plan: `plan.md` next to this file (C1, C2 and C3 ticked, with notes). Results: `changelog.md`.
 
 ## State
 
