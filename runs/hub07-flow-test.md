@@ -29,10 +29,12 @@ Model roles of the project (art-director, script-analyst, composer, stage-direct
 - 11:31 Pipeline run 4 (`from: voice`): voice plan, stagings. en: 9/9 clips. hr: 3 of 9; 6 failed on Gemini's free-tier **daily** quota (HTTP 429, "retry in 21h"), after VN Studio's 10/30/90 s retries per clip. Build: theme classic-dark, 0 placeholders, 1 translation, 0 warnings. Lint clean (9 dialogue blocks).
 - 11:45 `flow_status`: **1,050 credits** (unchanged: images are free). `flow_transcribe` of hr clips b003 and b005 gives the edition's exact sentences.
 
+- 12:19 Flow Music (the user agreed credits, 2026-10-23): `vno_update_settings {music: {provider: "flow", tracks: 1}}`, `vno_asset_regen music_01` with a prompt (calm instrumental, Mediterranean afternoon, acoustic guitar and mandolin). Done in 74 s: v2.mp3, engine `flow-music`, **5 credits** (Flow Music balance 13,184 before), loop 0 to 95.9 s from `music_loop`; the game rebuilt with it.
+
 ## Checked
 
 - Every image is `engine: flow` from the Flow project; no ComfyUI call. Looked at: the CG (both characters, the letter, the fig tree; faces match the sheets), Nina's surprised sprite (clean cutout, same look as the sheet), backgrounds (empty courtyard afternoon/evening, harbour with bell tower).
-- NOT checked: the 6 missing hr clips (rerun `vno_run_pipeline {from: "voice"}` after the quota resets, about 2026-10-24 09:00); Flow Music as the music provider (credits, needs the user's OK); hearing the voices (the user).
+- NOT checked: the 6 missing hr clips (rerun `vno_run_pipeline {from: "voice"}` after the quota resets, about 2026-10-24 09:00); hearing the voices and the Flow Music loop (the user).
 - Found for VN Studio's roadmap: when Gemini answers 429 with a retry time of hours (a daily quota), the remaining clips should stop at once instead of three retries each.
 
 ## Play (PowerShell)
