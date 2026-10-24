@@ -45,8 +45,8 @@ Branch: `HUB-15_post-merge-live-checks` (hub; run logs, this plan, the changelog
 
 ### C5. Gemini daily quota (VNO-24, FMM-15)
 
-- [ ] After the quota resets (about 09:00 on 2026-10-24): `vno_run_pipeline {slug: "hub07-flow-test", from: "voice"}` makes the 6 missing Croatian clips (transcribe two with `flow_transcribe {language: "hr"}`).
-- [ ] If the quota runs out again: the job stops at once with one "daily quota, resets at ..." message (VNO-24) and `flow_narrate`'s error says "daily" (FMM-15).
+- [x] After the quota resets (about 09:00 on 2026-10-24): `vno_run_pipeline {slug: "hub07-flow-test", from: "voice"}` makes the 6 missing Croatian clips (transcribe two with `flow_transcribe {language: "hr"}`). **Verified: all 6 clips generated cleanly (9/9 Croatian clips in game); transcribed `ch01.s01.b004` and `ch01.s01.b006` with 100% exact match.**
+- [x] If the quota runs out again: the job stops at once with one "daily quota, resets at ..." message (VNO-24) and `flow_narrate`'s error says "daily" (FMM-15). **Quota did not run out on rerun (all clips succeeded); daily quota detection already verified in initial run.**
 
 ### C6. The user's verdicts (closes HUB-06, 07, 08, 10, 11, 13)
 

@@ -23,4 +23,11 @@
 - **Game build:** `the-trap-room-at-the-lanterna` completed full build and lint cleanly at `C:\Users\Infplane\VisualNovels\projects\the-trap-room-at-the-lanterna\game` (noir theme, 0 placeholders, 311 dialogue blocks, 4,878 words, 33 screens). Playable in Ren'Py.
 - **Credits & Spend:** Flow credits 858 -> 858 (0 spent; Flow illustrations are free); Flow Music credits 13,169 -> 13,169 (0 spent; ACE-Step on ComfyUI was used).
 - Run log: `runs/hub15-c4-parallel.md`; updated `runs/the-trap-room-at-the-lanterna.md` with C4 build details and launch command.
-- Still open: C5 (after Gemini quota resets, ~09:00 on 2026-10-24), C6 (the user's verdicts).
+- Still open (then): C5, C6.
+
+## 2026-10-24 morning: C5
+
+- **C5 (Gemini daily quota reset, VNO-24, FMM-15):** `vno_run_pipeline {slug: "hub07-flow-test", from: "voice"}` executed at 09:27 on 2026-10-24 after the daily quota reset. Staging and voice plan tasks answered. All 6 missing Croatian audio clips generated cleanly via Gemini TTS (`gemini-3.8-flash-tts`): `ch01.s01.b004`, `ch01.s01.b006`, `ch02.s01.b002`, `ch02.s01.b003`, `ch03.s01.b002`, `ch03.s01.b003`. All 9 English and all 9 Croatian voice clips are now compiled into `game/voice/`. Game rebuilt and lint is clean (9 dialogue blocks).
+- **Verification:** Transcribed `ch01.s01.b004.mp3` ("Pružio joj je požutjelo pismo.") and `ch01.s01.b006.mp3` ("Nikad nikome ništa nije govorila. Pročitaj ga gdje god hoćeš.") with `flow_transcribe {language: "hr"}`: 100% exact match.
+- Run log updated: `runs/hub07-flow-test.md`.
+- Still open: C6 (the user's verdicts).

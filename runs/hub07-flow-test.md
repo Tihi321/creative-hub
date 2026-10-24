@@ -30,11 +30,14 @@ Model roles of the project (art-director, script-analyst, composer, stage-direct
 - 11:45 `flow_status`: **1,050 credits** (unchanged: images are free). `flow_transcribe` of hr clips b003 and b005 gives the edition's exact sentences.
 
 - 12:19 Flow Music (the user agreed credits, 2026-10-23): `vno_update_settings {music: {provider: "flow", tracks: 1}}`, `vno_asset_regen music_01` with a prompt (calm instrumental, Mediterranean afternoon, acoustic guitar and mandolin). Done in 74 s: v2.mp3, engine `flow-music`, **5 credits** (Flow Music balance 13,184 before), loop 0 to 95.9 s from `music_loop`; the game rebuilt with it.
+- 2026-10-24 09:27 (HUB-15 check C5): Pipeline run 6 (`from: voice`). Staging and voice plan answered via client tasks. The 6 missing Croatian clips generated with Gemini TTS (`gemini-3.8-flash-tts`): `ch01.s01.b004`, `ch01.s01.b006`, `ch02.s01.b002`, `ch02.s01.b003`, `ch03.s01.b002`, `ch03.s01.b003`. All 9/9 Croatian clips and 9/9 English clips present in `game/voice/`. Rebuilt and lint clean.
+- Transcribed `ch01.s01.b004.mp3` ("Pružio joj je požutjelo pismo.") and `ch01.s01.b006.mp3` ("Nikad nikome ništa nije govorila. Pročitaj ga gdje god hoćeš.") with `flow_transcribe {language: "hr"}`: 100% exact match to edition.
 
 ## Checked
 
 - Every image is `engine: flow` from the Flow project; no ComfyUI call. Looked at: the CG (both characters, the letter, the fig tree; faces match the sheets), Nina's surprised sprite (clean cutout, same look as the sheet), backgrounds (empty courtyard afternoon/evening, harbour with bell tower).
-- NOT checked: the 6 missing hr clips (rerun `vno_run_pipeline {from: "voice"}` after the quota resets, about 2026-10-24 09:00); hearing the voices and the Flow Music loop (the user).
+- All 9/9 English and 9/9 Croatian voice clips generated and verified (C5, 2026-10-24).
+- NOT checked: hearing the voices and the Flow Music loop in running game (the user in C6).
 - Found for VN Studio's roadmap: when Gemini answers 429 with a retry time of hours (a daily quota), the remaining clips should stop at once instead of three retries each.
 
 ## Play (PowerShell)
@@ -43,4 +46,4 @@ Model roles of the project (art-director, script-analyst, composer, stage-direct
 & "C:\projects\Local\renpy\renpy-8.5.3-sdk\renpy.exe" "$env:USERPROFILE\VisualNovels\projects\hub07-flow-test\game"
 ```
 
-Play both choices (the second from the start again). Croatian: Preferences -> Language -> Hrvatski; only 3 Croatian lines are voiced until the voice rerun. Listen for: the voices fit the characters, the English and Croatian pronunciation.
+Play both choices (the second from the start again). Croatian: Preferences -> Language -> Hrvatski; all 9 lines are now fully voiced in Croatian. Listen for: the voices fit the characters, the English and Croatian pronunciation.

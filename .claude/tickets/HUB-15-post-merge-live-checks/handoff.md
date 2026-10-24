@@ -1,6 +1,6 @@
 # Handoff: HUB-15 post-merge live checks
 
-Refreshed 2026-10-23, about 22:15, after C1, C2, C3 and C4. Plan: `plan.md` next to this file (C1, C2, C3 and C4 ticked, with notes). Results: `changelog.md`.
+Refreshed 2026-10-24, about 09:30, after C1, C2, C3, C4 and C5. Plan: `plan.md` next to this file (C1 to C5 ticked, with notes). Results: `changelog.md`.
 
 ## State
 
@@ -21,12 +21,13 @@ Refreshed 2026-10-23, about 22:15, after C1, C2, C3 and C4. Plan: `plan.md` next
 | C3 puzzle mystery | `the-trap-room-at-the-lanterna`, score 8.36, imported with the art and music plan (no images) | SCP-30, 31, 33, VNO-26, 29 verified; VNO-30 verified in the data only; SCP-32 not exercised; VNO-25 and VNO-31 partly fixed. New: VNO-36, 37, 38. | `runs/the-trap-room-at-the-lanterna.md` |
 | C2 screenplay | `the-local-patch-3` (short-film), score 7.09 at round 2 (round 1 rejected at 6.73 under `max_rounds: 1`; reopened with `reopen_book {mode: "rewrite"}`), runtime 120 s in [60, 180], 18 shots | SCP-29 verified: prompts in seconds, length gate `ok, seconds: 120`, no length rewrite. Filed SCP-43 (short film gets 2 rewrite rounds, user OK); the unused `target_words` not filed. | `runs/the-local-patch-3.md` |
 | C4 parallel images | `the-trap-room-at-the-lanterna` (Flow, 63 assets) + `hub08-13-autostart` (ComfyUI) | VNO-28 verified: 19 consecutive polling captures show Flow jobs and ComfyUI jobs running simultaneously without deadlock. Lanterna game built cleanly and linted. | `runs/hub15-c4-parallel.md` |
+| C5 Gemini voice quota | `hub07-flow-test` (Croatian edition) | All 6 missing Croatian audio clips generated after quota reset; 9/9 Croatian clips and 9/9 English clips in `game/voice/`. Transcriptions of `b004` and `b006` 100% matched edition text. Game rebuilt and clean. | `runs/hub07-flow-test.md` |
 
 ## What is left
 
 1. ~~C2 screenplay~~: done (see above).
-2. **C4 Flow and ComfyUI side by side (VNO-28):** start ComfyUI (`scripts\hub.ps1 start comfyui`, plus comfy-mcp if needed). Then run two small VN projects at once, one with `art.provider: flow` and one on ComfyUI, and check that `vno_status` shows an image job of each running at the same time. A candidate is to build C3's `the-trap-room-at-the-lanterna` with Flow images (free) alongside a small ComfyUI project. That would also do C3's optional build for the user to play.
-3. **C5 Gemini quota (VNO-24, FMM-15):** after about 09:00 on 2026-10-24, run `vno_run_pipeline {slug: "hub07-flow-test", from: "voice"}` to make the 6 missing Croatian clips, and transcribe two with `flow_transcribe {language: "hr"}`. If the quota runs out again, check for one "daily quota, resets at ..." stop and that `flow_narrate`'s error says "daily".
+2. ~~C4 Flow and ComfyUI side by side~~: done (see above).
+3. ~~C5 Gemini quota~~: done (see above).
 4. **C6 the user's verdicts:** ask the user to play or watch, and write their notes in each run log.
    - The film `runs/the-lighthouse-that-kept-lists-2/video/out/final.mp4`.
    - *The Winter Garden Clock*.
@@ -54,4 +55,4 @@ Refreshed 2026-10-23, about 22:15, after C1, C2, C3 and C4. Plan: `plan.md` next
 
 ## Next step
 
-C6 (user verdicts on built games/films) or C5 tomorrow morning after 09:00 (Gemini quota reset). User can play *The Trap Room at the Lanterna* now!
+C6: user verdicts on the built games and video. All checks C1 through C5 are complete and verified.
