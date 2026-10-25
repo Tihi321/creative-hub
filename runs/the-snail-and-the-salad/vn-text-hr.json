@@ -1,0 +1,73 @@
+{
+  "format": "vn-text",
+  "version": 2,
+  "lang": "hr",
+  "packHash": "sha256:5b0175dec57ef7eac93aaa68bfaceae8d9728777ab51924b823ab215112cf57a",
+  "title": "Puž i salata",
+  "blurb": "Tino je sasvim mali puž s velikim apetitom, a najbolja salata na svijetu čeka ga na drugom kraju vrta. Korak po korak, preko kamenčića nalik planinama i prskalice koja ide fsss, kreće po nju. Polako je ipak kretanje, uvijek kaže mama, a Tina na kraju čeka hrskavo iznenađenje.",
+  "chapterTitles": {
+    "1": "Puž i salata"
+  },
+  "sceneTitles": {
+    "ch01.s01": "Pod velikim zelenim listom, jutro",
+    "ch01.s02": "Teglica za cvijeće, jutro",
+    "ch01.s03": "Staza od kamenčića, jutro",
+    "ch01.s04": "Staza od kamenčića, podne",
+    "ch01.s05": "Pjegava gljiva, podne",
+    "ch01.s06": "Red rajčica, poslijepodne",
+    "ch01.s07": "Red rajčica, poslijepodne",
+    "ch01.s08": "Salatni vrt, poslijepodne",
+    "ch01.s09": "Salatni vrt, kasno poslijepodne",
+    "ch01.s10": "Salatni vrt, kasno poslijepodne",
+    "ch01.s11": "Staza od kamenčića, večer",
+    "ch01.s12": "Teglica za cvijeće, noć"
+  },
+  "choiceTexts": {},
+  "endings": {
+    "1": "Kraj"
+  },
+  "characterNames": {
+    "tino": "Tino",
+    "mama": "Mama",
+    "buba": "Buba"
+  },
+  "beats": {
+    "ch01.s01.b002": "Tino se budi u svojoj maloj okrugloj kućici.",
+    "ch01.s01.b003": "Trbuščić mu kruli: krrr, krrr.",
+    "ch01.s01.b004": "Jako je, jako gladan.",
+    "ch01.s02.b002": "Mama kaže da je salata s druge strane vrta.",
+    "ch01.s02.b003": "Kaže da je i polako kretanje.",
+    "ch01.s02.b004": "Tino kimne i nasmije se.",
+    "ch01.s03.b002": "Tino kreće stazom od kamenčića.",
+    "ch01.s03.b003": "Polako, polako, polako, jedan mali korak za drugim.",
+    "ch01.s03.b004": "Vrt je jako, jako velik.",
+    "ch01.s04.b002": "Jedan je kamenčić velik kao planina.",
+    "ch01.s04.b003": "Tino se penje gore, gore, gore.",
+    "ch01.s04.b004": "A onda se spusti — juhuu!",
+    "ch01.s05.b002": "Prskalica ide fsss!",
+    "ch01.s05.b003": "Kap, kap, kap.",
+    "ch01.s05.b004": "Tino čeka pod pjegavom gljivom dok kišica ne prestane.",
+    "ch01.s06.b002": "Buba sleti kraj njega — frrr.",
+    "ch01.s06.b003": "Kaže da će odletjeti naprijed i pričekati.",
+    "ch01.s06.b004": "I ode, u petlju!",
+    "ch01.s07.b002": "Velika čizma lupi o tlo.",
+    "ch01.s07.b003": "Tres!",
+    "ch01.s07.b004": "Tino se uvuče u kućicu, a čizma prođe pokraj njega.",
+    "ch01.s08.b002": "Buba čeka na velikom hrskavom listu.",
+    "ch01.s08.b003": "Cijeli je vrt zelen i hrskav.",
+    "ch01.s08.b004": "Tinu opet zakruli trbuščić.",
+    "ch01.s09.b002": "Tino zagrize jedan sićušni zalogaj.",
+    "ch01.s09.b003": "HRSK!",
+    "ch01.s09.b004": "To je najbolja salata u cijelom širokom vrtu.",
+    "ch01.s10.b002": "Pojede okruglu rupicu ravno kroz list.",
+    "ch01.s10.b003": "Mljac, mljac, mljac.",
+    "ch01.s10.b004": "Tino je jako, jako sit.",
+    "ch01.s11.b002": "Tino nosi mali komadić salate kući za mamu.",
+    "ch01.s11.b003": "Polako, polako, polako.",
+    "ch01.s11.b004": "Sunce se spušta i vrt postaje zlatan.",
+    "ch01.s12.b002": "Mama i Tino dijele list.",
+    "ch01.s12.b003": "Tino zijevne i sklupča se u svojoj kućici.",
+    "ch01.s12.b004": "Laku noć, mali puže."
+  },
+  "puzzles": {}
+}

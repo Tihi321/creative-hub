@@ -88,6 +88,9 @@ function Start-Detached([string]$exe, [string[]]$argList, [string]$workDir, [str
     $line = "cmd.exe /d /c `"`"$exe`" $($argList -join ' ') 1>>`"$outLog`" 2>>`"$errLog`"`""
     $vars = @{}
     foreach ($e in [Environment]::GetEnvironmentVariables().GetEnumerator()) { $vars[[string]$e.Key] = [string]$e.Value }
+    # An agent session may export ELECTRON_RUN_AS_NODE=1 (the harness itself runs on Electron): an Electron app started with it
+    # runs as plain Node and crashes (e.g. Scriptorium's main process has no `electron`). Never pass it to an Electron app.
+    if ($exe -match 'electron(\.exe)?$') { $vars.Remove('ELECTRON_RUN_AS_NODE') }
     foreach ($k in $extraEnv.Keys) { $vars[$k] = [string]$extraEnv[$k] }
     $startup = New-CimInstance -ClassName Win32_ProcessStartup -ClientOnly -Property @{
         ShowWindow           = [uint16]$(if ($visible) { 1 } else { 0 })
