@@ -49,4 +49,13 @@ Branches (cut from each `master`):
 
 ### Commit status
 
-All four repos are **uncommitted** on their ticket branches (no commits, pushes or PRs, per the implementation run). The plan/contract/changelog and ticket notes are in the hub and repo `.claude/tickets/` folders.
+Committed and pushed on 2026-10-25:
+
+| Repo | Branch | Commit |
+|---|---|---|
+| hub | `HUB-16_vn-pack` | `d090a01` |
+| scriptorium | `SCP-45_vn-pack` | `ec5d6ad` |
+| book-translator | `BTT-23_vn-pack` | `ccf23b1` |
+| visual-novels-orchestrator | `VNO-46_vn-pack` | `bde84ca` |
+
+Each branch is on `origin` and ready for a PR; the user's play verdict is still pending. The plan/contract/changelog and ticket notes are in the hub and repo `.claude/tickets/` folders.
