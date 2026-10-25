@@ -58,4 +58,4 @@ Committed and pushed on 2026-10-25:
 | book-translator | `BTT-23_vn-pack` | `ccf23b1` |
 | visual-novels-orchestrator | `VNO-46_vn-pack` | `bde84ca` |
 
-Each branch is on `origin` and ready for a PR; the user's play verdict is still pending. The plan/contract/changelog and ticket notes are in the hub and repo `.claude/tickets/` folders.
+Each branch was pushed on 2026-10-25 and merged: hub PR #10 (`b8029e5`), Scriptorium PR #13 (`3a9102b`), Book Translator PR #16 (`5e2938f`), VN Studio PR #20 (`770b694`). HUB-16 moved to Done in the hub roadmap and the live soother game was rebuilt from `master`. The user's play verdict is not separately recorded.
