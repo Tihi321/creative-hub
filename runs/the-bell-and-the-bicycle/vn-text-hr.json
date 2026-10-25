@@ -1,0 +1,72 @@
+{
+  "format": "vn-text",
+  "version": 2,
+  "lang": "hr",
+  "packHash": "sha256:e6065d69457ee41e28b79700581377aca6e1f8f46e8a51386b82da1c5967c821",
+  "title": "Zvonce i bicikl",
+  "blurb": "Kad Lana dobije sjajno crveno zvonce za svoj plavi bicikl, njezina prva vožnja u park pretvori se u malu pustolovinu. Zvonce odleti i otkotrlja se, a da bi se vratilo kući, trebaju pažljiv prijatelj, veseo rep i puno njuškanja. Topla priča o novim stvarima i prijateljima koji pomažu da ih nađemo.",
+  "chapterTitles": {
+    "1": "Zvonce i bicikl"
+  },
+  "sceneTitles": {
+    "ch01.s01": "Lanina kuća, rano jutro",
+    "ch01.s02": "Žuta ulazna vrata i prednji vrt, jutro",
+    "ch01.s03": "Ulaz u park, jutro",
+    "ch01.s04": "Vijugava šljunčana staza, jutro",
+    "ch01.s05": "Vijugava šljunčana staza, jutro",
+    "ch01.s06": "Crvena klupa i veliki kesten, jutro",
+    "ch01.s07": "Crvena klupa i veliki kesten, prijepodne",
+    "ch01.s08": "Crvena klupa i veliki kesten, prijepodne",
+    "ch01.s09": "Crvena klupa i veliki kesten, prijepodne",
+    "ch01.s10": "Vijugava šljunčana staza, kasno poslijepodne",
+    "ch01.s11": "Žuta ulazna vrata i prednji vrt, rana večer",
+    "ch01.s12": "Lanina kuća, noć"
+  },
+  "choiceTexts": {},
+  "endings": {
+    "1": "Kraj"
+  },
+  "characterNames": {
+    "lana": "Lana",
+    "tomo": "Tomo",
+    "kiki": "Kiki",
+    "mama": "Mama"
+  },
+  "beats": {
+    "ch01.s01.b002": "Zvonce je malo, okruglo i sjajno crveno.",
+    "ch01.s01.b003": "Mama ga daje Lani za njezin plavi bicikl.",
+    "ch01.s01.b004": "Zvoni din-din kad ga Lana protrese.",
+    "ch01.s02.b002": "Lana čvrsto zavrne mali vijak.",
+    "ch01.s02.b003": "Zazvoni. Din-din!",
+    "ch01.s02.b004": "Plavi bicikl je spreman.",
+    "ch01.s03.b002": "Kiki tako brzo maše repom da od toga nastane mali vjetar.",
+    "ch01.s03.b003": "Lana pridoda se i zazvoni zvonom. Din-din!",
+    "ch01.s04.b002": "Voze se vijugavom stazom. Din-din!",
+    "ch01.s04.b003": "Kiki trči za njima, šapice idu tap-tap.",
+    "ch01.s04.b004": "Zvonce zvoni i zvoni cijelo jutro.",
+    "ch01.s05.b002": "Prednji kotač naleti na veliki korijen. Bum!",
+    "ch01.s05.b003": "Crveno zvonce odleti i otkotrlja se u travu.",
+    "ch01.s05.b004": "Lana i Tomo gledaju praznu ručku.",
+    "ch01.s06.b002": "Gledaju pod crvenu klupu. Zvonca nema.",
+    "ch01.s06.b003": "Gledaju u travu i pokraj jezera.",
+    "ch01.s06.b004": "Patke gledaju okruglim očima.",
+    "ch01.s07.b002": "Kiki njuška po lišću. Njuš, njuš, njuš.",
+    "ch01.s07.b003": "Kopa i kopa, a lišće leti kao male ptice.",
+    "ch01.s07.b004": "Lana i Tomo se naginju blizu.",
+    "ch01.s08.b002": "Kiki izlazi s nečim u ustima.",
+    "ch01.s08.b003": "To je crveno zvonce! Blatnjavo, ali cijelo.",
+    "ch01.s08.b004": "Djeca kliču. Kiki maše cijelim stražnjim dijelom.",
+    "ch01.s09.b002": "Lana briše zvonce rukavom dok crvena opet ne zasja.",
+    "ch01.s09.b003": "Zazvoni. Din-din!",
+    "ch01.s09.b004": "Tomo se smije, a Kiki laje jedan sretan lavež.",
+    "ch01.s10.b002": "Sunce požuti i sjene postanu duge.",
+    "ch01.s10.b003": "Voze kući polako, a zvonce zvoni cijelim putem. Din-din, din-din.",
+    "ch01.s11.b002": "Mama pita kako je bilo.",
+    "ch01.s11.b003": "Lana joj zazvoni zvonom. Din-din!",
+    "ch01.s11.b004": "Mama se smiješi. Zvuči kao dobar dan.",
+    "ch01.s12.b002": "Crveno zvonce stoji na noćnom ormariću, sjajno i tiho.",
+    "ch01.s12.b003": "Lana spava, a Kiki se sklupčala pred njezinim nogama.",
+    "ch01.s12.b004": "Laku noć, zvonce. Laku noć, din-din."
+  },
+  "puzzles": {}
+}

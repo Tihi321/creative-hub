@@ -1,6 +1,6 @@
 # Creative hub
 
-The starting point for making books, translations, art, music, voices and visual novels with the local tools on this PC. Each tool is its own repo and app with its own MCP server. This folder holds the map, the MCP config, the start/stop script, and the workflow skill that chains them.
+The starting point for making books, translations, art, music, voices, visual novels and children's picture books with the local tools on this PC. Each tool is its own repo and app with its own MCP server. This folder holds the map, the MCP config, the start/stop script, and the workflow skill that chains them.
 
 Give Claude an idea or theme in a session opened here and say what you want (for example "make a choice visual novel about a lighthouse keeper's daughter, pixel art, chiptune music"). The `make-visual-novel` skill (`.claude/skills/make-visual-novel/SKILL.md`) runs the chain.
 
@@ -14,7 +14,7 @@ Scriptorium ──► book folder (script + bible + outline + vn/pack.json + vn/
    │                                                        ├─► Book Translator: reader EPUB (32 languages)
    │                                                        └─► Book Translator: VN pack text catalog ──► edition ──► VN Studio
    ▼                                                        ▼
-VN Studio: analyse ► art ► music ► generate ► voice ► stage ► build ► lint ──► HTML5 visual novel (PC; hr/en UI, any edition text)
+VN Studio: analyse ► art ► music ► generate ► voice ► stage ► build ► lint ──► HTML5 visual novel or children's picture book (one illustration per page, text below; PC; hr/en UI, any edition text)
                │         │            │           │
                │         │            │           └── VibeTTS (Kokoro / Supertonic)
                │         │            └── ComfyUI (Qwen-Image, BiRefNet, ACE-Step) / Pixel Studio
@@ -25,15 +25,15 @@ VN Studio: analyse ► art ► music ► generate ► voice ► stage ► build 
                └── LLMs: LM Studio, Strata, paid APIs (per repo config/roles.md), or Claude Code itself (`client` provider, see the skill)
 ```
 
-The VN pack (HUB-16) is the translation seam: `vn/pack.json` is the fixed template (IDs, looks, scene and cue descriptions, puzzle logic), `vn/text/<lang>.json` is the only translatable text. Book Translator translates that catalog only; VN Studio imports the pack by ID and reuses every image, music and SFX from the original. Menus, Skip, settings and the language switcher are VN Studio's own `ui-strings.ts` (English source, Croatian table), never part of the book.
+The VN pack (HUB-16) is the translation seam: `vn/pack.json` is the fixed template (IDs, looks, scene and cue descriptions, puzzle logic), `vn/text/<lang>.json` is the only translatable text. Book Translator translates that catalog only; VN Studio imports the pack by ID and reuses every image, music and SFX from the original. Menus, Skip, settings and the language switcher are VN Studio's own `ui-strings.ts` (English source, Croatian table), never part of the book. A children's picture book (HUB-17) uses the same pack: Scriptorium writes format `kids-picture-book` (one page per scene, no dialogue or sound cues) and VN Studio renders each scene as one illustration with the text below it.
 
 ## The tools
 
 | Id | What | Repo | Port / MCP | Data folder | Run headless |
 |---|---|---|---|---|---|
-| `scriptorium` | Writes books, series and newspaper articles (incl. visual-novel scripts with CG/INSERT/SFX/AMBIENCE lines and aliases, book-to-VN adaptations, screenplays via `get_screenplay`) with ~17 agent roles, a humanizer pass on every chapter, and the language-independent VN pack (`vn/pack.json` + text catalog) | `C:\projects\Personal\scriptorium` | 7341 `/mcp` | `~\Scriptorium` | `electron . --headless` (or `yarn headless`, no covers) |
+| `scriptorium` | Writes books, series and newspaper articles (incl. visual-novel scripts with CG/INSERT/SFX/AMBIENCE lines and aliases, picture-book scripts (`kids-picture-book`), book-to-VN adaptations, screenplays via `get_screenplay`) with ~17 agent roles, a humanizer pass on every chapter, and the language-independent VN pack (`vn/pack.json` + text catalog) | `C:\projects\Personal\scriptorium` | 7341 `/mcp` | `~\Scriptorium` | `electron . --headless` (or `yarn headless`, no covers) |
 | `book-translator` | Translates EPUB/DOCX/MD/TXT/PDF and the VN pack text catalog (template stays byte-identical; editions are keyed by ID) | `C:\projects\Personal\book-translator` | 47811 `/mcp`, Bearer token | `~\BookTranslator` | `node out/engine/index.js headless` |
-| `vn-studio` | Book folder or VN pack → HTML5 visual novel; imports by ID, editions reuse every image/music/SFX, Croatian/English UI with a live language switch; drives the tools below, can use Flow as art/voice/music provider, builds puzzle beats | `C:\projects\Personal\visual-novels-orchestrator` | 7459 `/mcp` | `~\VisualNovels` | `node out/engine/index.js --mcp-only` |
+| `vn-studio` | Book folder or VN pack → HTML5 visual novel or children's picture book (one illustration per scene with the cast drawn in, text below, page turns); imports by ID, editions reuse every image/music/SFX, Croatian/English UI with a live language switch; drives the tools below, can use Flow as art/voice/music provider, builds puzzle beats | `C:\projects\Personal\visual-novels-orchestrator` | 7459 `/mcp` | `~\VisualNovels` | `node out/engine/index.js --mcp-only` |
 | `pixel-studio` | Pixel-art editor: import/convert, palettes, draw, export | `C:\projects\Personal\pixel-art-generator` | 7457 `/mcp` | `~\PixelStudio` | `electron . --mcp-only` |
 | `chiptune-studio` | Chiptune/MIDI composer: compose, render ogg/wav/mp3, MIDI | `C:\projects\Personal\midi-generator` | 7458 `/mcp` | `~\ChiptuneStudio` | `electron . --mcp-only` |
 | `vibetts` | Text to speech (Kokoro English, Supertonic 31 languages) | `C:\projects\Personal\vibe-tts-flow` | 7723 `/mcp` | `D:\Programs\VibeTTS` (installed app, autostarts) | tray app; or `python -m vibetts --mcp-only` |
@@ -46,7 +46,7 @@ The VN pack (HUB-16) is the translation seam: `vn/pack.json` is the fixed templa
 
 All Electron/Node repos use Node 24 through `fnm` and yarn 4. MCP servers listen on 127.0.0.1 only. Each data folder can be used by one engine at a time (`engine.lock`): if the desktop app is open, its MCP server is the one on that port, and a headless start of the same tool fails.
 
-Docs inside the repos: Scriptorium `docs/mcp.md` and `docs/visual-novel.md` (the script format and "The VN pack (v2)"); Scriptorium `docs/screenplay.md` (the screenplay format); VN Studio `docs/mcp-guide.md` (incl. "Puzzles") and `docs/protocol.md` (the VN data contract and editions); Pixel Studio and Chiptune Studio `docs/llm-guide.md`; Book Translator, VibeTTS and comfy-mcp `README.md`. The cross-repo pack contract is `.claude/tickets/HUB-16-vn-pack/contract.md`.
+Docs inside the repos: Scriptorium `docs/mcp.md` and `docs/visual-novel.md` (the script format, "The VN pack (v2)" and "Picture books"); Scriptorium `docs/screenplay.md` (the screenplay format); VN Studio `docs/mcp-guide.md` (incl. "Puzzles" and "Picture books") and `docs/protocol.md` (the VN data contract and editions); Pixel Studio and Chiptune Studio `docs/llm-guide.md`; Book Translator, VibeTTS and comfy-mcp `README.md`. The cross-repo pack contract is `.claude/tickets/HUB-16-vn-pack/contract.md`.
 
 ## Running it
 
