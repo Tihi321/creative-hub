@@ -21,7 +21,7 @@ Work that touches only one tool is in that tool's own `ROADMAP.md` (table at the
 | 11 | HUB-11 | Screenplay → video: Scriptorium screenplay writer, Flow production, assembled video | scriptorium `SCP-17`, flow-music-mcp `FMM-12`, hub (`make-video` skill) | HUB-04, HUB-07 | Phase 3 done 2026-10-23 up to the user's watch: 123 s film, 192 Flow credits + 10 Flow Music (`runs/the-lighthouse-that-kept-lists-2.md`, `video/out/final.mp4`) |
 | 12 | HUB-15 | Live checks of the merged 2026-10-23 fixes: Scriptorium SCP-26 to 37 with a real model (a VN adaptation, a screenplay, a puzzle mystery), Flow and ComfyUI side by side (VNO-28), the Gemini daily quota (VNO-24, FMM-15), and the user's verdicts on the productions | none planned | the merges of 2026-10-23 | Planned 2026-10-23: `.claude/tickets/HUB-15-post-merge-live-checks/plan.md`, `handoff.md` |
 | 13 | HUB-17 | Children's picture books: a picture-book presentation in VN Studio (one illustration per scene with the cast drawn in, text below, page turns) and the Scriptorium format `kids-picture-book` | visual-novels-orchestrator `VNO-47`, scriptorium `SCP-46` | HUB-16 (pack) | Done 2026-10-25 up to the user's play: *The Bell and the Bicycle* (watercolour) and *The Snail and the Salad* (flat cartoon), 12 pages each, en + hr, builds 0 placeholders and lint clean; `runs/the-bell-and-the-bicycle.md`, `runs/the-snail-and-the-salad.md`, `.claude/tickets/HUB-17-picture-books/`; committed and pushed (`VNO-47` d768077, `SCP-46` a67c831) |
-| — | HUB-09 | ACP proxy as a provider for Scriptorium and Book Translator | none | **on hold** (user, 2026-10-22) | On hold |
+| — | HUB-09 | ACP proxy as a provider in all five apps (Scriptorium, Book Translator, VN Studio, Pixel Studio, Chiptune Studio) | api-acp-proxy `AAP-25` (per-provider cap), pixel-art-generator `PAR-14`, midi-generator `MDI-07` (add-provider UI); packaging `SCP-47`, `VNO-50` | none | Wired 2026-10-27 (branch `HUB-09_acp-everywhere`): proxy restarted with caps (codex 4, antigravity 3), live `providers.md` of all five apps has `acp` enabled with five models, load test in `runs/hub09-acp-load-test.md`. Open: one real request from each app, merges of AAP-25, PAR-14, MDI-07, SCP-47, VNO-50; `.claude/tickets/HUB-09-acp-proxy-wiring/plan.md` |
 
 As of 2026-10-25 all three tool repos are on `master` with HUB-16 merged: Scriptorium SCP-45 (PR #13), Book Translator BTT-23 (PR #16), VN Studio VNO-46 (PR #20); hub PR #10. The soother game was rebuilt from `master`.
 
@@ -59,11 +59,11 @@ The user has Google Flow (https://flow.google.com/, PRO) and Flow Music (https:/
 
 ## Antigravity models and the ACP proxy
 
-The user asked (2026-10-22) whether Scriptorium and Book Translator could use their Antigravity (Google) account's models the way the DeepSeek Harness does. **Decision (user, 2026-10-22): no Antigravity login of our own in the apps; use the ACP proxy, accepting the terms risk below. On hold for now** ("no need for now, later if needed"); the steps are in HUB-09.
+The user asked (2026-10-22) whether Scriptorium and Book Translator could use their Antigravity (Google) account's models the way the DeepSeek Harness does. **Decision (user, 2026-10-22): no Antigravity login of our own in the apps; use the ACP proxy, accepting the terms risk below. Revived and widened to all five apps on 2026-10-27 (HUB-09, wired).**
 
 - **How the DeepSeek Harness does it:** the plugin `dsh-tool-antigravity` 0.3.6 (`@cortexkit/antigravity-auth-core`, in `~\.dsh\profiles\desktop`) runs its own Google OAuth with Antigravity's client id, calls Google's private Cloud Code endpoints with the Antigravity CLI's User-Agent, and rotates accounts on 429. That is the pattern Google suspends accounts for.
 - **The ACP proxy** (`acp-proxy` in `services.json`, port 7461, `PROXY_IGNORE_SAMPLING=1`) runs Google's own signed `agy_acp_server`, so the tokens never leave Google's program. Setup left for the user: install the Antigravity server, acknowledge its terms, enable it and log in. Claude must not do the Google login.
-- **Provider entry** for `config/providers.md` in both apps, once the proxy runs and a provider is logged in (take the model ids from `GET http://127.0.0.1:7461/v1/models`):
+- **Provider entry** for `config/providers.md` in the apps, once the proxy runs and a provider is logged in (take the model ids from `GET http://127.0.0.1:7461/v1/models`):
   ```yaml
   - id: acp
     kind: openai-compat
