@@ -118,3 +118,47 @@ Pixel Studio and Chiptune Studio have no MCP tool that calls an LLM (their agent
 - Discovery adds unprefixed duplicate model ids to the list in Pixel and Chiptune (and likely the others); harmless but visible in model pickers.
 - Not verified: the Pixel / Chiptune UI agent loop and Settings screens, tool calls (`tools: false` on all acp models), gpt-6-luna, gpt-5.6-terra, gemini-4-argon, the Book Translator glossary/proofreader/QA agents on acp, concurrency from inside an app.
 - Test helper scripts are in `.claude/temp/` (mcp.mjs, schema.mjs, llmcheck.mts, vnproj.json, bt-acp-test.txt).
+
+### Scriptorium (2026-10-27)
+
+Factory kept idle with the supported `paused: true` in `~/Scriptorium/config/factory.md` (the scheduler skips all queued jobs while it is set, `src/engine/queue/scheduler.ts:316`). The file was backed up, edited, and restored byte-for-byte (sha256 80e599bb...87ad2b6 before and after). Rebuilt out/ (it was older than HEAD), started with `hub.ps1 start scriptorium -Force` only after confirming the pause. The proxy answered with prefixed ids only before any request.
+
+| Check | Result |
+|---|---|
+| `acp/codex/gpt-5.6-luna` | `engine probe --model` (real request through Scriptorium's ModelRouter, no factory): "Libraries are quiet gateways to knowledge, imagination, and discovery.", 10777 in (9472 cached) / 16 out, 11.8 s wall incl. node/discovery start, cost shown 0 USD (model not priced as paid) |
+| `acp/antigravity/gemini-3.8-flash` | same probe: "Libraries are quiet sanctuaries that preserve human knowledge...", 14640 in / 20 out, 4.2 s wall, cost 0 |
+| MCP `list_models` | 21 models, 0 duplicate ids; the 5 acp models listed once each, no unprefixed ids; `factory_status`: paused true, running [], openStories 0, provider acp up |
+| Jobs / ideas / books before and after | queued+running empty, 37 ideas, 33 books, unchanged; no throwaway idea created |
+| Errors | probe exit code 1 only because the lmstudio embedding step failed (LM Studio is down, unrelated) |
+
+Not verified: a role job run through the factory via MCP (impossible while paused; no per-call run tool exists), paid-model cost display for acp, the Models dialog in the UI (only the MCP list). Scriptorium stopped.
+
+Follow-up, JSON path (2 more requests, one per model, no engine/scheduler running, so no idea or job could start). A throwaway tsx harness (deleted afterwards) built a ModelRouter on the live data dir with one acp model and called the factory's own `chatJson` (`src/engine/pipeline/llm.ts:69`) with a zod schema (3-chapter outline). Paid spend stayed 0 (both models unpaid, cost 0); jobs 0, ideas 37, books 33 before and after; factory.md sha unchanged; no throwaway idea made.
+
+| Model | Result |
+|---|---|
+| `acp/antigravity/gemini-3.8-flash` | schema sent, 7753 ms, 14673 in / 208 out, valid bare JSON, parsed first time, no repair |
+| `acp/codex/gpt-5.6-luna` | schema sent, 4001 ms, 10810 in / 192 out, valid JSON, no repair. Finding: chapter summaries came back in Chinese although the prompt was English (the proxy's codex agent preamble or the model); title and keys were English |
+
+Still not verified: the fenced-JSON/repair branch (neither reply was fenced this time), a job through the real scheduler with job records (the harness skips job files and the job log), the UI Models dialog.
+
+### Scriptorium real job (SCP-48)
+
+2026-10-27. Scriptorium branch `SCP-48_single-idea-run` commit d3eb599 (`only:` in config/factory.md, `--only <slug>`, MCP `set_factory_only`; 4 new tests).
+- Setup: roles.md all roles on acp only (writer and humanizer `acp/codex/gpt-5.6-luna`, every other role `acp/antigravity/gemini-3.8-flash`), settings.md fallbacks only the gemini model with `fallback_shared: false`, factory.md `only: zz-scp48-test`. Throwaway idea `zz-scp48-test`, format `bedtime-story` (600-2000 words, 1 chapter). Proxy on 7461 untouched.
+- Run: started with `hub.ps1 start scriptorium -Force`; `factory_status.only` showed the idea. The whole pipeline ran in about 2 minutes: eic start, pitch, outline, draft ch01, humanize ch01, 8 reviews, publish = 14 jobs, book `the-truth-lantern` published (1046 words). Stopped right after (it ran past the planned stop point, the 14 jobs ~ 14 LLM requests).
+- Models in job records: 12 jobs `acp/antigravity/gemini-3.8-flash`, 2 jobs (draft, humanize) `acp/codex/gpt-5.6-luna`. attempts 0 on all, no fallback, cost_usd 0, today's spend unchanged (2.03 USD before and after).
+- Latency (ms): outline 8349, pitch 10920, start 14511, draft ch01 12655 (12257 in / 1429 out), humanize 12162, reviews 10.4-25.5 s (copy-editor 25.5 s), publish 15270. About 15-17k input tokens per job.
+- JSON repairs: none recorded (no repair line in the book log; every job attempts 0).
+- Language: all English. Draft/humanize by codex/gpt-5.6-luna came back in English; scan of the book and job records for CJK characters found none. The Chinese answer did not reproduce here.
+- Before/after: ideas 37 -> 37, books 33 -> 33, jobs done 2777 -> 2777, queued 0, running 0, failed 1 -> 1 (after deleting the throwaway idea, its book folder and its 14 job records). Other books and ideas were not touched during the run (only the throwaway's jobs ran; `booksByStage` showed 33 published + the new one).
+- Cleanup: Scriptorium stopped (7341 down). roles.md, settings.md and factory.md restored from `.bak-scp48` (byte-for-byte, sha256 match, backups removed). config/budget.md has a new sha (caps unchanged: 40/20/null/0.8); the engine rewrote it at start, I had no backup of it. Not cleaned: appended lines in logs/agents/*.md, spend log rows, index/library.sqlite (still lists the throwaway until a reindex).
+
+## Full UI checks (2026-10-27)
+
+- Proxy: AAP-26 (api-acp-proxy `70e7740`) hides bare ids via `PROXY_LIST_BARE_ALIASES=0`. `/v1/models` lists only `codex/gpt-6-luna`, `codex/gpt-5.6-terra`, `codex/gpt-5.6-luna`, `antigravity/gemini-4-argon`, `antigravity/gemini-3.8-flash`. Bare ids still route.
+- Pixel Studio PAR-15 (pixel-art-generator branch `PAR-15_acp-live-ui-check`: `88cecf7`, `6d2a171`, `ac5c1e2`): the real Electron app driven by the Playwright spec `tests/e2e/acp-live.spec.ts` (`ACP_LIVE=1`, `ACP_REPEAT=N`, temp home seeded from the real config). Settings form: a) prefixed ids only, b) add / Test / detect / remove pass. Agent "draw a 16x16 red heart": final `ACP_REPEAT=3` run codex 3/3 (12-14 s), gemini 3/3 (53-73 s). Earlier batches this round: codex 1/3 and 2/3 (failed draw calls ending the run, fixed by the failed-last-action guard), and one run where the last call succeeded but the canvas stayed empty (not caught by the guard). Twice the gemini option was missing from the chat model list right after a codex failure (cause not found; the spec now logs the options). Fixes: provider edit lock, refusal nudge (`NO_TOOLS_REFUSAL`, max 2), 2 JSON repair retries, failed-last-action guard (`MAX_ERROR_NUDGES=2`). Native tool mode is not covered by the guard.
+- Chiptune Studio MDI-08 (midi-generator branch `MDI-08_acp-live-ui-check`: `e403948`, `7c73e6e`, `c89d2cc`, `d442616`, `ce81908`): same spec style. Reliability before the guard: JSON-action 6/6 vs native tools 5/6 (slower), so acp stays `tools: false`. After restoring the spec (`c89d2cc` had collapsed it to one line, `d442616` restored it) and the parity fixes: `ACP_REPEAT=3` codex 3/3 (9.9-21.3 s), gemini 3/3 (22-47 s). Fixes: migration places acp before mock with seed comments, `removeProvider` resets the chat model, file lock, the form selects the new provider, refusal nudge + guard same as Pixel. The nudges did not trigger live (unit-tested only). `genesis.test.ts` timing failure also on master.
+- Scriptorium SCP-48 (scriptorium branch `SCP-48_single-idea-run`: `d3eb599`, `edb4bcc`): factory `only` filter (`factory.md` `only`, `--only`, `set_factory_only`); start gates scoped to the idea after checker review. A real throwaway bedtime story ran 14 jobs on acp (gemini flash + codex luna), no JSON repairs, cost 0, English; counts unchanged; cleaned up.
+- Codex Chinese output: not reproduced in 4 requests nor in the SCP-48 run; the proxy keeps the system message; no language config found. Treated as a one-off.
+- Open / not verified: Claude provider, `gpt-6-luna` / `gpt-5.6-terra` / `gemini-4-argon`, native `tool_calls` in Pixel, the Scriptorium Models dialog UI, nobody looked at the art or listened to the melodies.

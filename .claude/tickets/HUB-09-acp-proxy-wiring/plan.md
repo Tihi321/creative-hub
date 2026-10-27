@@ -40,3 +40,15 @@ Scriptorium, Book Translator, VN Studio, Pixel Studio and Chiptune Studio can us
 
 - 2026-10-22: plan written and put on hold. Original scope: Scriptorium and Book Translator only, steps: install the provider server(s) and log in (the user), set port 7461 and ignore-sampling, back up both apps' `providers.md`, add the `acp` entry, one request from each app, note speed/errors/repair rate/cost, update `services.json` and the roadmap.
 - 2026-10-27: user revived and widened it to all five apps. AAP-25 cap added in the proxy; load test run; live configs wired; this plan rewritten.
+
+## Status (2026-10-27, end of day)
+
+All five apps pass on acp end to end (real app, real proxy): Scriptorium (SCP-48 real job, 14 jobs), Pixel Studio (PAR-15, codex 3/3, gemini 3/3), Chiptune Studio (MDI-08, codex 3/3, gemini 3/3), Book Translator and VN Studio (earlier app-level checks in `runs/hub09-acp-load-test.md`). Details and open items: "Full UI checks (2026-10-27)" there.
+
+Branches awaiting PRs (nothing pushed or merged):
+- api-acp-proxy: AAP-26 (`70e7740`, hides bare ids; `PROXY_LIST_BARE_ALIASES=0`)
+- pixel-art-generator: `PAR-15_acp-live-ui-check` (`88cecf7`, `6d2a171`, `ac5c1e2`)
+- midi-generator: `MDI-08_acp-live-ui-check` (`e403948`, `7c73e6e`, `c89d2cc`, `d442616`, `ce81908`)
+- scriptorium: `SCP-48_single-idea-run` (`d3eb599`, `edb4bcc`)
+- creative-hub: `HUB-09_bare-aliases`
+Still open: Claude provider, `gpt-6-luna` / `gpt-5.6-terra` / `gemini-4-argon`, native tool_calls in Pixel, Scriptorium Models dialog UI, art and melodies not looked at or listened to.
