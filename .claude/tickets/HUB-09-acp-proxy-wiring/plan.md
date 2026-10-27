@@ -1,27 +1,42 @@
-# HUB-09: ACP proxy as a provider for Scriptorium and Book Translator
+# HUB-09: ACP proxy as a provider in all five apps
 
-**On hold** (user, 2026-10-22: "no need for now, later if needed"). Start only when the user asks.
+**Active** (user revived and widened it, 2026-10-27; was on hold since 2026-10-22: "no need for now, later if needed"). Branch `HUB-09_acp-everywhere`.
 
 ## Goal
 
-Scriptorium and Book Translator can use models from the user's subscriptions (Antigravity, Codex, Claude) through `api-acp-proxy`, as an `openai-compat` provider.
+Scriptorium, Book Translator, VN Studio, Pixel Studio and Chiptune Studio can use models from the user's subscriptions (Codex, Antigravity, Claude) through `api-acp-proxy`, as an `openai-compat` provider `acp`, with a proxy-side cap so parallel jobs from several apps cannot overload a provider.
 
 ## Background
 
-- Proxy: `C:\projects\Personal\api-acp-proxy`, hub service `acp-proxy`, port 7461, `PROXY_IGNORE_SAMPLING=1` (AAP-05, merged; it drops `stream_options`, `max_tokens`, `temperature`, which both apps send). Never tried with a real request.
+- Proxy: `C:\projects\Personal\api-acp-proxy`, hub service `acp-proxy`, port 7461 (its default 8787 is flow-mcp's panel), `PROXY_IGNORE_SAMPLING=1` (AAP-05, merged; it drops `stream_options`, `max_tokens`, `temperature`, which the apps send).
+- AAP-25 (branch `AAP-25_provider-concurrency-cap`, commit acef8a3, dist rebuilt, **not merged**): per-provider FIFO cap. Env `PROXY_MAX_CONCURRENT`, `PROXY_MAX_QUEUE`, `PROXY_CODEX_MAX_CONCURRENT`, `PROXY_ANTIGRAVITY_MAX_CONCURRENT`, `PROXY_CLAUDE_MAX_CONCURRENT`; `/healthz` shows `providers.<id>.{active,queued,max_concurrent,max_queue}`.
 - Decision (user, 2026-10-22): no Antigravity login inside the apps; the proxy only, accepting the terms risk in the hub `ROADMAP.md` ("Antigravity models and the ACP proxy"). If Antigravity is used, use an account the user can afford to lose, not the one with the Flow Pro plan.
-- Limits: text only, no JSON schema (apps use prompt + repair), no usage numbers (cost shows 0), each request a fresh agent session.
+- Limits: text only, no JSON schema (apps use prompt + repair), each request a fresh agent session. Usage numbers are present in the replies (checked 2026-10-27), but local providers show cost 0.
+- Load test (2026-10-27, 30 requests, `runs/hub09-acp-load-test.md`): codex clean to 6 in parallel with no slowdown; antigravity clean to 6 but latency doubles at 4+ (3.9 s alone, about 8 s at 4 to 6). No 429 seen. Recommended app concurrency: codex 4, antigravity 3; proxy cap 4.
+- Models (`/v1/models`): codex/gpt-6-luna, codex/gpt-5.6-terra, codex/gpt-5.6-luna (also without the prefix), antigravity/gemini-4-argon, antigravity/gemini-3.8-flash.
+- Add-provider UI for Pixel Studio and Chiptune Studio: PAR-14 (`PAR-14_acp-custom-providers`) and MDI-07 (`MDI-07_acp-custom-providers`), unmerged; their migration skips an existing `acp`. Their master already parses `openai-compat` entries with `json_schema`, `concurrency`, `discover` and `models`.
 
-## Steps
+## Done (2026-10-27)
 
-- [ ] 1. The user installs the provider server(s) they want in the proxy (Antigravity: `npm run antigravity:install` or the app's button), acknowledges the terms and logs in. Claude does not do any Google login.
-- [ ] 2. In the proxy's settings: port 7461 and "Ignore sampling fields" on (or rely on the hub's env vars). `hub.ps1 build acp-proxy`, `hub.ps1 start acp-proxy`; `GET http://127.0.0.1:7461/healthz` and `/v1/models` answer.
-- [ ] 3. Back up both apps' `config/providers.md`, then add the `acp` entry from the hub `ROADMAP.md` with model ids from `/v1/models`. Book Translator and Scriptorium reload providers.md without a restart (BTT-11, SCP-14).
-- [ ] 4. One Book Translator request: a tiny project (one page) with the translator agent on an `acp/...` model. One Scriptorium request: a role on an `acp/...` model for a single job the user agrees to (Scriptorium is already running, or started with the user's go-ahead).
-- [ ] 5. Note speed, errors, the JSON repair rate and the cost display. Problems in the proxy go to `api-acp-proxy/ROADMAP.md`; in the apps, to theirs.
-- [ ] 6. Update `services.json` note and the hub `ROADMAP.md`.
+- [x] `services.json` acp-proxy: env `PROXY_MAX_CONCURRENT=4`, `PROXY_CODEX_MAX_CONCURRENT=4`, `PROXY_ANTIGRAVITY_MAX_CONCURRENT=3`, note updated. Proxy restarted with `hub.ps1`; `/healthz` shows the providers block with those caps; `/v1/models` answers; one tiny chat per provider returned "OK".
+- [x] Live `config/providers.md` of all five apps: `acp` entry enabled, `concurrency: 4`, `json_schema: false`, `discover: true`, the five model ids listed (Pixel and Chiptune: new entry, `tools: false`). Backups `providers.md.bak-2026-10-27` next to each. Each file parses with its app's own `providersSchema`. No role or model selection was changed, no role points at `acp`.
+- [x] The apps were not started.
+
+## Left (not done, each needs the user's go-ahead or a merge)
+
+- [ ] 1. One real request from each app through the proxy (app level, not curl): Book Translator (one page, translator agent on an `acp/...` model), Scriptorium (one role on an `acp/...` model, one job; never start Scriptorium without asking), VN Studio (a text role), Pixel Studio and Chiptune Studio (a chat or an agent turn on an `acp` model). Note speed, errors, the JSON repair rate, the cost display.
+- [ ] 2. Merge `AAP-25_provider-concurrency-cap` (api-acp-proxy), `PAR-14_acp-custom-providers` (pixel-art-generator), `MDI-07_acp-custom-providers` (midi-generator), then restart the proxy from the merged build. Until AAP-25 merges, the hub instance runs the capped build from the branch.
+- [ ] 3. The packaging tickets SCP-47 (Scriptorium) and VNO-50 (VN Studio): merge them, and check that the packaged apps read the same user data `providers.md`.
+- [ ] 4. Pixel and Chiptune before PAR-14 / MDI-07 merge: their live file already holds the entry, which the migration then skips; check the Settings screen shows it once merged and started.
+- [ ] 5. Problems in the proxy go to `api-acp-proxy/ROADMAP.md`; in an app, to its own `ROADMAP.md`.
 
 ## Acceptance
 
-- One real request from each app answered through the proxy, with no 400s.
-- The providers entry documented with real model ids.
+- One real request from each of the five apps answered through the proxy, with no 400s.
+- Under parallel load from several apps the proxy queues instead of failing (`/healthz` `queued` rises, no 429).
+- The providers entry documented with real model ids (done).
+
+## History
+
+- 2026-10-22: plan written and put on hold. Original scope: Scriptorium and Book Translator only, steps: install the provider server(s) and log in (the user), set port 7461 and ignore-sampling, back up both apps' `providers.md`, add the `acp` entry, one request from each app, note speed/errors/repair rate/cost, update `services.json` and the roadmap.
+- 2026-10-27: user revived and widened it to all five apps. AAP-25 cap added in the proxy; load test run; live configs wired; this plan rewritten.
