@@ -60,3 +60,61 @@ Each `acp` entry: enabled true, concurrency 4, json_schema false, discover true,
 | creative-hub/ROADMAP.md, README.md, .claude/tickets/HUB-09-acp-proxy-wiring/plan.md | git | HUB-09 off hold, docs |
 
 No app was started. Not verified: a real request from any app through the proxy; whether each app shows the entry in its UI; Pixel and Chiptune were parse-checked with the PAR-14 / MDI-07 branch schema (their checked-out branches), not master.
+
+
+## App-level checks (2026-10-27)
+
+Proxy on 7461 (healthz ok, active 0 before and after each call; the user's 8787 proxy untouched). 7 LLM requests in total, all free (`cost_usd` 0). Apps were down before; each was started with `hub.ps1 start` and stopped afterwards. Builds were current (Pixel out/main 21:35, Chiptune 21:41, VN 21:16, all after their last merge; Book Translator out/engine 10-25 13:16, only docs commits since).
+
+Pixel Studio and Chiptune Studio have no MCP tool that calls an LLM (their agent runs from the UI over IPC). Those two were checked through the app's own LLM layer (`src/llm`: `createLlm`, which reads the live `~/PixelStudio` / `~/ChiptuneStudio` `config/providers.md`, then `router.chatFn` and `chatJson`) run with tsx from the app repo, with the app's MCP server up. The UI agent loop itself and the PAR-14 / MDI-07 settings form were not exercised.
+
+### Book Translator (MCP :47811, bearer token from BOOK_TRANSLATOR_MCP_TOKEN)
+
+| Check | Result |
+|---|---|
+| Path | `create_project` (txt, one paragraph, en to Croatian, glossary/proofreader/qa off, `agentModels.translator = [acp/codex/gpt-5.6-luna]`, no fallback) then `start_translation`, `wait_for_progress`, `get_chunk` |
+| Model named by the app | chunk `model: acp/codex/gpt-5.6-luna` |
+| Latency | 2748 ms (project done in about 6 s) |
+| Tokens | 11309 in, 112 out, cost 0 |
+| Output | "Brodovi su ponovno kasnili, pa je Mara sjedila na hladnom kamenom gatu i promatrala sivu vodu sve dok sunce nije izašlo." |
+| Errors / JSON repair | none / not applicable (plain text) |
+| Config changes | none (override per project). Left behind: `~/BookTranslator/projects/acp-test-zz` (no delete tool in the MCP) |
+| Verdict | PASS |
+
+### VN Studio (MCP :7459)
+
+| Check | Result |
+|---|---|
+| Path | `vno_create_project` (1 character, 1 place, 1 scene; slug `acp-test-zz`, not run) then `vno_plan {wait: true}`. No per-call model: `~/VisualNovels/config/roles.md` backed up, `art-director` set to `[acp/codex/gpt-5.6-luna]` and `composer` to `[acp/antigravity/gemini-3.8-flash]` (single entry, so no fallback to paid), restored afterwards |
+| art-director | job `vn.art.plan` model `acp/codex/gpt-5.6-luna`, 4681 ms, 11734 in / 431 out; spend log row 4650 ms. Wrote 4 sensible image prompts |
+| composer (JSON plan, gemini) | job `vn.music.plan` model `acp/antigravity/gemini-3.8-flash`, 9737 ms, 15541 in / 251 out. Wrote 3 music prompts; `vno_plan` total 14.9 s |
+| Errors / JSON repair | none, `attempts: 0`, no repair text in either job |
+| Restore | roles.md sha256 69fdc788...5a9a67 identical to before; test project deleted with `vno_delete_project`. Job and log records of the test remain in `~/VisualNovels/jobs/done/acp-test-zz--*` and `logs/` |
+| Verdict | PASS |
+
+### Pixel Studio (MCP :7457, app llm layer, live `~/PixelStudio/config`)
+
+| Check | Result |
+|---|---|
+| Registry | provider `acp` available; models `acp/codex/gpt-5.6-luna`, `-terra`, `gpt-6-luna`, `acp/antigravity/gemini-3.8-flash`, `-gemini-4-argon`, plus 3 unprefixed duplicates from `/v1/models` discovery (`acp/gpt-6-luna`, `acp/gpt-5.6-terra`, `acp/gpt-5.6-luna`) |
+| codex luna | "Reply with exactly: PONG" returned "PONG", 2200 ms, 10775 in / 6 out |
+| gemini-3.8-flash | `chatJson` with a zod schema: `{"color":"red","count":3}`, 17659 ms (cold start; 4450 ms in Chiptune). The reply came wrapped in a ```json fence, so `extractJson` unwrapped it; no repair round trip |
+| Errors | none. Config changes: none |
+| Verdict | PASS (LLM layer only) |
+
+### Chiptune Studio (MCP :7458, app llm layer, live `~/ChiptuneStudio/config`)
+
+| Check | Result |
+|---|---|
+| Registry | same 8 acp entries as Pixel |
+| codex luna | "PONG", 2384 ms, 10773 in / 6 out |
+| gemini-3.8-flash | same JSON in a fence, parsed, 4450 ms, no repair |
+| Errors / config changes | none / none |
+| Verdict | PASS (LLM layer only) |
+
+### Notes and not verified
+- The proxy log lines were not read; confirmation is the apps' own model names, usage and spend rows, plus healthz ok afterwards. healthz counters show only active/queued (idle at every sample), no request totals.
+- Gemini wraps JSON in code fences and prepends about 14.6k input tokens (the proxy's agent preamble); `json_schema: false` is therefore right, and the apps' extraction handles it.
+- Discovery adds unprefixed duplicate model ids to the list in Pixel and Chiptune (and likely the others); harmless but visible in model pickers.
+- Not verified: the Pixel / Chiptune UI agent loop and Settings screens, tool calls (`tools: false` on all acp models), gpt-6-luna, gpt-5.6-terra, gemini-4-argon, the Book Translator glossary/proofreader/QA agents on acp, concurrency from inside an app.
+- Test helper scripts are in `.claude/temp/` (mcp.mjs, schema.mjs, llmcheck.mts, vnproj.json, bt-acp-test.txt).

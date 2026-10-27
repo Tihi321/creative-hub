@@ -152,10 +152,10 @@
       "start": {
         "kind": "node",
         "args": ["dist/index.js"],
-        "env": { "PROXY_PORT": "7461", "PROXY_IGNORE_SAMPLING": "1", "PROXY_TIMEOUT_MS": "900000", "PROXY_MAX_BODY_BYTES": "8388608", "PROXY_MAX_CONCURRENT": "4", "PROXY_CODEX_MAX_CONCURRENT": "4", "PROXY_ANTIGRAVITY_MAX_CONCURRENT": "3" }
+        "env": { "PROXY_PORT": "7461", "PROXY_IGNORE_SAMPLING": "1", "PROXY_LIST_BARE_ALIASES": "0", "PROXY_TIMEOUT_MS": "900000", "PROXY_MAX_BODY_BYTES": "8388608", "PROXY_MAX_CONCURRENT": "4", "PROXY_CODEX_MAX_CONCURRENT": "4", "PROXY_ANTIGRAVITY_MAX_CONCURRENT": "3" }
       },
       "build": "npm run build",
-      "note": "An openai-compat provider (id acp, base_url http://127.0.0.1:7461/v1, json_schema false, concurrency 4) for all five apps: Scriptorium, Book Translator, VN Studio, Pixel Studio, Chiptune Studio (HUB-09; Pixel and Chiptune once PAR-14 / MDI-07 merge). Port 7461, not its default 8787 (flow-mcp's panel; set 7461 in the proxy's settings file too). PROXY_IGNORE_SAMPLING needs AAP-05. AAP-25 per-provider FIFO cap: PROXY_MAX_CONCURRENT 4 (codex 4, antigravity 3 here; PROXY_MAX_QUEUE, PROXY_CLAUDE_MAX_CONCURRENT also exist); /healthz shows providers.<id>.{active,queued,max_concurrent,max_queue}. Providers and logins are set in its settings.json or desktop app. Antigravity through it breaks clause 6 of Antigravity's terms: the user accepted that risk (2026-10-22).",
+      "note": "An openai-compat provider (id acp, base_url http://127.0.0.1:7461/v1, json_schema false, concurrency 4) for all five apps: Scriptorium, Book Translator, VN Studio, Pixel Studio, Chiptune Studio (HUB-09; Pixel and Chiptune once PAR-14 / MDI-07 merge). Port 7461, not its default 8787 (flow-mcp's panel; set 7461 in the proxy's settings file too). PROXY_IGNORE_SAMPLING needs AAP-05. PROXY_LIST_BARE_ALIASES 0 (AAP-26) lists only prefixed ids in /v1/models so discovering apps show each model once. AAP-25 per-provider FIFO cap: PROXY_MAX_CONCURRENT 4 (codex 4, antigravity 3 here; PROXY_MAX_QUEUE, PROXY_CLAUDE_MAX_CONCURRENT also exist); /healthz shows providers.<id>.{active,queued,max_concurrent,max_queue}. Providers and logins are set in its settings.json or desktop app. Antigravity through it breaks clause 6 of Antigravity's terms: the user accepted that risk (2026-10-22).",
       "docs": ["README.md"]
     },
     {
