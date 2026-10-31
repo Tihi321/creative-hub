@@ -4,6 +4,7 @@ This folder connects the user's creative tools (Scriptorium, Book Translator, VN
 
 - For any request to make a book, translation, art, music, voices or a visual novel from an idea, use the `make-visual-novel` skill.
 - For a short film, cartoon or video from an idea or a book, use the `make-video` skill.
+- For any request to make an educational game, a quiz, a course, a language-learning game or an Encarta/MindMaze-style game from a topic, use the `make-edu-game` skill (Edu Studio, port 7463). Voice allocation applies to its voices too (Gemini TTS within the free quota, VibeTTS for the rest).
 - Video spends Flow credits: agree a budget first (default 150 per production); `scripts/video-plan.mjs` keeps the estimate and each call's `max_credits`.
 - Check and start services with `scripts\hub.ps1` (status, start, stop, build, logs). Never start Scriptorium without asking: it resumes its whole book factory and may spend on paid models.
 - Keep one log per production in `runs/<slug>.md` with every id and decision, so another session can resume.

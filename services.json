@@ -43,6 +43,19 @@
       "docs": ["docs/mcp-guide.md", "docs/protocol.md", "docs/android.md"]
     },
     {
+      "id": "edu-studio",
+      "name": "Edu Studio (educational games)",
+      "repo": "C:\\projects\\Personal\\edu-game-studio",
+      "data": "~\\EduGames",
+      "port": 7463,
+      "mcp": "http://127.0.0.1:7463/mcp",
+      "default": true,
+      "managed": true,
+      "start": { "kind": "node", "args": ["out/engine/index.js", "--mcp-only"] },
+      "build": "yarn build:engine",
+      "docs": ["docs/mcp-guide.md", "docs/player.md", "docs/design.md"]
+    },
+    {
       "id": "pixel-studio",
       "name": "Pixel Studio (pixel art)",
       "repo": "C:\\projects\\Personal\\pixel-art-generator",

@@ -1,0 +1,1 @@
+- For any request to make an educational game, a quiz, a course, a language-learning game or an Encarta/MindMaze-style game from a topic, use the `make-edu-game` skill (Edu Studio, port 7463). Voice allocation applies to its voices too (Gemini TTS within the free quota, VibeTTS for the rest).

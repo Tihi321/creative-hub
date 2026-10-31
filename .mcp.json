@@ -15,6 +15,10 @@
       "type": "http",
       "url": "http://127.0.0.1:7459/mcp"
     },
+    "edu-studio": {
+      "type": "http",
+      "url": "http://127.0.0.1:7463/mcp"
+    },
     "pixel-studio": {
       "type": "http",
       "url": "http://127.0.0.1:7457/mcp"
