@@ -1,17 +1,13 @@
 # Handoff: HUB-15 post-merge live checks
 
-Refreshed 2026-10-24, about 09:30, after C1, C2, C3, C4 and C5. Plan: `plan.md` next to this file (C1 to C5 ticked, with notes). Results: `changelog.md`.
+Refreshed 2026-10-31 after C1 to C5 (done 2026-10-24). Plan: `plan.md` next to this file (C1 to C5 ticked). Results: `changelog.md`.
 
 ## State
 
-- **Repos:**
-  - Hub on `HUB-15_post-merge-live-checks` at `d181f82`, pushed (run logs, plan, changelog).
-  - Scriptorium `master` at `d7c4499`, pushed (roadmap SCP-38 to SCP-43).
-  - VN Studio (`visual-novels-orchestrator`) `master` at `f73ed28`, pushed (roadmap VNO-36 to VNO-38).
-  - All working trees clean. No tool code changed.
-- **Services running:** scriptorium (7341), vn-studio (7459), pixel-studio (7457), vibetts, comfyui (8188), comfy-mcp (7460), flow-music-mcp (7462). Down: book-translator, chiptune-studio, strata, lmstudio, acp-proxy.
-- **Scriptorium spend today:** about $0.27 of the $5 cap, all on reviewers. Client tasks: none waiting.
-- **Credits:** Flow 858, Flow Music 13,169 (unchanged this session).
+- **Repos:** hub branch `HUB-15_post-merge-live-checks` was merged up to `master` (69231fa, fast-forward) on 2026-10-31 and carries the roadmap refresh and this handoff on top. Its earlier tip was `2761783`. PR #14 (HUB-18) is open; this PR should merge after #14. Untracked and not ours: `.agents/`, `.codex/`, `AGENTS.md`, `.claude/tickets/HUB-19-edu-game-studio/`.
+- **Services (checked with `scriptshub.ps1 status`, 2026-10-31):** up: acp-proxy (7461), vibetts (7723), comfyui (8188), lmstudio (1234). Down: scriptorium, book-translator, vn-studio, pixel-studio, chiptune-studio, comfy-mcp, flow-music-mcp, strata. Never start Scriptorium without asking.
+- **Flow Music:** dropped by the user 2026-10-31. HUB-07 has only the 6 hr clips left, waiting on Gemini daily quota.
+- **HUB-09:** done (PRs #12, #13). Claude provider not enabled in proxy; see `.claude/tickets/HUB-09-acp-proxy-wiring/live-check-claude.md`.
 
 ## Done this session
 
@@ -25,17 +21,9 @@ Refreshed 2026-10-24, about 09:30, after C1, C2, C3, C4 and C5. Plan: `plan.md` 
 
 ## What is left
 
-1. ~~C2 screenplay~~: done (see above).
-2. ~~C4 Flow and ComfyUI side by side~~: done (see above).
-3. ~~C5 Gemini quota~~: done (see above).
-4. **C6 the user's verdicts:** ask the user to play or watch, and write their notes in each run log.
-   - The film `runs/the-lighthouse-that-kept-lists-2/video/out/final.mp4`.
-   - *The Winter Garden Clock*.
-   - *The Lighthouse That Kept Lists (VN)*.
-   - `hub07-flow-test` and `hub08-13-autostart`.
-   - *The Trap Room at the Lanterna*, if it gets built.
-5. **Then:** the open bugs are tool tickets, not part of this ticket: Scriptorium SCP-38 to 43, and VN Studio VNO-36 to 38 plus its earlier open items. Fix them in each tool's repo, one ticket branch per fix, using the `implement` skill, only when the user asks.
-6. **Close HUB-15:** fill `changelog.md`, tick the plan, set the HUB-15 status in `ROADMAP.md`, and open a PR from `HUB-15_post-merge-live-checks` to `master`.
+1. **C6 the user verdicts:** ask the user to play or watch and write their notes in each run log. Tickets to cover: HUB-02, 03, 05, 06, 10, 11, 13, 16, 17 (film `runs/the-lighthouse-that-kept-lists-2/video/out/final.mp4`, *The Winter Garden Clock*, *The Lighthouse That Kept Lists (VN)*, `hub07-flow-test`, `hub08-13-autostart`, the Croatian edition and EPUB, the picture books, *The Trap Room at the Lanterna* if built).
+2. **Close HUB-15:** fill `changelog.md`, tick the plan, set HUB-15 to Done in `ROADMAP.md`, merge the PR (after #14).
+3. Open bugs are tool tickets (Scriptorium SCP-38 to 43, VN Studio VNO-36 to 38); fix only when the user asks, in each tool repo, one ticket branch per fix.
 
 ## How to work (lessons)
 
@@ -55,4 +43,4 @@ Refreshed 2026-10-24, about 09:30, after C1, C2, C3, C4 and C5. Plan: `plan.md` 
 
 ## Next step
 
-C6: user verdicts on the built games and video. All checks C1 through C5 are complete and verified.
+C6: user verdicts, then close steps above.
