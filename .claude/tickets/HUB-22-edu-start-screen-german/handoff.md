@@ -17,3 +17,5 @@ Play `deutsch-a1-pilot` (open `...\courses\deutsch-a1-pilot\build\index.html`), 
 - The studio runs from the main checkout's `out/`; rebuild (vite player, live, engine) and restart after each merged engine change.
 - No `git stash` with worktrees (stashes are shared). Worktrees `C:\projects\Personal\edu-wt\EGS-*` can be removed (rmdir the `node_modules` junction first, never recursive delete).
 - Client-model prompts are 10-15k tokens: workers run out of context; write state to the run log.
+
+- 2026-11-01: the user accepted the German Edu courses (HUB-22), no redo needed. HUB-22 is done.
