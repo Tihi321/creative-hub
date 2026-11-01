@@ -1,0 +1,24 @@
+[mcp_servers.book-translator]
+url = "http://127.0.0.1:47811/mcp"
+bearer_token_env_var = "BOOK_TRANSLATOR_MCP_TOKEN"
+
+[mcp_servers.chiptune-studio]
+url = "http://127.0.0.1:7458/mcp"
+
+[mcp_servers.comfy-mcp]
+url = "http://127.0.0.1:7460/mcp"
+
+[mcp_servers.flow-music-mcp]
+url = "http://127.0.0.1:7462/mcp"
+
+[mcp_servers.pixel-studio]
+url = "http://127.0.0.1:7457/mcp"
+
+[mcp_servers.scriptorium]
+url = "http://127.0.0.1:7341/mcp"
+
+[mcp_servers.vibetts]
+url = "http://127.0.0.1:7723/mcp"
+
+[mcp_servers.vn-studio]
+url = "http://127.0.0.1:7459/mcp"
