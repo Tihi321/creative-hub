@@ -18,3 +18,5 @@ Written 2026-10-22 before the machine was shut down at the user's request. Plan:
 ## Waiting on the user to play or read
 
 vno-media-test (HUB-03), the Croatian *Clockless God* VN (HUB-02), the puzzle PoC (`npx tsx scripts/puzzle-poc.ts --play` in VN Studio), *The Umbrella Conductor* (HUB-04), the HUB-05 EPUB.
+
+- 2026-11-01: the user accepted HUB-02, 03, 05, 06, 07, 10, 11, 13 and 17 productions (no redo needed).

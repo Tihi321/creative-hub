@@ -25,3 +25,5 @@ Play HUB-02, 03, 06, 10, 16, 17. Read 05. Watch 11. Listen 13 and the six HUB-18
 - Codex mirrors (`AGENTS.md`, `.agents/`, `.codex/`) are untracked in the hub repo: commit, gitignore, or leave? Also `runs/edu-solar-system-pilot.md` is untracked.
 - VN Studio roadmap has stale `engine.lock` and `plan_music` persona notes to clean.
 - Director request: `.claude/director/requests/REQ-0005-finish-hub-roadmap.md`.
+
+- 2026-11-01: the user accepted every C6 verdict (HUB-02, 03, 05, 06, 10, 11, 13, 16, 17 and the HUB-18 tracks), no redo needed. HUB-15 is done.
