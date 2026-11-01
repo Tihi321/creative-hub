@@ -83,6 +83,11 @@ The user asked (2026-10-22) whether Scriptorium and Book Translator could use th
   - Also check whether the DeepSeek Harness setup is itself at risk: it uses the same plugin with the same Google account.
 - **The allowed way to get Gemini:** a Gemini API key (AI Studio, has a free tier) or OpenRouter, both already provider kinds in the apps.
 
+## Later (hub.ps1)
+
+- `hub.ps1 status` sometimes reports a running service as down. Before saying down, retry and confirm with an HTTP probe of the service's URL.
+- A service started from a sandboxed shell dies when the call ends. Document it, or handle it in `hub.ps1 start` with a detached start that outlives the call.
+
 ## Each tool's own roadmap
 
 Work that touches only one tool, done in its repo on its own ticket branch.
