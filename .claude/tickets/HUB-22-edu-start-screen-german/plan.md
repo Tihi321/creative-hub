@@ -190,7 +190,7 @@ Order and parallelism are in the next section. All tickets are `EGS-NN`; "contra
   - **Facts / sources:** grammar facts name their source (Duden, Wiktionary page, a CEFR vocabulary list such as Goethe-Institut Wortliste for the level) in the fact's `source` field; the fact-checker checks forms against them and, for conjugation items, against the lint's verb table result (a `CONJ_FORM_MISMATCH` is a fail).
 - **Do:** write the rules, add the `{{language_rules}}` variable to the allowed variables (`authoring.ts:745-760`) and fill it in the four handlers, add the `conjugation` shape to `item-writer/items.md` and the review renderer, extend `language-coach/scope` and `accepted` prompts with the rules and the verb scope, extend the fact-checker / misconception / explainer prompts to mention the rules.
 - **Outputs:** prompts, variables, tests (rendered prompt for `targetLang: de` contains the rules and the `conjugation` shape; for `targetLang: hr` contains neither; prompt-variable test still passes), docs.
-- **Contract:** `{{language_rules}}`; authored `conjugation` item shape (item-writer output, one JSON object): `{ "kind": "conjugation", "id", "objective", "taught": true, "verb": "gehen", "tense": "praesens", "prompt", "explanation", "facts": ["f3"], "forms": [{ "person": "ich", "accepted": ["gehe"] }, { "person": "du", "accepted": ["gehst"] }], "given": ["wir"]?, "ask": 3? }`; `authoring.ts` turns it into the pack shape of EGS-27.
+- **Contract:** `{{language_rules}}`; authored `conjugation` item shape (item-writer output, one JSON object): `{ "kind": "conjugation", "id", "objective", "taught": true, "verb": "gehen", "tense": "praesens", "prompt", "explanation", "facts": ["f3"], "forms": [{ "person": "ich", "accepted": ["gehe"] }, { "person": "du", "accepted": ["gehst"] }], "forms": [... , { "person": "wir", "accepted": ["gehen"], "given": true }], "ask": 3? }`; `authoring.ts` turns it into the pack shape of EGS-27.
 
 ### EGS-31 Verb drill round with spaced repetition
 - **Inputs:** EGS-27 (kind), EGS-29 (`extensions.language.verbUnits`), `srs.ts` (SM-2 per item, `dueCards`), `round.ts`.
@@ -376,3 +376,8 @@ Preconditions: `pwsh -File scripts\hub.ps1` (status). Start only Edu Studio (`pw
 1. Is a German-capable engine (Supertonic or Higgs) installed in your VibeTTS? (`edu_voice_status` in the live check shows it; without one, German clips are silent placeholders.)
 2. B2 listening passages (EGS-38) are optional and built last: include them in HUB-22 or leave them for later?
 3. Konjunktiv I (indirect speech) is a stretch inside EGS-37, only if its golden tests pass. Acceptable, or must it be in?
+
+
+## Correction after the build
+
+The conjugation contract example above put `given` persons outside `forms`; the real EGS-27 schema keeps them inside `forms` with `given: true` (fixed in the example).
