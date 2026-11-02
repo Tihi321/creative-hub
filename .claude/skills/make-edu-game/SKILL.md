@@ -23,7 +23,9 @@ The hub is `C:\projects\Personal\creative-hub`. Edu Studio is `C:\projects\Perso
 edu_run_pipeline {brief: {topic, audience, age, sourceLang, targetLang?, cefr?, format?, units?, shells: ["quiz-arena","encyclopedia","mindmaze","rpg"], story: "frame"|"none", model: "client/claude-code"}}
 ```
 
-The pipeline enables the quiz arena, encyclopedia, MindMaze and RPG shells (automatic layouts); role-play and detective need authored sections (`edu_course_edit` on `shells.config.roleplay` / `.detective`, see `docs\player.md`), so they are recorded and not enabled.
+The pipeline enables the quiz arena, encyclopedia, MindMaze and RPG shells (automatic layouts). For language courses (formats `language-a1` to `language-b2`) it also writes and enables role-play scenes (stage `scenes`, roles `scene-writer` and the fact-checker; `roleplay: false` in the brief turns it off). Detective still needs an authored section (`edu_course_edit` on `shells.config.detective`, see `docs\player.md`), so it is recorded and not enabled.
+
+Language courses with role-play: replies are course items (new typed replies get accepted lists); scene text is German in the target catalog, and help and translations are translated into hr and en; run the bot with `--shell roleplay`. Scene lines have no audio; if audio is added later, German goes to local VibeTTS and never to Gemini.
 
 With `client/claude-code` every model call waits for you: loop `edu_get_task` -> do the role's work exactly as the task text says (JSON only) -> `edu_submit_task {taskId, text}` until `edu_wait {slug}` says the run is done or blocked. Research: search the web yourself and answer with short paraphrased excerpts attributed to named pages; every fact needs a source; the fact-checker must pass. `edu_status {slug}` shows every step, failures and what to do next.
 

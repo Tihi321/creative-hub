@@ -2,6 +2,8 @@
 
 **Status: Approved 2026-11-01, build after the user has played deutsch-a1-pilot.**
 
+**Implementation 2026-11-02:** built on the user's decision without first playing deutsch-a1-pilot. Branch `EGS-39_roleplay-generator` in `edu-game-studio` (cut from `origin/master` `303ee0f`), all four tickets on that one branch, uncommitted (commits not authorised). EGS-39, EGS-55, EGS-56, EGS-57 done and verified (see `changelog.md`); EGS-58 not needed so far; live check, hub SKILL.md change and user play not done.
+
 Repo of the work: `C:\projects\Personal\edu-game-studio` (master at `60ab232`-era state, EGS-54 is the highest id in use). Paths below are relative to it unless absolute. Research: `research.md` in this folder (read it first; where this plan differs from it, this plan wins: see "Findings that change the research"). Style and rules follow `.claude/tickets/HUB-22-edu-start-screen-german/plan.md`.
 
 Rules every worker follows (from the repo's `AGENTS.md`): branch `EGS-NN_<what>` cut from `master`, one commit per ticket, plan in `.claude/tickets/EGS-NN-<name>/plan.md` (copy the task block from here), a row in `ROADMAP.md`, `yarn typecheck && yarn lint && yarn test` green (Node via `fnm exec --using=24 yarn ...`), every interactive element has a `data-testid`, public repo (no keys, no `~/EduGames` content, no personal paths), tests use the mock provider and fakes, nothing spends money. Do not commit or push unless asked. Scratch files under `.claude/temp/`. Tests follow the global `test-discipline` skill: only the few that matter, extend existing files and tables, no near-duplicates, no per-code lint tests where a table or fixture already covers the code.
