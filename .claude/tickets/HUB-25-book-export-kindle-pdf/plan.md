@@ -153,3 +153,10 @@ Preconditions: `pwsh -File scripts\hub.ps1` (status); start only VN Studio's eng
 3. No cover asset: use the first scene's background with the title over it.
 4. The section picture is the chapter's first scene (plan default).
 5. Fixed-layout picture book (VNO-55) stays optional, decided after the Kindle probe.
+
+## Implementation run (2026-11-02)
+
+Branches (no commits; each repo's working tree holds all its tickets, stacked; the tree is on the last branch):
+- visual-novels-orchestrator: `VNO-52_export-model` -> `VNO-53_epub-export` -> `VNO-54_pdf-export` (checked out). VNO-55 deferred (optional, after the Kindle probe).
+- scriptorium: `SCP-49_gamebook-epub` -> `SCP-50_gamebook-pdf` (checked out).
+- PDF spike: pdfkit chosen (see `changelog.md`). Hub changes (ROADMAP row, skill step) wait for the merge, as this plan says. Results and DONE / NOT DONE / UNTESTED: `changelog.md`.
