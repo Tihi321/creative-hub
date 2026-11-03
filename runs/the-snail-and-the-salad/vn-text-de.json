@@ -1,0 +1,73 @@
+{
+  "format": "vn-text",
+  "version": 2,
+  "lang": "de",
+  "packHash": "sha256:5b0175dec57ef7eac93aaa68bfaceae8d9728777ab51924b823ab215112cf57a",
+  "title": "Die Schnecke und der Salat",
+  "blurb": "Tino ist eine ganz kleine Schnecke mit einem ganz großen Hunger, und der beste Salat der Welt wartet am anderen Ende des Gartens. Schritt für Schritt, vorbei an Kieselsteinen so groß wie Berge und an Rasensprengern, die fsss machen, macht er sich auf den Weg. Wer langsam geht, kommt auch an, sagt Mama immer, und am Ende wartet auf Tino eine knackige Überraschung.",
+  "chapterTitles": {
+    "1": "Die Schnecke und der Salat"
+  },
+  "sceneTitles": {
+    "ch01.s01": "Unter dem großen grünen Blatt, morgens",
+    "ch01.s02": "Der Blumentopf, morgens",
+    "ch01.s03": "Der Kiesweg, morgens",
+    "ch01.s04": "Der Kiesweg, mittags",
+    "ch01.s05": "Der gepunktete Pilz, mittags",
+    "ch01.s06": "Die Tomatenreihe, nachmittags",
+    "ch01.s07": "Die Tomatenreihe, nachmittags",
+    "ch01.s08": "Das Salatbeet, nachmittags",
+    "ch01.s09": "Das Salatbeet, am späten Nachmittag",
+    "ch01.s10": "Das Salatbeet, am späten Nachmittag",
+    "ch01.s11": "Der Kiesweg, abends",
+    "ch01.s12": "Der Blumentopf, nachts"
+  },
+  "choiceTexts": {},
+  "endings": {
+    "1": "Ende"
+  },
+  "characterNames": {
+    "tino": "Tino",
+    "mama": "Mama",
+    "buba": "Buba"
+  },
+  "beats": {
+    "ch01.s01.b002": "Tino wacht in seinem kleinen runden Häuschen auf.",
+    "ch01.s01.b003": "Sein Bauch macht grummel, grummel.",
+    "ch01.s01.b004": "Er ist sehr, sehr hungrig.",
+    "ch01.s02.b002": "Mama sagt, der Salat ist auf der anderen Seite des Gartens.",
+    "ch01.s02.b003": "Sie sagt: Wer langsam geht, kommt auch an.",
+    "ch01.s02.b004": "Tino nickt und lächelt.",
+    "ch01.s03.b002": "Tino kriecht los, den Kiesweg entlang.",
+    "ch01.s03.b003": "Langsam, langsam, langsam, ein winziger Schritt nach dem anderen.",
+    "ch01.s03.b004": "Der Garten ist sehr, sehr groß.",
+    "ch01.s04.b002": "Ein Kieselstein ist so groß wie ein Berg.",
+    "ch01.s04.b003": "Tino klettert hoch, hoch, hoch.",
+    "ch01.s04.b004": "Dann rutscht er hinunter – huiii!",
+    "ch01.s05.b002": "Der Rasensprenger macht fsss!",
+    "ch01.s05.b003": "Tropf, tropf, tropf.",
+    "ch01.s05.b004": "Tino wartet unter dem gepunkteten Pilz, bis der Regen aufhört.",
+    "ch01.s06.b002": "Buba landet neben ihm – surr!",
+    "ch01.s06.b003": "Sie sagt, sie fliegt voraus und wartet.",
+    "ch01.s06.b004": "Und schon fliegt sie los, mit einem Looping!",
+    "ch01.s07.b002": "Ein großer Stiefel stampft herunter.",
+    "ch01.s07.b003": "Rums!",
+    "ch01.s07.b004": "Tino zieht sich in sein Häuschen zurück, und der Stiefel stampft vorbei.",
+    "ch01.s08.b002": "Buba wartet auf einem großen, knackigen Blatt.",
+    "ch01.s08.b003": "Das ganze Beet ist grün und knackig.",
+    "ch01.s08.b004": "Tinos Bauch grummelt wieder.",
+    "ch01.s09.b002": "Tino nimmt einen winzigen Bissen.",
+    "ch01.s09.b003": "KNACK!",
+    "ch01.s09.b004": "Das ist der beste Salat im ganzen weiten Garten.",
+    "ch01.s10.b002": "Er knabbert ein kleines rundes Loch mitten durch das Blatt.",
+    "ch01.s10.b003": "Mampf, mampf, mampf.",
+    "ch01.s10.b004": "Tino ist sehr, sehr satt.",
+    "ch01.s11.b002": "Tino trägt ein kleines Stück Salat nach Hause, für Mama.",
+    "ch01.s11.b003": "Langsam, langsam, langsam.",
+    "ch01.s11.b004": "Die Sonne sinkt tief, und der Garten wird golden.",
+    "ch01.s12.b002": "Mama und Tino teilen sich das Blatt.",
+    "ch01.s12.b003": "Tino gähnt und rollt sich in seinem Häuschen zusammen.",
+    "ch01.s12.b004": "Gute Nacht, kleine Schnecke."
+  },
+  "puzzles": {}
+}
