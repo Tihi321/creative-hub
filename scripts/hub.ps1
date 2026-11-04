@@ -10,7 +10,7 @@
 #   pwsh -File scripts\hub.ps1 variants [service]  list the variants (bat files) of services that have them, and the default
 #   pwsh -File scripts\hub.ps1 start scriptorium -Force   (Scriptorium resumes its factory, see services.json)
 #   pwsh -File scripts\hub.ps1 start scriptorium -Force -Window   with its window (Electron apps only), MCP still on
-#   pwsh -File scripts\hub.ps1 stop [ids|all]       stops hub-managed engines only (-Force for the rest)
+#   pwsh -File scripts\hub.ps1 stop [ids|all]       stops hub-managed engines only (-Force for the rest; also closes the leftover holder of an `orphan` port)
 #   pwsh -File scripts\hub.ps1 build [ids]          rebuild repos after pulling or editing them
 #   pwsh -File scripts\hub.ps1 logs vn-studio
 #   pwsh -File scripts\hub.ps1 check [ids]          MCP handshake + tool count for each running server
@@ -94,6 +94,60 @@ function Get-Listener([int]$port) {
     Get-NetTCPConnection -LocalPort $port -State Listen -ErrorAction SilentlyContinue | Select-Object -First 1
 }
 
+# True when the service's health URL answers with any HTTP response (services with only an MCP url have none: false).
+function Test-Health($s) {
+    if (-not $s.http) { return $false }
+    try { Invoke-WebRequest -Uri $s.http -TimeoutSec 3 -UseBasicParsing -SkipHttpErrorCheck | Out-Null; $true } catch { $false }
+}
+
+# Who holds the port of service $s with listener $l. Windows may report OwningProcess 0 (or a dead pid) for a listener whose
+# socket was inherited by a child, so a pid of 0 alone does not mean the service is gone. Returns Kind:
+#   live   - the owning pid exists (Pid, Name)
+#   owner  - owner is 0/dead but processes run under the service's folder; Pid/Name = topmost ancestor under that folder
+#   up     - owner is 0/dead and nothing is found under the folder, but the health URL answers (owner unknown)
+#   orphan - owner is 0/dead, nothing under the folder and no health answer. Holders are GUESSES: processes whose command
+#            line mentions 127.0.0.1:<port> or localhost:<port> (never this script's own shell).
+function Get-Owner($s, $listener) {
+    if (-not $listener) { return $null }
+    $op = [int]$listener.OwningProcess
+    if ($op -ne 0) {
+        $p = Get-Process -Id $op -ErrorAction SilentlyContinue
+        if ($p) { return [pscustomobject]@{ Kind = 'live'; Pid = $op; Name = $p.ProcessName; Holders = @() } }
+    }
+    $all = @(Get-CimInstance Win32_Process -ErrorAction SilentlyContinue)
+    $path = if ($s.start -and $s.start.path) { Expand $s.start.path } else { $null }
+    $folder = if ($path) { Split-Path $path } elseif ($s.repo) { Expand $s.repo } else { $null }
+    $shell = '^(bash|sh|cmd|pwsh|powershell|conhost)(\.exe)?$'
+    if ($folder) {
+        $f = $folder.TrimEnd('\') + '\'
+        $under = @($all | Where-Object {
+            $_.ProcessId -ne $PID -and $_.Name -notmatch $shell -and
+            (($_.ExecutablePath -and $_.ExecutablePath.StartsWith($f, [StringComparison]::OrdinalIgnoreCase)) -or
+             ($_.CommandLine -and $_.CommandLine.IndexOf($f, [StringComparison]::OrdinalIgnoreCase) -ge 0))
+        })
+        if ($under.Count) {
+            $ids = @($under.ProcessId)
+            $tops = @($under | Where-Object { $ids -notcontains $_.ParentProcessId })
+            $t = $tops[0]
+            return [pscustomobject]@{ Kind = 'owner'; Pid = [int]$t.ProcessId; Name = [IO.Path]::GetFileNameWithoutExtension($t.Name); Holders = @() }
+        }
+    }
+    if (Test-Health $s) { return [pscustomobject]@{ Kind = 'up'; Pid = $null; Name = 'unknown'; Holders = @() } }
+    $port = $s.port
+    $holders = @($all | Where-Object {
+        $_.CommandLine -and $_.ProcessId -ne $PID -and $_.Name -notmatch $shell -and
+        ($_.CommandLine -match "(127\.0\.0\.1|localhost):$port(?!\d)")
+    } | ForEach-Object { [pscustomobject]@{ Name = [IO.Path]::GetFileNameWithoutExtension($_.Name); Pid = [int]$_.ProcessId } })
+    [pscustomobject]@{ Kind = 'orphan'; Pid = $null; Name = 'unknown'; Holders = $holders }
+}
+
+function Get-OrphanText($s, $orphan) {
+    $h = @($orphan.Holders)
+    $who = if ($h.Count -eq 0) { 'an unknown holder' } else { 'likely held by ' + (($h | ForEach-Object { "$($_.Name) (pid $($_.Pid))" }) -join ', ') + ' (a guess)' }
+    if ($h.Count -eq 0) { "$($s.id): port $($s.port) is held by $who, left over from a process that has exited." }
+    else { "$($s.id): port $($s.port) is $who, left over from a process that has exited." }
+}
+
 function Get-BtToken {
     $t = $env:BOOK_TRANSLATOR_MCP_TOKEN
     if (-not $t) { $t = [Environment]::GetEnvironmentVariable('BOOK_TRANSLATOR_MCP_TOKEN', 'User') }
@@ -112,12 +166,16 @@ function Get-HealthModel([string]$url) {
 function Show-Status {
     $rows = foreach ($s in $services) {
         $l = Get-Listener $s.port
-        $proc = if ($l) { (Get-Process -Id $l.OwningProcess -ErrorAction SilentlyContinue).ProcessName } else { '' }
+        $o = Get-Owner $s $l
+        $orphan = $o -and $o.Kind -eq 'orphan'
+        $h = if ($orphan) { @($o.Holders) } else { @() }
+        $proc = if ($orphan) { if ($h.Count -ge 1) { ($h.Name | Select-Object -Unique) -join ',' } else { 'unknown' } }
+                elseif ($o) { $o.Name } else { '' }
         [pscustomobject]@{
             Service = $s.id
-            State   = if ($l) { 'up' } else { 'down' }
+            State   = if ($orphan) { 'orphan' } elseif ($l) { 'up' } else { 'down' }
             Port    = $s.port
-            Pid     = if ($l) { $l.OwningProcess } else { '' }
+            Pid     = if ($orphan) { if ($h.Count -eq 1) { $h[0].Pid } else { '' } } elseif ($o -and $o.Pid) { $o.Pid } else { '' }
             Process = $proc
             Url     = if ($s.mcp) { $s.mcp } else { $s.http }
             Model   = if ($l -and $s.http) { Get-HealthModel $s.http } else { '' }
@@ -154,7 +212,17 @@ function Start-Detached([string]$exe, [string[]]$argList, [string]$workDir, [str
 }
 
 function Start-Service1($s) {
-    if (Get-Listener $s.port) { Write-Host "$($s.id): already up on $($s.port)"; return }
+    $l0 = Get-Listener $s.port
+    if ($l0) {
+        $orphan = Get-Owner $s $l0
+        if ($orphan.Kind -eq 'orphan') {
+            $h = @($orphan.Holders)
+            $fix = if ($h.Count -eq 1) { "Close $($h[0].Name) if that is right, or run: hub.ps1 stop $($s.id) -Force" } else { "Close it, or run: hub.ps1 stop $($s.id) -Force" }
+            Write-Host "$(Get-OrphanText $s $orphan) $fix" -ForegroundColor Yellow
+        }
+        else { Write-Host "$($s.id): already up on $($s.port)" }
+        return
+    }
     if ($s.warning -and -not $Force) {
         Write-Host "$($s.id): skipped. $($s.warning) Add -Force to start it." -ForegroundColor Yellow
         return
@@ -227,15 +295,37 @@ function Start-Service1($s) {
 function Stop-Service1($s) {
     $l = Get-Listener $s.port
     if (-not $l) { Write-Host "$($s.id): not running"; return }
+    $o = Get-Owner $s $l
+    if ($o.Kind -eq 'up') {
+        Write-Host "$($s.id): port $($s.port) answers but its owner process could not be found. Try: netstat -ano | findstr :$($s.port)" -ForegroundColor Yellow
+        return
+    }
+    $orphan = if ($o.Kind -eq 'orphan') { $o } else { $null }
+    if ($orphan) {
+        $h = @($orphan.Holders)
+        Write-Host (Get-OrphanText $s $orphan) -ForegroundColor Yellow
+        if (-not $Force) {
+            if ($h.Count) { Write-Host "Add -Force to close $(($h | ForEach-Object { "$($_.Name) (pid $($_.Pid))" }) -join ', ') (a guess, check it first)." -ForegroundColor Yellow }
+            else { Write-Host "Could not find the holder. Try: netstat -ano | findstr :$($s.port)" -ForegroundColor Yellow }
+            return
+        }
+        if (-not $h.Count) { Write-Host "$($s.id): could not find the holder. Try: netstat -ano | findstr :$($s.port)" -ForegroundColor Yellow; return }
+        foreach ($c in $h) { & taskkill.exe /PID $c.Pid /T /F | Out-Null; Write-Host "$($s.id): closed $($c.Name) (pid $($c.Pid))" }
+        Start-Sleep -Seconds 1
+        if (Get-Listener $s.port) { Write-Host "$($s.id): port $($s.port) is still held." -ForegroundColor Yellow } else { Write-Host "$($s.id): port $($s.port) is free." -ForegroundColor Green }
+        return
+    }
     if (-not $s.managed -and -not $Force) { Write-Host "$($s.id): not hub-managed (your app), left running. Add -Force to stop it."; return }
     # Electron listens from a child (utility) process: kill the top process of the same program, or the main one lives on.
-    $root = Get-CimInstance Win32_Process -Filter "ProcessId=$($l.OwningProcess)"
-    while ($root) {
+    # When Windows reports owner 0, $o.Pid is the topmost process under the service's folder (taskkill /T takes its children).
+    $ownerId = $o.Pid
+    $root = Get-CimInstance Win32_Process -Filter "ProcessId=$ownerId"
+    while ($o.Kind -eq 'live' -and $root) {
         $parent = Get-CimInstance Win32_Process -Filter "ProcessId=$($root.ParentProcessId)"
         if (-not $parent -or $parent.Name -ne $root.Name) { break }
         $root = $parent
     }
-    $rootId = if ($root) { $root.ProcessId } else { $l.OwningProcess }
+    $rootId = if ($root) { $root.ProcessId } else { $ownerId }
     & taskkill.exe /PID $rootId /T /F | Out-Null
     Write-Host "$($s.id): stopped (pid $rootId)"
 }

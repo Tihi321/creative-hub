@@ -150,9 +150,9 @@
       "http": "http://127.0.0.1:8080/health",
       "default": false,
       "managed": false,
-      "start": { "kind": "console", "path": "D:\\Strata\\run-iq3_s.bat", "args": [] },
-      "variants": { "iq3_s": "D:\\Strata\\run-iq3_s.bat", "iq3_s-solo": "D:\\Strata\\run-iq3_s-solo.bat", "iq3_s-parallel": "D:\\Strata\\run-iq3_s-parallel.bat", "iq4_xs": "D:\\Strata\\run-unsloth-ud-iq4_xs.bat", "deepseek": "D:\\Strata\\run-deepseek-v4.1-flash-ist-das-2.00bpw.bat", "deepseek-coder": "D:\\Strata\\run-deepseek-v4.1-flash-ista-das-coder.bat" },
-      "defaultVariant": "iq3_s",
+      "start": { "kind": "console", "path": "D:\\Strata\\run-unsloth-ud-iq4_xs-parallel.bat", "args": [] },
+      "variants": { "iq4_xs-parallel": "D:\\Strata\\run-unsloth-ud-iq4_xs-parallel.bat", "iq4_xs": "D:\\Strata\\run-unsloth-ud-iq4_xs.bat", "deepseek": "D:\\Strata\\run-deepseek-v4.1-flash-ist-das-2.00bpw.bat", "deepseek-coder": "D:\\Strata\\run-deepseek-v4.1-flash-ista-das-coder.bat" },
+      "defaultVariant": "iq4_xs-parallel",
       "note": "Uses most of the GPU memory whichever model it runs; one model per process on 8080. hub.ps1 start strata <variant>."
     },
     {
