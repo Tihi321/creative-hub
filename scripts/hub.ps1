@@ -7,6 +7,7 @@
 #   pwsh -File scripts\hub.ps1 start                start the default set (not scriptorium, not strata)
 #   pwsh -File scripts\hub.ps1 start vn-studio pixel-studio
 #   pwsh -File scripts\hub.ps1 start strata deepseek   a service with variants takes the variant after its id (default: defaultVariant)
+#   pwsh -File scripts\hub.ps1 variants [service]  list the variants (bat files) of services that have them, and the default
 #   pwsh -File scripts\hub.ps1 start scriptorium -Force   (Scriptorium resumes its factory, see services.json)
 #   pwsh -File scripts\hub.ps1 start scriptorium -Force -Window   with its window (Electron apps only), MCP still on
 #   pwsh -File scripts\hub.ps1 stop [ids|all]       stops hub-managed engines only (-Force for the rest)
@@ -18,7 +19,7 @@
 #   pwsh -File scripts\hub.ps1 setup [-EnableVibeTts]  one-time: Book Translator token, VibeTTS MCP
 
 param(
-    [Parameter(Position = 0)][ValidateSet('status', 'start', 'stop', 'build', 'logs', 'setup', 'check', 'call')][string]$Command = 'status',
+    [Parameter(Position = 0)][ValidateSet('status', 'start', 'stop', 'build', 'logs', 'setup', 'check', 'call', 'variants')][string]$Command = 'status',
     [Parameter(Position = 1, ValueFromRemainingArguments)][string[]]$Ids,
     [switch]$Force,
     [switch]$Window,
@@ -51,7 +52,11 @@ function Select-Services([string[]]$ids, [bool]$defaultsOnly) {
         $s = $services | Where-Object id -EQ $id
         if (-not $s -and $prev -and $prev.variants) {
             $names = @($prev.variants.PSObject.Properties.Name)
-            if ($names -notcontains $id) { throw "Unknown variant '$id' for '$($prev.id)'. Variants: $($names -join ', ') (default: $($prev.defaultVariant)). Services: $($services.id -join ', ')" }
+            if ($names -notcontains $id) {
+                Write-Host "Unknown variant '$id' for '$($prev.id)'. Run: hub.ps1 variants $($prev.id)" -ForegroundColor Yellow
+                Write-Host "Variants: $($names -join ', ') (default: $($prev.defaultVariant))" -ForegroundColor Yellow
+                exit 1
+            }
             $script:Variants[$prev.id] = $id
             continue
         }
@@ -59,6 +64,30 @@ function Select-Services([string[]]$ids, [bool]$defaultsOnly) {
         $prev = $s
         $s
     }
+}
+
+function Show-Variants([string[]]$ids) {
+    $withVariants = @($services | Where-Object variants)
+    $pick = $withVariants
+    if ($ids -and $ids.Count -gt 0) {
+        $pick = @($withVariants | Where-Object { $ids -contains $_.id })
+        if ($pick.Count -ne $ids.Count) {
+            Write-Host "No variants for '$($ids -join ', ')'. Services with variants: $($withVariants.id -join ', ')" -ForegroundColor Yellow
+            exit 1
+        }
+    }
+    $rows = foreach ($s in $pick) {
+        foreach ($p in $s.variants.PSObject.Properties) {
+            [pscustomobject]@{
+                Service = $s.id
+                Variant = $p.Name
+                'Bat file' = Expand $p.Value
+                Default = if ($p.Name -eq $s.defaultVariant) { 'default' } else { '' }
+                Exists  = if (Test-Path (Expand $p.Value)) { 'yes' } else { 'MISSING' }
+            }
+        }
+    }
+    $rows | Format-Table -AutoSize | Out-String -Width 250 | Write-Host
 }
 
 function Get-Listener([int]$port) {
@@ -305,6 +334,7 @@ switch ($Command) {
             }
         }
     }
+    'variants' { Show-Variants $Ids }
     'setup' { Invoke-Setup }
     'check' { foreach ($s in Select-Services $Ids $false) { Test-Mcp $s } }
     'call' { Invoke-Tool $Ids }
