@@ -143,7 +143,7 @@
     },
     {
       "id": "strata",
-      "name": "Strata (Qwen3.8-Flash-Next server)",
+      "name": "Strata (local LLM server, one model at a time)",
       "repo": null,
       "data": "D:\\Strata-data",
       "port": 8080,
@@ -151,7 +151,9 @@
       "default": false,
       "managed": false,
       "start": { "kind": "console", "path": "D:\\Strata\\run-iq3_s.bat", "args": [] },
-      "note": "Uses most of the GPU memory; run one model at a time. First model in the fallback chain of Scriptorium and Book Translator."
+      "variants": { "iq3_s": "D:\\Strata\\run-iq3_s.bat", "iq3_s-solo": "D:\\Strata\\run-iq3_s-solo.bat", "iq3_s-parallel": "D:\\Strata\\run-iq3_s-parallel.bat", "iq4_xs": "D:\\Strata\\run-unsloth-ud-iq4_xs.bat", "deepseek": "D:\\Strata\\run-deepseek-v4.1-flash-ist-das-2.00bpw.bat", "deepseek-coder": "D:\\Strata\\run-deepseek-v4.1-flash-ista-das-coder.bat" },
+      "defaultVariant": "iq3_s",
+      "note": "Uses most of the GPU memory whichever model it runs; one model per process on 8080. hub.ps1 start strata <variant>."
     },
     {
       "id": "acp-proxy",

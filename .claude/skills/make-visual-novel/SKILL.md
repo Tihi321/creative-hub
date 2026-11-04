@@ -156,7 +156,7 @@ A picture book is the simpler sibling of a visual novel: one page = one scene, o
 - `unknown tool "vno_create_project"` (or another story tool): the running VN Studio is older than VNO-04. `hub.ps1 build vn-studio`, `hub.ps1 stop vn-studio`, `hub.ps1 start vn-studio`, then reconnect it.
 - `hub.ps1 call` gives up after 15 s: call `vno_build`, `vno_lint` and other long tools with `wait: false`, then poll `vno_wait {slug, timeoutSeconds: 10}`.
 - "engine.lock": another engine (the desktop app or an earlier headless start) already uses that data folder. Use the running one; its MCP is the same port.
-- Scriptorium or Book Translator jobs fail with model errors: no model answered. Start LM Studio (`hub.ps1 start lmstudio`) or Strata (`hub.ps1 start strata`), then `scriptorium.check_servers`.
+- Scriptorium or Book Translator jobs fail with model errors: no model answered. Start LM Studio (`hub.ps1 start lmstudio`) or Strata (`hub.ps1 start strata [variant]`), then `scriptorium.check_servers`.
 - ComfyUI out of memory: `vno_comfy_free` (or comfy-mcp `free_memory`), and do not run Strata at the same time as image generation.
 - Pixel Studio and Chiptune Studio keep one shared document/song for every client: call them one at a time, never in parallel.
 - `analyze_file` reports `vn`, not `vnp`: the running Book Translator is older than BTT-23 (`hub.ps1 build book-translator`), or the book has no pack (`scriptorium.build_vn_pack {book}`).

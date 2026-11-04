@@ -6,6 +6,7 @@
 #   pwsh -File scripts\hub.ps1                      status of every service
 #   pwsh -File scripts\hub.ps1 start                start the default set (not scriptorium, not strata)
 #   pwsh -File scripts\hub.ps1 start vn-studio pixel-studio
+#   pwsh -File scripts\hub.ps1 start strata deepseek   a service with variants takes the variant after its id (default: defaultVariant)
 #   pwsh -File scripts\hub.ps1 start scriptorium -Force   (Scriptorium resumes its factory, see services.json)
 #   pwsh -File scripts\hub.ps1 start scriptorium -Force -Window   with its window (Electron apps only), MCP still on
 #   pwsh -File scripts\hub.ps1 stop [ids|all]       stops hub-managed engines only (-Force for the rest)
@@ -36,15 +37,26 @@ $services = $registry.services
 
 function Expand([string]$p) { if ($p) { $p -replace '^~', $HOME } }
 
+# Variant picked on the command line per service id (hub.ps1 start strata deepseek).
+$script:Variants = @{}
+
 function Select-Services([string[]]$ids, [bool]$defaultsOnly) {
     if (-not $ids -or $ids.Count -eq 0) {
         if ($defaultsOnly) { return $services | Where-Object default }
         return $services
     }
     if ($ids -contains 'all') { return $services }
+    $prev = $null
     foreach ($id in $ids) {
         $s = $services | Where-Object id -EQ $id
+        if (-not $s -and $prev -and $prev.variants) {
+            $names = @($prev.variants.PSObject.Properties.Name)
+            if ($names -notcontains $id) { throw "Unknown variant '$id' for '$($prev.id)'. Variants: $($names -join ', ') (default: $($prev.defaultVariant)). Services: $($services.id -join ', ')" }
+            $script:Variants[$prev.id] = $id
+            continue
+        }
         if (-not $s) { throw "Unknown service '$id'. Known: $($services.id -join ', ')" }
+        $prev = $s
         $s
     }
 }
@@ -59,6 +71,15 @@ function Get-BtToken {
     $t
 }
 
+# The model a service reports in its health answer (Strata: /health has `model` and `loaded`); empty when it has none.
+function Get-HealthModel([string]$url) {
+    try {
+        $h = Invoke-RestMethod -Uri $url -TimeoutSec 3
+        if ($h.model) { if ($h.PSObject.Properties.Name -contains 'loaded' -and -not $h.loaded) { "$($h.model) (loading)" } else { [string]$h.model } }
+    }
+    catch { '' }
+}
+
 function Show-Status {
     $rows = foreach ($s in $services) {
         $l = Get-Listener $s.port
@@ -70,6 +91,7 @@ function Show-Status {
             Pid     = if ($l) { $l.OwningProcess } else { '' }
             Process = $proc
             Url     = if ($s.mcp) { $s.mcp } else { $s.http }
+            Model   = if ($l -and $s.http) { Get-HealthModel $s.http } else { '' }
         }
     }
     $rows | Format-Table -AutoSize | Out-String -Width 200 | Write-Host
@@ -109,6 +131,13 @@ function Start-Service1($s) {
         return
     }
     $st = $s.start
+    if ($s.variants) {
+        $v = if ($script:Variants.ContainsKey($s.id)) { $script:Variants[$s.id] } else { $s.defaultVariant }
+        $vp = $s.variants.$v
+        if (-not $vp) { throw "$($s.id): no variant '$v'. Variants: $(@($s.variants.PSObject.Properties.Name) -join ', ')" }
+        $st = [pscustomobject]@{ kind = $st.kind; path = $vp; args = $st.args }
+        Write-Host "$($s.id): variant $v"
+    }
     $repo = if ($st.cwd) { Expand $st.cwd } else { $s.repo }
     $args2 = @($st.args | ForEach-Object { Expand $_ })
     $showWindow = $false
