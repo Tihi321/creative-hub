@@ -85,3 +85,42 @@ Not run (UNTESTED): the real TV, phones and tablets, real audio, and puzzle over
 - VN Studio: committed and merged locally, not pushed.
 - Site: committed, merged and pushed.
 - Hub: committed on `master`.
+
+## Polish round 1 (checker round 1)
+
+Fixes only for the four checker findings. Details and the rebuild table: `runs/hub-27-vn-tv-touch.md`, section "Polish round 1".
+
+### Changed
+
+- VN Studio `src/engine/game/player-runtime.ts` (`VNO-62_tv-touch-controls` `2fccf5d`, `master` fast-forwarded, not pushed):
+  - A baseline history entry while a story plays. History Back with no layer open opens the pause menu and pushes the baseline again; returning to the main menu drops it in one step, so Back there still leaves the game.
+  - A picture book opens the pause menu on Back (Resume, Preferences, Main Menu) instead of the main menu in one press.
+  - A VN load hides the main menu first.
+  - Seven `min()` values got a fixed fallback declaration before them. The 13 flex `gap`s became `> * + *` margins (mirrored under `[dir="rtl"]`), and the save grid uses `grid-gap`.
+- Site `creative-hub-web` (`WEB-02_vn-tv-touch` `6af1aa3`, `ac381ec`, merged `3b7c088`, pushed):
+  - `hub-bridge.js`: in the owned path, keyCode 4, Escape and Backspace also leave the game when the player left them unhandled (the main menu).
+  - `check-site.mjs`: VN `play/*/player.css` are scanned for the banned features and for `min()` without a fixed fallback before it.
+  - `vn-player.spec.mjs`: the history-Back test and the choice-Enter test.
+  - 13 plays republished.
+
+### Verification
+
+| Check | Result |
+|---|---|
+| VN Studio `yarn test` / `typecheck` / `lint` | 1151 of 1151 / ok / ok |
+| Rebuild | 13 of 13 ok, 0 placeholders, file and media counts unchanged |
+| `player.js` md5 | source `12727c37...` in 13 projects, published `16f523ec...` in 13 plays |
+| Publish smoke check | 13 of 13 ok |
+| Site `check` | PASSED (css: 14 files) |
+| Site `test:unit` | 4 of 4 |
+| Site full `playwright test` | 52 of 52 |
+| Pages deploy run 42049363165 | success |
+| Live probe | history Back in play opens the pause menu on the play URL; from the main menu it leaves; same for a picture book |
+
+UNTESTED: the real Android / Google TV Chrome (Chrome's history-manipulation intervention, key codes), Chrome 61 layout of the margin gaps, phones and tablets, real audio.
+
+### Commit status
+
+- VN Studio: committed and merged locally, not pushed.
+- Site: committed, merged and pushed.
+- Hub: run log and changelog committed on `master`, not pushed.
