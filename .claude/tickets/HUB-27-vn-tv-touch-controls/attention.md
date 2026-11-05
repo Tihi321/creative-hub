@@ -1,0 +1,12 @@
+## A-001 Play the rebuilt VNs on TV and touch; decide two pushes and low findings N1, N2
+- status: open
+- asked: 2026-11-05 16:00
+- by: director-scribe
+- why: HUB-27 passed checker round 2 (52/52 e2e, 1151/1151 vitest). The hub rule says a production is done only after the user has played it, so the TV and touch play is still the user's. Three decisions are open.
+- options:
+  - (a) Play a rebuilt story on Android / Google TV and on a touch device, then report back
+  - (b) Push VN Studio master (2fccf5d, 8 ahead of origin) and creative-hub master (1e90a08, 2ae176f): yes or no
+  - (c) Fix low findings N1 (reload leaves dead Back presses) and N2 (check-site does not ban max()): yes or no
+- recommendation: none given by the checker; play (a) first, then decide (b) and (c)
+- default: no push of VN Studio or creative-hub master, and no fix for N1 or N2; the web publish (3b7c088) stays live as it is
+- answer:

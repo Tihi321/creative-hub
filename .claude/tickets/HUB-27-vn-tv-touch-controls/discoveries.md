@@ -3,3 +3,6 @@
 - 2026-11-05 implementer: "Where it stands (2026-10-25)" section is stale (C:/projects/Personal/visual-novels-orchestrator/ROADMAP.md:5) - suggested: refresh it
 - 2026-11-05 implementer: `.claude/` is git-ignored whole, so WEB-01/WEB-02 ticket files are untracked (C:/projects/Personal/creative-hub-web/.gitignore:6) - suggested: un-ignore .claude/tickets
 - 2026-11-05 implement: the-snail-and-the-salad rebuild adds Ren'Py tl/german files, the project has de while the play lists en,hr (C:/Users/Infplane/VisualNovels/projects/the-snail-and-the-salad/game/game/tl/german) - suggested: none, site skips tl/
+- 2026-11-05 general-purpose: loadFromSlot now hides the main menu, a visible fix (C:/projects/Personal/visual-novels-orchestrator/src/engine/game/player-runtime.ts) - suggested: confirm on the TV play test
+- 2026-11-05 general-purpose: the pause menu screen replaces an open screen instead of stacking on it (C:/projects/Personal/visual-novels-orchestrator/src/engine/game/player-runtime.ts) - suggested: confirm on the TV play test
+- 2026-11-05 general-purpose: leading-margin risk if a first child is hidden (C:/projects/Personal/visual-novels-orchestrator/src/engine/game/player-runtime.ts) - suggested: check the layout when the first child is hidden
