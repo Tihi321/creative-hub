@@ -1,0 +1,5 @@
+- 2026-11-05 implementer: player CSS still uses flex `gap` (~15 rules) and `min()` (7) unchecked, since check-site.mjs scans only assets/site.css (C:/projects/Personal/visual-novels-orchestrator/src/engine/game/player-runtime.ts) - suggested: VNO row for old-TV CSS fallbacks and a site check over play CSS
+- 2026-11-05 implementer: save screen page buttons `.vno-page-btn` (1..9, Auto, Quick) have no click handler (C:/projects/Personal/visual-novels-orchestrator/src/engine/game/player-runtime.ts:165) - suggested: VNO row to wire save pages
+- 2026-11-05 implementer: "Where it stands (2026-10-25)" section is stale (C:/projects/Personal/visual-novels-orchestrator/ROADMAP.md:5) - suggested: refresh it
+- 2026-11-05 implementer: `.claude/` is git-ignored whole, so WEB-01/WEB-02 ticket files are untracked (C:/projects/Personal/creative-hub-web/.gitignore:6) - suggested: un-ignore .claude/tickets
+- 2026-11-05 implement: the-snail-and-the-salad rebuild adds Ren'Py tl/german files, the project has de while the play lists en,hr (C:/Users/Infplane/VisualNovels/projects/the-snail-and-the-salad/game/game/tl/german) - suggested: none, site skips tl/

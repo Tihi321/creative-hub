@@ -1,0 +1,8 @@
+{"ts":"2026-11-05T13:25:30Z","actor":"implement","type":"implement.started","request":"REQ-0017","ticket":"HUB-27-vn-tv-touch-controls","detail":"branches VNO-62_tv-touch-controls and WEB-02_vn-tv-touch cut"}
+{"ts":"2026-11-05T13:26:00Z","actor":"implement","type":"slice.started","request":"REQ-0017","ticket":"HUB-27-vn-tv-touch-controls","detail":"T1 VN Studio player","data":{"tasks":["T1"]}}
+{"ts":"2026-11-05T13:26:00Z","actor":"implement","type":"slice.started","request":"REQ-0017","ticket":"HUB-27-vn-tv-touch-controls","detail":"T2 site bridge and e2e","data":{"tasks":["T2"]}}
+{"ts":"2026-11-05T13:57:39Z","actor":"implement","type":"slice.done","request":"REQ-0017","ticket":"HUB-27-vn-tv-touch-controls","detail":"T2 e444b72; repro spec 6/6 fail on old dist","data":{"tasks":["T2"]}}
+{"ts":"2026-11-05T13:57:39Z","actor":"implement","type":"slice.done","request":"REQ-0017","ticket":"HUB-27-vn-tv-touch-controls","detail":"T1 a57cfff merged to VNO master 7cf05e8, 0880ad2","data":{"tasks":["T1"]}}
+{"ts":"2026-11-05T14:03:19Z","actor":"implement","type":"note","request":"REQ-0017","ticket":"HUB-27-vn-tv-touch-controls","detail":"T3 rebuild 13/13 ok, 0 assets missing, player.js md5 e1e3c61c"}
+{"ts":"2026-11-05T14:23:52Z","actor":"implement","type":"verify.passed","request":"REQ-0017","ticket":"HUB-27-vn-tv-touch-controls","detail":"e2e 50/50, check, unit 4/4, vitest 1151; Pages deploy ok, live play checked","data":{"siteMaster":"1718a13","vnoMaster":"ab4589c"}}
+{"ts":"2026-11-05T14:23:52Z","actor":"implement","type":"changelog.written","request":"REQ-0017","ticket":"HUB-27-vn-tv-touch-controls","detail":"changelog.md written; status stays in-progress for the director checker"}
