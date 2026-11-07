@@ -1,0 +1,11 @@
+2026-11-07T19:44:19.325Z pilot/ep00-pilot en final 1920x1080
+encoder: h264_amf
+frames: 1343 (55.958 s at 24 fps)
+stage frames: 14.7 s (draw + JPEG + pipe)
+stage encode: 0.1 s (ffmpeg finishing after the last frame; the rest of the encode overlaps "frames")
+stage splice: 1.4 s (2 clips)
+stage mux: 2.6 s (audio mix, loudnorm, mux; ffmpeg encode runs inside "frames")
+loudness before normalising: -22.94 LUFS
+wall: 18.8 s
+file: episodes/ep00-pilot/out/en.mp4 (55.958 s)
+frame digest: 5e9c8a8df0628c4f79a199252a014b2f460942202521cf92f946a3d102d8bb98
