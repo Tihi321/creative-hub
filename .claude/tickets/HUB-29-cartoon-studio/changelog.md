@@ -1,6 +1,6 @@
 # HUB-29 changelog
 
-## 2026-11-07: phase 1 built, pilot made; waiting for the user's verdict (A12) and the checker (V)
+## 2026-11-07: phase 1 built, pilot made; user verdict recorded (good, vector, go); waiting for the checker (V)
 
 Cartoon Studio exists as a new public repo (`master` only pushed), with the engine, contracts, player, timeline, voices, render, images and budget gate, pipeline, studio UI and Windows installer on `CTS-01_pilot` (11 commits, CTS-01..CTS-09). The 60 s pilot "Grandma Vera's Kitchen: Pancakes" was made in hr and en for $0 and 24 of 50 Flow credits. The hub wiring is on `HUB-29_cartoon-studio`.
 
@@ -60,7 +60,7 @@ Facts checked in source (T6/T9 "first" steps): the Gemini narration tool is `flo
 
 ### Not run / not verified
 
-- A12: the user's verdict on hr and en, the vector/raster choice and go/no-go: PENDING.
+- A12: answered after the pilot: hr and en good, vector (a) for phase 2 (read from "yes" to the either/or question), phase 2 go.
 - A4: `hub.ps1 status` lists `cartoon-studio`; `start cartoon-studio` started it; `stop` reported "not running" while the engine ran, because `Get-NetTCPConnection` returns nothing intermittently in this environment (affects every service).
 - The installer was built and verified but not installed; the window checked was the unpacked build of the same version.
 - Live paid providers (fal, Recraft) never called (by design, $0); their API shapes are unverified.

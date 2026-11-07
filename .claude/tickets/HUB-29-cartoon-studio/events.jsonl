@@ -24,3 +24,4 @@
 {"ts":"2026-11-07T18:33:45Z","actor":"implement","type":"slice.done","request":"REQ-0022","ticket":"HUB-29-cartoon-studio","detail":"T7 done, committed CTS-07; 45 tools, fake dry run reached done","data":{"tasks":["T7"]}}
 {"ts":"2026-11-07T19:52:34Z","actor":"implement","type":"verify.passed","request":"REQ-0022","ticket":"HUB-29-cartoon-studio","detail":"A1-A18 run; A12 pending user, A4 stop flaky, A9 60% missed on 2 lines","data":{"pending":["A12"],"partial":["A4","A9"]}}
 {"ts":"2026-11-07T19:52:34Z","actor":"implement","type":"changelog.written","request":"REQ-0022","ticket":"HUB-29-cartoon-studio","detail":"changelog.md written; ticket stays in-progress for user verdict and checker"}
+{"ts":"2026-11-07T19:59:52Z","actor":"user","type":"note","request":"REQ-0022","ticket":"HUB-29-cartoon-studio","detail":"A12: user watched pilot: good, vector (a), phase 2 go"}
