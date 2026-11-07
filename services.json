@@ -56,6 +56,19 @@
       "docs": ["docs/mcp-guide.md", "docs/player.md", "docs/design.md"]
     },
     {
+      "id": "cartoon-studio",
+      "name": "Cartoon Studio (cutout cartoons)",
+      "repo": "C:\\projects\\Personal\\cartoon-studio",
+      "data": "~\\CartoonStudio",
+      "port": 7465,
+      "mcp": "http://127.0.0.1:7465/mcp",
+      "default": false,
+      "managed": true,
+      "start": { "kind": "node", "args": ["out/engine/index.js", "--mcp-only"] },
+      "build": "yarn build:engine",
+      "docs": ["docs/mcp-guide.md", "docs/contracts.md"]
+    },
+    {
       "id": "pixel-studio",
       "name": "Pixel Studio (pixel art)",
       "repo": "C:\\projects\\Personal\\pixel-art-generator",

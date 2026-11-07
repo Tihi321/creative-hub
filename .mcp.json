@@ -19,6 +19,10 @@
       "type": "http",
       "url": "http://127.0.0.1:7463/mcp"
     },
+    "cartoon-studio": {
+      "type": "http",
+      "url": "http://127.0.0.1:7465/mcp"
+    },
     "pixel-studio": {
       "type": "http",
       "url": "http://127.0.0.1:7457/mcp"
