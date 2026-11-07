@@ -1,0 +1,10 @@
+{"ts":"2026-11-07T15:06:59Z","actor":"implement","type":"implement.started","request":"REQ-0021","ticket":"HUB-28-edu-mobile-music","detail":"A0-A4,B on edu-game-studio EGS-62_mobile-music from master 46b6ec1"}
+{"ts":"2026-11-07T15:22:31Z","actor":"implement","type":"slice.done","request":"REQ-0021","ticket":"HUB-28-edu-mobile-music","detail":"A0 baseline: all shells pass at 375/360/1280; work list in run log","data":{"tasks":["A0"]}}
+{"ts":"2026-11-07T16:01:07Z","actor":"implement","type":"slice.done","request":"REQ-0021","ticket":"HUB-28-edu-mobile-music","detail":"A1-A4 phone CSS + bot/android-mobile tests done","data":{"tasks":["A1","A2","A3","A4"]}}
+{"ts":"2026-11-07T16:01:07Z","actor":"implement","type":"slice.done","request":"REQ-0021","ticket":"HUB-28-edu-mobile-music","detail":"B audio settings + panel done; full e2e pending","data":{"tasks":["B"]}}
+{"ts":"2026-11-07T16:10:51Z","actor":"implement","type":"verify.passed","request":"REQ-0021","ticket":"HUB-28-edu-mobile-music","detail":"test 521, typecheck, lint, e2e 40 green; EGS-62 merged local 5b64706","data":{"playerJsMd5":"2f0a8e4822fc59c4ea04daa21c0f5f42"}}
+{"ts":"2026-11-07T16:11:08Z","actor":"implement","type":"changelog.written","request":"REQ-0021","ticket":"HUB-28-edu-mobile-music","detail":"A0-A4,B entry; status stays in-progress for C-E and checker"}
+{"ts":"2026-11-07T15:07:10Z","actor":"director-scribe","type":"plan.created","request":"REQ-0021","ticket":"HUB-28-edu-mobile-music","detail":"planner plan written; recorded late, after implement"}
+{"ts":"2026-11-07T15:07:10Z","actor":"director-scribe","type":"plan.approved","request":"REQ-0021","ticket":"HUB-28-edu-mobile-music","detail":"user approved plan with defaults; recorded late, after implement"}
+{"ts":"2026-11-07T18:30:00Z","actor":"director-scribe","type":"checker.verdict","request":"REQ-0021","ticket":"HUB-28-edu-mobile-music","detail":"PASS; unchecked by a person: real phones, music by ear, TV; see check.md"}
+{"ts":"2026-11-07T18:30:00Z","actor":"director-scribe","type":"ticket.done","request":"REQ-0021","ticket":"HUB-28-edu-mobile-music","detail":"done after checker PASS; request REQ-0021 closed"}
