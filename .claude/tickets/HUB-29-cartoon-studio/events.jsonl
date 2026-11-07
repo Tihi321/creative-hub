@@ -25,3 +25,6 @@
 {"ts":"2026-11-07T19:52:34Z","actor":"implement","type":"verify.passed","request":"REQ-0022","ticket":"HUB-29-cartoon-studio","detail":"A1-A18 run; A12 pending user, A4 stop flaky, A9 60% missed on 2 lines","data":{"pending":["A12"],"partial":["A4","A9"]}}
 {"ts":"2026-11-07T19:52:34Z","actor":"implement","type":"changelog.written","request":"REQ-0022","ticket":"HUB-29-cartoon-studio","detail":"changelog.md written; ticket stays in-progress for user verdict and checker"}
 {"ts":"2026-11-07T19:59:52Z","actor":"user","type":"note","request":"REQ-0022","ticket":"HUB-29-cartoon-studio","detail":"A12: user watched pilot: good, vector (a), phase 2 go"}
+{"ts":"2026-11-07T22:04:47Z","actor":"implement","type":"slice.done","request":"REQ-0022","ticket":"HUB-29-cartoon-studio","detail":"polish round 1: CTS-09 polish f5c37b9, hub.ps1 probe, docs, re-render","data":{"tasks":["polish-1"]}}
+{"ts":"2026-11-07T22:04:47Z","actor":"implement","type":"verify.passed","request":"REQ-0022","ticket":"HUB-29-cartoon-studio","detail":"typecheck/lint/test/e2e 0; lint 0/0; all lines >= 0.69 mouth open"}
+{"ts":"2026-11-07T22:04:47Z","actor":"implement","type":"changelog.written","request":"REQ-0022","ticket":"HUB-29-cartoon-studio","detail":"polish round 1 entry; ticket stays in-progress for the checker"}

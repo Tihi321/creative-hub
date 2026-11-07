@@ -90,8 +90,19 @@ function Show-Variants([string[]]$ids) {
     $rows | Format-Table -AutoSize | Out-String -Width 250 | Write-Host
 }
 
+# The listener on $port. Get-NetTCPConnection returns nothing at times (and in sandboxed shells it never sees listeners), so when
+# it finds none a TCP connect to 127.0.0.1:$port decides; such a listener has OwningProcess 0 and Get-Owner looks for the owner.
 function Get-Listener([int]$port) {
-    Get-NetTCPConnection -LocalPort $port -State Listen -ErrorAction SilentlyContinue | Select-Object -First 1
+    $l = Get-NetTCPConnection -LocalPort $port -State Listen -ErrorAction SilentlyContinue | Select-Object -First 1
+    if ($l) { return $l }
+    $c = [Net.Sockets.TcpClient]::new()
+    try {
+        $t = $c.ConnectAsync('127.0.0.1', $port)
+        if ($t.Wait(400) -and $c.Connected) { return [pscustomobject]@{ LocalPort = $port; OwningProcess = 0 } }
+    }
+    catch { }
+    finally { $c.Dispose() }
+    $null
 }
 
 # True when the service's health URL answers with any HTTP response (services with only an MCP url have none: false).
@@ -118,6 +129,16 @@ function Get-Owner($s, $listener) {
     $path = if ($s.start -and $s.start.path) { Expand $s.start.path } else { $null }
     $folder = if ($path) { Split-Path $path } elseif ($s.repo) { Expand $s.repo } else { $null }
     $shell = '^(bash|sh|cmd|pwsh|powershell|conhost)(\.exe)?$'
+    # A service this script started runs under a cmd.exe whose command line names its log file (Start-Detached); a `node out/...`
+    # command line names no folder, so this is how such an owner is found. taskkill /T on that cmd.exe takes fnm and node with it.
+    $logMark = (Join-Path $logs "$($s.id).out.log")
+    $started = @($all | Where-Object { $_.ProcessId -ne $PID -and $_.Name -eq 'cmd.exe' -and $_.CommandLine -and $_.CommandLine.IndexOf($logMark, [StringComparison]::OrdinalIgnoreCase) -ge 0 })
+    if ($started.Count) {
+        $t = $started[0]
+        $leaf = $t
+        while ($next = $all | Where-Object { $_.ParentProcessId -eq $leaf.ProcessId -and $_.Name -ne 'conhost.exe' } | Select-Object -First 1) { $leaf = $next }
+        return [pscustomobject]@{ Kind = 'owner'; Pid = [int]$t.ProcessId; Name = [IO.Path]::GetFileNameWithoutExtension($leaf.Name); Holders = @() }
+    }
     if ($folder) {
         $f = $folder.TrimEnd('\') + '\'
         $under = @($all | Where-Object {
