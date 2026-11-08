@@ -1,0 +1,8 @@
+pilot/episodes/ep00-pilot/out/en.mp4: OK
+pilot/episodes/ep00-pilot/out/en.preview.mp4: OK
+pilot/episodes/ep00-pilot/out/hr.mp4: OK
+pilot/episodes/ep00-pilot/out/hr.preview.mp4: OK
+pip-bruno/episodes/ep00-pilot/out/en.mp4: OK
+pip-bruno/episodes/ep00-pilot/out/en.preview.mp4: OK
+pip-bruno/episodes/ep00-pilot/out/hr.mp4: OK
+pip-bruno/episodes/ep00-pilot/out/hr.preview.mp4: OK
