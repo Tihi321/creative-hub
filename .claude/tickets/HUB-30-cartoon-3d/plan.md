@@ -1,5 +1,5 @@
 ---
-status: in-progress
+status: done
 request: REQ-0022
 repos: [creative-hub, cartoon-studio]
 branch: HUB-30_cartoon-3d (hub), CTS-18_blender-3d (cartoon-studio)

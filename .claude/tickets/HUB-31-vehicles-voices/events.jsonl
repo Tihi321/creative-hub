@@ -1,0 +1,2 @@
+{"ts":"2026-11-08T21:25:34Z","event":"plan.created","ticket":"HUB-31","request":"REQ-0022","by":"planner"}
+{"ts":"2026-11-08T21:29:16Z","actor":"user","type":"plan.approved","request":"REQ-0022","ticket":"HUB-31-vehicles-voices","detail":"user approved the plan with the recommended answers","data":{"answers":{"plan":"Approve (Recommended)","voiceSource":"Default voices (Recommended)","claudeMdVoiceRule":"Approve wording (Recommended)","freeTerms":"Yes, credit line (Recommended)"}}}

@@ -35,3 +35,15 @@
 - recommendation: none (the user's judgement)
 - default: none (wait)
 - answer: 2026-11-08 user: GO for phase 2 (no notes on look, acting, lip-sync or music level)
+
+## A-004 Waive C8 and C12 for HUB-30 and run a docs-only polish?
+- status: answered
+- asked: 2026-11-08 --:--
+- by: director
+- why: the HUB-30 director-checker verdict is FAIL on C8 (no walk action in pilot 3; hop stood in) and C12 (flow_status balance never read before or after the 36-credit spend)
+- options:
+  - waive C8 and C12 (C8: HUB-31 vehicles have no legs; C12: flow-music-mcp is down, record "not read") and run a docs-only polish round 1
+  - fix C8 and C12 first (a walk action; read the flow_status balance), then polish
+- recommendation: waive C8 and C12 and run the docs-only polish round 1
+- default: none (waits for the user)
+- answer: 2026-11-08 --:-- user: Yes, waive both
