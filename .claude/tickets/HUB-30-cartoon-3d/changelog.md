@@ -22,7 +22,7 @@ Outcome: Cartoon Studio renders 3D toon cartoons in Blender 5.2 from character a
 | df42c10 | CTS-25 | follow-up: framing follows walking actors, close-ups keep the head through a sit |
 | 5d2ff44 | CTS-27 | pipeline steps for blender series (character, sheet_review, set3d, ..., final_render), MCP tools, studio views (Cast 3D sheet and approval, Sets, Preview video, Settings Blender section) |
 | 7616358 | CTS-26 | follow-up: rebuild the scene when a character or set spec changes (hash check in ensureAssembled) |
-| c3263fc | CTS-28 | retire the cutout authoring path (rig/pose tools return E_RETIRED); canvas renderer kept for pilots 1 and 2 |
+| c3263fc | CTS-28 | retire the cutout authoring path: the retired tools were removed from tools/list; only the canvas pipeline steps (`cast_sheet`, `rig`, `poses`, `set`) answer E_RETIRED (as `docs/mcp-guide.md:127` says); canvas renderer kept for pilots 1 and 2 |
 | dc92781 | CTS-29 | `docs/blender.md`, README, ROADMAP |
 
 ### creative-hub (branch `HUB-30_cartoon-3d`, cut from `HUB-29_cartoon-studio`)
@@ -50,12 +50,12 @@ Outcome: Cartoon Studio renders 3D toon cartoons in Blender 5.2 from character a
 | C5 | DONE | 13/13 lines per language have lip-sync files; hr 11 words-hr + 2 text-hr (85 % aligned), en 13 words-en (100 %); lint 0 errors, 0 warnings (no E_MOUTH_SILENT, no W_VISEME_FLAT), min non-rest share 0.69 |
 | C6 | DONE | `assembly.json` hr and en: pip spec 71cf3c3 / asset 858db12, bruno spec 1e3ffe7 / asset 30277ab, equal to `build.json` and the approved `sheet.specHash`; contact sheets compared with `sheet.png`: on model in every frame; frame-critic problems listed below |
 | C7 | DONE | sheets approved 18:46:42, set3d job started after it (18:46:42, the pause released it) |
-| C8 | DONE | 14 distinct actions (cheer, droop, hop, laugh, nod, point, react_surprised, shake_head, shrug, sit, stand_up, think, turn, wave) plus a push; hop 6.1 m; no limb through the body or foot slide seen in the contact sheets |
+| C8 | WAIVED by the user 2026-11-08: hop stands in for walk; HUB-31 makes the cast vehicles with no legs | (pilot 3 has no `walk` action) 14 distinct actions (cheer, droop, hop, laugh, nod, point, react_surprised, shake_head, shrug, sit, stand_up, think, turn, wave) plus a push; hop 6.1 m; no limb through the body or foot slide seen in the contact sheets |
 | C9 | DONE | same scriptHash `3785740`, same per-actor beat and action order in hr and en; lint has no E_LANG_ORDER |
 | C10 | DONE | both: h264 1920x1080, 24 fps, yuv420p + aac; 72.6 s and 74.0 s; lint 0 errors |
 | C11 | DONE | music min 27.5 / 27.2 dB under the voice, median 28.3 / 28.2; integrated loudness -16.0 LUFS both (ebur128) |
-| C12 | DONE | `spend.json` only Flow credits (36, intro/outro); `budget.json` capUsd 0; voice manifests costUsd 0; Gemini quota 0/10 used before and after; no downloads |
-| C13 | DONE | `sha256sum -c` of the 8 pilot 1 / pilot 2 MP4s: all OK (`evidence/c13-hashes-after.txt`); lint 0 errors and a 2 s canvas preview of each on the new build (during implementation) |
+| C12 | WAIVED by the user 2026-11-08 | Flow balance before: not read (Chrome down); after: not read (flow-music-mcp down); spend 36 of 50 credits, $0 USD. `spend.json` only Flow credits (36, intro/outro); `budget.json` capUsd 0; voice manifests costUsd 0; Gemini quota 0/10 used before and after; no downloads |
+| C13 | DONE | `sha256sum -c` of the 8 pilot 1 / pilot 2 MP4s: all OK (`evidence/c13-hashes-after.txt`); lint 0 errors and a 2 s canvas preview of each on the new build (during implementation) ; `render.e2e` on `mini` is the canvas player evidence (the 2 s previews show only the intro plate) |
 | C14 | DONE | CTS-28 grep empty; MCP tool list has the 3D tools and none of the retired ones |
 | C15 | DONE | `studio-shots.mjs --blender` passed (real engine, mini3d); built app `release/win-unpacked` on the real data, hub engine stopped first: Cast shows both 3D sheets "approved", Sets the park sheet, Preview plays `hr.preview.mp4` (readyState 4, playing), Settings shows the path, 5.2.2 and the GPU; 0 console errors (`evidence/c15/`) |
 | C16 | DONE | skill, README, services, ROADMAP rows and run log committed on `HUB-30_cartoon-3d` |
