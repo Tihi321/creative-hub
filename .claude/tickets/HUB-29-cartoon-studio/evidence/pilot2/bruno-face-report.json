@@ -1,0 +1,167 @@
+{
+  "prompt": "A round, stocky brown hedgehog standing upright: a wide pear-shaped body, a cream face and cream belly, a small dark round nose, small dark eyes, a crown and cloak of dark brown rounded spines around his head and back, short arms with cream hands, short legs and brown feet. Style: flat paper cutout, solid colours, thick dark outline, a sunny park with a big oak, a bench and soft green grass. Full figure standing, facing the camera, arms held out away from the body so that each arm is clearly separate from the torso, both legs and feet visible. Plain flat solid #808080 grey background, no floor, no shadow, nothing else in the picture. Flat solid colours, thick dark outline, simple shapes, children's paper-cutout cartoon style, no text.",
+  "seed": 421248,
+  "boxes": {
+    "mouth": [
+      440,
+      515,
+      150,
+      75
+    ],
+    "eyes": [
+      405,
+      395,
+      215,
+      68
+    ],
+    "brows": [
+      405,
+      345,
+      215,
+      48
+    ]
+  },
+  "patches": [
+    {
+      "kind": "mouth",
+      "state": "rest",
+      "method": "master",
+      "diff": 0,
+      "minDiff": 0,
+      "ok": true,
+      "attempts": [],
+      "seconds": 0
+    },
+    {
+      "kind": "mouth",
+      "state": "A",
+      "method": "inpaint",
+      "diff": 49.69,
+      "minDiff": 14,
+      "ok": true,
+      "attempts": [
+        {
+          "denoise": 0.9,
+          "seed": 421248,
+          "diff": 49.69,
+          "seconds": 28.2
+        }
+      ],
+      "seconds": 28.2
+    },
+    {
+      "kind": "mouth",
+      "state": "E",
+      "method": "inpaint",
+      "diff": 64.65,
+      "minDiff": 12,
+      "ok": true,
+      "attempts": [
+        {
+          "denoise": 0.9,
+          "seed": 421248,
+          "diff": 64.65,
+          "seconds": 28.1
+        }
+      ],
+      "seconds": 28.1
+    },
+    {
+      "kind": "mouth",
+      "state": "O",
+      "method": "inpaint",
+      "diff": 35,
+      "minDiff": 12,
+      "ok": true,
+      "attempts": [
+        {
+          "denoise": 0.9,
+          "seed": 421248,
+          "diff": 35,
+          "seconds": 28.1
+        }
+      ],
+      "seconds": 28.1
+    },
+    {
+      "kind": "mouth",
+      "state": "MBP",
+      "method": "drawn",
+      "diff": 23.91,
+      "minDiff": 0,
+      "ok": true,
+      "attempts": [],
+      "seconds": 0.2
+    },
+    {
+      "kind": "eyes",
+      "state": "open",
+      "method": "master",
+      "diff": 0,
+      "minDiff": 0,
+      "ok": true,
+      "attempts": [],
+      "seconds": 0
+    },
+    {
+      "kind": "eyes",
+      "state": "half",
+      "method": "drawn",
+      "diff": 19.62,
+      "minDiff": 0,
+      "ok": true,
+      "attempts": [],
+      "seconds": 0.1
+    },
+    {
+      "kind": "eyes",
+      "state": "closed",
+      "method": "drawn",
+      "diff": 34.76,
+      "minDiff": 0,
+      "ok": true,
+      "attempts": [],
+      "seconds": 0.1
+    },
+    {
+      "kind": "brows",
+      "state": "neutral",
+      "method": "master",
+      "diff": 0,
+      "minDiff": 0,
+      "ok": true,
+      "attempts": [],
+      "seconds": 0
+    },
+    {
+      "kind": "brows",
+      "state": "happy",
+      "method": "drawn",
+      "diff": 15.42,
+      "minDiff": 0,
+      "ok": true,
+      "attempts": [],
+      "seconds": 0.1
+    },
+    {
+      "kind": "brows",
+      "state": "sad",
+      "method": "drawn",
+      "diff": 15.56,
+      "minDiff": 0,
+      "ok": true,
+      "attempts": [],
+      "seconds": 0.1
+    },
+    {
+      "kind": "brows",
+      "state": "surprised",
+      "method": "drawn",
+      "diff": 15.38,
+      "minDiff": 0,
+      "ok": true,
+      "attempts": [],
+      "seconds": 0.1
+    }
+  ]
+}

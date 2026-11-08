@@ -2,9 +2,11 @@
 status: in-progress
 request: REQ-0022
 repos: [creative-hub, cartoon-studio (new, C:/projects/Personal/cartoon-studio)]
-branch: cartoon-studio `CTS-01_pilot` (from the repo's first commit on `master`); creative-hub `HUB-29_cartoon-studio` (from `master` 31394d9)
-updated: 2026-11-07
+branch: cartoon-studio `CTS-10_pilot-2` (from `CTS-01_pilot` f5c37b9; phase 1 on `CTS-01_pilot`, PR #1); creative-hub `HUB-29_cartoon-studio`
+updated: 2026-11-08
 ---
+
+> Pilot 2 (section `# Pilot 2 (CTS-10..)` at the end) was approved by the user on 2026-11-07 (answers recorded in handoff.md); phase 1 (everything above it) stays approved and done.
 
 # HUB-29: Cartoon Studio, cutout-puppet cartoon series for children (phase 1: scaffold + 60 s pilot)
 
@@ -508,3 +510,189 @@ Every item ends DONE, NOT DONE (reason) or UNTESTED in `changelog.md`.
 ## Open questions for the user
 
 None open. All questions were answered on 2026-11-07 (see User decisions): premise by pitch pick, GitHub public `Tihi321/cartoon-studio` (master at T1, the branch after V), hr on OmniVoice, pilot USD budget $0, Flow credit cap 50 (the intro and one hero shot cost about 12 credits each at 720p Omni 8 s, the `video-plan.mjs` seen price, so 50 covers both plus one retry each). The pilot itself asks the user for the pitch pick (P2) and for the verdict and look choice (P5).
+
+# Pilot 2 (CTS-10..)
+
+Status: **draft**, written 2026-11-07 after the user's verdict on pilot 1 (good, phase 2 go) and this direction from the user (verbatim): "ok not sure we need svg we can use z image, we do not need recraft, if you add image to image you can add rough sketch with poses to get image with poses, you can use nano banana if we cannot have that in z image, but try with z image, so you do not need to draw svg, otherwise we should use only google flow for videos like intro or outro or something, not for images in general. We can add another pilot for Pip and Bruno as a test. And ower down music agains voice, as in this case music was bad and it was loud. For music you can use comfy ui, this is not for midi generator."
+
+**Reading (narrow, stated per the global Scope rule):** a second 60 s pilot of premise p1 "Pip and Bruno", hr and en, made the new way (Z-Image image-to-image puppets, ComfyUI music, music well under the voices, Flow only for intro/outro video). Not the phase 2 episode (5-10 min); phase 2 waits for the user's look at pilot 2.
+
+## P0 probe result (2026-11-07; ComfyUI was already up, nothing was started)
+
+- **Installed (ComfyUI 0.44.0, `/object_info`):** UNETs `z_image_turbo_bf16`, `krea2_turbo_fp8_scaled`, `qwen_image_2.1(_turbo)_int8_convrot`, `moss_image_sft_int8_convrot`, `minimax_music3_dit_fp16`; checkpoints `ace_step_v1_3.5b`, `stable_audio_3_medium`, `yue2_3b_int8_convrot`; nodes `ZImageFunControlnet`, `QwenImageDiffsynthControlnet`, `SetLatentNoiseMask`, `InpaintModelConditioning`, the ACE-Step v1 and 1.5 nodes, `ConditioningStableAudio`, `MossSoundEffectV2EngineNode`.
+- **Not installed:** any ControlNet (`ControlNetLoader` list empty) and any model patch (`ModelPatchLoader` list empty). So neither the Z-Image Fun ControlNet union nor a Qwen DiffSynth ControlNet can run today. Getting one means downloading a model, which needs the user's yes and is not in this plan.
+- **Plain img2img works.** Graph = the Z-Image Turbo text-to-image graph with `LoadImage -> VAEEncode` as the latent and KSampler `denoise < 1` (8 steps, res_multistep, cfg 1, AuraFlow shift 3). Input: an app-style rough sketch (flat colour blobs of a squirrel on `#808080`, right arm raised, 1024x1536). Results in `.claude/temp/zimage-i2i-probe/` (`sketch.png`, `d060.png`, `d080.png`, `compare.jpg`, `probe.py`):
+  - denoise 0.6: 34.5 s (first run, includes the model load). Pose and colours kept, but it stays close to the sketch (stick arms, no hands).
+  - denoise 0.8: 26.2 s warm. Pose kept (right arm up waving, left arm out, legs apart, tail behind), palette kept, and it is a real cartoon squirrel with hands, feet and an open smile. Flat fills, dark outline, clean grey background, **no white halo**.
+  - So 0.75-0.85 for a character sheet from a rough sketch, and lower (0.4-0.6) to clean up a pose render of an existing rig (to be measured in P0b).
+- **Not yet probed (P0b, the first pilot step):** identity across poses (two sketches of the same character, same seed and palette), masked inpaint of the mouth/eye region (face states), ACE-Step instrumental quality and time.
+
+## Decisions for pilot 2
+
+1. **Puppets come from Z-Image image-to-image, not SVG.** The app makes a rough sketch, Z-Image draws the character over it, and the result is cut into puppet parts (raster rig). Face states (mouths, eyes, brows) are PNG patches made by masked inpaint of the same master. There is no vector face plate, so no "double face" (the pilot 1 discovery: the raster rig kept the painted face under the vector plates).
+2. **Path (a) Claude-drawn SVG stays as an optional path, not the default, and is not run in pilot 2.** Why keep it: it is built and tested, pilot 1's two characters (`lana`, `fido`) are SVG rigs that must keep rendering, and it is a $0 fallback if Z-Image cannot hold a character. Why not the default: the user does not want to depend on drawing SVG. The raster path stops needing variant (a)'s face.
+3. **Path (b) Recraft is removed** (code, the tool `cts_svg_split`, prices, docs, the UI column). No data uses it (pilot 1 recorded it as NOT RUN).
+4. **No image goes to Google Flow.** The `flow` image provider is removed. The clip keyframe (pilot 1 made it with a free `flow_generate` image) becomes a still rendered by our own player from the clip's staging, optionally cleaned by Z-Image img2img at denoise <= 0.4. Flow gets only video calls, and only for the clips `intro` and `outro` (both series level, reused by every episode). The episode `hero` clip is dropped.
+5. **Nano Banana only as a paid fallback.** A `gemini` image provider (Gemini API image model, key in the keyring, every call behind `charge`) is written but runs only after the user says yes and a USD cap is recorded with `cts_budget_set`. The pilot 2 cap is $0, so it is refused unless the user agrees to spend. Fallback order when Z-Image cannot hold a character or pose: (1) Z-Image at a lower denoise from a rig render, (2) Qwen-Image 2.1 edit (local, $0, already in the client) with the character sheet as reference, (3) Nano Banana after a user yes.
+6. **Music from ComfyUI, not Chiptune Studio.** Default engine `ace-step-v1-instrumental` (ACE-Step v1 3.5B, installed; the graph builder is already in `comfy/graphs.ts`), with `minimax-music-3` as the configured alternative. Stable Audio 3 medium is installed but has no graph builder; it is listed as an option, not wired. Sound effects: MOSS-SoundEffect v2 through ComfyUI (already an engine in `tts-engines.ts`), or none. Cartoon Studio no longer calls Chiptune Studio.
+7. **Music sits well under the voice, by measurement.** Every voice clip is normalised to -20 LUFS and the music file is measured once. The music bed is placed **18 dB under the voice level while someone speaks** (hard floor 15 dB) and **8 dB under in the gaps**. A mix check measures this on the rendered stems and writes the result next to the render.
+8. **Series `pip-bruno`** (new, not the pilot 1 series `pilot`), episode `ep00-pilot`. Pitch p1 is already the user's pick (pilot 1 run log, 2026-11-07 20:59: the user liked p1; this direction: "another pilot for Pip and Bruno"), so the pitch pause is skipped and the bible starts from p1.
+
+## Scope (pilot 2)
+
+1. Remove Recraft (path b) and the Flow image provider. Clip keyframes come from our player. Flow video only for `intro`/`outro`.
+2. Z-Image img2img and masked inpaint in the ComfyUI client and the image provider. The `gemini` (Nano Banana) paid fallback behind the gate.
+3. Rough sketches made by the app: a character sketch from a body plan, and pose sketches from the rig.
+4. A character sheet step (sketch -> Z-Image -> master plus 3 poses) with a pause for the user's look.
+5. A raster rig from the master with image face patches (no SVG, no variant a needed). Optional pose images for gesture peaks.
+6. Music from ComfyUI (ACE-Step instrumental theme, optional MOSS sound effects).
+7. The mix: stem loudness normalisation, bed levels, ducking and the mix check.
+8. Pipeline, UI, docs and hub skill updated. The pilot 2 run (hr + en, about 60 s), which the user watches.
+
+## Out of scope (explicit)
+
+- Phase 2 (a 5-10 min episode, more characters and sets, word-timed visemes, walk cycles).
+- Downloading any model (a Z-Image ControlNet union or model patch, a new ACE-Step 1.5 checkpoint) and writing a Stable Audio 3 graph builder. Recorded as options for the user.
+- Any paid call without the user's yes and a recorded cap: Nano Banana, fal, paid voice. The pilot USD cap is $0.
+- Flow images of any kind. Flow video other than `intro` and `outro`. More than 50 Flow credits. Flow Music.
+- Removing path (a) or changing pilot 1's series data (it must still lint and render).
+- Chiptune Studio as a music source; MIDI generation; Scriptorium (never started without asking).
+- Changing another tool's repo (comfy-mcp, flow-music-mcp, Chiptune Studio, Edu). Gaps go in that tool's `ROADMAP.md`.
+- New UI views beyond the fields named in CTS-17; Android; code signing.
+- Pushing anything before the checker passes; force-push; auto-merge.
+
+## Branches
+
+- cartoon-studio: a new branch **`CTS-10_pilot-2`** cut from `CTS-01_pilot` (its tip, 77743e1 when this plan was written; checked at the start), one commit per ticket CTS-10..CTS-17. It is pushed after V passes and A3's grep, then a PR (base `CTS-01_pilot` if that PR is still open, else `master`), no auto-merge.
+- creative-hub: the hub files (skill, run log, plan) on `HUB-29_cartoon-studio` (the current branch).
+
+## Files and modules to touch
+
+| Repo / path | Change | Task |
+|---|---|---|
+| `src/engine/images/recraft.ts`, `src/engine/images/svg-split.ts`, `src/engine/images/flow.ts` | delete | CTS-10 |
+| `src/engine/images/provider.ts`, `src/engine/images/tools.ts` | `IMAGE_PROVIDERS = ['comfy', 'gemini', 'fal']`; `cts_svg_split` removed; `cts_image_generate` gains `init`, `denoise`, `mask` | CTS-10, CTS-11 |
+| `src/engine/pipeline/rig.ts`, `media.ts`, `steps.ts`, `tasks.ts` | drop `recraft-svg` and variant b; the raster rig no longer needs variant a; new `cast_sheet` step and pause | CTS-10, CTS-12, CTS-13 |
+| `src/engine/pipeline/clips.ts`, `src/engine/pipeline/handlers.ts` (writer prompt) | keyframe = player still; clip ids `intro`/`outro` only (series level); no `hero` | CTS-10 |
+| `src/engine/studios/flow.ts` | `generateImage` removed; `generateVideo` kept | CTS-10 |
+| `src/shared/contracts.ts`, `docs/contracts.md` | `RIG_VARIANTS = ['a', 'c']`; face states may be PNG; rig `poses` (optional) and gesture `pose`; bible `cast[].sheet`; clip ids; the timeline music fields unchanged | CTS-10, CTS-12, CTS-13, CTS-14 |
+| `src/engine/comfy/graphs.ts`, `client.ts`, `kind-switch.ts` | `buildZImageImg2Img`, `buildZImageInpaint`; `ComfyRequest.init { image, denoise, mask? }`; job kind `music` | CTS-11, CTS-15 |
+| `src/engine/images/gemini.ts` (new), `seed/config/prices.md` | the Nano Banana provider behind `charge`; price row marked "check before use"; Recraft rows removed | CTS-10, CTS-11 |
+| `src/engine/images/sketch.ts` (new) | body plan JSON -> sketch PNG (sharp); pose sketch from a body plan or a rig render | CTS-12 |
+| `src/engine/images/face.ts` (new), `src/engine/series/lint.ts`, `src/player/assets.ts`, `src/player/puppet.ts` | face patches by inpaint; PNG plates checked (alpha, size); the player draws PNG plates and pose images | CTS-13, CTS-14 |
+| `src/engine/music/comfy.ts` (new), `src/engine/music/chiptune.ts` (delete), `seed/config/providers.md`, studios/autostart config | `comfy.musicModel: ace-step-v1-instrumental`; Chiptune removed from Cartoon Studio's pipeline, studios status and autostart | CTS-15 |
+| `src/engine/render/mix.ts`, `src/engine/render/mixcheck.ts` (new), `src/engine/anim/timeline.ts`, `seed/config/render.md` | per-stem normalisation, bed and duck in dB from `render.md`, the mix check | CTS-16 |
+| `src/renderer/` (Cast and Settings views), `docs/mcp-guide.md`, `docs/pipeline.md`, `README.md`, `ROADMAP.md`, `seed/prompts/*`, `seed/style/cutout-kids.md` | sketch/sheet/poses in the Cast view, the music engine and image fallback in Settings, docs, roadmap rows CTS-10..17 | CTS-17 |
+| creative-hub `.claude/skills/make-cartoon/SKILL.md`, `runs/pip-bruno-pilot.md`, `ROADMAP.md` (HUB-29 row note), this ticket's `changelog.md` | skill steps (sheet pause, no Flow images, music from ComfyUI, mix-check numbers), run log | CTS-17 (hub side), P |
+| `tests/` | only the tests listed below | each task |
+
+## Tasks (one commit each on `CTS-10_pilot-2`)
+
+Order: CTS-10 -> CTS-11 -> CTS-12 -> CTS-13 -> CTS-14. CTS-15 and CTS-16 run in parallel with CTS-11..14 (disjoint files). CTS-17 last, then P (pilot 2, hub session) and V (checker). Workers: Node via `fnm exec --using default`, Yarn per the memory note, scratch in `.claude/temp/`, tests with fakes (no live ComfyUI or Flow in `yarn test`), DONE / NOT DONE / UNTESTED per item.
+
+### CTS-10. Remove Recraft and Flow images; Flow video for intro/outro only
+- **Inputs:** `images/{provider,tools,recraft,svg-split,flow}.ts`, `pipeline/{rig,media,clips,handlers,steps,tasks}.ts`, `studios/flow.ts`, `contracts.ts`, `seed/config/prices.md`, the Cast view, `docs/*`.
+- **Do:** delete the Recraft provider, `buildRecraftRig`, the `rig-recraft` task, `svg-split.ts` and `cts_svg_split`. Set `RIG_PATHS = ['claude-svg', 'raster']` and `RIG_VARIANTS = ['a', 'c']`. Delete `images/flow.ts`; `pick()` knows `comfy`, `gemini` (a stub that refuses until CTS-11) and `fal`. In `clips.ts` the keyframe is a still: the player renders the clip's staging (set, the leads at their marks, emotion, gesture peak; the showrunner's clip answer gains `staging`) through `render/sheet.ts` at 1280x720, saved as `clips/keyframes/<id>.png`. An optional `polish: true` runs Z-Image img2img (CTS-11) at denoise 0.35 on it. The video call is unchanged (`first_frame` = that still, `max_credits` from `video-plan.mjs`, behind `charge(credits)`). Allowed clip ids: `intro` and `outro`, both series level (`series/<slug>/clips/`). The writer prompt asks for an intro at the start and an outro at the end, no hero; `heroCount` is replaced by a check that refuses any other clip id. `studios/flow.ts` keeps `generateVideo` and loses `generateImage`.
+- **Outputs/contract:** no code path can make an image through Flow (`git grep generateImage -- src` returns nothing); `cts_clip_generate { series, clip: "intro" | "outro", maxCredits }`.
+
+### CTS-11. Z-Image img2img and inpaint; the Nano Banana fallback
+- **Inputs:** the P0 probe graph (`creative-hub/.claude/temp/zimage-i2i-probe/probe.py`), `comfy/{graphs,client}.ts`, `images/{provider,comfy}.ts`, `budget/spend.ts`.
+- **Do:** `buildZImageImg2Img(o)` = `buildZImage` with node 7 replaced by `LoadImage(init) -> VAEEncode` and `denoise` from the request. `buildZImageInpaint(o)` adds `LoadImageMask` (or the init PNG's alpha) -> `SetLatentNoiseMask` before the sampler, so only the masked region is redrawn. `ComfyRequest.init?: { image: string | Buffer, denoise: number, mask?: string | Buffer }` uploads the files the way references are uploaded. `ImageRequest.init` passes through `comfyProvider`. `images/gemini.ts`: Nano Banana through the Gemini API (`generateContent` with image output; the model id and price are read from `prices.md`, and the worker checks the current model id and price in Google's docs and records the date). The key comes from the keyring account `GEMINI_API_KEY` (set with `key-set gemini`), refs go as inline images, and every call goes through `charge({ currency: "usd", estimate })`; without a key it fails with `KEY_MISSING gemini`. ControlNet is not wired (no model installed); `docs/pipeline.md` notes `ZImageFunControlnet` plus a union model patch as the upgrade path.
+- **Outputs/contract:** `cts_image_generate { provider: "comfy", init, denoise, mask? }` returns `{ file, costUsd: 0, provider, model: "z-image-turbo" }`; `provider: "gemini"` is refused with `BUDGET_EXCEEDED` at cap $0 before any network call.
+
+### CTS-12. Sketches and the character sheet step (pause for the user)
+- **Inputs:** CTS-11; `pipeline/{steps,media,tasks}.ts`; `images/reference.ts`; the bible.
+- **Do:** `images/sketch.ts`: a **body plan** (character-designer answer, schema `body-plan`: canvas 1024x1536, background `#808080`, a list of primitives `ellipse | circle | capsule | polygon`, each with a colour from the bible palette, plus a `limb` id and a joint point per limb) rendered to PNG with `sharp`. `poseSketch(bodyPlan, pose)` rotates each limb's primitives about its joint (pose = degrees per limb) and renders it. The body plan is a throwaway sketch, not a rig part; no SVG is drawn by hand. A new step `cast_sheet` replaces `cast_ref`: for each character the designer gives the body plan and a prompt; the app renders the front sketch (arms away from the body) and runs Z-Image img2img at denoise 0.8 with seeds `seed..seed+2`; the designer picks one -> `cast/<id>/ref.png` (the master). Then 3 pose sketches (the wave, point and shrug peaks) at the same seed -> `cast/<id>/sheet/<pose>.png`, and one sheet image `cast/<id>/sheet.png` (the master and the poses side by side). **The pipeline then stops in `waiting-on-user` (`sheet_review`)** until `cts_sheet_approve { series, cast, ok, note? }` has been given for every character. A "redo" note reruns that character's sheet with the note added to the prompt. The bible's cast entry gains `sheet: { approvedAt, seed, denoise, model }`.
+- **Outputs/contract:** `ref.png` at 1024x1536 on flat grey; `sheet.png`; the time per image in the step log.
+
+### CTS-13. Raster rig from the master with image face patches
+- **Inputs:** CTS-11, CTS-12; `pipeline/rig.ts` `buildRasterRig`, `images/key.ts`, lint, player.
+- **Do:** `buildRasterRig` no longer needs variant a. It keys `ref.png` and cuts the parts by the designer's polygons with joint overlap (unchanged), and builds the face from patches. `images/face.ts`: the designer gives the mouth, eye and brow boxes in `ref.png` pixels. For each state the app runs a masked inpaint of the master (CTS-11; mask = the box with a soft edge; denoise 0.7-0.9; a prompt such as "same character, mouth wide open"). The patch is that box cropped from the result with a feathered alpha edge, so it covers the painted mouth or eyes. The **rest** patch is cut from the master itself. Mouths made: `rest, A, E, O, MBP`; `U` -> `O`, `FV` -> `E` and `L` -> `E` point at the same files (the contract allows this; all 8 keys are present). Eyes `open, half, closed`; brows `neutral, happy, sad, surprised` (one brow patch spans both brows). The plates are PNG with `at` = the box centre in head-part pixels. Lint `E_RIG_PART` accepts PNG plates (alpha present, at most 512 KB each). The player draws PNG plates like parts.
+- **Outputs/contract:** `cast/<id>/variants/c/{parts/*.png, face/*.png, rig.json}` with `kind: "raster"`, passing `cts_rig_check`; the pose sheet rendered.
+
+### CTS-14. Pose images (optional per gesture)
+- **Inputs:** the CTS-13 rig, the player's sheet mode, CTS-11 img2img.
+- **Do:** contract: rig `poses?: { <name>: { src, pivot, face?: { at, scale } } }` (a full-body PNG; pivot = the feet point) and gesture `pose?: <name>`. The pose image replaces the parts for the middle 60 % of the gesture, with the face plates drawn at `face.at` if given; otherwise the painted face shows and there is no lip-sync during it, and the timeline never puts such a pose over a line. Making a pose: the player renders the rig at the gesture peak (`?sheet=<cast>&pose=<gesture>`), then Z-Image img2img at denoise 0.45-0.6 cleans up the joints and hands -> `cast/<id>/poses/<gesture>.png`, keyed to alpha. The frame-critic compares it with `sheet.png` (identity: colours, markings, proportions). `revise` gives one retry at a lower denoise; after that the gesture stays a part rotation.
+- **Outputs/contract:** zero or more poses per rig; a rig without poses works as before.
+
+### CTS-15. Music from ComfyUI
+- **Inputs:** `comfy/graphs.ts` (`buildAceStep`, `buildMiniMaxMusic`, `ENGINES`), `comfy/client.ts`, `kind-switch.ts`, `pipeline/handlers.ts` `musicStep`, `musicAnswer`.
+- **Do:** `music/comfy.ts` `generateTheme({ series, tags, bpm, key, seed, seconds })`: the engine comes from `config/providers.md` `comfy.musicModel` (`ace-step-v1-instrumental` by default, `minimax-music-3` as the alternative); 40 s, instrumental (empty lyrics), converted to `music/theme.ogg` with ffmpeg (fade-in 0.5 s, fade-out 2 s, so a loop or an ending is clean). Sound effects: up to 2 through the `moss-soundeffect-v2` engine (`music/sfx-<cue>.ogg`), or none. `musicAnswer` becomes `{ tags, bpm, key, seed, seconds?, sfx?: [{ name, prompt, seconds }] }`. The composer prompt asks for soft, sparse, light instrumentation (ukulele, glockenspiel, soft pizzicato, light percussion), no vocals, no heavy drums: "background music for a children's cartoon under dialogue". `ComfyJobKind` gains `music`, so ComfyUI memory is freed between image, voice and music jobs. Delete `music/chiptune.ts` and its use in the pipeline; Cartoon Studio's autostart and studios status drop Chiptune.
+- **Outputs/contract:** `cts_music_generate { series, tags, bpm?, seed?, seconds? }` -> `{ file, seconds, engine, wallSeconds }`; the step log records the engine and the time.
+
+### CTS-16. The mix: music well under the voice
+- **Inputs:** `render/mix.ts`, `anim/timeline.ts` (`DEFAULT_MUSIC_GAIN`, `DUCK_SHARE`), `seed/config/render.md`.
+- **Do:** `render.md` gains `mix: { voiceLufs: -20, musicUnderVoiceDb: 18, musicGapUnderVoiceDb: 8, sfxUnderVoiceDb: 6, clipUnderVoiceDb: 10, minUnderVoiceDb: 15 }`. Before the mix, each input file's integrated loudness is measured once (ffmpeg `ebur128`, cached by file hash in `render/<lang>/levels.json`) and a normalising gain is applied: voices to `voiceLufs`; music to `voiceLufs - musicGapUnderVoiceDb` in the gaps and `voiceLufs - musicUnderVoiceDb` while a voice plays (the existing duck trapezoid, attack 0.15 s, release 0.35 s, now in dB); sfx and clip audio likewise. The script's music `gain` is a trim of at most 0 dB on top, never a boost. Then `loudnorm` to -16 LUFS as before (one gain on the sum, so the ratios stay). `render/mixcheck.ts` renders two stems with the same graph (voice only, music only) to WAV, runs `ebur128` short-term loudness (3 s windows, 0.1 s steps), and for every line interval longer than 0.8 s takes the energy mean of both stems. It writes `render/<lang>/mix-check.json { lines: [{ id, voice, music, underDb }], minUnderDb, medianUnderDb, gapMusicUnderVoiceDb }`. `cts_render` returns `minUnderDb`; lint gives `W_MIX_MUSIC_LOUD` when `minUnderDb < minUnderVoiceDb`.
+- **Outputs/contract:** every final render has a `mix-check.json`; the timeline schema is unchanged.
+
+### CTS-17. Pipeline, UI, docs and the hub skill
+- **Inputs:** CTS-10..16.
+- **Do:** the step order: `bible` (from a given pitch: `cts_run_pipeline { brief: { pitch: {...} } }` writes `pitches: [p1]` and `chosenPitch: "p1"` and skips the pitch pause) -> `cast_sheet` (pause) -> `rig` (raster from the master by default; `claude-svg` only when asked) -> `poses` (optional) -> `set` (Z-Image text-to-image, unchanged) -> `script` -> `safety` -> `voice_cast` -> `voice` -> `music` (ComfyUI) -> `clips` (intro/outro) -> `lipsync`/`timeline` -> preview -> `frame_review` -> final + mix check. Cast view: sketch, master, sheet poses, rig variants a/c, approve and redo buttons (with `data-testid`s). Settings: the music engine, the image fallback order with the gemini cap. Docs (`mcp-guide.md`, `pipeline.md`, `contracts.md`), `README.md`, `ROADMAP.md` rows CTS-10..17 (and the stale CTS-02..04 and CTS-09 rows set to Done), the prompts and `seed/style/cutout-kids.md` (sketch and body-plan rules instead of SVG drawing rules; the SVG rules kept under "path a, optional"). Hub: the `make-cartoon` skill (sheet pause, no Flow images, Flow only for intro/outro, music from ComfyUI, mix-check numbers, Nano Banana only after a yes and a cap) and a `runs/pip-bruno-pilot.md` template.
+- **Outputs/contract:** `cts_run_pipeline` runs pilot 2 end to end with its two pauses (the sheets, then the user watching).
+
+## Pilot 2 steps (hub session through the skill, after CTS-17)
+
+- **P0 budget:** `capUsd: 0` and `flowCreditsCap: 50` recorded with `cts_budget_set` (approvedBy user, note "pilot 2, intro/outro only") before any Flow call. Nano Banana is not used unless the user says yes to an amount; then the cap is raised to that amount and recorded.
+- **P0b probes (about 10 min, first thing in the run):** (1) identity across poses: the same body plan in two poses at denoise 0.8 and the same seed, then compare colours, markings and proportions; (2) one mouth inpaint on the master (rest -> A) and its patch over the head; (3) one 40 s ACE-Step instrumental, its wall time and its loudness stats (the user judges the sound in P6). Results go in the run log. If (1) or (2) fails, try the fallback order of decision 5 (a lower denoise from a rig render, then Qwen edit), and ask the user before using Nano Banana.
+- **P1** `hub.ps1 start cartoon-studio`, ComfyUI, VibeTTS and flow-music-mcp (not Chiptune Studio, not Scriptorium; Strata off during image work).
+- **P2** `cts_run_pipeline { series: "pip-bruno", episode: "ep00-pilot", brief: { pitch: p1 (copied from the `pilot` series bible), ages 4-8, 60 s, 12-16 lines, intro + outro } }`.
+- **P3 sheets, then PAUSE:** body plans, sketches, masters and pose sheets for Pip (a fast squirrel) and Bruno (a slow hedgehog). Show the user both `sheet.png` (in chat and in the Cast view) and wait for approve or redo per character. Nothing is rigged before both are approved (time order in the run log).
+- **P4 rigs:** raster rigs with face patches; pose sheets read by Claude (no double face, the mouths read, the joints are closed); poses for at most 2 gestures per character; the time per character.
+- **P5 sets, script, safety, voices, music, clips:** voice allocation by the hub rule (Gemini free 10/day, Croatian first; with 12-16 lines hr goes local to OmniVoice and en to Kokoro; `cts_voice_quota` before and after); music from ComfyUI; Flow `intro` and `outro` (keyframes are player stills; `video-plan.mjs` estimate 2 x 12 = 24 credits, cap 50).
+- **P6 renders and the mix check:** preview, frame review, then the final hr and en renders; `mix-check.json` per language in the run log. **PAUSE: the user watches both MP4s** and gives a verdict on the look (Z-Image puppets), on the music and its level, and go/no-go for phase 2 with this method.
+- **P7 records:** `runs/pip-bruno-pilot.md` (ids, timings, decisions, verdicts, UNTESTED items), the changelog, evidence under the ticket's `evidence/`.
+
+## Tests (test-discipline: only these; existing tests updated where removed code was tested)
+
+1. `tests/clips.test.ts` (new): with a fake Flow client whose `generateImage` throws and a fake renderer, `cts_clip_generate { clip: "intro" }` makes its keyframe from the player still and sends exactly one video call; `clip: "hero"` is refused. Proves that no image step reaches Flow.
+2. `tests/budget.test.ts` (one case added): a `gemini` image request at cap $0 is refused with `BUDGET_EXCEEDED` and the fake `fetch` is never called.
+3. `tests/rig-raster.test.ts` (new): from a fixture master PNG, polygons and fixture face patches, `buildRasterRig` with **no variant a** writes a rig that passes `cts_rig_check`, all 8 mouth keys resolve to PNG files, and the rest patch covers the designer's mouth box.
+4. `tests/mix.test.ts` (new, ffmpeg): a loud music fixture (a square wave at about -8 LUFS) and two quiet voice fixtures (about -32 LUFS) mixed by `muxEpisode` give a `mix-check.json` with `minUnderDb >= 15` and `gapMusicUnderVoiceDb` within 8 +-2.
+5. Updated, not new: `tests/render.e2e.test.ts` (the splice case uses a clip with id `intro`); `tests/contracts.test.ts` (variant `b` and `recraft-svg` are rejected; fixture `mini` with its SVG rigs still parses).
+
+## Acceptance criteria (pilot 2)
+
+| # | Criterion | Check that proves it |
+|---|---|---|
+| B1 | Builds and tests pass | `yarn typecheck && yarn lint && yarn test && yarn test:e2e && yarn build` exit 0 on `CTS-10_pilot-2` |
+| B2 | Recraft is gone | `git grep -niE "recraft\|svg-split\|svg_split" -- src seed docs` (pipes escaped for the table) returns nothing; MCP `tools/list` has no `cts_svg_split` |
+| B3 | No image goes to Flow | `git grep -n generateImage -- src` returns nothing; `IMAGE_PROVIDERS` has no `flow`; test 1; the flow-music-mcp calls in the pilot 2 logs are video scenes for `intro`/`outro` only |
+| B4 | Z-Image img2img is live | this plan's P0 probe plus the P0b results in the run log; sheet images from sketches at <= 40 s warm per image; `ref.png` made by `z-image-turbo` per the step log |
+| B5 | The user saw the sheets before rigging | run log: `cts_sheet_approve` for Pip and Bruno earlier than the first `rig` job in `jobs/done/` |
+| B6 | Rigs without SVG | both rigs `kind: "raster"`, every part and face state a PNG, no `variants/a` for Pip or Bruno, `cts_rig_check` passes (test 3 covers the code path) |
+| B7 | No double face, the mouths read | pose sheets read by Claude: one face per character, A/E/O/MBP distinct, the rest patch hides the painted mouth; frame-critic `pass` or its problems listed |
+| B8 | The character holds across poses | sheet poses and any pose images compared with `ref.png` by Claude (colours, markings, proportions); any fallback used, and the user's yes for Nano Banana if it was used, recorded |
+| B9 | $0 unless agreed | `spend.json` has no `usd` entries (or only up to a cap the user agreed, with the yes quoted); otherwise no gemini or fal request in `logs/`; voice manifests `costUsd: 0`; test 2 |
+| B10 | Music from ComfyUI | step log: theme engine `ace-step-v1-instrumental` (or the configured alternative), wall time recorded; no Chiptune Studio call in the logs; `git grep -n chiptune -- src/engine/pipeline src/engine/music` returns nothing |
+| B11 | Music under the voice | `render/<lang>/mix-check.json` for hr and en: `minUnderDb >= 15` and `medianUnderDb >= 17`; test 4; integrated loudness -16 +-2 LUFS (`ebur128`) |
+| B12 | Flow only for intro/outro, within the cap | `series/pip-bruno/clips/{intro,outro}.mp4` exist (or `fallback` recorded); Flow credits in `spend.json` <= 50; no episode-level clip; frames at both clip middles show the clip (read by Claude) |
+| B13 | Both films | `out/hr.mp4` and `out/en.mp4`: h264 1920x1080 24 fps yuv420p + aac, 50-75 s; the same `scriptHash`; `cts_lint` 0 errors |
+| B14 | Pilot 1 unharmed | `cts_lint { series: "pilot", episode: "ep00-pilot" }` gives 0 errors and a 2 s preview render of it succeeds |
+| B15 | The app shows pilot 2 | `scripts/studio-shots.mjs` runs with no console error; the Cast view shows the sketch, master, sheet poses and approve state for Pip and Bruno (screenshot in the run log) |
+| B16 | Public repo clean | A3's grep on `CTS-10_pilot-2` returns nothing |
+| B17 | The user watched | the run log records the user's verdict on hr and en, the look, the music level, and go/no-go for phase 2 with this method |
+
+Every item ends DONE, NOT DONE (reason) or UNTESTED in `changelog.md`.
+
+## Risks (pilot 2)
+
+| Risk | Mitigation |
+|---|---|
+| Z-Image does not keep the same character across poses (only the prompt and palette tie them; no ControlNet, no reference input) | Poses come from a render of the approved rig (the character's own pixels) at a low denoise, not from new sketches; the user approves the sheets; fallback order: lower denoise, Qwen edit with the sheet as reference ($0), Nano Banana only after a yes |
+| Inpainted mouth and eye patches do not match the head (colour, line weight, position) | Each patch is a crop of the same master region with a feathered edge; rest is cut from the master; P0b tests one patch before the run; frame-critic on the pose sheet |
+| Raster parts show gaps at the joints when rotated | Overlap at the joints and rotation limits (phase 1); pose images for the big gestures |
+| A halo or grey fringe around keyed parts | The probe showed no halo at denoise 0.8; the key still removes a near-white rim; BiRefNet as a fallback |
+| ACE-Step adds vocals or sounds busy | Instrumental graph (empty lyrics), tags for sparse light instruments, up to 3 seeds if the first is bad; MiniMax Music 3 as the alternative; the user judges it in P6 |
+| The music is still too loud, or now too quiet | A numeric target (18 dB under, floor 15) measured per line on the stems; `W_MIX_MUSIC_LOUD`; the levels are config, not code |
+| ComfyUI memory with Z-Image, OmniVoice and ACE-Step in one process | `music` job kind in the kind switch (models freed between kinds); steps run in turns |
+| A ControlNet would hold poses better than plain img2img | Recorded upgrade path (Z-Image Fun ControlNet union model patch); needs a model download and the user's yes |
+| The Nano Banana price or model id changes | Price row "check before use" with its date; refused at cap $0; the user agrees an amount first |
+| Removing Recraft and Flow images breaks pilot 1 | Pilot 1 used neither (b NOT RUN; its keyframes exist as files); B14 regression check |
+| The pitch pause is skipped by mistake for other series | The skip happens only when the brief carries an explicit `pitch`; otherwise the phase 1 pause stays |
+
+## Open questions for the user (pilot 2)
+
+1. Nano Banana: the free route is Google Flow's image model at 0 credits, which the direction rules out ("only google flow for videos"). Is the paid Gemini API route right for the fallback, and what USD cap may it use if Z-Image fails (for example $1, about 25 images at an unverified ~$0.04 each)?
+2. Keep path (a) SVG as an optional fallback (planned), or delete it too?
+3. Outro: one series outro clip besides the intro (planned, 2 x 12 credits), or the intro only?
+4. If plain img2img cannot hold poses, may a Z-Image ControlNet model patch be downloaded later (a few GB)?

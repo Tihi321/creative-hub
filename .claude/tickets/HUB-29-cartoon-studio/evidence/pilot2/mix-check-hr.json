@@ -1,0 +1,91 @@
+{
+  "lines": [
+    {
+      "id": "l01",
+      "voice": -20.1,
+      "music": -51.6,
+      "underDb": 31.5
+    },
+    {
+      "id": "l02",
+      "voice": -20.5,
+      "music": -51.8,
+      "underDb": 31.3
+    },
+    {
+      "id": "l03",
+      "voice": -20,
+      "music": -49.7,
+      "underDb": 29.7
+    },
+    {
+      "id": "l04",
+      "voice": -20.1,
+      "music": -50.1,
+      "underDb": 30
+    },
+    {
+      "id": "l05",
+      "voice": -19.9,
+      "music": -49.8,
+      "underDb": 29.9
+    },
+    {
+      "id": "l06",
+      "voice": -20,
+      "music": -46.8,
+      "underDb": 26.8
+    },
+    {
+      "id": "l07",
+      "voice": -20,
+      "music": -46.8,
+      "underDb": 26.8
+    },
+    {
+      "id": "l08",
+      "voice": -20.4,
+      "music": -46,
+      "underDb": 25.6
+    },
+    {
+      "id": "l09",
+      "voice": -19.9,
+      "music": -49.6,
+      "underDb": 29.7
+    },
+    {
+      "id": "l10",
+      "voice": -20.1,
+      "music": -50.7,
+      "underDb": 30.6
+    },
+    {
+      "id": "l11",
+      "voice": -20,
+      "music": -47.6,
+      "underDb": 27.6
+    },
+    {
+      "id": "l12",
+      "voice": -19.9,
+      "music": -47.5,
+      "underDb": 27.6
+    },
+    {
+      "id": "l13",
+      "voice": -20,
+      "music": -47.7,
+      "underDb": 27.6
+    },
+    {
+      "id": "l14",
+      "voice": -19.8,
+      "music": -53.9,
+      "underDb": 34.1
+    }
+  ],
+  "minUnderDb": 25.6,
+  "medianUnderDb": 29.7,
+  "gapMusicUnderVoiceDb": 24.8
+}
