@@ -174,7 +174,7 @@ The user said: "you can go fallack to acp proxy then open router yes. We can rep
 
 ### Status at the stop (2026-11-09, about 23:10)
 
-The user said: "maybe we should not push anymore for action today if this is issue on github side". So no more pushes that start GitHub Actions today, and no cancel or re-run of WEB-07's Pages run 42707994332 (it was still `in_progress` in `syncing_files` at the stop, left to time out).
+The user said: "maybe we should not push anymore for action today if this is issue on github side". So no more pushes that start GitHub Actions today. This session did not cancel or re-run WEB-07's Pages run 42707994332 (it was `in_progress` in `syncing_files` at the stop). It was re-run anyway, outside this session: attempt 1 was cancelled at 22:11:48Z, attempt 2 started at 22:12:11Z (see round 3 for how it ended).
 
 - **Pushed before the stop:**
   - creative-hub-web WEB-06 (`99a6f80`) and WEB-07 (`3ce3a75`). Their Pages deploys are the stuck ones.
@@ -203,8 +203,13 @@ The user's words, relayed by the parent session. Pushes are allowed again; the P
 ### The site
 
 - creative-hub-web master is `3ce3a75` (WEB-06 republish + WEB-07 Node 24 actions), pushed.
-- Its Pages run 42707994332 ended `cancelled`. Its log has no "Node.js 20" warning, so WEB-07 removed it for the steps that ran.
-- **The live site is still the 21:35 deploy (WEB-05):** the bridge fix is live, the edu games' `player.js` is the old one (no `BrowserBack`). The next successful Pages run makes the EGS-64/65 player fixes live; nothing else is needed.
+- Its Pages run 42707994332 took four attempts (read from the GitHub API):
+  - attempt 1 was cancelled at 22:11:48Z;
+  - attempt 2 (started 22:12:11Z) failed on the deploy timeout at 22:22:40Z;
+  - attempt 3 (22:33:23Z) failed in the deploy job at 22:34:20Z;
+  - attempt 4 passed: completed `success`, updated 22:38:39Z.
+- Attempt 4's log (2,992 lines) has no "Node.js 20" warning, so WEB-07 removed it.
+- **The EGS-64/65 player fixes are live** after attempt 4. The live `play/<game>/player.js` of suncev-sustav, deutsch-roleplay-a1, deutsch-roleplay-b2 and deutsch-a1-pilot contains `BrowserBack`, and its md5 `89154fbb...` equals the published copy in the repo. The WEB-05 bridge fix stays live. Not played on a real TV or phone.
 
 ### Fixes from the independent check
 
@@ -244,3 +249,27 @@ Restarted with `hub.ps1`: flow-music-mcp (FMM-21) and cartoon-studio (CTS-49 to 
 - Abort a job early when its step was reset while it ran.
 - A fake-ComfyUI helper so the keyframe polish path can be tested.
 - Read ElevenLabs' 429 docs once and retry the TTS POST only for the codes rejected before processing.
+
+## Polish round after the independent check (2026-11-09, night)
+
+The check FAILed one item: the `cts_run_pipeline` description and `docs/pipeline.md` still said the renderer default was canvas. Fixing it turned up a real bug: **CTS-51's blender default did not work.**
+- CTS-51 passed `renderer` to `createSeries`, which uses it only to pick the stub style and never writes it into the bible.
+- So the stub bible read as canvas, and a run without `options.renderer` still made a canvas series.
+- The new test (the CTS-38 test, now run without the option) failed on exactly this before the fix.
+
+| Item | Ticket, commit | Status |
+|---|---|---|
+| A series the run creates is `blender` unless `options.renderer` is `"canvas"` | cartoon-studio CTS-53 `386de8e` (merge `9c05f8e`) | DONE (the test fails before, passes after) |
+| `cts_run_pipeline` description and `docs/pipeline.md`: an existing series keeps its bible's renderer, a new one is blender | CTS-53 | DONE |
+| Test: a run without `options.renderer` makes a blender bible and the Blender step list | CTS-53 (CTS-38 test extended, no new near-duplicate) | DONE |
+| `seed/config/roles.md` voice director names ElevenLabs first | CTS-53 | DONE; the data folder's copy had the recorded seed hash, so it refreshed by itself: after a rebuild and restart, `~/CartoonStudio/config/roles.md` equals the seed |
+| Run log lines on Pages run 42707994332 | hub | DONE (attempts 1 to 4 from the GitHub API; attempt 4 passed at 22:38:39Z, so the player fixes are live) |
+
+Checks on CTS-53: typecheck, lint, test (63), test:blender (22), test:e2e (2), build and docs:check all exit 0.
+
+Masters now: cartoon-studio `9c05f8e`, creative-hub (this commit); the others are unchanged since round 3.
+
+Note: while checking the new test, this session once ran `git stash` / `git stash pop` in cartoon-studio. The stash was popped at once and nothing was lost, but this shared folder's rule says never to stash.
+
+Discoveries (not fixed):
+- `createSeries` itself (also used by `cts_series_create`) still writes no `renderer`, so a series made with `cts_series_create` reads as canvas until its first run. A first run without the option keeps it canvas, because the series already exists.
