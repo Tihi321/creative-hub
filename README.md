@@ -66,6 +66,7 @@ pwsh -File scripts\hub.ps1 build vn-studio     # rebuild a repo after pulling or
 pwsh -File scripts\hub.ps1 logs vn-studio
 pwsh -File scripts\hub.ps1 check               # real MCP handshake + tool count per server
 pwsh -File scripts\hub.ps1 call vn-studio vno_status '{"slug":"my-book"}'   # call any tool without a Claude MCP link
+pwsh -File scripts\hub.ps1 comfy-patches [check|apply|revert]   # the local fixes to ComfyUI nodes that sound effects need (comfy-mcp CMC-08); status shows the check; after a node update: apply, then restart comfyui
 pwsh -File scripts\wait-book.ps1 -Story <story-slug>   # fallback when the MCP link is down; otherwise scriptorium wait_for_book {slug}
 ```
 
