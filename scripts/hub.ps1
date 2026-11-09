@@ -17,9 +17,11 @@
 #   pwsh -File scripts\hub.ps1 call vn-studio vno_status '{"slug":"x"}'   call one tool (when Claude's MCP link is down);
 #                                                   args may also be @path\to\args.json
 #   pwsh -File scripts\hub.ps1 setup [-EnableVibeTts]  one-time: Book Translator token, VibeTTS MCP
+#   pwsh -File scripts\hub.ps1 comfy-patches [check|apply|revert]   the local fixes to ComfyUI nodes (comfy-mcp out\patches.js);
+#                                                   after a node update: apply, then restart comfyui
 
 param(
-    [Parameter(Position = 0)][ValidateSet('status', 'start', 'stop', 'build', 'logs', 'setup', 'check', 'call', 'variants')][string]$Command = 'status',
+    [Parameter(Position = 0)][ValidateSet('status', 'start', 'stop', 'build', 'logs', 'setup', 'check', 'call', 'variants', 'comfy-patches')][string]$Command = 'status',
     [Parameter(Position = 1, ValueFromRemainingArguments)][string[]]$Ids,
     [switch]$Force,
     [switch]$Window,
@@ -184,9 +186,43 @@ function Get-HealthModel([string]$url) {
     catch { '' }
 }
 
+# Ports among $ports that accept a connection within $ms, tried all at once. Show-Status asks again for the ports it found down,
+# because right after a start a busy machine misses the first 400 ms connect and live services flickered to down (HUB-32).
+function Get-OpenPorts([int[]]$ports, [int]$ms = 2000) {
+    $tries = @(foreach ($p in $ports) { $c = [Net.Sockets.TcpClient]::new(); [pscustomobject]@{ Port = $p; Client = $c; Task = $c.ConnectAsync('127.0.0.1', $p) } })
+    if (-not $tries.Count) { return @() }
+    try { [Threading.Tasks.Task]::WaitAll([Threading.Tasks.Task[]]@($tries.Task), $ms) | Out-Null } catch { }
+    $open = @($tries | Where-Object { $_.Task.IsCompleted -and -not $_.Task.IsFaulted -and $_.Client.Connected } | ForEach-Object { $_.Port })
+    $tries | ForEach-Object { $_.Client.Dispose() }
+    $open
+}
+
+# The local fixes to third-party ComfyUI nodes (comfy-mcp CMC-08): `check`, `apply` or `revert`. Returns the reports, or $null when
+# comfy-mcp is not built or the ComfyUI folder is unknown.
+function Invoke-ComfyPatches([string]$mode, [bool]$quiet) {
+    $cm = $services | Where-Object id -eq 'comfy-mcp' | Select-Object -First 1
+    $cu = $services | Where-Object id -eq 'comfyui' | Select-Object -First 1
+    $cli = if ($cm) { Join-Path (Expand $cm.repo) 'out\patches.js' } else { $null }
+    $dir = if ($cu) { Expand $cu.data } else { $null }
+    if (-not $cli -or -not (Test-Path $cli) -or -not $dir -or -not (Test-Path $dir)) {
+        if (-not $quiet) { Write-Host 'comfy-patches: comfy-mcp out\patches.js or the ComfyUI folder is missing. Run: hub.ps1 build comfy-mcp' -ForegroundColor Yellow }
+        return $null
+    }
+    $out = & fnm exec --using=24 node $cli $mode --comfy-dir $dir --json 2>$null
+    try { $r = @($out | ConvertFrom-Json) } catch { return $null }
+    if (-not $quiet) {
+        foreach ($x in $r) { Write-Host "$($x.id): $($x.state)$(if ($x.changed) { ' (file changed)' })  $($x.file)" }
+        if ($mode -ne 'check' -and @($r | Where-Object changed).Count) { Write-Host 'Restart ComfyUI for the change to load: hub.ps1 stop comfyui; hub.ps1 start comfyui' -ForegroundColor Yellow }
+    }
+    $r
+}
+
 function Show-Status {
+    $down = @(foreach ($s in $services) { if (-not (Get-Listener $s.port)) { $s.port } })
+    $late = if ($down.Count) { @(Get-OpenPorts $down) } else { @() }
     $rows = foreach ($s in $services) {
         $l = Get-Listener $s.port
+        if (-not $l -and $late -contains $s.port) { $l = [pscustomobject]@{ LocalPort = $s.port; OwningProcess = 0 } }
         $o = Get-Owner $s $l
         $orphan = $o -and $o.Kind -eq 'orphan'
         $h = if ($orphan) { @($o.Holders) } else { @() }
@@ -209,6 +245,14 @@ function Show-Status {
     }
     if (-not (Get-BtToken)) {
         Write-Host 'Note: BOOK_TRANSLATOR_MCP_TOKEN is not set. Run: hub.ps1 setup' -ForegroundColor Yellow
+    }
+    $cp = Invoke-ComfyPatches 'check' $true
+    if ($cp) {
+        $bad = @($cp | Where-Object state -ne 'applied')
+        if ($bad.Count) {
+            Write-Host "Note: ComfyUI local fixes: $($bad.Count) of $($cp.Count) not applied ($(($bad | ForEach-Object { "$($_.id) $($_.state)" }) -join ', ')); sound effects may fail. Run: hub.ps1 comfy-patches apply" -ForegroundColor Yellow
+        }
+        else { Write-Host "ComfyUI local fixes: $($cp.Count) of $($cp.Count) applied" }
     }
 }
 
@@ -461,4 +505,9 @@ switch ($Command) {
     'setup' { Invoke-Setup }
     'check' { foreach ($s in Select-Services $Ids $false) { Test-Mcp $s } }
     'call' { Invoke-Tool $Ids }
+    'comfy-patches' {
+        $m = if ($Ids -and $Ids[0]) { $Ids[0] } else { 'check' }
+        if ($m -notin 'check', 'apply', 'revert') { throw "comfy-patches: use check, apply or revert (not '$m')" }
+        Invoke-ComfyPatches $m $false | Out-Null
+    }
 }
