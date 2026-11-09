@@ -1,5 +1,33 @@
 # HUB-31 changelog
 
+## 2026-11-09 (later) — pushed to master, follow-up fixes, pilot 4 re-rendered with sound effects
+
+The user asked: "push all to master and do all fixes you recommend".
+
+- **Pushed (fast-forward, no force):** creative-hub `HUB-31_vehicles-voices` → master (68cfe38..dc508b8); cartoon-studio `CTS-30_vehicles-elevenlabs` → master (e0aa146..d73c6c6); flow-music-mcp `FMM-17_elevenlabs-voices` → master (56cf836..a26d383). Branches pushed too.
+- **flow-music-mcp `FMM-19_gemini-key-lookup`** → master (a26d383..0159583): `2f9988f` the Gemini key uses the same lookup as ElevenLabs (shared `keyFromEnv`), so an empty `GEMINI_API_KEY=` in the repo `.env` no longer hides the real key; `0159583` an empty value in any `.env` file no longer hides a later file's value. typecheck, build, test (158) pass; server restarted, ElevenLabs still ready.
+- **cartoon-studio `CTS-37_pilot4-fixes`** → master (d73c6c6..0dbd024): CTS-37 `voice_review` gate + `cts_voice_approve` + ElevenLabs auditions in the pipeline; CTS-38 budget before series (`seriesExists` = has a bible); CTS-39 one revise job per pipeline; CTS-40 viseme gap bridging (en l12 52 % → 66 %); CTS-41 car turn ends on the path, antenna no longer pins, vehicle wide shot rises when occluded, `Actor.reset()`, opt-in lead measure, visor ray-test warning; CTS-42 docs. typecheck, lint, test (56), test:blender (21), test:e2e (2), build, docs:check all exit 0; creature output identical; engine rebuilt and restarted.
+- **VN Studio `VNO-65_elevenlabs-later`** → master (9598d32..aa42b60) and **Edu Studio `EGS-63_elevenlabs-later`** → master (46b6ec1..376f3e8): one Later row each (done in temporary worktrees; their local checkouts untouched).
+- **ComfyUI sound effects (local edits to third-party code, not in any of the user's repos):** `custom_nodes/comfyui_fill-chatterbox/chatterbox_node.py` (`patched_torch_load` no longer adds `map_location` when it was passed positionally) and `C:/projects/Public/TTS-Audio-Suite/.../diffsynth/pipelines/wan_audio.py` (`torch.compile` only when Triton imports). Originals kept in `creative-hub/.claude/temp/`. A node update can undo them.
+- **Hub:** make-cartoon skill knows the `voice_review` pause and `cts_voice_approve`; run log section "Fixes after GO"; discoveries gains the stale-final-after-resume entry.
+- **Pilot 4 redo:** music step with the same seed made `sfx-horn` and `sfx-whistle`; sound beats restored; new finals hr 74.167 s / en 72.042 s, -16.1 / -16.2 LUFS, horn audible (peak -1.5 dB), whistle quieter (peak -15.9 dB); lint 0 errors 0 warnings; C14 still equal. No credits spent.
+
+| Item | Status |
+|---|---|
+| Push HUB-31 / CTS-30..36 / FMM-17..18 to master | DONE |
+| FMM-19 Gemini key and empty .env values | DONE (live Gemini call UNTESTED) |
+| CTS-37 voice review gate, ElevenLabs auditions | DONE (live pause UNTESTED; fakes only) |
+| CTS-38, CTS-39, CTS-40, CTS-41, CTS-42 | DONE |
+| VN Studio / Edu Studio roadmap rows | DONE |
+| ComfyUI MOSS sound effects | DONE (local third-party edits) |
+| Horn and whistle in pilot 4 | DONE; whistle is quiet, the user has not watched the redo yet: UNTESTED by the user |
+| W_VISEME_FLAT | DONE (0 warnings) |
+| C4 ledger vs API mismatch | NOT DONE (the API counter reset; nothing to fix in code) |
+| Desktop app Cast/Settings and voice review button | UNTESTED; the studio UI has no voice-review button (discovery) |
+| Cancel stale jobs on retry | NOT DONE (new discovery, found during the redo) |
+
+Commit status: everything above is committed and pushed to master except the hub's last commit, which this entry is part of (pushed right after).
+
 ## 2026-11-09 — HUB-31: ElevenLabs voices and vehicle characters, pilot 4 made (user GO)
 
 The ElevenLabs engine is in flow-music-mcp, Cartoon Studio puts ElevenLabs first in its voice allocation, vehicles are a body kind of the 3D route, and pilot 4 "Pip and Bruno at the Crossing" was made in hr and en with Liam (Pip) and Brian (Bruno). Cost: $0, 0 Flow credits, free ElevenLabs credits only. The user approved the sheets after three rounds, picked the voices, and gave GO on the films. Request REQ-0022; the director's checker (C1-C18) runs next.

@@ -59,6 +59,14 @@ Not for commercial use: ElevenLabs free plan (no commercial licence, attribution
 
 - 2026-11-09 16:33 hub CLAUDE.md voice-allocation bullet replaced with the plan's open-question-2 wording and the amended key sentence; the user confirmed in this session ("Yes, write it").
 
+## Fixes after GO (2026-11-09, user: "push all to master and do all fixes you recommend")
+- Pushed fast-forward to master: hub dc508b8, cartoon-studio d73c6c6, flow-music-mcp a26d383. Then FMM-19 (0159583: Gemini key lookup, empty .env values no longer hide later ones) and CTS-37..42 (0dbd024: voice_review gate and ElevenLabs auditions in the pipeline, budget before series, one revise job, viseme gap bridging, vehicle turn/antenna/wide-shot/reset/normalise/visor fixes, docs) pushed to master; VN Studio VNO-65 (aa42b60) and Edu Studio EGS-63 (376f3e8) roadmap rows pushed to master.
+- ComfyUI sound effects, two local fixes outside the repos (originals in `.claude/temp/`): `custom_nodes/comfyui_fill-chatterbox/chatterbox_node.py` patched `torch.load` so a positional map_location is not doubled; `C:/projects/Public/TTS-Audio-Suite/engines/moss_soundeffect_v2/impl/moss_soundeffect_v2/diffsynth/pipelines/wan_audio.py` compiles `model_fn_wan_video` only when Triton imports (no Triton on this AMD/Windows machine). Both are uncommitted local edits in third-party code; an update of those nodes undoes them.
+- 18:37-18:40 music redone (same tags, seed 31418): theme 39.9 s, `sfx-horn.ogg` 2.0 s (mean -13.9 dB), `sfx-whistle.ogg` 2.0 s (mean -6.5 dB). Sound beats b08/b11 restored in the script (`cts_script_set`).
+- The stopped final job of the earlier run was requeued on resume and rendered from the old assembly (finals 18:49/18:54); `retry from final_render` made new finals at 19:04 (hr) and 19:09 (en) from the new timelines (see discoveries).
+- Final check: hr 74.167 s, en 72.042 s, h264 1920x1080 24 fps + aac, -16.1 / -16.2 LUFS, mix-check hr 25.5 / 28.4, en 26.9 / 28.8; timeline has horn at 8.445 s and whistle at 12.152 s (gain 0.8): hr audio 8.45-9.95 s mean -18.8 dB peak -1.5 dB (horn), 12.15-13.65 s mean -24.6 dB peak -15.9 dB (whistle, quieter, over a -30 dB bed). Lint 0 errors, 0 warnings (`W_VISEME_FLAT` gone with CTS-40). pip-bruno-3d lint 0/0; C14 hashes still equal. Contact sheets `evidence/hr-contact-r3-sfx.png`, `en-contact-r3-sfx.png`. No ElevenLabs, Flow or paid spend in the redo.
+- Not yet watched by the user after the fixes (the GO above is for the first finals).
+
 ## Renders
 - `~\CartoonStudio\series\pip-bruno-wheels\episodes\ep00-pilot\out\hr.mp4` (74.167 s) and `en.mp4` (72.042 s): ffprobe h264 1920x1080 24/1 yuv420p + aac (both). Previews `hr.preview.mp4`, `en.preview.mp4` (960x540).
 - Loudness (ffmpeg ebur128 on the finals): hr -16.1 LUFS, en -16.2 LUFS integrated.

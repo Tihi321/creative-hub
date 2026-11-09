@@ -25,3 +25,9 @@
 {"ts":"2026-11-09T15:34:47Z","actor":"implement","type":"verify.passed","request":"REQ-0022","ticket":"HUB-31-vehicles-voices","detail":"C1 commands exit 0; C2 0 matches; C3 no new hits; finals and C14 checked"}
 {"ts":"2026-11-09T15:34:47Z","actor":"implement","type":"note","request":"REQ-0022","ticket":"HUB-31-vehicles-voices","detail":"not met: SFX silent, W_VISEME_FLAT en l12, C4 ledger vs API mismatch"}
 {"ts":"2026-11-09T15:34:47Z","actor":"implement","type":"changelog.written","request":"REQ-0022","ticket":"HUB-31-vehicles-voices","detail":"changelog.md written; status stays in-progress for the checker"}
+{"ts":"2026-11-09T16:38:45Z","actor":"user","type":"note","request":"REQ-0022","ticket":"HUB-31-vehicles-voices","detail":"user: push all to master and do all fixes you recommend"}
+{"ts":"2026-11-09T16:38:45Z","actor":"implement","type":"note","request":"REQ-0022","ticket":"HUB-31-vehicles-voices","detail":"pushed ff to master: hub dc508b8, cts d73c6c6, fmm a26d383"}
+{"ts":"2026-11-09T16:38:45Z","actor":"implement","type":"slice.started","request":"REQ-0022","ticket":"HUB-31-vehicles-voices","detail":"discovery fixes: cartoon-studio CTS-37..42, flow-music-mcp FMM-19","data":{"tasks":["CTS-37","CTS-38","CTS-39","CTS-40","CTS-41","CTS-42","FMM-19"]}}
+{"ts":"2026-11-09T18:10:51Z","actor":"implement","type":"slice.done","request":"REQ-0022","ticket":"HUB-31-vehicles-voices","detail":"fixes pushed: FMM-19, CTS-37..42, VNO-65, EGS-63; SFX node fixed","data":{"tasks":["FMM-19","CTS-37","CTS-38","CTS-39","CTS-40","CTS-41","CTS-42"]}}
+{"ts":"2026-11-09T18:10:51Z","actor":"implement","type":"verify.passed","request":"REQ-0022","ticket":"HUB-31-vehicles-voices","detail":"pilot 4 re-rendered with SFX; lint 0/0; C14 equal"}
+{"ts":"2026-11-09T18:10:51Z","actor":"implement","type":"changelog.written","request":"REQ-0022","ticket":"HUB-31-vehicles-voices","detail":"changelog entry for the fixes and the push"}
