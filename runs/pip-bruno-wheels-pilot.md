@@ -72,7 +72,7 @@ Not for commercial use: ElevenLabs free plan (no commercial licence, attribution
 - Loudness (ffmpeg ebur128 on the finals): hr -16.1 LUFS, en -16.2 LUFS integrated.
 - mix-check.json: hr minUnderDb 25.5, medianUnderDb 28.4, gapMusicUnderVoiceDb 18.5; en 26.9 / 28.8 / 18.2.
 - Blender: preview warm mean 0.062 s a frame; final about 5 s of wall time per second of film.
-- Lint (`cts_lint requireAudio`): pip-bruno-wheels 0 errors, 1 warning `W_VISEME_FLAT` en l12 (mouth open 52 % of the line's frames, under 60 %). Older pilots `pilot`, `pip-bruno`, `pip-bruno-3d`: 0 errors, 0 warnings.
+- Lint (`cts_lint requireAudio`): first finals 0 errors, 1 warning `W_VISEME_FLAT` en l12 (mouth open 52 %); after CTS-40 (viseme gap bridging) and the redo, 0 errors and 0 warnings (en l12 at 66 %). Older pilots `pilot`, `pip-bruno`, `pip-bruno-3d`: 0 errors, 0 warnings.
 - C14: `evidence/c14-hashes-after.txt` equals `c14-hashes-before.txt` (12 files).
 
 ## Money (end)
@@ -80,6 +80,7 @@ Not for commercial use: ElevenLabs free plan (no commercial licence, attribution
 - `flow_elevenlabs_status` end: used 1037, remaining 8963, tier free, paidRisk false, resetAt 2026-12-10T02:42:32Z.
 - `spend.json`: 42 `eleven-credits` entries summing 1590 (auditions 553, hr lines 515, en lines 522), no `usd` entry.
 - Mismatch to note: the account counter read 510 used after the auditions (resetAt then 2026-04-01) and 1037 at the end (resetAt 2026-12-10); 1037 equals the two languages' line estimates exactly, so the account's billing period appears to have been set up or reset during the run and the audition credits dropped out of the counter. The ledger (1590) therefore is not within 10 % of the API delta; both are far inside the free 10,000.
+- 2026-11-09 polish round 2: the user accepted pilot 4's C4 ledger mismatch as explained by the reset (the auditions were counted in the old billing period, which reset before the voices; choice "Round 2 + accept (Recommended)", relayed by the director). From CTS-43 on, the ledger records the account counter around each voice phase and reconciles across a reset.
 
 ## Reviews
 - 2026-11-09 ~16:35 checkpoint 3: both films opened for the user (`Start-Process`). User's verdict, own words in this session: "GO". No separate remarks on the look, acting, voices, lip-sync or music level were given; GO is recorded as the verdict on all of them.
@@ -87,5 +88,5 @@ Not for commercial use: ElevenLabs free plan (no commercial licence, attribution
 
 ## Checked / not checked
 - Checked: sheets approved before the set (sheet_review 15:34:47, set3d job after); vehicle bodies only (no limb controls; lint has no E_VEHICLE_LIMB or E_ACTION_BODY); all lines ElevenLabs with alignment word times; finals ffprobe, loudness, mix check; lint; older pilots' hashes; C2 key search 0 matches and C3 no new grep hits (`evidence/c2-c3-key-and-grep.txt`); C18 `evidence/c18-status-call-2-ready.txt`.
-- Not as planned: horn and whistle SFX silent (ComfyUI MOSS node error); `W_VISEME_FLAT` on en l12; ElevenLabs counter vs ledger mismatch (see Money (end)); the plan's mark names road_left/road_right/track_left/track_right partly replaced (road_near/road_far).
+- Not as planned: the horn and whistle were silent in the first finals (ComfyUI MOSS node error), fixed and re-rendered with both sounds (see "Fixes after GO"); `W_VISEME_FLAT` on en l12 in the first finals, gone after CTS-40; ElevenLabs counter vs ledger mismatch (see Money (end)), accepted by the user as explained by the billing reset; the plan's mark names road_left/road_right/track_left/track_right partly replaced (road_near/road_far).
 - Not checked: the desktop app's Cast and Settings views (the hub engine ran headless); the lip-sync judged by ear and eye only by the user's GO, not frame by frame; a 2 s preview of pip-bruno-3d on this build was rendered by CTS-35's worker, not again here.
