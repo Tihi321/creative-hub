@@ -74,12 +74,12 @@ The user has Google Flow (https://flow.google.com/, PRO) and Flow Music (https:/
 The user asked (2026-10-22) whether Scriptorium and Book Translator could use their Antigravity (Google) account's models the way the DeepSeek Harness does. **Decision (user, 2026-10-22): no Antigravity login of our own in the apps; use the ACP proxy, accepting the terms risk below. Revived and widened to all five apps on 2026-10-27 (HUB-09, wired).**
 
 - **How the DeepSeek Harness does it:** the plugin `dsh-tool-antigravity` 0.3.6 (`@cortexkit/antigravity-auth-core`, in `~\.dsh\profiles\desktop`) runs its own Google OAuth with Antigravity's client id, calls Google's private Cloud Code endpoints with the Antigravity CLI's User-Agent, and rotates accounts on 429. That is the pattern Google suspends accounts for.
-- **The ACP proxy** (`acp-proxy` in `services.json`, port 7461, `PROXY_IGNORE_SAMPLING=1`) runs Google's own signed `agy_acp_server`, so the tokens never leave Google's program. Setup left for the user: install the Antigravity server, acknowledge its terms, enable it and log in. Claude must not do the Google login.
-- **Provider entry** for `config/providers.md` in the apps, once the proxy runs and a provider is logged in (take the model ids from `GET http://127.0.0.1:7461/v1/models`):
+- **The ACP proxy** (`acp-proxy` in `services.json`, port 8787, `PROXY_IGNORE_SAMPLING=1`) runs Google's own signed `agy_acp_server`, so the tokens never leave Google's program. Setup left for the user: install the Antigravity server, acknowledge its terms, enable it and log in. Claude must not do the Google login.
+- **Provider entry** for `config/providers.md` in the apps, once the proxy runs and a provider is logged in (take the model ids from `GET http://127.0.0.1:8787/v1/models`):
   ```yaml
   - id: acp
     kind: openai-compat
-    base_url: http://127.0.0.1:7461/v1
+    base_url: http://127.0.0.1:8787/v1
     json_schema: false        # the proxy rejects response_format
     concurrency: 2
     models:
