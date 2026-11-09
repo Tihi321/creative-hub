@@ -6,7 +6,7 @@ Not for commercial use: ElevenLabs free plan (no commercial licence, attribution
 
 ## Money
 - Cap USD: 0 · Flow credits cap: 0 (plan approved 2026-11-08; no Flow in this pilot) · `cts_budget_set` 2026-11-09 14:29:08 (an earlier call at 14:28 made the series folder before the bible existed; that folder was moved to `.claude/temp/p4-stray/`, see discoveries)
-- ElevenLabs: free tier only, reserve 200 credits. Before: see Ids. After: (step 6)
+- ElevenLabs: free tier only, reserve 200 credits. Before: see Ids. After: see Money (end), `flow_elevenlabs_status` end (used 1037, remaining 8963)
 
 ## Ids and paths
 - Series `pip-bruno-wheels`, episode `ep00-pilot`, data `~\CartoonStudio`
