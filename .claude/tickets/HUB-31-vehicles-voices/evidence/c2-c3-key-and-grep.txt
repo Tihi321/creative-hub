@@ -1,0 +1,15 @@
+2026-11-09, after pilot 4 (value of the key never printed; counts only)
+
+C2 key leak check: the key read from the user-scope variable ELEVEN_CREATOR_KEY into a PowerShell variable, then Select-String -SimpleMatch (counts only) over:
+- C:\projects\Personal\creative-hub (working tree incl. logs/, runs/, .claude/): 0 files
+- C:\projects\Personal\cartoon-studio (working tree, no node_modules / git objects / media): 0 files
+- C:\projects\Personal\flow-music-mcp (same): 0 files
+- ~\CartoonStudio (all series, incl. logs and spend ledgers): 0 files
+- ~\.flow-music-mcp (jobs.json, output, captions; excluding .env, chrome-profile, models): 0 files ( ~\.flow-music-mcp\logs does not exist)
+- git log -p, last 40 commits of HUB-31_vehicles-voices, CTS-30_vehicles-elevenlabs, FMM-17_elevenlabs-voices: 0 lines
+TOTAL 0. flow_elevenlabs_status reports only ready and source ("env:ELEVEN_CREATOR_KEY").
+
+C3 (read as "no new hits against the base", director 2026-11-09):
+git grep -nE "C:\\Users|Infplane|sk_[A-Za-z0-9]{20,}|AIza"
+- cartoon-studio CTS-30_vehicles-elevenlabs: 0 hits (base CTS-18_blender-3d: 0)
+- flow-music-mcp FMM-17_elevenlabs-voices: 8 hits, the same 8 lines as master (comments, help text, fake Gemini test keys); 0 new

@@ -1,0 +1,12 @@
+09cb3543bb18fc3a10e2fb80d7af38d374fe0565 *pilot/episodes/ep00-pilot/out/en.mp4
+bc9b44248f6869efa40926c22af6d6e9d8475af3 *pilot/episodes/ep00-pilot/out/en.preview.mp4
+883619e2a31b0bb3ad657b3bcaafc7e18e5b2a1e *pilot/episodes/ep00-pilot/out/hr.mp4
+d894b99761bd4bfe7d17a1c943fdecef88dcbb61 *pilot/episodes/ep00-pilot/out/hr.preview.mp4
+c58f830a76ad2900935cb282e4df1bb8887032fa *pip-bruno/episodes/ep00-pilot/out/en.mp4
+eb8965c0aecf6de9366a0c21fb3b0a22546a56f4 *pip-bruno/episodes/ep00-pilot/out/en.preview.mp4
+89f55690e8d003061aeeadc78a0803ba3a745ea5 *pip-bruno/episodes/ep00-pilot/out/hr.mp4
+7571e72a24866945c6d91250f36b8f4de4de1f4a *pip-bruno/episodes/ep00-pilot/out/hr.preview.mp4
+33510c97bef508a0a14f9480c6cc78d4c32b26fc *pip-bruno-3d/episodes/ep00-pilot/out/en.mp4
+9f3cad77251049d03df7f576442212afa6b0cdeb *pip-bruno-3d/episodes/ep00-pilot/out/en.preview.mp4
+e8f86eff05eda52f066c10bbf08e24263008c073 *pip-bruno-3d/episodes/ep00-pilot/out/hr.mp4
+8de8b066dee3e4e3f2975ceb6125e12de8fe2e28 *pip-bruno-3d/episodes/ep00-pilot/out/hr.preview.mp4

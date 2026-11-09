@@ -1,0 +1,83 @@
+# pip-bruno-wheels / ep00-pilot (pilot 4: vehicles and ElevenLabs voices)
+
+Started 2026-11-09. Plan: `.claude/tickets/HUB-31-vehicles-voices/plan.md` (REQ-0022). Brief: pilot 3's pitch p1 rewritten for a car and a train (Pip the quick little car and Bruno the slow kind engine solve one small puzzle at the level crossing), ages 4-8, hr + en, about 60 s, 12-16 lines, no intro or outro, end card "Glasovi: ElevenLabs" / "Voices: ElevenLabs".
+Code: flow-music-mcp `FMM-17_elevenlabs-voices` at `a26d383`; cartoon-studio `CTS-30_vehicles-elevenlabs` at `d73c6c6`; hub `HUB-31_vehicles-voices`.
+Not for commercial use: ElevenLabs free plan (no commercial licence, attribution on the last title card).
+
+## Money
+- Cap USD: 0 · Flow credits cap: 0 (plan approved 2026-11-08; no Flow in this pilot) · `cts_budget_set` 2026-11-09 14:29:08 (an earlier call at 14:28 made the series folder before the bible existed; that folder was moved to `.claude/temp/p4-stray/`, see discoveries)
+- ElevenLabs: free tier only, reserve 200 credits. Before: see Ids. After: (step 6)
+
+## Ids and paths
+- Series `pip-bruno-wheels`, episode `ep00-pilot`, data `~\CartoonStudio`
+- Blender: 5.2.2 LTS, GPU AMD Radeon(TM) 8060S Graphics (OpenGL 4.6, driver 24.20.79.01), `cts_blender_status` ok (2026-11-09)
+- ElevenLabs key: set by the user as a user environment variable `ELEVEN_CREATOR_KEY` (value never shown). First status 401 `missing_permissions` (user_read); the user widened the key's permissions ("updated permissions, try it", relayed by the director 2026-11-09).
+- `flow_elevenlabs_status` before (2026-11-09 ~14:20, via `hub.ps1 call`, also the C18 evidence): ready true, source `env:ELEVEN_CREATOR_KEY`, tier `free`, used 0, limit 10000, remaining 10000, reserve 200, paidRisk false, resetAt `2026-04-01T08:14:55Z` (a date in the past as returned by the API; recorded as is). Models reading hr and en: `eleven_multilingual_v2` (x1), `eleven_flash_v2_5` (x0.5), `eleven_turbo_v2_5` (x0.5), `eleven_v3` (x1), `eleven_v4` (x1), `eleven_v4_turbo` (x0.5); English-only: `eleven_flash_v2`, `eleven_turbo_v2`.
+- `flow_elevenlabs_voices`: 41 voices, 21 `premade` (used for casting), plus `professional` and one `generated` (not used).
+- `cts_voice_quota` before: gemini 0/10 used (2026-11-09 PT); elevenlabs ready, free, remaining 10000, reserve 200.
+- Running: flow-music-mcp (from FMM-17 branch), cartoon-studio (built from CTS-30 branch), ComfyUI, comfy-mcp, VibeTTS. Not started: Scriptorium, Chiptune Studio, Strata.
+- C14 before: hashes of `pilot`, `pip-bruno`, `pip-bruno-3d` `out/*.mp4` in `.claude/tickets/HUB-31-vehicles-voices/evidence/c14-hashes-before.txt`
+- CLAUDE.md voice rule: user approved the plan wording (open question 2) on 2026-11-08 ("Approve wording (Recommended)", events.jsonl 21:29:16Z); the amended key sentence naming `ELEVEN_CREATOR_KEY` approved by the user ("Yes, add it", relayed by the director on 2026-11-09).
+
+## Log
+- 2026-11-09 14:29 `cts_run_pipeline` with brief.pitch p1 (pitch pause skipped), `options {renderer: blender, skipClips: true, skipAuditions: true}`, `brief.credits {hr: "Glasovi: ElevenLabs", en: "Voices: ElevenLabs"}`
+- bible (showrunner, Claude): pilot 3 palette kept (#d9792b #f3dfb5 #8a5a35 #4e3423 #6fae4f #2b2118), cast pip (car) and bruno (train engine), set `crossing`; rules add "safe behaviour at the crossing is always shown" and "vehicles act with lamps, mouth, wheels, horn, whistle and puffs"
+- character (designer, Claude): pip from the Pip-car example in `seed/style/toon-3d.md` unchanged (build 4.01 s, 0 warnings); bruno from the Bruno-engine example with a deeper skirt (0.36 m, so it reads as a block from the side; build 5.74 s, 0 warnings). Both self-reviewed pass on revision 0.
+- Lamp-eyes check (Claude, sheets r1):
+  - pip: eyes are the front lamps raised on the front wings with chrome visors (front, 3/4, side); mouth is the bumper slot on the cream lower front; windscreen a plain dark band set back, never an eye; no nose, no cheeks, no arms or legs. PASS. Minor: lumpy wing bulges in the side and 3/4 views.
+  - bruno: eyes are big cream lamps low on the flat rounded-rectangle nose at the buffer-beam line with heavy hoods and brass visors; mouth is the buffer-beam slot between two small dark buffers; no round smokebox door, cab windows plain glass, no nose, no cheeks, no arms or legs. PASS. Minor: the lean poses tip the whole engine; the puff is pale on the sheet backdrop.
+- Sheets: `evidence/pip-sheet-r1.png`, `evidence/bruno-sheet-r1.png`; pipeline `waiting-on-user` at sheet_review (checkpoint 1).
+- 2026-11-09 ~14:36 checkpoint 1, user on pip (relayed by the director, word for word): "first car, orange one, please make it more flat, eyes can stick out, remove checks and it does not need to be that curved, so it is more soimpler". Read "checks" as "cheeks" (Pip has no checkered pattern; the wing bulges under the lamps read as cheeks). `cts_sheet_approve {pip, ok: false, note}`. Bruno: no comment yet, not approved.
+- pip round 2 (designer, Claude): low rounded box body 1.2 x 1.6 x 0.36 m and a low box cabin (roof about 1.0 m), wing bulges removed, tyres out to x 0.56, antenna to the rear deck. Revision 0 (build 5.11 s) put the lamps on the bonnet top, which read as eyes in the windscreen from the front: self-review revise (`evidence/pip-sheet-r2-rev0-rejected.png`). Revision 1 (build 5.13 s, 0 warnings): lamps on the front face, 5 cm proud, peeking above the bonnet line, clear of the windscreen; cream bumper panel and slot mouth under them. Lamp-eyes check PASS (front, 3/4, side; windscreen plain glass; no nose, cheeks, arms or legs). Sheet `evidence/pip-sheet-r2.png`; pipeline back at sheet_review.
+- 2026-11-09 ~14:46 checkpoint 1 round 3, user on both (relayed by the director, word for word): "make it a bit shorter and second one remove gap in the middle and make it shorter as well and make roof where the chimney is flat as well, remove ridges". Read "shorter" as length (front to back) for both; Bruno's gap = the slot between boiler and cab; ridges = the four roof vents. `cts_sheet_approve` ok: false for pip and bruno with these notes.
+- pip round 3: body 1.35 m long (was 1.6), cabin 0.7 m, wheelbase 0.84 m, face moved back with the front; rest as round 2. Lamp-eyes check PASS. `evidence/pip-sheet-r3.png`.
+- bruno round 2: about 3.5 m with buffers (was 4.4): frame 2.9 m, boiler 1.75 m and as wide as the nose (1.3 m), cab 1.15 m overlapping the boiler (no gap), one flat top from the nose to the cab with the chimney on it, roof vents removed, wheels at 1.0 m spacing; face, hoods, buffers and skirt unchanged. Lamp-eyes check PASS. `evidence/bruno-sheet-r2.png`.
+- The two redo calls started two overlapping character jobs (r3, r4) that each redid both characters; both were answered with the same specs and reviews, so the final files match (see discoveries). Pipeline back at sheet_review, 0 warnings.
+- 2026-11-09 15:34 checkpoint 1 approved, user (relayed by the director): "all good, we can adapt them at later point if series are ok". `cts_sheet_approve` pip 15:34:45 (specHash 3f3b199), bruno 15:34:47 (specHash 236fbcc).
+- set3d crossing (background-artist, Claude): road front to back (x 0, y -10..12), track left to right (y 4, x -15..15), crossing prop at (0, 4), platform (6, 6), signal, two trees, two bushes, house far back, two clouds; marks road_near (0,-5), crossing_road (0,1.2), road_far (0,10) on the road and track_left (-10,4), platform (6,4), track_right (11,4) on the track; camera `crossing`. Road and track swapped against the plan's sketch so the train never stands between the default camera and the road (CTS-35 advice); mark names follow that (road_near/road_far instead of road_left/road_right). Built 2.51 s, 0 warnings, self-review pass. Sheet `evidence/crossing-set-sheet-r1.png`.
+- script (writer, Claude): "Pip and Bruno at the Crossing", 1 scene, 40 beats, 14 lines (hr 515 characters, en 522), every line at most 12 words. Pip drives 6.2 m to the crossing and honks (sfx horn), Bruno whistles (sfx whistle) and chugs 16 m past the crossing to the platform while Pip waits; Bruno's wise word "stop, look and listen"; Pip looks left and right and drives 8.8 m on; credits title card last. Actions: start_up, drive, honk, tilt, whistle, react_surprised, puff, chug, droop, nod, bounce, wink, look_at, laugh, flash; camera cut and push. Script checks passed on submit.
+- safety (Claude): pass round 1 (warmth 5, clarity 4, age-fit 5, safety 4); note: the barrier is drawn raised (no moving barrier in the kit).
+- Voice cast task held (not submitted) until the user picks (no pipeline gate between voice_cast and voice).
+- Auditions (`cts_voice_audition`, episode ep00-pilot, `eleven_multilingual_v2` unless noted), 14 clips:
+  - pip candidates (bright, quick, young): Liam `TX3LPaxmHKxFdv7VOQHJ`, Jessica `cgSgspJ2msm6clMCkdW9`, Charlie `IKne3meq5aSn9XLyUdCD`; line l01 "Bip-bip, idemo! Danas sam ja prvi!" / "Beep-beep, let's go! Me first today!" (102 + 108 credits)
+  - bruno candidates (deep, warm, slow): Brian `nPczCjzI2devNBz1zQrb`, George `JBFqnCBsd6RMkjVDRZzb`, Bill `pqHfZKP75CvOlQylNhV4`; line l08 "Prije prijelaza stani, pogledaj i poslušaj. Uvijek." / "Before a crossing, stop, look and listen. Always." (153 + 147 credits)
+  - hr on `eleven_flash_v2_5` with `language: "hr"`: pip Liam (17), bruno Brian (26)
+  - Estimates 553 credits in `spend.json`; `flow_elevenlabs_status` after: used 510, remaining 9490, tier free, paidRisk false (the API counted 43 fewer than the estimate).
+  - Files: `~\CartoonStudio\series\pip-bruno-wheels\cast\<id>\voice\audition-<lang>-<voiceId>[-<model>].wav`; named copies in `.claude/temp/p4-auditions/`.
+  - Waiting for the user's pick per character per language and the hr model (checkpoint 2).
+- 2026-11-09 checkpoint 2, user's pick (in this session, own words): "Liam + Brian, multilingual". Bible: pip `voice.hr/en.elevenlabs = {voiceId TX3LPaxmHKxFdv7VOQHJ, name "Liam - Energetic, Social Media Creator", model eleven_multilingual_v2, settings {stability 0.5, similarity_boost 0.75, style 0, speed 1}}`; bruno `nPczCjzI2devNBz1zQrb` "Brian - Deep, Resonant and Comforting", same model and settings. Local fallbacks kept (hr OmniVoice "male, child, high pitch" seed 4101 / "male, young adult, low pitch" seed 5207, Supertonic M1/M2; en Kokoro am_puck / am_michael). Voice-cast task submitted only after the pick.
+- `cts_voice_plan`: hr elevenlabs, 13 clips about 481 credits; en elevenlabs, 14 clips about 522 credits; both fit (9800 left above the reserve). Model used for both languages: `eleven_multilingual_v2`, which `flow_elevenlabs_status` lists with `hr: true, en: true` (C5).
+- 15:45-15:50 voice: 28 clips made, all `provider: elevenlabs`, `engine: eleven_multilingual_v2`, `wordsFrom: "elevenlabs"`, `wordsCoverage: 1`, first word at 0.00 s of every clip; 0 placeholders, no fallback lines (no whisper this run); hr 36.55 s, en 33.12 s of speech. hr made 14 clips (about 515 credits; the plan said 13 because one clip seemed reusable).
+- `flow_elevenlabs_status` after the voices: used 966, remaining 9034, tier free, paidRisk false, resetAt 2026-12-10T02:42:32Z. Delta for the episode lines 456 credits against estimates of 1037 (the account's counter lags; final reading below).
+- 15:50-15:51 music: theme `music/theme.ogg` 39.9 s, ace-step-v1-instrumental, seed 31418, D major 100 bpm, 25.7 s wall. SFX `sfx-horn` and `sfx-whistle` FAILED in ComfyUI (MOSS-SoundEffect v2 node: "load() got multiple values for argument 'map_location'", jobs 1fb70435, b1cde21d); the pipeline dropped the two sfx beats from `script.json` and set `sfx: {}`, so the honk and whistle animate silently (plan decision 14: a missing SFX is a warning and silence).
+- timeline: hr 74.1 s, en 72.0 s; lint 0 errors, 1 warning: `W_VISEME_FLAT` en l12 (mouth open 52 % of its frames, under 60 %).
+- assemble: hr 1780 frames, en 1729 frames, 15 distinct actions, 12 shots each. preview: hr 74.2 s in 119.8 s, en 72.0 s in 117.5 s (h264_amf, Blender warm mean 0.062 s a frame).
+- frame review round 1 (Claude, contact sheets `evidence/hr-contact-r1.png`, `en-contact-r1.png`): on model, wheels on road and rails, train on its track, lamp-eyes rule kept, credits card shows. Revise: cu-pip too tight (one lamp cut); Pip waited too close to the rails; oak covered the wide shot; platform roof sits behind Bruno like a hat. Final render stopped (`cts_stop_now`) and fixes made as data: set camera `pip_close` (loc [1.2, 3, 1.1], target [0, 0, 0.55], lens 35) used for both Pip close-ups; mark crossing_road [0, 1.2] -> [0, 0]; oak [-7, -2] -> [-9, -1]; platform [6, 6] -> [6, 6.6]. Set rebuilt, `cts_run_pipeline {retry: true, from: "timeline"}`.
+- frame review round 2 (`evidence/hr-contact-r2.png`, `en-contact-r2.png`): pass. Left: the platform roof still lines up with Bruno's cab in the far wide shots (perspective, not a collision); the SFX are silent.
+
+- 16:09-16:21 final renders: hr 74.2 s in 376.3 s, en 72.0 s in 360.7 s (h264_amf, chunked EEVEE).
+
+- 2026-11-09 16:33 hub CLAUDE.md voice-allocation bullet replaced with the plan's open-question-2 wording and the amended key sentence; the user confirmed in this session ("Yes, write it").
+
+## Renders
+- `~\CartoonStudio\series\pip-bruno-wheels\episodes\ep00-pilot\out\hr.mp4` (74.167 s) and `en.mp4` (72.042 s): ffprobe h264 1920x1080 24/1 yuv420p + aac (both). Previews `hr.preview.mp4`, `en.preview.mp4` (960x540).
+- Loudness (ffmpeg ebur128 on the finals): hr -16.1 LUFS, en -16.2 LUFS integrated.
+- mix-check.json: hr minUnderDb 25.5, medianUnderDb 28.4, gapMusicUnderVoiceDb 18.5; en 26.9 / 28.8 / 18.2.
+- Blender: preview warm mean 0.062 s a frame; final about 5 s of wall time per second of film.
+- Lint (`cts_lint requireAudio`): pip-bruno-wheels 0 errors, 1 warning `W_VISEME_FLAT` en l12 (mouth open 52 % of the line's frames, under 60 %). Older pilots `pilot`, `pip-bruno`, `pip-bruno-3d`: 0 errors, 0 warnings.
+- C14: `evidence/c14-hashes-after.txt` equals `c14-hashes-before.txt` (12 files).
+
+## Money (end)
+- USD 0, Flow credits 0 (`budget.json` capUsd 0, flowCreditsCap 0; no Flow call). Gemini 0/10 used.
+- `flow_elevenlabs_status` end: used 1037, remaining 8963, tier free, paidRisk false, resetAt 2026-12-10T02:42:32Z.
+- `spend.json`: 42 `eleven-credits` entries summing 1590 (auditions 553, hr lines 515, en lines 522), no `usd` entry.
+- Mismatch to note: the account counter read 510 used after the auditions (resetAt then 2026-04-01) and 1037 at the end (resetAt 2026-12-10); 1037 equals the two languages' line estimates exactly, so the account's billing period appears to have been set up or reset during the run and the audition credits dropped out of the counter. The ledger (1590) therefore is not within 10 % of the API delta; both are far inside the free 10,000.
+
+## Reviews
+- 2026-11-09 ~16:35 checkpoint 3: both films opened for the user (`Start-Process`). User's verdict, own words in this session: "GO". No separate remarks on the look, acting, voices, lip-sync or music level were given; GO is recorded as the verdict on all of them.
+- Frame critic (Claude): round 1 revise, round 2 pass (see Log).
+
+## Checked / not checked
+- Checked: sheets approved before the set (sheet_review 15:34:47, set3d job after); vehicle bodies only (no limb controls; lint has no E_VEHICLE_LIMB or E_ACTION_BODY); all lines ElevenLabs with alignment word times; finals ffprobe, loudness, mix check; lint; older pilots' hashes; C2 key search 0 matches and C3 no new grep hits (`evidence/c2-c3-key-and-grep.txt`); C18 `evidence/c18-status-call-2-ready.txt`.
+- Not as planned: horn and whistle SFX silent (ComfyUI MOSS node error); `W_VISEME_FLAT` on en l12; ElevenLabs counter vs ledger mismatch (see Money (end)); the plan's mark names road_left/road_right/track_left/track_right partly replaced (road_near/road_far).
+- Not checked: the desktop app's Cast and Settings views (the hub engine ran headless); the lip-sync judged by ear and eye only by the user's GO, not frame by frame; a 2 s preview of pip-bruno-3d on this build was rendered by CTS-35's worker, not again here.

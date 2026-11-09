@@ -1,9 +1,9 @@
 ---
-status: approved
+status: in-progress
 request: REQ-0022
 repos: [creative-hub, cartoon-studio, flow-music-mcp]
 branch: HUB-31_vehicles-voices; CTS-30_vehicles-elevenlabs (cartoon-studio), FMM-17_elevenlabs-voices (flow-music-mcp)
-updated: 2026-11-08
+updated: 2026-11-09
 ---
 
 # HUB-31: ElevenLabs voices and vehicle characters (pilot 4, Pip the car and Bruno the train)

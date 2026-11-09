@@ -1,0 +1,11 @@
+## A-001 ElevenLabs key needs wider permissions before pilot 4
+- status: answered
+- asked: 2026-11-09 14:22
+- by: implement
+- why: flow_elevenlabs_status got 401 missing_permissions (user_read). Pilot step 0 needs User read (quota), Models read (hr/en support), Voices read (premade list) and Text to Speech.
+- options:
+  - The user edits the key on elevenlabs.io: Text to Speech = Access; Voices = Read; Models = Read; User = Read (rest may stay No Access)
+  - The user creates a new key with those permissions and replaces ELEVEN_CREATOR_KEY
+- recommendation: edit the existing key's permissions; nothing to restart if the key value stays the same
+- default: wait
+- answer: user (relayed by the director): "updated permissions, try it"; status then ready, tier free

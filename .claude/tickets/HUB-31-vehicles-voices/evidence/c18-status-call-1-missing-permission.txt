@@ -1,0 +1,9 @@
+2026-11-09, pilot step 0: `pwsh -File scripts\hub.ps1 call flow-music-mcp flow_elevenlabs_status '{}'` from outside Cartoon Studio
+(flow-music-mcp FMM-17_elevenlabs-voices a26d383, started with `hub.ps1 start flow-music-mcp`, which printed "ElevenLabs key in environment: set")
+
+{
+  "ready": false,
+  "source": "env:ELEVEN_CREATOR_KEY",
+  "code": "E_ELEVEN_KEY",
+  "hint": "E_ELEVEN_KEY: ElevenLabs refused the key. The key lacks a permission: allow Text to Speech and read access to Voices, Models and User in the key's settings. ElevenLabs says (401 missing_permissions unauthorized authentication_error): The API key you used is missing the permission user_read to execute this operation."
+}
