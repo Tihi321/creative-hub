@@ -197,7 +197,7 @@
       "managed": true,
       "start": { "kind": "node", "args": ["dist/index.js"] },
       "build": "yarn build",
-      "note": "One MCP for both Google sites (replaces flow-mcp, retired 2026-10-22: Flow was redesigned). Own Chrome profile (~/.flow-music-mcp/chrome-profile, CDP 9334) with a tab per site, opened on the first tool call; sign in once with yarn login. Free: Flow images, Gemini and Windows voices, assembly, captions (own whisper.cpp, installed on first use). Credits: Flow video and Flow voices (max_credits), Flow Music songs. Keys and settings: .env in the repo or ~/.flow-music-mcp/.env (see .env.example).",
+      "note": "One MCP for both Google sites (replaces flow-mcp, retired 2026-10-22: Flow was redesigned). Own Chrome profile (~/.flow-music-mcp/chrome-profile, CDP 9334) with a tab per site, opened on the first tool call; sign in once with yarn login. Free: Flow images, Gemini and Windows voices, assembly, captions (own whisper.cpp, installed on first use). Credits: Flow video and Flow voices (max_credits), Flow Music songs. Keys and settings: .env in the repo or ~/.flow-music-mcp/.env (see .env.example). ElevenLabs (FMM-17/18, HUB-31): flow_narrate engine elevenlabs with word timestamps, flow_elevenlabs_status and flow_elevenlabs_voices; free tier only (refuses past the remaining credits minus a 200 reserve and any non-free tier). The user alone sets the key in ELEVENLABS_API_KEY or ELEVEN_CREATOR_KEY (environment) or ~/.flow-music-mcp/.env; hub.ps1 start passes a user-scope key to this service only and prints only set / not set. No tool sets the key.",
       "docs": ["README.md", "CLAUDE.md"]
     }
   ]
