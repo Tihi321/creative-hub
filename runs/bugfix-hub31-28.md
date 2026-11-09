@@ -126,3 +126,72 @@ No force-push.
 - Show the 429 count and cache hits in `flow_elevenlabs_status`.
 - `overflowCheck` on every screen from the bot core; `edu_status` that shows tool-made music live; a tool to drop a stale client job.
 - Move the oak in the mini-vehicles crossing set as well.
+
+## Follow-ups after the user's answers (2026-11-09, evening)
+
+The user said: "you can go fallack to acp proxy then open router yes. We can reprublsh yes, yes refresh music steps, end processes" (relayed by the parent session, which also ended the two idle python processes). Then: bump the Node 20 actions. Still $0.
+
+### What was done
+
+- **Edu Studio started.** `hub.ps1 build edu-studio`, then `start`. The only parked job was a free client job (`client/claude-code`, `paid: false`). The start log printed the new EGS-66 line naming that job as older than 3 days.
+- **Edu games rebuilt.** `edu_build` for suncev-sustav, deutsch-roleplay-a1, deutsch-roleplay-b2 and deutsch-a1-pilot: ok, no problems.
+  - All four `build/player.js` now have md5 `cbb57a5c...` (was `2f0a8e48...`) and contain the EGS-65 Back handling.
+- **WEB-06 (creative-hub-web) republished.** `publish` ran with `--only` for the 4 works.
+  - Smoke check ok for all 4. 4 copied, 8 encoded, 105 cached; 434.8 MB of 600 MB.
+  - The diff is `player.js` and `builtAt` only.
+  - build, check, test:unit and test:e2e (55) pass.
+  - Merged to site master `99a6f80` and pushed.
+  - Its Pages deploy (run 42705139913) built fine, then hung in `deploy-pages@v4` on `syncing_files` and timed out after 10 min. The re-run hung the same way and was cancelled from the user's account. githubstatus.com said all systems operational.
+- **WEB-07 (creative-hub-web).** The Pages workflow moved to Node 24 actions:
+  - checkout v7.0.1, setup-node v7.1.0, configure-pages v6.0.0, upload-pages-artifact v5.0.0 and deploy-pages v5.0.1.
+  - Breaking changes read: setup-node v5+ caches by itself (`cache: npm` was already set); upload-pages-artifact v4+ leaves out dotfiles, so `include-hidden-files: true` keeps `.nojekyll` and the `.gitkeep` files.
+  - Merged to site master `3ce3a75` and pushed. Its run 42707994332 also deploys the WEB-06 content (result below).
+- **Other repos' CI.** cartoon-studio, flow-music-mcp, comfy-mcp, edu-game-studio and creative-hub have no GitHub workflows, so there was nothing to bump.
+- **The stuck job answered.** `deutsch-a1-pilot--summarize--all--r4` was answered with `edu_client_tasks` → `edu_get_task` → `edu_submit_task` (accepted).
+  - The summary was taken from run 4's step list: 4 units, 12 objectives, 4 articles, 38 items, the fact-checks passed, 8 VibeTTS clips, lint clean with 12 warnings, playtest passed, publish score 7.89, and media skipped in that run.
+  - The job is now done and `jobs/running/` is empty. The prompt and the answer are in `.claude/temp/bugfix-hub31-28/egs/summarize-*.json`.
+- **Music steps refreshed.**
+  - deutsch-a1-pilot flipped to `done` by itself when its summarize job finished: "15 sound(s) made through the asset tools".
+  - `edu_run_pipeline` on deutsch-roleplay-a1 (12 sounds) and deutsch-roleplay-b2 (10 sounds) flipped both `music_*` steps to `done`. Both calls enqueued no job.
+  - suncev-sustav made its music in the pipeline, so its steps were already done.
+- **EGS-68 (edu-game-studio) fallback.** A role whose list names Strata or LM Studio now gets the ACP proxy (when it is on and lists a model), then an OpenRouter model at price 0, right after those entries and before the rest of its list.
+  - The seed's `acp` row and the custom-provider hints use port 8787.
+  - Merged to master `3505ae6` and pushed.
+  - Checks: typecheck, lint, test (525), build and test:e2e (40) pass.
+  - One unit test covers it. `tests/seed-migrations.test.ts` was updated for the new port.
+- **The user's Edu config.** In `~/EduGames/config/providers.md`, `acp` changed from `enabled: false`, port 7461 to `enabled: true`, port 8787. The copy from before is in `.claude/temp/bugfix-hub31-28/egs/providers.md.before`.
+  - After an engine restart: "acp 21 found", "openrouter 14 found".
+  - A read-only check on the real config: fact-checker and playtester go `lmstudio/gemma-4-e4b-it > acp/gpt-6-luna > openrouter/liquid/lfm-3-1.7b:free > deepseek/deepseek-flash` (Strata down). The director keeps `deepseek/deepseek-flash` first, as its role list says.
+- **Other tools' fallback order.** services.json says the ACP proxy is a provider in Scriptorium, Book Translator, VN Studio, Pixel Studio and Chiptune Studio (HUB-09), but whether they try it before OpenRouter when the local servers are down was not checked in their code (see Discoveries below).
+
+### Discoveries from the follow-ups (not fixed)
+
+- No other tool falls back to the ACP proxy after its local servers. In their seed configs: Scriptorium and VN Studio role lists are `[paid, strata, lmstudio]` / `[strata, lmstudio, paid]`, Cartoon Studio `[client/claude-code, strata, lmstudio]`, Pixel Studio and Chiptune Studio `[lmstudio]`. Each has an `acp` provider row, but no role names it, so none of them tries ACP before the paid default or OpenRouter. Book Translator has no `roles.md`. The users' own data configs were not read.
+- EGS-68 picks the *first* model each provider lists: ACP gives `acp/gpt-6-luna` (Codex), and OpenRouter's free list gives `openrouter/liquid/lfm-3-1.7b:free`, a 1.7B model, weak for this work. A free OpenRouter row in the settings `fallbacks` (for example `openrouter/google/gemma-4-31b-it:free`, the doc's example) would be taken first. Not set: the user did not name a model.
+- Edu Studio roles that start with `paid` (the director and the writers) still go to DeepSeek first. EGS-68 only changes what comes after the local servers.
+- The OpenRouter provider also lists a paid model (`openrouter/google/gemini-2.5-flash`, 0.3/2.5 USD per M); EGS-68 never picks it (price 0 only).
+- The WEB-06 Pages deploys hung twice in `deploy-pages@v4` "syncing_files" while githubstatus.com was green. The cause was not found; WEB-07's deploy-pages v5.0.1 is the next try.
+
+### Status at the stop (2026-11-09, about 23:10)
+
+The user said: "maybe we should not push anymore for action today if this is issue on github side". So no more pushes that start GitHub Actions today, and no cancel or re-run of WEB-07's Pages run 42707994332 (it was still `in_progress` in `syncing_files` at the stop, left to time out).
+
+- **Pushed before the stop:**
+  - creative-hub-web WEB-06 (`99a6f80`) and WEB-07 (`3ce3a75`). Their Pages deploys are the stuck ones.
+  - edu-game-studio EGS-68 (`3505ae6`). It has no Actions workflow, so the push started nothing.
+- **Live site at the stop:** the WEB-05 bridge fix is live. The edu games' `player.js` is still the old one (no EGS-64/65 code) until a Pages deploy goes through.
+- **Waiting to be pushed tomorrow:**
+  - creative-hub, branch `master`: the commit that adds this follow-up section (local only; the hub has no Actions workflow either, held only to keep the day's pushes at zero).
+- **Waiting for GitHub, not a push:** a creative-hub-web Pages deploy of `3ce3a75`. Once GitHub syncs again, run the workflow ("Deploy site", `workflow_dispatch`) or let the next push run it. Then check that the live `play/*/player.js` contains `BrowserBack` and that the run has no Node 20 warning.
+- **CI bumps in the other repos:** nothing to do. None of them has a `.github/workflows` folder.
+
+| Follow-up | Status |
+|---|---|
+| Edu fallback: ACP proxy, then OpenRouter (EGS-68) | DONE (pushed; live chain checked read-only; no job has used it yet: UNTESTED with a real job) |
+| The user's Edu config: `acp` on at port 8787 | DONE |
+| Refresh the music steps | DONE (3 courses; nothing enqueued, $0) |
+| Answer the stuck summarize job | DONE (accepted, job done) |
+| Republish the edu games (WEB-06) | DONE locally and pushed; NOT DONE live: both Pages deploys hung at GitHub |
+| Pages workflow on Node 24 (WEB-07) | DONE and pushed; its deploy UNTESTED (stuck at the stop), so "no Node 20 warning" is not confirmed |
+| Node 20 bumps in the other repos | nothing to do (no workflows) |
+| End the idle python processes | DONE by the parent session |
