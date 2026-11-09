@@ -195,3 +195,52 @@ The user said: "maybe we should not push anymore for action today if this is iss
 | Pages workflow on Node 24 (WEB-07) | DONE and pushed; its deploy UNTESTED (stuck at the stop), so "no Node 20 warning" is not confirmed |
 | Node 20 bumps in the other repos | nothing to do (no workflows) |
 | End the idle python processes | DONE by the parent session |
+
+## Round 3: "merge all that we can, and fix, we just are not going to have deploy" (2026-11-09, night)
+
+The user's words, relayed by the parent session. Pushes are allowed again; the Pages deploy is not waited for. $0, no ElevenLabs or Flow calls.
+
+### The site
+
+- creative-hub-web master is `3ce3a75` (WEB-06 republish + WEB-07 Node 24 actions), pushed.
+- Its Pages run 42707994332 ended `cancelled`. Its log has no "Node.js 20" warning, so WEB-07 removed it for the steps that ran.
+- **The live site is still the 21:35 deploy (WEB-05):** the bridge fix is live, the edu games' `player.js` is the old one (no `BrowserBack`). The next successful Pages run makes the EGS-64/65 player fixes live; nothing else is needed.
+
+### Fixes from the independent check
+
+| Item | Repo, ticket, commit | Status |
+|---|---|---|
+| `clips.ts:301` `/s+/g` to `/\s+/g`, `:304` `/\.png$/i` | cartoon-studio CTS-49 `5bba076` | DONE; no test (the polish path needs a fake ComfyUI) |
+| A running job cannot mark a reset step done (`markDone` / `noteFailure` check `state.steps[step].job`) | CTS-50 `e323b73` | DONE (regression test); UNTESTED in a live run |
+| `seed/config/roles.md` designer line 3D first; `docs/contracts.md` bible example toon 3D | CTS-51 `b46c646` | DONE |
+| A new run without `options.renderer` makes a `blender` series | CTS-51 | DONE (old bibles without the field still read as canvas) |
+| Voice director names ElevenLabs first (hub voice allocation) | CTS-51 | DONE; the old seed hash is in `SEED_HISTORY`; after an engine restart `~/CartoonStudio/agents/voice-director-elodie-brandt.md` and `config/roles.md` equal the seed |
+| Cartoon Studio knows the new `E_ELEVEN_RATE` (a 429 stops the provider like `E_ELEVEN_API`) | CTS-52 `38be85e` | DONE (added because FMM-21 introduced the code) |
+| flow-music-mcp after-read: no sleep after the last try, one retry layer, `remaining_after` a plain number | FMM-21 `39b0f0e` | DONE (test) |
+| The TTS POST is never resent on a 429 (`E_ELEVEN_RATE`); 429 retries stay on GET | FMM-21 | DONE; retrying the documented "not charged" 429 cases NOT DONE (needs ElevenLabs' docs, not read) |
+| `hub.ps1 status` reads the sockets and processes once: 31 s to 4.9 s, a port up on the first pass cannot show down | hub `HUB-32b_status-speed` (merge `7f5c7e5`) | DONE (same states as before) |
+| `jobs.ts:18-19` doc comment | edu-game-studio EGS-69 | DONE |
+| Negative test: `--layout` fails a build with 20 px buttons | EGS-69 | DONE (passes; it fails on the expected message) |
+| CI action bumps in the other repos | - | nothing to do: none has a `.github/workflows` folder |
+
+Checks:
+- cartoon-studio: on each of CTS-49 to CTS-52, typecheck, lint, test (62, then 63), test:blender (22), test:e2e (2), build and docs:check all exit 0.
+- flow-music-mcp: typecheck, build and test (161) pass.
+- edu-game-studio EGS-69: typecheck, lint, test (525), build and test:e2e (41) pass.
+
+Masters after round 3: cartoon-studio `6b92484`, flow-music-mcp `239bc41`, edu-game-studio `3280274`, creative-hub-web `3ce3a75`, comfy-mcp `4b53fed`, creative-hub (this commit). All pushed, no force.
+
+Restarted with `hub.ps1`: flow-music-mcp (FMM-21) and cartoon-studio (CTS-49 to CTS-52, after a rebuild). Nothing was queued in either. Edu Studio still runs the EGS-68 build; EGS-69 changes no engine code.
+
+### Discoveries (round 3, not fixed)
+
+- The CTS-50 guard drops only the bookkeeping: a stale handler still writes its files before its result is dropped.
+- A caller that matched `E_ELEVEN_API` for a 429 now gets `E_ELEVEN_RATE`. Cartoon Studio is updated; other callers were not checked.
+- `request()` honours Retry-After up to 30 s per GET try, so one status read can hold the ElevenLabs queue for a while.
+- The bible schema still defaults a missing `renderer` to `canvas` (on purpose, for old files).
+
+### Extra ideas (not built)
+
+- Abort a job early when its step was reset while it ran.
+- A fake-ComfyUI helper so the keyframe polish path can be tested.
+- Read ElevenLabs' 429 docs once and retry the TTS POST only for the codes rejected before processing.
