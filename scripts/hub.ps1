@@ -127,7 +127,7 @@ function Get-Owner($s, $listener) {
         $p = Get-Process -Id $op -ErrorAction SilentlyContinue
         if ($p) { return [pscustomobject]@{ Kind = 'live'; Pid = $op; Name = $p.ProcessName; Holders = @() } }
     }
-    $all = @(Get-CimInstance Win32_Process -ErrorAction SilentlyContinue)
+    $all = if ($script:ProcCache) { $script:ProcCache } else { @(Get-CimInstance Win32_Process -ErrorAction SilentlyContinue) }
     $path = if ($s.start -and $s.start.path) { Expand $s.start.path } else { $null }
     $folder = if ($path) { Split-Path $path } elseif ($s.repo) { Expand $s.repo } else { $null }
     $shell = '^(bash|sh|cmd|pwsh|powershell|conhost)(\.exe)?$'
@@ -218,11 +218,15 @@ function Invoke-ComfyPatches([string]$mode, [bool]$quiet) {
 }
 
 function Show-Status {
-    $down = @(foreach ($s in $services) { if (-not (Get-Listener $s.port)) { $s.port } })
-    $late = if ($down.Count) { @(Get-OpenPorts $down) } else { @() }
+    # One read of the listening sockets, one parallel connect for the ports it does not list, one process list for every row:
+    # status no longer asks Windows the same thing per service (it took 30-45 s).
+    $listen = @{}
+    foreach ($c in @(Get-NetTCPConnection -State Listen -ErrorAction SilentlyContinue)) { if (-not $listen.ContainsKey([int]$c.LocalPort)) { $listen[[int]$c.LocalPort] = $c } }
+    $missing = @($services | Where-Object { -not $listen.ContainsKey([int]$_.port) } | ForEach-Object { [int]$_.port })
+    $late = if ($missing.Count) { @(Get-OpenPorts $missing 1500) } else { @() }
+    $script:ProcCache = @(Get-CimInstance Win32_Process -ErrorAction SilentlyContinue)
     $rows = foreach ($s in $services) {
-        $l = Get-Listener $s.port
-        if (-not $l -and $late -contains $s.port) { $l = [pscustomobject]@{ LocalPort = $s.port; OwningProcess = 0 } }
+        $l = if ($listen.ContainsKey([int]$s.port)) { $listen[[int]$s.port] } elseif ($late -contains $s.port) { [pscustomobject]@{ LocalPort = $s.port; OwningProcess = 0 } } else { $null }
         $o = Get-Owner $s $l
         $orphan = $o -and $o.Kind -eq 'orphan'
         $h = if ($orphan) { @($o.Holders) } else { @() }
@@ -238,6 +242,7 @@ function Show-Status {
             Model   = if ($l -and $s.http) { Get-HealthModel $s.http } else { '' }
         }
     }
+    $script:ProcCache = $null
     $rows | Format-Table -AutoSize | Out-String -Width 200 | Write-Host
     $vt = 'D:\Programs\VibeTTS\config.toml'
     if ((Test-Path $vt) -and (Select-String -Path $vt -Pattern '^\s*enabled\s*=\s*false' -Quiet)) {
