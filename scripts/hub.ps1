@@ -296,6 +296,18 @@ function Start-Service1($s) {
                 if (-not $tok) { throw 'book-translator: BOOK_TRANSLATOR_MCP_TOKEN is not set. Run: hub.ps1 setup' }
                 $env2['BOOK_TRANSLATOR_MCP_TOKEN'] = $tok
             }
+            if ($s.id -eq 'flow-music-mcp') {
+                # HUB-31: the user keeps the ElevenLabs key as a user-scope variable, which shells started before it was set
+                # do not see. Pass it from the registry to this service only; never print it, only set / not set.
+                foreach ($k in 'ELEVENLABS_API_KEY', 'ELEVEN_CREATOR_KEY') {
+                    if (-not [Environment]::GetEnvironmentVariable($k, 'Process')) {
+                        $v = [Environment]::GetEnvironmentVariable($k, 'User')
+                        if ($v) { $env2[$k] = $v }
+                    }
+                }
+                $set = if ($env2.ContainsKey('ELEVENLABS_API_KEY') -or $env2.ContainsKey('ELEVEN_CREATOR_KEY') -or $env:ELEVENLABS_API_KEY -or $env:ELEVEN_CREATOR_KEY) { 'set' } else { 'not set' }
+                Write-Host "flow-music-mcp: ElevenLabs key in environment: $set"
+            }
             $procId = Start-Detached $exe $args2 $repo (Join-Path $logs "$($s.id).out.log") (Join-Path $logs "$($s.id).err.log") $env2 $showWindow
             Write-Host "$($s.id): started (pid $procId), waiting for port $($s.port)..."
         }
