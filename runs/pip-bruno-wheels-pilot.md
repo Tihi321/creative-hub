@@ -1,7 +1,7 @@
 # pip-bruno-wheels / ep00-pilot (pilot 4: vehicles and ElevenLabs voices)
 
 Started 2026-11-09. Plan: `.claude/tickets/HUB-31-vehicles-voices/plan.md` (REQ-0022). Brief: pilot 3's pitch p1 rewritten for a car and a train (Pip the quick little car and Bruno the slow kind engine solve one small puzzle at the level crossing), ages 4-8, hr + en, about 60 s, 12-16 lines, no intro or outro, end card "Glasovi: ElevenLabs" / "Voices: ElevenLabs".
-Code: flow-music-mcp `FMM-17_elevenlabs-voices` at `a26d383`; cartoon-studio `CTS-30_vehicles-elevenlabs` at `d73c6c6`; hub `HUB-31_vehicles-voices`.
+Code: the current finals (with the horn and whistle, 2026-11-09 19:04 hr / 19:09 en) were rendered by cartoon-studio master `0dbd024` (CTS-30 to CTS-42) with flow-music-mcp master `0159583` (FMM-17 to FMM-19); the first finals, the ones the user gave GO on, came from cartoon-studio `d73c6c6` and flow-music-mcp `a26d383`. Hub branch `HUB-31_vehicles-voices` (on master).
 Not for commercial use: ElevenLabs free plan (no commercial licence, attribution on the last title card).
 
 ## Money
