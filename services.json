@@ -92,7 +92,8 @@
       "managed": true,
       "start": { "kind": "electron", "args": [".", "--mcp-only"] },
       "build": "yarn build",
-      "docs": ["docs/llm-guide.md"]
+      "docs": ["docs/llm-guide.md"],
+      "dataFiles": ["~\\ChiptuneStudio\\soundfonts\\GeneralUser-GS.sf2: the gm chip's SoundFont (GeneralUser GS v2.0.3, https://github.com/mrbumpy409/GeneralUser-GS; not in the repo or installer; soundfont_status checks it)"]
     },
     {
       "id": "vibetts",
