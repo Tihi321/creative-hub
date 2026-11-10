@@ -18,7 +18,7 @@ Plan: `.claude/tickets/HUB-33-better-music/plan.md` (REQ-0023). User answers 202
 - `~/ChiptuneStudio/soundfonts/GeneralUser-GS-LICENSE.txt`: from `documentation/LICENSE.txt` (GeneralUser GS License v2.0).
 - `spessasynth_core` 4.4.9: installed in midi-generator by T2.
 
-## T2-T6 code (2026-11-10, all uncommitted on the ticket branches)
+## T2-T6 code (2026-11-10, on the ticket branches; since merged and pushed, see "Commits")
 
 - **midi-generator (MDI-14, MDI-15):** gm chip (M1-M12, D1-D4, 64 `gm.<role>.<name>` presets, one `_gm` mix stem), spessasynth_core 4.4.9 (exact; brings stb-vorbis 0.0.7 and fflate 0.8.3; yarn.lock metadata v8 → v10), `soundfont_status`, textures / palettes / form / avoid / fingerprint, 7 new moods (`curious` is now its own mood, no longer an alias of `mysterious-calm`). Textures and palettes apply to gm only. Spike: 90 s render 7.4 s, byte-identical twice. Tests 1197 pass; typecheck, lint, gen:guide, build OK; e2e `gm.spec.ts` 2/2 plus 24 old specs pass. C1-C6 PASS (C4 headless Electron; real speakers untested). gm loudness over 62 tracks: median -18.8, range -25.2 to -14.7 LUFS, TP ≤ -2.7 → level per track in T8.
 - **edu-game-studio (EGS-70):** gm in CHIPS, gm default for non-pixel courses, varied fallback (menu wonder 100 broken-chord; units focus 90 / curious 104 / cafe 96 / storybook 84; boss adventure-light 120 march; end storybook 72 lullaby-rock; castle mysterious-calm 64 chorale; rpg-overworld adventure-light 108 pizzicato-walk; rpg-battle playful 124 ostinato), genre-specific ACE-Step words, per-line provider, avoid / fingerprint, comfy seamless loop (3 s qsin crossfade). Tests 528/529 (1 timeout that fails on baseline too); typecheck, lint, build:engine OK. C8, C10 PASS.
@@ -142,7 +142,7 @@ ACE-Step words per track: `.claude/temp/hub-33/edu-plans.mjs` (and `music.json` 
 | the-bell-and-the-bicycle | 200 | play/the-bell-and-the-bicycle-picture-book/audio/music_01.ogg | 1,433,488 |
 | the-snail-and-the-salad | 200 | play/the-snail-and-the-salad-picture-book/audio/music_01.ogg | 1,920,935 |
 
-## T10 hub wiring (2026-11-10, hub branch `HUB-33_better-music`, uncommitted)
+## T10 hub wiring (2026-11-10, hub branch `HUB-33_better-music`; since merged and pushed)
 
 - `make-edu-game` skill: the music guidance line, the per-area defaults, how to answer the composer task with a picked style, and the levelling step.
 - `make-visual-novel` skill: `gm` in the chip list, the kids / learning line, `music.json` track plans with `vno_asset_regen`, rebuild with `vno_build` + `vno_lint`; `compose_track` gm params.
@@ -154,11 +154,10 @@ $0. No Flow call, no paid model, no ElevenLabs. Models: the Edu composer tasks w
 
 ## State at hand-back (2026-11-10)
 
-- Tool repos: midi-generator `MDI-14-15_soundfont-variety`, edu-game-studio `EGS-70_music-variety`, visual-novels-orchestrator `VNO-66_music-variety` are **uncommitted** (not asked to commit). The Edu and VN v2 tracks were made by these uncommitted builds.
-- Hub: `HUB-33_better-music`, uncommitted (skills, README, services.json, ROADMAP, this log, the ticket folder).
+- All five repos are merged and pushed: midi-generator `24a0943` (and MDI-17 `60f98e4`), edu-game-studio `c9d3d0a`, visual-novels-orchestrator `de3f52d`, creative-hub `0f745e2`, creative-hub-web `c203ad9` (and WEB-09, see "Polish round 1"). MDI-16 (SNES clean) was cut by the user.
 - creative-hub-web: merged and pushed (`c203ad9`).
 - Services started for this work were stopped (chiptune-studio, edu-studio, vn-studio, comfyui, comfy-mcp; the local preview servers).
-- C17: see "C17 final listen" below.
+- C17: accepted by the user with one "Sounds good" for all 6 works (see below).
 
 ## C17 final listen (2026-11-10)
 
@@ -166,4 +165,19 @@ The user, word for word, after the live publish: "Sounds good". One answer for a
 
 ## Commits (2026-11-10)
 
-The user, word for word: "Yes, commit and merge". Merged `--no-ff` into local master, not pushed: midi-generator `6128d9f` / merge `24a0943`; edu-game-studio `61cb181` / `c9d3d0a`; visual-novels-orchestrator `10e2883` / `de3f52d`; creative-hub `89adf16` / `773ec8c`. midi-generator `.yarnrc.yml` (yarn 4.18 added `approvedGitRepositories: "**"`, `enableScripts: true`, `npmMinimalAgeGate: 0`) left uncommitted for the user.
+The user, word for word: "Yes, commit and merge", then "Yes, push all four". Merged `--no-ff` into master and pushed once each (no force): midi-generator `6128d9f` / merge `24a0943`; edu-game-studio `61cb181` / `c9d3d0a`; visual-novels-orchestrator `10e2883` / `de3f52d`; creative-hub `89adf16` / `773ec8c`. midi-generator `.yarnrc.yml` (yarn 4.18 added `approvedGitRepositories: "**"`, `enableScripts: true`, `npmMinimalAgeGate: 0`) left uncommitted for the user.
+
+## Polish round 1 (2026-11-10)
+
+Director: the independent check PASSED; the user: "Yes, clean up and close". Edu Studio started for this (`hub.ps1 start edu-studio`).
+
+**Music alt texts** set with `edu_text_set` (backups of every text file in `.claude/temp/hub-33/backup/<slug>/text/`; script `.claude/temp/hub-33/alts.mjs`). Before, every de / en music alt of the three Deutsch courses said "Chiptune-Musik" / "chiptune music". After (en; de says the same in German):
+- deutsch-a1-pilot (gm folk): menu "Cheerful folk music with accordion and guitar on the title screen"; u1 clarinet and guitar; u2 recorder and plucked strings; u3 relaxed café music with accordion and guitar; u4 flute and guitar; boss "Lively march with trumpet and tuba"; end warm, slow, clarinet; castle oboe and choir; rpg-overworld whistling and guitar; rpg-battle lively but friendly accordion.
+- deutsch-roleplay-a1 (ACE-Step bossa): menu "Light bossa nova with guitar and vibraphone"; u1 relaxed bossa nova, guitar and flute; u2 gentle samba jazz, guitar and electric piano; u3 cool jazz, vibraphone and guitar; u4 sunny bossa nova, guitar and muted trumpet; boss lively but friendly Latin jazz; end warm, slow bossa nova.
+- deutsch-roleplay-b2 (ACE-Step lo-fi): menu "Calm lo-fi soul with Rhodes piano"; u1 steady lo-fi, Rhodes; u2 jazzy lo-fi, guitar and a soft beat; boss driving but friendly neo-soul groove; end warm lo-fi soul, piano and strings.
+- suncev-sustav (hr source, en; no chiptune wording, two alts no longer matched): menu "Nježna glazba s klavirom ..." → "Nježna svemirska glazba s čelestom i harfom na početnom zaslonu" (en "Gentle space music with celesta and harp on the title screen"); boss "Napeta ali nježna glazba ..." → "Hrabra glazba s rogom i gudačima tijekom završne runde" (en "Bold music with horn and strings during the final round"). The other seven still fit.
+- No "chiptune" left in any course text or built `game-data.json` of the four games.
+
+**Builds.** `edu_build` ok ×4 (0 problems); `edu_lint` 0 errors ×4 (warnings unchanged: deutsch-a1-pilot 2 ENC_ANSWER_NOT_IN_ARTICLE, deutsch-roleplay-b2 1 READING_SENTENCE_LENGTH).
+
+**Republish (creative-hub-web, branch `WEB-09_music-alts`).** `publish --only` the 4 games: 117 files (4 copied, 4 encoded, 109 cached, 0 deleted), smoke 4/4 ok, 471.3 MB of 600; `build-site` ok; `check-site` PASSED (471.7 MB). Commit `ceef1af`, merge `f754a11` on master.
