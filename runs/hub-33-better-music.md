@@ -163,3 +163,7 @@ $0. No Flow call, no paid model, no ElevenLabs. Models: the Edu composer tasks w
 ## C17 final listen (2026-11-10)
 
 The user, word for word, after the live publish: "Sounds good". One answer for all 6 works (not given per work).
+
+## Commits (2026-11-10)
+
+The user, word for word: "Yes, commit and merge". Merged `--no-ff` into local master, not pushed: midi-generator `6128d9f` / merge `24a0943`; edu-game-studio `61cb181` / `c9d3d0a`; visual-novels-orchestrator `10e2883` / `de3f52d`; creative-hub `89adf16` / `773ec8c`. midi-generator `.yarnrc.yml` (yarn 4.18 added `approvedGitRepositories: "**"`, `enableScripts: true`, `npmMinimalAgeGate: 0`) left uncommitted for the user.
