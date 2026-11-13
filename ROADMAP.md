@@ -94,7 +94,7 @@ The user asked (2026-10-22) whether Scriptorium and Book Translator could use th
   - Both routes break clause 6 when a book factory is the client. The proxy is only less detectable.
   - If used at all, use an account the user can afford to lose, not the one that holds the Flow Pro plan.
   - Also check whether the DeepSeek Harness setup is itself at risk: it uses the same plugin with the same Google account.
-- **Models (2026-11-13):** the proxy lists `antigravity/gemini-3.8-flash`, `gemini-4-argon` and `gemini-4-hydrogen`, each with `max_prompt_chars: 180000`. Hydrogen is in the five apps' live `providers.md` with Argon's settings for that app. It is meant for fast, high-volume roles (summaries, reviews, JSON steps, Pixel and Chiptune agents); no role uses it yet.
+- **Models (2026-11-13):** the proxy lists `antigravity/gemini-3.8-flash`, `gemini-4-argon` and `gemini-4-hydrogen`, each with `max_prompt_chars: 180000`. Hydrogen is in the five apps' live `providers.md` with Argon's settings for that app. It is meant for fast, high-volume roles (summaries, reviews, JSON steps, Pixel and Chiptune agents); Scriptorium's archivist uses it first (2026-11-13; replay of a real memory update: valid JSON, the same threads closed as DeepSeek, about 50 s against 8 s).
 - **The allowed way to get Gemini:** a Gemini API key (AI Studio, has a free tier) or OpenRouter, both already provider kinds in the apps.
 
 ## Later (hub.ps1)
