@@ -49,3 +49,9 @@ Started 2026-11-14. Book only (the user said no visual novel).
 - 34 chunks were translated by 4 parallel agents; all were accepted. A consistency pass followed: "deset do pet" (one range had "pet do pet"), Halvorsen is "trajektaš", the crow is "kukurikati" (the chapter title keeps "Prije nego pijetao zapjeva"), and chunks 1-17 were converted from „…” dialogue to the en-dash dialogue that 18-34 used.
 - Export: `C:\Users\Infplane\Scriptorium\books\the-rooster\out\Pijetao.hr.epub` (cover: text title page). Spot check: 23,934 words, no English left, key lines present, no „ left.
 - Not done: proofreading by a second reader; the user has not read it. Book Translator stopped again (it was down before).
+
+## Tool fixes and byline (2026-11-14)
+
+- Merged and pushed: HUB-34 (hub status/start check the http URL), BTT-30 (typography rule, dialogue-style check, previous-passage note), SCP-60 (byline) plus SCP-60_byline-fix (the whitespace regex dropped every "s").
+- Byline: pen name "Mara Kestrel", set as the default in `~/Scriptorium/config/settings.md` (`byline:`) and on this book with `set_book_byline`. Cover PNG, EPUB dc:creator and title page now show it; the credits still name the AI writer (Culo). Croatian EPUB re-exported with the same author; Book Translator's new check says its dialogue style is consistent (dash).
+- Cost note: the publish step ran on `deepseek/deepseek-flash` (the publisher role was not set to client), $0.0104. Everything else was $0.
