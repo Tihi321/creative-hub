@@ -62,6 +62,7 @@ pwsh -File scripts\hub.ps1 start scriptorium -Force   # resumes the book factory
 pwsh -File scripts\hub.ps1 start scriptorium -Force -Window   # with its window (Electron apps), MCP still on
 pwsh -File scripts\hub.ps1 stop                # stops the engines the hub started (not your apps)
 # a port whose service exited but a leftover process (e.g. a browser it opened) still holds shows as `orphan`; `stop <id> -Force` closes that holder
+# a port that listens while the service's http URL does not answer shows as `no-http` (e.g. LM Studio's app with its API server off); `start <id>` fixes LM Studio (`startWhenSilent`)
 pwsh -File scripts\hub.ps1 build vn-studio     # rebuild a repo after pulling or editing it
 pwsh -File scripts\hub.ps1 logs vn-studio
 pwsh -File scripts\hub.ps1 check               # real MCP handshake + tool count per server

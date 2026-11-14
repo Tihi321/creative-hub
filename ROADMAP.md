@@ -99,7 +99,7 @@ The user asked (2026-10-22) whether Scriptorium and Book Translator could use th
 
 ## Later (hub.ps1)
 
-- `hub.ps1 status` says lmstudio is `up` from the process alone. On 2026-11-14 (*The Rooster*) LM Studio's API server was off, so Scriptorium's embeddings were down and the book stalled after chapter 1 with no client task waiting. Probe `http://127.0.0.1:1234/v1/models` and report `up (no server)` when only the process runs.
+- Done in HUB-34 (branch `HUB-34_http-health`): `hub.ps1 status` said lmstudio is `up` from the process alone. On 2026-11-14 (*The Rooster*) LM Studio's API server was off, so Scriptorium's embeddings were down and the book stalled after chapter 1 with no client task waiting. Probe `http://127.0.0.1:1234/v1/models` and report `up (no server)` when only the process runs.
 - `hub.ps1 status` sometimes reports a running service as down. Before saying down, retry and confirm with an HTTP probe of the service's URL.
 - A service started from a sandboxed shell dies when the call ends. Document it, or handle it in `hub.ps1 start` with a detached start that outlives the call.
 

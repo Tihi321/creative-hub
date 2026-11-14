@@ -177,13 +177,21 @@ function Get-BtToken {
     $t
 }
 
-# The model a service reports in its health answer (Strata: /health has `model` and `loaded`); empty when it has none.
-function Get-HealthModel([string]$url) {
+# One request to a service's health URL: Ok when it answers with any HTTP response, and the model it reports (Strata: /health has
+# `model` and `loaded`; empty when it has none). A port can listen while the URL does not answer: LM Studio's app holds 1234 with
+# its API server off (HUB-34), so status shows that as `no-http` instead of `up`.
+function Get-Health([string]$url) {
     try {
-        $h = Invoke-RestMethod -Uri $url -TimeoutSec 3
-        if ($h.model) { if ($h.PSObject.Properties.Name -contains 'loaded' -and -not $h.loaded) { "$($h.model) (loading)" } else { [string]$h.model } }
+        $r = Invoke-WebRequest -Uri $url -TimeoutSec 3 -UseBasicParsing -SkipHttpErrorCheck
+        $m = ''
+        try {
+            $h = $r.Content | ConvertFrom-Json -ErrorAction Stop
+            if ($h.model) { $m = if ($h.PSObject.Properties.Name -contains 'loaded' -and -not $h.loaded) { "$($h.model) (loading)" } else { [string]$h.model } }
+        }
+        catch { }
+        [pscustomobject]@{ Ok = $true; Model = $m }
     }
-    catch { '' }
+    catch { [pscustomobject]@{ Ok = $false; Model = '' } }
 }
 
 # Ports among $ports that accept a connection within $ms, tried all at once. Show-Status asks again for the ports it found down,
@@ -225,6 +233,7 @@ function Show-Status {
     $missing = @($services | Where-Object { -not $listen.ContainsKey([int]$_.port) } | ForEach-Object { [int]$_.port })
     $late = if ($missing.Count) { @(Get-OpenPorts $missing 1500) } else { @() }
     $script:ProcCache = @(Get-CimInstance Win32_Process -ErrorAction SilentlyContinue)
+    $silent = @()
     $rows = foreach ($s in $services) {
         $l = if ($listen.ContainsKey([int]$s.port)) { $listen[[int]$s.port] } elseif ($late -contains $s.port) { [pscustomobject]@{ LocalPort = $s.port; OwningProcess = 0 } } else { $null }
         $o = Get-Owner $s $l
@@ -232,18 +241,23 @@ function Show-Status {
         $h = if ($orphan) { @($o.Holders) } else { @() }
         $proc = if ($orphan) { if ($h.Count -ge 1) { ($h.Name | Select-Object -Unique) -join ',' } else { 'unknown' } }
                 elseif ($o) { $o.Name } else { '' }
+        $hl = if ($l -and -not $orphan -and $s.http) { Get-Health $s.http } else { $null }
+        if ($hl -and -not $hl.Ok) { $silent += $s }
         [pscustomobject]@{
             Service = $s.id
-            State   = if ($orphan) { 'orphan' } elseif ($l) { 'up' } else { 'down' }
+            State   = if ($orphan) { 'orphan' } elseif ($hl -and -not $hl.Ok) { 'no-http' } elseif ($l) { 'up' } else { 'down' }
             Port    = $s.port
             Pid     = if ($orphan) { if ($h.Count -eq 1) { $h[0].Pid } else { '' } } elseif ($o -and $o.Pid) { $o.Pid } else { '' }
             Process = $proc
             Url     = if ($s.mcp) { $s.mcp } else { $s.http }
-            Model   = if ($l -and $s.http) { Get-HealthModel $s.http } else { '' }
+            Model   = if ($hl) { $hl.Model } else { '' }
         }
     }
     $script:ProcCache = $null
     $rows | Format-Table -AutoSize | Out-String -Width 200 | Write-Host
+    foreach ($s in $silent) {
+        Write-Host "Note: $($s.id) holds port $($s.port) but $($s.http) does not answer. Run: hub.ps1 start $($s.id)" -ForegroundColor Yellow
+    }
     $vt = 'D:\Programs\VibeTTS\config.toml'
     if ((Test-Path $vt) -and (Select-String -Path $vt -Pattern '^\s*enabled\s*=\s*false' -Quiet)) {
         Write-Host "Note: VibeTTS MCP is disabled in $vt. Run: hub.ps1 setup -EnableVibeTts" -ForegroundColor Yellow
@@ -289,9 +303,16 @@ function Start-Service1($s) {
             $h = @($orphan.Holders)
             $fix = if ($h.Count -eq 1) { "Close $($h[0].Name) if that is right, or run: hub.ps1 stop $($s.id) -Force" } else { "Close it, or run: hub.ps1 stop $($s.id) -Force" }
             Write-Host "$(Get-OrphanText $s $orphan) $fix" -ForegroundColor Yellow
+            return
         }
-        else { Write-Host "$($s.id): already up on $($s.port)" }
-        return
+        if (-not $s.http -or (Test-Health $s)) { Write-Host "$($s.id): already up on $($s.port)"; return }
+        # The port listens but the health URL does not answer (HUB-34). A service whose start is safe to repeat (LM Studio's
+        # `lms server start`) is started again; any other is only reported.
+        if (-not $s.startWhenSilent) {
+            Write-Host "$($s.id): port $($s.port) is held but $($s.http) does not answer. Restart it: hub.ps1 stop $($s.id); hub.ps1 start $($s.id)" -ForegroundColor Yellow
+            return
+        }
+        Write-Host "$($s.id): port $($s.port) is held but $($s.http) does not answer; running its start again"
     }
     if ($s.warning -and -not $Force) {
         Write-Host "$($s.id): skipped. $($s.warning) Add -Force to start it." -ForegroundColor Yellow
@@ -368,10 +389,11 @@ function Start-Service1($s) {
     $wait = [Math]::Max($WaitSeconds, [int]$s.startTimeout)
     $deadline = (Get-Date).AddSeconds($wait)
     while ((Get-Date) -lt $deadline) {
-        if (Get-Listener $s.port) { Write-Host "$($s.id): up at $(if ($s.mcp) { $s.mcp } else { $s.http })" -ForegroundColor Green; return }
+        if ((Get-Listener $s.port) -and (-not $s.http -or (Test-Health $s))) { Write-Host "$($s.id): up at $(if ($s.mcp) { $s.mcp } else { $s.http })" -ForegroundColor Green; return }
         Start-Sleep -Milliseconds 500
     }
-    Write-Host "$($s.id): not listening after $wait s. Check: hub.ps1 logs $($s.id)" -ForegroundColor Red
+    $why = if ((Get-Listener $s.port) -and $s.http) { "port $($s.port) listens but $($s.http) did not answer within $wait s" } else { "not listening after $wait s" }
+    Write-Host "$($s.id): $why. Check: hub.ps1 logs $($s.id)" -ForegroundColor Red
 }
 
 function Stop-Service1($s) {
