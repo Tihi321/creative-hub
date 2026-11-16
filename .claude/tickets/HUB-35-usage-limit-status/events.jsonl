@@ -1,0 +1,4 @@
+{"ts":"2026-11-15T20:00:00Z","actor":"director-scribe","type":"plan.created","request":"REQ-0025","ticket":"HUB-35-usage-limit-status","detail":"plan written for bug 7 (hub side)"}
+{"ts":"2026-11-15T20:08:00Z","actor":"director-scribe","type":"plan.approved","request":"REQ-0025","ticket":"HUB-35-usage-limit-status","detail":"user approved the plan; implement after REQ-0024"}
+{"ts":"2026-11-16T08:40:00Z","actor":"director-scribe","type":"checker.verdict","request":"REQ-0025","ticket":"HUB-35-usage-limit-status","detail":"PASS on the first check","data":{"verdict":"PASS"}}
+{"ts":"2026-11-16T08:40:00Z","actor":"director-scribe","type":"ticket.done","request":"REQ-0025","ticket":"HUB-35-usage-limit-status","detail":"ticket done after PASS verdict"}
