@@ -179,19 +179,34 @@ function Get-BtToken {
 
 # One request to a service's health URL: Ok when it answers with any HTTP response, and the model it reports (Strata: /health has
 # `model` and `loaded`; empty when it has none). A port can listen while the URL does not answer: LM Studio's app holds 1234 with
-# its API server off (HUB-34), so status shows that as `no-http` instead of `up`.
+# its API server off (HUB-34), so status shows that as `no-http` instead of `up`. Notes: one string per `providers.<id>.exhausted_until`
+# in the body that is still in the future (the ACP proxy's usage limit, HUB-35); empty when the body has none. Never throws.
 function Get-Health([string]$url) {
     try {
         $r = Invoke-WebRequest -Uri $url -TimeoutSec 3 -UseBasicParsing -SkipHttpErrorCheck
         $m = ''
+        $notes = @()
         try {
             $h = $r.Content | ConvertFrom-Json -ErrorAction Stop
             if ($h.model) { $m = if ($h.PSObject.Properties.Name -contains 'loaded' -and -not $h.loaded) { "$($h.model) (loading)" } else { [string]$h.model } }
+            if ($h.providers) {
+                foreach ($p in $h.providers.PSObject.Properties) {
+                    $v = $p.Value.exhausted_until
+                    if (-not $v) { continue }
+                    try {
+                        $t = if ($v -is [datetime]) { $v.ToLocalTime() } else { [DateTimeOffset]::Parse([string]$v).LocalDateTime }
+                        if ($t -le (Get-Date)) { continue }
+                        $when = $t.ToString('yyyy-MM-dd HH:mm')
+                    }
+                    catch { $when = [string]$v }
+                    $notes += "$($p.Name) hit its usage limit until $when; its models answer 429 usage_limit_exceeded."
+                }
+            }
         }
         catch { }
-        [pscustomobject]@{ Ok = $true; Model = $m }
+        [pscustomobject]@{ Ok = $true; Model = $m; Notes = @($notes) }
     }
-    catch { [pscustomobject]@{ Ok = $false; Model = '' } }
+    catch { [pscustomobject]@{ Ok = $false; Model = ''; Notes = @() } }
 }
 
 # Ports among $ports that accept a connection within $ms, tried all at once. Show-Status asks again for the ports it found down,
@@ -234,6 +249,7 @@ function Show-Status {
     $late = if ($missing.Count) { @(Get-OpenPorts $missing 1500) } else { @() }
     $script:ProcCache = @(Get-CimInstance Win32_Process -ErrorAction SilentlyContinue)
     $silent = @()
+    $health = @()
     $rows = foreach ($s in $services) {
         $l = if ($listen.ContainsKey([int]$s.port)) { $listen[[int]$s.port] } elseif ($late -contains $s.port) { [pscustomobject]@{ LocalPort = $s.port; OwningProcess = 0 } } else { $null }
         $o = Get-Owner $s $l
@@ -243,6 +259,7 @@ function Show-Status {
                 elseif ($o) { $o.Name } else { '' }
         $hl = if ($l -and -not $orphan -and $s.http) { Get-Health $s.http } else { $null }
         if ($hl -and -not $hl.Ok) { $silent += $s }
+        if ($hl -and $hl.Notes.Count) { $health += [pscustomobject]@{ Id = $s.id; Notes = $hl.Notes } }
         [pscustomobject]@{
             Service = $s.id
             State   = if ($orphan) { 'orphan' } elseif ($hl -and -not $hl.Ok) { 'no-http' } elseif ($l) { 'up' } else { 'down' }
@@ -258,6 +275,7 @@ function Show-Status {
     foreach ($s in $silent) {
         Write-Host "Note: $($s.id) holds port $($s.port) but $($s.http) does not answer. Run: hub.ps1 start $($s.id)" -ForegroundColor Yellow
     }
+    foreach ($x in $health) { foreach ($n in $x.Notes) { Write-Host "Note: $($x.Id): $n" -ForegroundColor Yellow } }
     $vt = 'D:\Programs\VibeTTS\config.toml'
     if ((Test-Path $vt) -and (Select-String -Path $vt -Pattern '^\s*enabled\s*=\s*false' -Quiet)) {
         Write-Host "Note: VibeTTS MCP is disabled in $vt. Run: hub.ps1 setup -EnableVibeTts" -ForegroundColor Yellow
