@@ -1,5 +1,5 @@
 ---
-status: approved
+status: done
 request: REQ-0026
 repos: [creative-hub]
 branch: HUB-36_allowpartial-skill-note
