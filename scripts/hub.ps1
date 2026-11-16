@@ -187,7 +187,8 @@ function Get-Health([string]$url) {
         $m = ''
         $notes = @()
         try {
-            $h = $r.Content | ConvertFrom-Json -ErrorAction Stop
+            $body = if ($r.Content -is [byte[]]) { [Text.Encoding]::UTF8.GetString($r.Content) } else { $r.Content }
+            $h = $body | ConvertFrom-Json -ErrorAction Stop
             if ($h.model) { $m = if ($h.PSObject.Properties.Name -contains 'loaded' -and -not $h.loaded) { "$($h.model) (loading)" } else { [string]$h.model } }
             if ($h.providers) {
                 foreach ($p in $h.providers.PSObject.Properties) {
