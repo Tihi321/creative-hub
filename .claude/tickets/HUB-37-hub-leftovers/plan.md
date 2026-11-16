@@ -1,5 +1,5 @@
 ---
-status: in-progress
+status: done
 request: REQ-0028
 repos: [creative-hub]
 branch: HUB-37_hub-leftovers
