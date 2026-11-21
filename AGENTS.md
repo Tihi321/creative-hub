@@ -1,6 +1,6 @@
 # Creative hub
 
-This folder connects the user's creative tools (Scriptorium, Book Translator, VN Studio, Pixel Studio, Chiptune Studio, VibeTTS, ComfyUI, LM Studio, Strata). `README.md` is the map; `services.json` is the registry.
+This folder connects the user's creative tools (Scriptorium, Book Translator, VN Studio, Pixel Studio, Chiptune Studio, VibeTTS, ComfyUI, the ACP proxy (local Gufo, Strata and Llama.cpp models)). `README.md` is the map; `services.json` is the registry.
 
 - For any request to make a book, translation, art, music, voices or a visual novel from an idea, use the `make-visual-novel` skill.
 - For a short film, cartoon or video from an idea or a book, use the `make-video` skill.

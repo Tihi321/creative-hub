@@ -4,7 +4,7 @@
 # `start` into tail/cat returns) and append to ..\logs\<id>.out.log / .err.log.
 #
 #   pwsh -File scripts\hub.ps1                      status of every service
-#   pwsh -File scripts\hub.ps1 start                start the default set (not scriptorium, not strata)
+#   pwsh -File scripts\hub.ps1 start                start the default set (not scriptorium, not strata, not lmstudio)
 #   pwsh -File scripts\hub.ps1 start vn-studio pixel-studio
 #   pwsh -File scripts\hub.ps1 start strata deepseek   a service with variants takes the variant after its id (default: defaultVariant)
 #   pwsh -File scripts\hub.ps1 variants [service]  list the variants (bat files) of services that have them, and the default
@@ -337,6 +337,13 @@ function Start-Service1($s) {
         Write-Host "$($s.id): skipped. $($s.warning) Add -Force to start it." -ForegroundColor Yellow
         return
     }
+    foreach ($rid in @($s.requires)) {
+        if (-not $rid) { continue }
+        $rs = $services | Where-Object id -EQ $rid | Select-Object -First 1
+        if (-not $rs) { Write-Host "$($s.id): requires unknown service '$rid', skipped" -ForegroundColor Yellow; continue }
+        Write-Host "$($s.id): requires $rid"
+        Start-Service1 $rs
+    }
     $st = $s.start
     if ($s.variants) {
         $v = if ($script:Variants.ContainsKey($s.id)) { $script:Variants[$s.id] } else { $s.defaultVariant }
@@ -352,8 +359,9 @@ function Start-Service1($s) {
         if ($st.kind -eq 'electron') {
             # Windowed start: drop the headless flags, keep the MCP server on.
             $showWindow = $true
-            $args2 = @($args2 | Where-Object { $_ -notin '--headless', '--mcp-only' })
-            if ($args2 -notcontains '--mcp') { $args2 += '--mcp' }
+            $wasHeadless = ($args2 -contains '--headless') -or ($args2 -contains '--mcp-only')
+            $args2 = @($args2 | Where-Object { $_ -notin '--headless', '--mcp-only', '--hidden' })
+            if ($wasHeadless -and $args2 -notcontains '--mcp') { $args2 += '--mcp' }
         }
         else { Write-Host "$($s.id): -Window has no effect (only Electron apps get a window)" }
     }
@@ -364,7 +372,8 @@ function Start-Service1($s) {
         }
         'electron' {
             $exe = Join-Path $repo 'node_modules\electron\dist\electron.exe'
-            if (-not (Test-Path (Join-Path $repo 'out'))) { throw "$($s.id): out\ is missing. Run: hub.ps1 build $($s.id)" }
+            $built = if ($st.built) { $st.built } else { 'out' }
+            if (-not (Test-Path (Join-Path $repo $built))) { throw "$($s.id): $built\ is missing. Run: hub.ps1 build $($s.id)" }
         }
         'exe' { $exe = Expand $st.path }
         'console' {
