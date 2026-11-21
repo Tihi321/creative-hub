@@ -11,7 +11,7 @@
       "default": false,
       "managed": true,
       "start": { "kind": "electron", "args": [".", "--headless"] },
-      "requires": ["acp-proxy", "lmstudio"],
+      "requires": ["acp-proxy"],
       "build": "yarn build",
       "warning": "Starting the engine resumes the book factory: it starts writing every open idea in ~/Scriptorium/ideas, user ideas first, and may use paid models (budget in config/budget.md).",
       "docs": ["docs/mcp.md", "docs/visual-novel.md", "docs/design.md"]
@@ -146,7 +146,7 @@
     },
     {
       "id": "lmstudio",
-      "name": "LM Studio (Scriptorium's nomic embeddings until AAP-43; vision critics' local models)",
+      "name": "LM Studio (not used by the hub any more; not installed)",
       "repo": null,
       "data": "~\\.lmstudio",
       "port": 1234,
@@ -155,7 +155,7 @@
       "default": false,
       "managed": false,
       "start": { "kind": "exe", "path": "~\\.lmstudio\\bin\\lms.exe", "args": ["server", "start"] },
-      "note": "Not a chat provider any more (HUB-38): apps reach local LLMs through acp-proxy. Still used by Scriptorium's embeddings (`lmstudio/text-embedding-nomic-embed-text-v1.5`) until AAP-43 is live, and by the vision roles that keep it (VN and Edu art-critic, Cartoon frame-critic, Pixel's vision rows). `hub.ps1 start scriptorium` starts it (requires). Do not load a chat model in it while the proxy runs one."
+      "note": "Not used any more (HUB-38): every app reaches local LLMs, and Scriptorium its nomic embeddings (`acp/llama/nomic-embed-text-v1.5`, AAP-43), through acp-proxy. LM Studio is not installed on this PC. The vision roles that still name `lmstudio` (VN and Edu art-critic, Cartoon frame-critic, Pixel's vision rows) have no local fallback until a vision model through the proxy is checked. The entry stays so hub.ps1 status shows the port."
     },
     {
       "id": "strata",
