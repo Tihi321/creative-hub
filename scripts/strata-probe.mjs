@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 // Probes the running Strata server with the requests the hub's tools send (HUB-26). No dependencies.
+// Strata now runs under the ACP proxy (HUB-38), which starts it on port 8080; this probe talks to 8080 directly, for diagnosis.
 //   node scripts/strata-probe.mjs [baseUrl]      default http://127.0.0.1:8080
 // Prints PASS / FAIL / INFO per request and exits 1 when any required check fails. Save the output by hand to runs/.
 

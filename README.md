@@ -22,7 +22,7 @@ VN Studio: analyse ► art ► music ► generate ► voice ► stage ► build 
                │         └── Chiptune Studio or ComfyUI music (Chiptune Studio also makes SFX and ambience)
                │     art, voices and music can also come from Google Flow (flow-music-mcp)
                │     a story can stop for a logic puzzle (puzzle beats, code-made and proved)
-               └── LLMs: LM Studio, Strata, paid APIs (per repo config/roles.md), or Claude Code itself (`client` provider, see the skill)
+               └── LLMs: the ACP proxy (`acp`: local Gufo, Strata and Llama.cpp models, and the Codex, Antigravity and Claude subscriptions), paid APIs (per repo config/roles.md), or Claude Code itself (`client` provider, see the skill)
 ```
 
 The VN pack (HUB-16) is the translation seam: `vn/pack.json` is the fixed template (IDs, looks, scene and cue descriptions, puzzle logic), `vn/text/<lang>.json` is the only translatable text. Book Translator translates that catalog only; VN Studio imports the pack by ID and reuses every image, music and SFX from the original. Menus, Skip, settings and the language switcher are VN Studio's own `ui-strings.ts` (English source, Croatian table), never part of the book. A children's picture book (HUB-17) uses the same pack: Scriptorium writes format `kids-picture-book` (one page per scene, no dialogue or sound cues) and VN Studio renders each scene as one illustration with the text below it.
@@ -41,9 +41,9 @@ The VN pack (HUB-16) is the translation seam: `vn/pack.json` is the fixed templa
 | `vibetts` | Text to speech (Kokoro English, Supertonic 31 languages) | `C:\projects\Personal\vibe-tts-flow` | 7723 `/mcp` | `D:\Programs\VibeTTS` (installed app, autostarts) | tray app; or `python -m vibetts --mcp-only` |
 | `comfyui` | Image, music and TTS models (plain HTTP API; `comfy-mcp` and VN Studio drive it) | Comfy Desktop | 8188 HTTP | `%LOCALAPPDATA%\Comfy-Desktop\ComfyUI-Installs\Infplane\ComfyUI` | its venv `python -s ComfyUI\main.py --port 8188 ...` (see `services.json`; the Desktop launcher needs a click) |
 | `comfy-mcp` | MCP for ComfyUI: images (Z-Image, Qwen-Image 2.1, Krea 2), Qwen edits, BiRefNet cutouts, music (ACE-Step, YuE2, MiniMax), speech (Chatterbox), saved workflows | `C:\projects\Personal\comfy-mcp` | 7460 `/mcp` | `.\output\comfy` (default; every tool takes an absolute `out`) | `node out/index.js --out <dir>` |
-| `lmstudio` | Local LLMs + `nomic-embed-text-v1.5` (Scriptorium RAG) | LM Studio | 1234 `/v1` | `~\.lmstudio` | `lms server start` |
-| `strata` | local LLM server (Qwen or DeepSeek, one at a time); start with `hub.ps1 start strata [variant]` (list them: `hub.ps1 variants strata`); first model choice of Scriptorium and Book Translator | `D:\Strata` | 8080 `/v1` | `D:\Strata-data` | `D:\Strata\run-unsloth-ud-iq4_xs-parallel.bat` |
-| `acp-proxy` | OpenAI-compatible API over the Codex, Antigravity and Claude agents (subscription logins); an `openai-compat` provider `acp` for all five apps (Scriptorium, Book Translator, VN Studio, Pixel Studio, Chiptune Studio); per-provider cap (AAP-25): codex 4, antigravity 3 | `C:\projects\Personal\api-acp-proxy` | 8787 `/v1` | `%APPDATA%\api-acp-proxy` | `node dist/index.js` with `PROXY_PORT=8787`, `PROXY_MAX_CONCURRENT=4`, `PROXY_CODEX_MAX_CONCURRENT=4`, `PROXY_ANTIGRAVITY_MAX_CONCURRENT=3` |
+| `lmstudio` | Scriptorium's nomic embeddings until AAP-43; the vision critics' local models | LM Studio | 1234 `/v1` | `~\.lmstudio` | `lms server start` |
+| `strata` | local LLM server, started by the ACP proxy on request; by hand only to diagnose (`hub.ps1 start strata [variant]`, list them: `hub.ps1 variants strata`) | `D:\Strata` | 8080 `/v1` | `D:\Strata-data` | `D:\Strata\terminal\run-unsloth-ud-iq4_xs-parallel.bat` |
+| `acp-proxy` | the only LLM route of all seven apps, local models included (HUB-38); one local model at a time; also the Codex, Antigravity and Claude agents (subscription logins); an `openai-compat` provider `acp`; per-provider cap (AAP-25): codex 4, antigravity 3 | `C:\projects\Personal\api-acp-proxy` | 8787 `/v1` | `%APPDATA%\api-acp-proxy` | `electron . --hidden` from the repo (desktop app; settings in its settings.json) |
 | `flow-music-mcp` | Google Flow and Flow Music in its own Chrome: images, video, characters, voices, songs (MP3/WAV/M4A), plus local narration, assembly and captions; ElevenLabs text to speech, free tier only, with word timestamps (`flow_narrate` engine `elevenlabs`, `flow_elevenlabs_status`, `flow_elevenlabs_voices`; the user alone puts the key in `ELEVENLABS_API_KEY` or `ELEVEN_CREATOR_KEY` or `~/.flow-music-mcp/.env`) | `C:\projects\Personal\flow-music-mcp` | 7462 `/mcp` (Chrome CDP 9334) | `~\.flow-music-mcp` | `node dist/index.js`; sign in once with `yarn login` |
 
 All Electron/Node repos use Node 24 through `fnm` and yarn 4. MCP servers listen on 127.0.0.1 only. Each data folder can be used by one engine at a time (`engine.lock`): if the desktop app is open, its MCP server is the one on that port, and a headless start of the same tool fails.
@@ -56,7 +56,7 @@ Docs inside the repos: Scriptorium `docs/mcp.md` and `docs/visual-novel.md` (the
 pwsh -File scripts\hub.ps1                     # status of everything
 pwsh -File scripts\hub.ps1 setup               # once: Book Translator MCP token (user env var)
 pwsh -File scripts\hub.ps1 setup -EnableVibeTts  # once: turn on the VibeTTS MCP server (restarts the tray app)
-pwsh -File scripts\hub.ps1 start               # default set: vn-studio, pixel-studio, chiptune-studio, book-translator, vibetts, comfyui, comfy-mcp, lmstudio
+pwsh -File scripts\hub.ps1 start               # default set: vn-studio, pixel-studio, chiptune-studio, book-translator, edu-studio, vibetts, comfyui, comfy-mcp, acp-proxy
 pwsh -File scripts\hub.ps1 variants [service]   # list start variants (strata: Qwen, DeepSeek, ...) and the default
 pwsh -File scripts\hub.ps1 start scriptorium -Force   # resumes the book factory: it writes every open idea
 pwsh -File scripts\hub.ps1 start scriptorium -Force -Window   # with its window (Electron apps), MCP still on
@@ -72,6 +72,8 @@ pwsh -File scripts\wait-book.ps1 -Story <story-slug>   # fallback when the MCP l
 ```
 
 Scriptorium, VN Studio and Book Translator can hand their model work to the Claude session instead of a model: the `client` provider, with the tools `get_client_task` / `submit_client_task` (`vno_get_task` / `vno_submit_task` in VN Studio). How to use it is in the skill, under "Doing the model work yourself".
+
+Every app reaches LLMs through the ACP proxy. A local model (Gufo, Strata, Llama.cpp) is loaded by the proxy on the first request that names it and stays loaded; one at a time on the GPU; the first request after a switch can wait minutes. Do not run image generation in ComfyUI while a local model is loaded.
 
 VN Studio starts Pixel Studio, Chiptune Studio and ComfyUI itself when a job needs them (it reads `services.json` and waits up to `startTimeout`). It never starts Scriptorium, Strata, VibeTTS or LM Studio, and not ComfyUI while Strata answers. Off: `enabled: false` in `~\VisualNovels\config\autostart.md`, or `VNO_AUTOSTART=0`. Their output goes to `logs\<id>.out.log` / `.err.log` after a `--- started by VN Studio ... ---` line. `hub.ps1 stop` stops them; a hard kill of VN Studio leaves them running. A desktop app that holds the data folder makes the started copy exit; the job says why.
 

@@ -1,5 +1,5 @@
 {
-  "_about": "Registry of every tool the creative hub drives. scripts/hub.ps1 reads this file. To add a tool: add one entry here, one server in .mcp.json, and a line in README.md. VN Studio also reads this file to start pixel-studio, chiptune-studio and comfyui when a job needs them: keep their fields (id, repo, port, mcp, http, managed, warning, startTimeout, start {kind, path, cwd, args, env}); kinds other than electron and exe are ignored for these three.",
+  "_about": "Registry of every tool the creative hub drives. scripts/hub.ps1 reads this file. `requires` lists ids that `hub.ps1 start` starts first. To add a tool: add one entry here, one server in .mcp.json, and a line in README.md. VN Studio also reads this file to start pixel-studio, chiptune-studio and comfyui when a job needs them: keep their fields (id, repo, port, mcp, http, managed, warning, startTimeout, start {kind, path, cwd, args, env}); kinds other than electron and exe are ignored for these three.",
   "services": [
     {
       "id": "scriptorium",
@@ -11,6 +11,7 @@
       "default": false,
       "managed": true,
       "start": { "kind": "electron", "args": [".", "--headless"] },
+      "requires": ["acp-proxy", "lmstudio"],
       "build": "yarn build",
       "warning": "Starting the engine resumes the book factory: it starts writing every open idea in ~/Scriptorium/ideas, user ideas first, and may use paid models (budget in config/budget.md).",
       "docs": ["docs/mcp.md", "docs/visual-novel.md", "docs/design.md"]
@@ -145,16 +146,16 @@
     },
     {
       "id": "lmstudio",
-      "name": "LM Studio (local LLMs + nomic embeddings)",
+      "name": "LM Studio (Scriptorium's nomic embeddings until AAP-43; vision critics' local models)",
       "repo": null,
       "data": "~\\.lmstudio",
       "port": 1234,
       "http": "http://127.0.0.1:1234/v1/models",
       "startWhenSilent": true,
-      "default": true,
+      "default": false,
       "managed": false,
       "start": { "kind": "exe", "path": "~\\.lmstudio\\bin\\lms.exe", "args": ["server", "start"] },
-      "note": "OpenAI-compatible API used by Scriptorium (RAG needs nomic-embed-text-v1.5), Book Translator and VN Studio. No MCP needed."
+      "note": "Not a chat provider any more (HUB-38): apps reach local LLMs through acp-proxy. Still used by Scriptorium's embeddings (`lmstudio/text-embedding-nomic-embed-text-v1.5`) until AAP-43 is live, and by the vision roles that keep it (VN and Edu art-critic, Cartoon frame-critic, Pixel's vision rows). `hub.ps1 start scriptorium` starts it (requires). Do not load a chat model in it while the proxy runs one."
     },
     {
       "id": "strata",
@@ -165,27 +166,23 @@
       "http": "http://127.0.0.1:8080/health",
       "default": false,
       "managed": false,
-      "start": { "kind": "console", "path": "D:\\Strata\\run-unsloth-ud-iq4_xs-parallel.bat", "args": [] },
-      "variants": { "iq4_xs-parallel": "D:\\Strata\\run-unsloth-ud-iq4_xs-parallel.bat", "iq4_xs": "D:\\Strata\\run-unsloth-ud-iq4_xs.bat", "deepseek": "D:\\Strata\\run-deepseek-v4.1-flash-ist-das-2.00bpw.bat", "deepseek-coder": "D:\\Strata\\run-deepseek-v4.1-flash-ista-das-coder.bat" },
+      "start": { "kind": "console", "path": "D:\\Strata\\terminal\\run-unsloth-ud-iq4_xs-parallel.bat", "args": [] },
+      "variants": { "iq4_xs-parallel": "D:\\Strata\\terminal\\run-unsloth-ud-iq4_xs-parallel.bat", "iq4_xs": "D:\\Strata\\terminal\\run-unsloth-ud-iq4_xs.bat", "deepseek": "D:\\Strata\\terminal\\run-deepseek-v4.1-flash-ist-das-2.00bpw.bat", "deepseek-coder": "D:\\Strata\\terminal\\run-deepseek-v4.1-flash-ista-das-coder.bat" },
       "defaultVariant": "iq4_xs-parallel",
-      "note": "Uses most of the GPU memory whichever model it runs; one model per process on 8080. hub.ps1 start strata <variant>."
+      "note": "The ACP proxy starts Strata itself on an `acp/strata/*` request (providers.strata.command in its settings.json). Start it by hand only to diagnose (scripts/strata-probe.mjs) and only when the proxy has no local model loaded: a hand-started Strata is passed through but never stopped by the proxy, so a gufo or llama request would load a second model beside it."
     },
     {
       "id": "acp-proxy",
-      "name": "ACP Proxy (OpenAI-compatible API over Codex, Antigravity and Claude agents)",
+      "name": "ACP Proxy (one OpenAI-compatible API for every model: the Codex, Antigravity and Claude agents and the local Gufo, Strata and Llama.cpp models)",
       "repo": "C:\\projects\\Personal\\api-acp-proxy",
       "data": "~\\AppData\\Roaming\\api-acp-proxy",
       "port": 8787,
       "http": "http://127.0.0.1:8787/healthz",
-      "default": false,
+      "default": true,
       "managed": true,
-      "start": {
-        "kind": "node",
-        "args": ["dist/index.js"],
-        "env": { "PROXY_PORT": "8787", "PROXY_LIST_BARE_ALIASES": "0", "PROXY_TIMEOUT_MS": "900000", "PROXY_MAX_BODY_BYTES": "8388608", "PROXY_MAX_CONCURRENT": "4", "PROXY_CODEX_MAX_CONCURRENT": "4", "PROXY_ANTIGRAVITY_MAX_CONCURRENT": "3", "PROXY_CLAUDE_ENABLED": "1", "PROXY_CLAUDE_ACCEPT_TERMS": "1", "PROXY_CLAUDE_MAX_CONCURRENT": "2" }
-      },
+      "start": { "kind": "electron", "args": [".", "--hidden"], "built": "dist" },
       "build": "npm run build",
-      "note": "An openai-compat provider (id acp, base_url http://127.0.0.1:8787/v1, json_schema false, concurrency 4) for all five apps: Scriptorium, Book Translator, VN Studio, Pixel Studio, Chiptune Studio (HUB-09; Pixel and Chiptune once PAR-14 / MDI-07 merge). Port 8787, the proxy's default (flow-mcp's panel also used 8787 and is retired; set 8787 in the proxy's settings file too). AAP-28 drops sampling fields itself. PROXY_LIST_BARE_ALIASES 0 (AAP-26) lists only prefixed ids in /v1/models so discovering apps show each model once. AAP-25 per-provider FIFO cap: PROXY_MAX_CONCURRENT 4 (codex 4, antigravity 3 here; PROXY_MAX_QUEUE, PROXY_CLAUDE_MAX_CONCURRENT also exist); /healthz shows providers.<id>.{active,queued,max_concurrent,max_queue}. Providers and logins are set in its settings.json or desktop app. Antigravity through it breaks clause 6 of Antigravity's terms: the user accepted that risk (2026-10-22).",
+      "note": "Provider `acp` (base_url http://127.0.0.1:8787/v1, json_schema false) of all seven apps; their only route to LLMs, local ones included (HUB-38). The desktop app (run from the repo, tray, `--hidden`) is the only build that starts and switches the local servers (Gufo 8081, Strata 8080 with `D:\\Strata\\terminal\\run-unsloth-ud-iq4_xs-parallel.bat`, Llama.cpp 8082): one local model on the GPU at a time, a switch takes minutes, the request waits. Caps, timeout (900000), body size, `listBareAliases: false`, per-provider `maxConcurrent` (codex 4, antigravity 3, claude 2, strata 4, gufo 1, llama 1) are in `%APPDATA%\\api-acp-proxy\\settings.json` or its Server page, never in env here. The headless `node dist/index.js` cannot start local models. Local models: no tools, `response_format` is prompt-only, `reasoning_effort` passes (AAP-42), embeddings `llama/nomic-embed-text-v1.5` (AAP-43). Antigravity through it breaks clause 6 of Antigravity's terms: the user accepted that risk (2026-10-22).",
       "docs": ["README.md"]
     },
     {
