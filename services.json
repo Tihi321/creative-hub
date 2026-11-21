@@ -155,7 +155,7 @@
       "default": false,
       "managed": false,
       "start": { "kind": "exe", "path": "~\\.lmstudio\\bin\\lms.exe", "args": ["server", "start"] },
-      "note": "Not used any more (HUB-38): every app reaches local LLMs, and Scriptorium its nomic embeddings (`acp/llama/nomic-embed-text-v1.5`, AAP-43), through acp-proxy. LM Studio is not installed on this PC. The vision roles that still name `lmstudio` (VN and Edu art-critic, Cartoon frame-critic, Pixel's vision rows) have no local fallback until a vision model through the proxy is checked. The entry stays so hub.ps1 status shows the port."
+      "note": "Not used any more (HUB-38): every app reaches local LLMs, and Scriptorium its nomic embeddings (`acp/llama/nomic-embed-text-v1.5`, AAP-43), through acp-proxy. LM Studio is not installed on this PC. The VN and Edu art-critic and the Cartoon frame-critic use `acp/llama/inkling-2-mini` through acp-proxy (HUB-39); only Pixel's vision rows still name `lmstudio` and have no local model. The entry stays so hub.ps1 status shows the port."
     },
     {
       "id": "strata",

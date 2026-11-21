@@ -1,0 +1,12 @@
+## A-001 Approve the HUB-39 plan; decide D1, D2, D3 (recommendation: accept all three)
+- status: answered
+- asked: 2026-11-21 22:32
+- by: director
+- why: the HUB-39 plan needs the user's yes before any code; D1 accepts Inkling as the effective first critic in VN and Edu, D2 accepts ComfyUI and Inkling sharing GPU memory (measured in K2/K3), D3 keeps the throwaway check data until looked at
+- options:
+  - Approve the plan; accept D1, D2, D3
+  - Approve the plan; change any of D1, D2, D3
+  - Do not approve yet
+- recommendation: accept all three (approve the HUB-39 plan; D1, D2, D3 as the planner wrote them)
+- default: the plan stays draft; nothing is built
+- answer: "Yes, as recommended" (D1 accept Inkling as the effective first critic in VN and Edu; D2 accept shared GPU memory, measure in K2/K3; D3 keep the check data until the user has looked)
