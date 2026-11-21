@@ -1,0 +1,8 @@
+{"ts":"2026-11-21T22:32:00Z","actor":"director-scribe","type":"plan.created","request":"REQ-0030","ticket":"HUB-39-vision-fallback-inkling","detail":"planner drafted the hub plan (draft)"}
+{"ts":"2026-11-21T22:32:00Z","actor":"director-scribe","type":"attention.opened","request":"REQ-0030","ticket":"HUB-39-vision-fallback-inkling","detail":"approve HUB-39 plan; decide D1, D2, D3"}
+{"ts":"2026-11-21T22:33:00Z","actor":"director-scribe","type":"plan.approved","request":"REQ-0030","ticket":"HUB-39-vision-fallback-inkling","detail":"user approved the plan (Yes, as recommended)"}
+{"ts":"2026-11-21T22:33:00Z","actor":"director-scribe","type":"attention.answered","request":"REQ-0030","ticket":"HUB-39-vision-fallback-inkling","detail":"A-001 answered: Yes, as recommended (D1, D2, D3)"}
+{"ts":"2026-11-21T22:35:01Z","actor":"implement","type":"implement.started","request":"REQ-0030","ticket":"HUB-39-vision-fallback-inkling","detail":"hub tasks H1-H4 on branch HUB-39_vision-fallback-inkling"}
+{"ts":"2026-11-21T22:37:37Z","actor":"implement","type":"slice.done","request":"REQ-0030","ticket":"HUB-39-vision-fallback-inkling","detail":"H1-H4 edited directly by the worker","data":{"tasks":["H1","H2","H3","H4"]}}
+{"ts":"2026-11-21T22:37:37Z","actor":"implement","type":"verify.passed","request":"REQ-0030","ticket":"HUB-39-vision-fallback-inkling","detail":"services.json parses; diff limited to H1-H4 lines"}
+{"ts":"2026-11-21T22:37:37Z","actor":"implement","type":"changelog.written","request":"REQ-0030","ticket":"HUB-39-vision-fallback-inkling","detail":"hub part only"}
