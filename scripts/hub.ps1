@@ -2,6 +2,7 @@
 # Run it before a production run, or whenever an MCP server in .mcp.json fails to connect.
 # Rerunnable; needs no admin rights. Managed engines are started detached (no inherited handles, so piping
 # `start` into tail/cat returns) and append to ..\logs\<id>.out.log / .err.log.
+# Needs PowerShell 7 (pwsh): it uses Invoke-WebRequest -SkipHttpErrorCheck and pwsh 7's ConvertFrom-Json dates; Windows PowerShell 5.1 refuses to run it.
 #
 #   pwsh -File scripts\hub.ps1                      status of every service
 #   pwsh -File scripts\hub.ps1 start                start the default set (not scriptorium, not strata, not lmstudio); a start first deletes the app's `lock` file when its pid is gone or started after the lock
@@ -20,6 +21,7 @@
 #   pwsh -File scripts\hub.ps1 comfy-patches [check|apply|revert]   the local fixes to ComfyUI nodes (comfy-mcp out\patches.js);
 #                                                   after a node update: apply, then restart comfyui
 
+#Requires -Version 7.0
 param(
     [Parameter(Position = 0)][ValidateSet('status', 'start', 'stop', 'build', 'logs', 'setup', 'check', 'call', 'variants', 'comfy-patches')][string]$Command = 'status',
     [Parameter(Position = 1, ValueFromRemainingArguments)][string[]]$Ids,
@@ -410,7 +412,7 @@ function Start-Service1($s, [string[]]$Chain = @(), [bool]$Named = $true) {
                 Write-Host "flow-music-mcp: ElevenLabs key in environment: $set"
             }
             $procId = Start-Detached $exe $args2 $repo (Join-Path $logs "$($s.id).out.log") (Join-Path $logs "$($s.id).err.log") $env2 $showWindow
-            Write-Host "$($s.id): started (pid $procId), waiting for port $($s.port)..."
+            Write-Host "$($s.id): started (launcher pid $procId), waiting for port $($s.port)..."
         }
         else {
             Start-Process -FilePath $exe -ArgumentList $args2 | Out-Null
@@ -420,7 +422,7 @@ function Start-Service1($s, [string[]]$Chain = @(), [bool]$Named = $true) {
     $wait = [Math]::Max($WaitSeconds, [int]$s.startTimeout)
     $deadline = (Get-Date).AddSeconds($wait)
     while ((Get-Date) -lt $deadline) {
-        if ((Get-Listener $s.port) -and (-not $s.http -or (Test-Health $s))) { Write-Host "$($s.id): up at $(if ($s.mcp) { $s.mcp } else { $s.http })" -ForegroundColor Green; return }
+        if ((Get-Listener $s.port) -and (-not $s.http -or (Test-Health $s))) { $o = Get-Owner $s (Get-Listener $s.port); Write-Host "$($s.id): up at $(if ($s.mcp) { $s.mcp } else { $s.http })$(if ($o -and $o.Pid) { " (pid $($o.Pid))" })" -ForegroundColor Green; return }
         Start-Sleep -Milliseconds 500
     }
     $why = if ((Get-Listener $s.port) -and $s.http) { "port $($s.port) listens but $($s.http) did not answer within $wait s" } else { "not listening after $wait s" }
@@ -458,18 +460,21 @@ function Clear-StaleLock($s, [switch]$AtStart) {
         # A process that started after the lock was written cannot have written it (pid reuse or a reboot).
         # Only an unambiguous lock time counts (Utc or Local DateTime, string with Z or an offset, epoch ms);
         # a time with no zone is unknown, and then the lock is left.
+        # The left line says why when the time is missing or unknown.
         $began = $null; $t = $null
+        $why = if (-not $stamp) { 'it has no time' } else { $null }
         try { $began = $p.StartTime.ToUniversalTime() } catch { }
         if ($stamp) {
             try {
-                if ($stamp -is [datetime]) { if ($stamp.Kind -ne [DateTimeKind]::Unspecified) { $t = $stamp.ToUniversalTime() } }
+                if ($stamp -is [datetime]) { if ($stamp.Kind -ne [DateTimeKind]::Unspecified) { $t = $stamp.ToUniversalTime() } else { $why = "its time $($stamp.ToString('s')) has no zone" } }
                 elseif ($stamp -is [string]) {
                     if ($stamp -match 'T.*(Z|[+-]\d{2}:?\d{2})\s*$') { $t = [datetimeoffset]::Parse($stamp, [Globalization.CultureInfo]::InvariantCulture, [Globalization.DateTimeStyles]::None).UtcDateTime }
+                    else { $why = "its time $stamp has no zone" }
                 }
                 else { $t = [datetimeoffset]::FromUnixTimeMilliseconds([int64]$stamp).UtcDateTime }
-            } catch { $t = $null }
+            } catch { $t = $null; $why = "its time $stamp could not be read" }
             # Plausible range 2001-01-01 (epoch ms 978307200000) to 2100-01-01 (4102444800000); epoch seconds or garbage land outside and are unknown.
-            if ($t -and ($t -lt [datetime]::new(2001, 1, 1, 0, 0, 0, [DateTimeKind]::Utc) -or $t -ge [datetime]::new(2100, 1, 1, 0, 0, 0, [DateTimeKind]::Utc))) { $t = $null }
+            if ($t -and ($t -lt [datetime]::new(2001, 1, 1, 0, 0, 0, [DateTimeKind]::Utc) -or $t -ge [datetime]::new(2100, 1, 1, 0, 0, 0, [DateTimeKind]::Utc))) { $t = $null; $why = "its time $stamp is outside 2001-2100" }
         }
         # An app writes its lock a few seconds after its process starts (measured 2.9 s for VN Studio on 2026-11-22), so 5 s is not "after".
         if ($began -and $t -and $began -gt $t.AddSeconds(5)) {
@@ -478,7 +483,7 @@ function Clear-StaleLock($s, [switch]$AtStart) {
             Write-Host "$($s.id): removed its stale lock (pid $lockPid is now $($p.ProcessName), started after the lock)"
             return
         }
-        Write-Host "$($s.id): lock $path held by running pid $lockPid ($($p.ProcessName)), left"
+        Write-Host "$($s.id): lock $path held by running pid $lockPid ($($p.ProcessName)), left$(if ($why) { ": $why, so pid reuse cannot be told" })"
         return
     }
     Write-Host "$($s.id): lock $path still held by pid $lockPid, left"

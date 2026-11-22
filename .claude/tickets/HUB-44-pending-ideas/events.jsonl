@@ -1,0 +1,5 @@
+{"ts":"2026-11-22T21:10:00Z","actor":"planner","type":"plan.created","request":"REQ-0031","ticket":"HUB-44-pending-ideas","detail":"planner wrote the plan (draft)"}
+{"ts":"2026-11-22T21:20:00Z","actor":"director","type":"plan.approved","request":"REQ-0031","ticket":"HUB-44-pending-ideas","detail":"user: 'Yes, approve all' to 'Do you approve the seven plans with these defaults'; written by the director because the scribe could not see the user's message"}
+{"ts":"2026-11-22T21:22:41Z","actor":"implement","type":"implement.started","request":"REQ-0031","ticket":"HUB-44-pending-ideas","detail":"Hub tasks H1-H4 on branch HUB-44_pending-ideas"}
+{"ts":"2026-11-22T21:26:40Z","actor":"implement","type":"verify.passed","request":"REQ-0031","ticket":"HUB-44-pending-ideas","detail":"H1-H4 checks passed (5.1 refusal, dry run a-d, parse)"}
+{"ts":"2026-11-22T21:26:40Z","actor":"implement","type":"changelog.written","request":"REQ-0031","ticket":"HUB-44-pending-ideas","detail":"changelog.md for hub tasks H1-H4"}
