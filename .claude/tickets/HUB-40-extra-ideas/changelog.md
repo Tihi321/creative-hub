@@ -24,3 +24,4 @@ Not run: -Window with a real Electron service; L1, L2, N1-N4; the repo tickets S
 Follow-ups: L1-L2 after the repo merges and the user's go-ahead; N1-N4 on the user's word.
 
 Commit status: committed on `HUB-40_extra-ideas`, not merged, not pushed.
+Polish 1: N2 corrected: a plain re-index does not re-chunk unchanged files (SCP-66 checker finding)
