@@ -32,8 +32,9 @@ Verification recorded as passed in the Log:
 - C9 PASS: proxy embeddings against Scriptorium's stored index, cosine 0.992-0.997 on 6 real chunks; a ref change re-indexes nothing; a 2048-token unpunctuated run is refused with 502.
 - Scriptorium CLI probe PASS (streamed reply, cost 0, embedding dimension 768).
 - Test counts of the repo workers: AAP-43 513 tests; AAP-42 511 tests (the workers' own numbers).
+- REQ-0030 piece 31 (app-level live checks, `## Pieces` row 31): VN, Cartoon and Edu probes PASS; Book Translator chunk PASS (17 s, cost 0); model lists PASS. In that piece the Scriptorium probe was UNTESTED (the worker session's permission check denied the command) and passed later (the Scriptorium CLI probe above, Log 2026-11-21 21:00); the Pixel artist request was UNTESTED (reachable only from the window chat then) and passed in HUB-41 K1 over MCP (`runs/hub-41-pixel-agent.md`).
 
-UNTESTED: every live check the Log does not mark as passed (the Log states "every live check is UNTESTED" on 2026-11-21 and then records only C1, C4, C9 and the Scriptorium probe as passed).
+UNTESTED: every live check the Log and piece 31 do not mark as passed (the Log states "every live check is UNTESTED" on 2026-11-21 and then records C1, C4, C9 and the Scriptorium probe as passed; piece 31 adds the VN, Cartoon and Edu probes, the Book Translator chunk and the model lists).
 
 Follow-ups: HUB-39 (Inkling as the local vision model of the VN and Edu art-critic and the Cartoon frame-critic); HUB-40 (extra ideas).
 
