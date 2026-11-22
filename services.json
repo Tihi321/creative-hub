@@ -151,10 +151,8 @@
       "data": "~\\.lmstudio",
       "port": 1234,
       "http": "http://127.0.0.1:1234/v1/models",
-      "startWhenSilent": true,
       "default": false,
       "managed": false,
-      "start": { "kind": "exe", "path": "~\\.lmstudio\\bin\\lms.exe", "args": ["server", "start"] },
       "note": "Not used any more (HUB-38): every app reaches local LLMs, and Scriptorium its nomic embeddings (`acp/llama/nomic-embed-text-v1.5`, AAP-43), through acp-proxy. LM Studio is not installed on this PC. The VN and Edu art-critic and the Cartoon frame-critic use `acp/llama/inkling-2-mini` through acp-proxy (HUB-39); only Pixel's vision rows still name `lmstudio` and have no local model. The entry stays so hub.ps1 status shows the port."
     },
     {

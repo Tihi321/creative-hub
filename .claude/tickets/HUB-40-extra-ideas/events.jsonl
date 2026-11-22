@@ -1,0 +1,8 @@
+{"ts":"2026-11-22T11:50:00Z","actor":"planner","type":"plan.created","request":"REQ-0030","ticket":"HUB-40-extra-ideas","detail":"plan drafted: triage of the REQ-0030 extra ideas"}
+{"ts":"2026-11-22T12:00:00Z","actor":"director-scribe","type":"plan.approved","request":"REQ-0030","ticket":"HUB-40-extra-ideas","detail":"user: 'Yes, approve all'"}
+{"ts":"2026-11-22T12:00:57Z","actor":"implement","type":"implement.started","request":"REQ-0030","ticket":"HUB-40-extra-ideas","detail":"branch HUB-40_extra-ideas from master; hub tasks H1-H4 only"}
+{"ts":"2026-11-22T12:00:57Z","actor":"implement","type":"slice.done","request":"REQ-0030","ticket":"HUB-40-extra-ideas","detail":"H1-H4 done by the orchestrator directly","data":{"tasks":["H1","H2","H3","H4"]}}
+{"ts":"2026-11-22T12:00:58Z","actor":"implement","type":"verify.passed","request":"REQ-0030","ticket":"HUB-40-extra-ideas","detail":"A1-A6 shown; L1-L2, N1-N4 and repo tickets not part of this run"}
+{"ts":"2026-11-22T12:00:58Z","actor":"implement","type":"changelog.written","request":"REQ-0030","ticket":"HUB-40-extra-ideas","detail":"hub changelog written; ticket stays in-progress"}
+{"ts":"2026-11-22T12:22:00Z","actor":"director-scribe","type":"checker.verdict","request":"REQ-0030","ticket":"HUB-40-extra-ideas","detail":"H1-H4 PASS; L1, L2, N1-N4 not run","data":{"verdict":"PASS"}}
+{"ts":"2026-11-22T12:22:00Z","actor":"director-scribe","type":"attention.opened","request":"REQ-0030","ticket":"HUB-40-extra-ideas","detail":"A-001: HUB-40 waits on the user (four decisions)","data":{"item":"A-001"}}
