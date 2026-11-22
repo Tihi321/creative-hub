@@ -3,3 +3,5 @@
 {"ts":"2026-11-22T13:36:18Z","actor":"implement","type":"implement.started","request":"REQ-0030","ticket":"HUB-41-pixel-agent-and-small-ideas","detail":"hub tasks H1-H3 on branch HUB-41_pixel-agent-and-small-ideas"}
 {"ts":"2026-11-22T13:36:18Z","actor":"implement","type":"verify.passed","request":"REQ-0030","ticket":"HUB-41-pixel-agent-and-small-ideas","detail":"H-1..H-3: diff checked, services.json parses, grep empty"}
 {"ts":"2026-11-22T13:36:18Z","actor":"implement","type":"changelog.written","request":"REQ-0030","ticket":"HUB-41-pixel-agent-and-small-ideas","detail":"hub tasks H1-H3 only"}
+{"ts":"2026-11-22T14:01:00Z","actor":"director-scribe","type":"checker.verdict","request":"REQ-0030","ticket":"HUB-41-pixel-agent-and-small-ideas","detail":"repo tickets PASS; hub H1-H3 built, not separately checked","data":{"not_run":["L1","L2","L3","K1","K2"]}}
+{"ts":"2026-11-22T14:01:00Z","actor":"director-scribe","type":"attention.opened","request":"REQ-0030","ticket":"HUB-41-pixel-agent-and-small-ideas","detail":"A-001: user's calls on merges, live steps and the proxy build","data":{"items":["A-001"]}}

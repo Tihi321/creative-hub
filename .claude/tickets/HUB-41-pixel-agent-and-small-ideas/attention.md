@@ -1,0 +1,13 @@
+## A-001 HUB-41 waits on the user: merges, live steps, the ACP proxy build
+- status: open
+- asked: 2026-11-22 14:01 UTC
+- by: director
+- why: all eight HUB-41 branches are built and checked; none is merged or pushed, and the live steps wait for the user
+- options:
+  - (1) merge and push the eight branches (pixel-art-generator: PAR-21 first, then PAR-22)
+  - (2) go-ahead for the live prose steps: L1 (Pixel roles), L2 (Scriptorium roles embeddings line), L3 (Edu settings)
+  - (3) go-ahead for the live checks: K1 (artist run over MCP on Strata, plus the stop tool) and K2 (VN review built to be rejected)
+  - (4) the user's own ACP proxy build
+- recommendation: none; each item is the user's call
+- default: nothing is merged, pushed or run live
+- answer:
