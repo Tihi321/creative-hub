@@ -1,0 +1,11 @@
+## A-001 HUB-40 waits on the user
+- status: open
+- asked: 2026-11-22 12:22 UTC
+- by: director
+- why: nine extra-idea branches are built and checked; merge, live steps and checks wait for the user
+- options:
+  - (1) merge and push the nine branches
+  - (2) go-ahead for L1 (live roles.md prose in VisualNovels and EduGames) and L2 (prompt refresh check after rebuild and restart)
+  - (3) go-ahead for N1 (VN sprite re-review on Inkling), N2 (Scriptorium re-index; a full re-chunk needs the index deleted first), N3 (Strata thinking check)
+  - (4) decide N4 (Pixel MCP artist tool, Pixel vision rows)
+- answer:
