@@ -9,7 +9,7 @@
 #   pwsh -File scripts\hub.ps1 start strata deepseek   a service with variants takes the variant after its id (default: defaultVariant)
 #   pwsh -File scripts\hub.ps1 variants [service]  list the variants (bat files) of services that have them, and the default
 #   pwsh -File scripts\hub.ps1 start scriptorium -Force   (Scriptorium resumes its factory, see services.json)
-#   pwsh -File scripts\hub.ps1 start scriptorium -Force -Window   with its window (Electron apps only), MCP still on
+#   pwsh -File scripts\hub.ps1 start scriptorium -Force -Window   with its window (Electron apps only), MCP still on; -Window applies only to the services named, not to the ones they require
 #   pwsh -File scripts\hub.ps1 stop [ids|all]       stops hub-managed engines only (-Force for the rest; also closes the leftover holder of an `orphan` port)
 #   pwsh -File scripts\hub.ps1 build [ids]          rebuild repos after pulling or editing them
 #   pwsh -File scripts\hub.ps1 logs vn-studio
@@ -314,7 +314,8 @@ function Start-Detached([string]$exe, [string[]]$argList, [string]$workDir, [str
     [int]$r.ProcessId
 }
 
-function Start-Service1($s) {
+function Start-Service1($s, [string[]]$Chain = @(), [bool]$Named = $true) {
+    if ($Chain -contains $s.id) { Write-Host "$($s.id): requires cycle $(($Chain + $s.id) -join ' -> '), skipped" -ForegroundColor Yellow; return }
     $l0 = Get-Listener $s.port
     if ($l0) {
         $orphan = Get-Owner $s $l0
@@ -325,8 +326,8 @@ function Start-Service1($s) {
             return
         }
         if (-not $s.http -or (Test-Health $s)) { Write-Host "$($s.id): already up on $($s.port)"; return }
-        # The port listens but the health URL does not answer (HUB-34). A service whose start is safe to repeat (LM Studio's
-        # `lms server start`) is started again; any other is only reported.
+        # The port listens but the health URL does not answer (HUB-34). A service whose start is safe to repeat (`startWhenSilent` in
+        # services.json) is started again; any other is only reported.
         if (-not $s.startWhenSilent) {
             Write-Host "$($s.id): port $($s.port) is held but $($s.http) does not answer. Restart it: hub.ps1 stop $($s.id); hub.ps1 start $($s.id)" -ForegroundColor Yellow
             return
@@ -342,7 +343,7 @@ function Start-Service1($s) {
         $rs = $services | Where-Object id -EQ $rid | Select-Object -First 1
         if (-not $rs) { Write-Host "$($s.id): requires unknown service '$rid', skipped" -ForegroundColor Yellow; continue }
         Write-Host "$($s.id): requires $rid"
-        Start-Service1 $rs
+        Start-Service1 $rs ($Chain + $s.id) $false
     }
     $st = $s.start
     if ($s.variants) {
@@ -352,10 +353,11 @@ function Start-Service1($s) {
         $st = [pscustomobject]@{ kind = $st.kind; path = $vp; args = $st.args }
         Write-Host "$($s.id): variant $v"
     }
+    if (-not $st) { Write-Host "$($s.id): no start command in services.json; start it yourself" -ForegroundColor Yellow; return }
     $repo = if ($st.cwd) { Expand $st.cwd } else { $s.repo }
     $args2 = @($st.args | ForEach-Object { Expand $_ })
     $showWindow = $false
-    if ($Window) {
+    if ($Window -and $Named) {
         if ($st.kind -eq 'electron') {
             # Windowed start: drop the headless flags, keep the MCP server on.
             $showWindow = $true
