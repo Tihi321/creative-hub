@@ -435,32 +435,43 @@ function Clear-StaleLock($s, [switch]$AtStart) {
     if (-not (Test-Path -LiteralPath $path -PathType Leaf)) { return }
     $lock = $null; $lockPid = $null
     try { $lock = Get-Content -LiteralPath $path -Raw | ConvertFrom-Json; $lockPid = $lock.pid } catch { }
-    if ($lockPid -isnot [int] -and $lockPid -isnot [long] -and $lockPid -isnot [double]) {
+    $pidInt = $null
+    if ($lockPid -is [int] -or $lockPid -is [long] -or $lockPid -is [double]) {
+        try { $pidInt = [int]$lockPid } catch { }
+    }
+    if ($null -eq $pidInt) {
         Write-Host "$($s.id): lock $path unreadable, left"
         return
     }
     # Scriptorium writes `started`, the other apps `startedAt` (ISO string or epoch milliseconds).
     $stamp = if ($lock.startedAt) { $lock.startedAt } elseif ($lock.started) { $lock.started } else { $null }
     if (-not $AtStart) { Start-Sleep -Milliseconds 500 }
-    $p = Get-Process -Id ([int]$lockPid) -ErrorAction SilentlyContinue
+    $p = Get-Process -Id $pidInt -ErrorAction SilentlyContinue
     if (-not $p) {
-        Remove-Item -LiteralPath $path
+        try { Remove-Item -LiteralPath $path -ErrorAction Stop }
+        catch { Write-Host "$($s.id): lock $path could not be removed: $($_.Exception.Message), left"; return }
         Write-Host "$($s.id): removed its stale lock (pid $lockPid)"
         return
     }
     if ($AtStart) {
         # A process that started after the lock was written cannot have written it (pid reuse or a reboot).
+        # Only an unambiguous lock time counts (Utc or Local DateTime, string with Z or an offset, epoch ms);
+        # a time with no zone is unknown, and then the lock is left.
         $began = $null; $t = $null
         try { $began = $p.StartTime.ToUniversalTime() } catch { }
         if ($stamp) {
             try {
-                if ($stamp -is [datetime]) { $t = $stamp.ToUniversalTime() }
-                elseif ($stamp -is [string]) { $t = ([datetime]::Parse($stamp, [Globalization.CultureInfo]::InvariantCulture, [Globalization.DateTimeStyles]::RoundtripKind)).ToUniversalTime() }
+                if ($stamp -is [datetime]) { if ($stamp.Kind -ne [DateTimeKind]::Unspecified) { $t = $stamp.ToUniversalTime() } }
+                elseif ($stamp -is [string]) {
+                    if ($stamp -match 'T.*(Z|[+-]\d{2}:?\d{2})\s*$') { $t = [datetimeoffset]::Parse($stamp, [Globalization.CultureInfo]::InvariantCulture, [Globalization.DateTimeStyles]::None).UtcDateTime }
+                }
                 else { $t = [datetimeoffset]::FromUnixTimeMilliseconds([int64]$stamp).UtcDateTime }
-            } catch { }
+            } catch { $t = $null }
         }
+        # An app writes its lock a few seconds after its process starts (measured 2.9 s for VN Studio on 2026-11-22), so 5 s is not "after".
         if ($began -and $t -and $began -gt $t.AddSeconds(5)) {
-            Remove-Item -LiteralPath $path
+            try { Remove-Item -LiteralPath $path -ErrorAction Stop }
+            catch { Write-Host "$($s.id): lock $path could not be removed: $($_.Exception.Message), left"; return }
             Write-Host "$($s.id): removed its stale lock (pid $lockPid is now $($p.ProcessName), started after the lock)"
             return
         }

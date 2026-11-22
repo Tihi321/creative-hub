@@ -12,3 +12,11 @@ Branch `HUB-43_open-ideas` (creative-hub).
 Verification: parse check 0 errors; services.json parses; dry runs on a copy with a fake registry: dead pid removed, live older pid left, live reused pid removed (ISO and epoch ms), unreadable left, no-timestamp left, after-stop removal unchanged, status read-only. Real lock files read only (no deletion). Not run: H1 with a real app (UNTESTED).
 
 Commit status: committed on the branch, not merged or pushed.
+
+## Polish 1 (checker notes N5, N6, N7, N4)
+
+- N5: at start, the pid-reuse branch of `Clear-StaleLock` removes a lock only when its time is unambiguous: a DateTime of Kind Utc or Local, a string with `Z` or an explicit offset, or epoch milliseconds. A string without a zone, or a DateTime of Kind Unspecified, is unknown: the lock is left with the "held by running pid ..., left" message. The dead-pid branch is unchanged.
+- N6: the function never ends `hub.ps1 start` with an error. A pid outside the int32 range prints the "unreadable, left" message; a `Remove-Item` that fails prints "lock <path> could not be removed: <message>, left"; in both cases the function returns and the start goes on.
+- N7: comment above the 5-second tolerance (an app writes its lock a few seconds after its process starts; measured 2.9 s for VN Studio on 2026-11-22).
+- Deviation from the plan text, not written down earlier (N4): the plan's literal `[datetime]::Parse($stamp ...)` would have read the real VN lock one hour off on pwsh 7.6, because `ConvertFrom-Json` already returns a DateTime, and would have removed a live app's lock. The built code handles DateTime, zoned-string and epoch-ms stamps instead.
+- Verification: dry runs on a copy with a fake registry (dead pid removed; live pid with old Z stamp removed; zoneless stamp left; future Z stamp left; epoch ms in the past removed; no stamp left; unreadable left; pid 99999999999 left; a lock without delete sharing: "could not be removed, left" and the start went on; after-stop removal unchanged; status leaves the file). The real VN lock decides "left" (read only).
