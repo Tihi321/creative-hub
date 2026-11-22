@@ -1,9 +1,9 @@
 ---
-status: in-progress
+status: done
 request: REQ-0030
 repos: [creative-hub, visual-novels-orchestrator, edu-game-studio, cartoon-studio]
 branch: HUB-39_vision-fallback-inkling
-updated: 2026-11-21
+updated: 2026-11-22
 ---
 
 # HUB-39 Vision fallback: the critics get Inkling through the ACP proxy in place of LM Studio

@@ -9,3 +9,6 @@
 - 2026-11-22 director-checker: the NEVER_STARTED comment mentions Strata but not Gufo (cartoon-studio/autostart.ts:21) - suggested: add Gufo to the comment
 - 2026-11-22 director-checker: unloaded, a Genesis render takes about 1.4 s, so the 4 s limit catches about a 3x slowdown, not the 2x the plan claimed (midi-generator, Genesis perf test) - suggested: state the real margin in the test
 - 2026-11-22 director-checker: the live providers.md of VisualNovels is probably user-edited, so the new seed comment will show as update available rather than refresh (VisualNovels config/providers.md) - suggested: merge the comment by hand
+- 2026-11-22 director-scribe: the proxy's embedding server on port 8083 was not up after a fresh proxy start, probably starts on demand; not checked (api-acp-proxy) - suggested: check that 8083 starts on the first embeddings call
+- 2026-11-22 director-scribe: with reasoning_effort omitted, Strata's prompt grew from 18 to 58 tokens, since the chat template differs when thinking is on (api-acp-proxy) - suggested: keep sending reasoning_effort none from every Strata caller
+- 2026-11-22 director-scribe: hub.ps1 start printed acp-proxy pid 29216 while status shows electron pid 26412, probably launcher versus app process (scripts/hub.ps1) - suggested: confirm which pid the status check should track

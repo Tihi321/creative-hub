@@ -7,3 +7,5 @@
 {"ts":"2026-11-21T22:37:37Z","actor":"implement","type":"verify.passed","request":"REQ-0030","ticket":"HUB-39-vision-fallback-inkling","detail":"services.json parses; diff limited to H1-H4 lines"}
 {"ts":"2026-11-21T22:37:37Z","actor":"implement","type":"changelog.written","request":"REQ-0030","ticket":"HUB-39-vision-fallback-inkling","detail":"hub part only"}
 {"ts":"2026-11-21T22:50:00Z","actor":"director-scribe","type":"checker.verdict","request":"REQ-0030","ticket":"HUB-39-vision-fallback-inkling","detail":"PASS for hub tasks H1-H4 (live data and checks pending)","data":{"verdict":"PASS","tasks":["H1","H2","H3","H4"]}}
+{"ts":"2026-11-22T00:10:00Z","actor":"director-scribe","type":"checker.verdict","request":"REQ-0030","ticket":"HUB-39-vision-fallback-inkling","detail":"K0-K5 PASS, 29 of 29 Inkling reviews valid","data":{"verdict":"PASS","tasks":["K0","K1","K2","K3","K4","K5"]}}
+{"ts":"2026-11-22T00:10:00Z","actor":"director-scribe","type":"ticket.done","request":"REQ-0030","ticket":"HUB-39-vision-fallback-inkling","detail":"HUB-39 done after live checks K0-K5 PASS","data":{"tasks":["K0","K1","K2","K3","K4","K5"]}}
