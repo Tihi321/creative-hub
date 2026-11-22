@@ -10,7 +10,7 @@
 #   pwsh -File scripts\hub.ps1 variants [service]  list the variants (bat files) of services that have them, and the default
 #   pwsh -File scripts\hub.ps1 start scriptorium -Force   (Scriptorium resumes its factory, see services.json)
 #   pwsh -File scripts\hub.ps1 start scriptorium -Force -Window   with its window (Electron apps only), MCP still on; -Window applies only to the services named, not to the ones they require
-#   pwsh -File scripts\hub.ps1 stop [ids|all]       stops hub-managed engines only (-Force for the rest; also closes the leftover holder of an `orphan` port)
+#   pwsh -File scripts\hub.ps1 stop [ids|all]       stops hub-managed engines only (-Force for the rest; also closes the leftover holder of an `orphan` port); deletes the app's `lock` file (services.json) when its pid is gone
 #   pwsh -File scripts\hub.ps1 build [ids]          rebuild repos after pulling or editing them
 #   pwsh -File scripts\hub.ps1 logs vn-studio
 #   pwsh -File scripts\hub.ps1 check [ids]          MCP handshake + tool count for each running server
@@ -426,6 +426,27 @@ function Start-Service1($s, [string[]]$Chain = @(), [bool]$Named = $true) {
     Write-Host "$($s.id): $why. Check: hub.ps1 logs $($s.id)" -ForegroundColor Red
 }
 
+# After a stop (taskkill runs no shutdown code), removes the app's engine lock when the pid in it is gone.
+# Deletes only the one file <data>\<lock> named in services.json, never a lock whose pid runs.
+function Clear-StaleLock($s) {
+    if (-not $s.lock -or -not $s.data) { return }
+    $path = Join-Path (Expand $s.data) $s.lock
+    if (-not (Test-Path -LiteralPath $path -PathType Leaf)) { return }
+    $lockPid = $null
+    try { $lockPid = (Get-Content -LiteralPath $path -Raw | ConvertFrom-Json).pid } catch { }
+    if ($lockPid -isnot [int] -and $lockPid -isnot [long] -and $lockPid -isnot [double]) {
+        Write-Host "$($s.id): lock $path unreadable, left"
+        return
+    }
+    Start-Sleep -Milliseconds 500
+    if (Get-Process -Id ([int]$lockPid) -ErrorAction SilentlyContinue) {
+        Write-Host "$($s.id): lock $path still held by pid $lockPid, left"
+    } else {
+        Remove-Item -LiteralPath $path
+        Write-Host "$($s.id): removed its stale lock (pid $lockPid)"
+    }
+}
+
 function Stop-Service1($s) {
     $l = Get-Listener $s.port
     if (-not $l) { Write-Host "$($s.id): not running"; return }
@@ -462,6 +483,7 @@ function Stop-Service1($s) {
     $rootId = if ($root) { $root.ProcessId } else { $ownerId }
     & taskkill.exe /PID $rootId /T /F | Out-Null
     Write-Host "$($s.id): stopped (pid $rootId)"
+    Clear-StaleLock $s
 }
 
 function Build-Service1($s) {
