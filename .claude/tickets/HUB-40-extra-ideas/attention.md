@@ -1,5 +1,5 @@
 ## A-001 HUB-40 waits on the user
-- status: open
+- status: answered
 - asked: 2026-11-22 12:22 UTC
 - by: director
 - why: nine extra-idea branches are built and checked; merge, live steps and checks wait for the user
@@ -9,4 +9,4 @@
   - (3) go-ahead for N1 (VN sprite re-review on Inkling), N2 (Scriptorium re-index; a full re-chunk needs the index deleted first), N3 (Strata thinking check)
   - (4) decide N4 (Pixel MCP artist tool, Pixel vision rows)
 - note: 2026-11-22 12:40 UTC (director-scribe): option (1) merge and push done; L1 done; L2 (VN), N1 and N3 done on the user's go-aheads ('Yes, run checks'). Still waiting: L2 for Edu and Cartoon; N2 Scriptorium re-index; N4 Pixel decisions.
-- answer:
+- answer: "cloase all and remove or clean leftovers, in case they should be merged merge them" (user, 2026-11-22 19:55 UTC)
