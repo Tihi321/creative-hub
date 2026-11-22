@@ -438,6 +438,7 @@ function Clear-StaleLock($s, [switch]$AtStart) {
     $pidInt = $null
     if ($lockPid -is [int] -or $lockPid -is [long] -or $lockPid -is [double]) {
         try { $pidInt = [int]$lockPid } catch { }
+        if ($null -ne $pidInt -and $pidInt -le 0) { $pidInt = $null }   # zero or negative is not a real pid
     }
     if ($null -eq $pidInt) {
         Write-Host "$($s.id): lock $path unreadable, left"
@@ -467,6 +468,8 @@ function Clear-StaleLock($s, [switch]$AtStart) {
                 }
                 else { $t = [datetimeoffset]::FromUnixTimeMilliseconds([int64]$stamp).UtcDateTime }
             } catch { $t = $null }
+            # Plausible range 2001-01-01 (epoch ms 978307200000) to 2100-01-01 (4102444800000); epoch seconds or garbage land outside and are unknown.
+            if ($t -and ($t -lt [datetime]::new(2001, 1, 1, 0, 0, 0, [DateTimeKind]::Utc) -or $t -ge [datetime]::new(2100, 1, 1, 0, 0, 0, [DateTimeKind]::Utc))) { $t = $null }
         }
         # An app writes its lock a few seconds after its process starts (measured 2.9 s for VN Studio on 2026-11-22), so 5 s is not "after".
         if ($began -and $t -and $began -gt $t.AddSeconds(5)) {

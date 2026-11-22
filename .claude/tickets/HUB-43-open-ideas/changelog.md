@@ -20,3 +20,9 @@ Commit status: committed on the branch, not merged or pushed.
 - N7: comment above the 5-second tolerance (an app writes its lock a few seconds after its process starts; measured 2.9 s for VN Studio on 2026-11-22).
 - Deviation from the plan text, not written down earlier (N4): the plan's literal `[datetime]::Parse($stamp ...)` would have read the real VN lock one hour off on pwsh 7.6, because `ConvertFrom-Json` already returns a DateTime, and would have removed a live app's lock. The built code handles DateTime, zoned-string and epoch-ms stamps instead.
 - Verification: dry runs on a copy with a fake registry (dead pid removed; live pid with old Z stamp removed; zoneless stamp left; future Z stamp left; epoch ms in the past removed; no stamp left; unreadable left; pid 99999999999 left; a lock without delete sharing: "could not be removed, left" and the start went on; after-stop removal unchanged; status leaves the file). The real VN lock decides "left" (read only).
+
+## Polish 2 (delta re-check)
+
+- A lock time counts as known only inside 2001-01-01 (floor: epoch ms 978307200000) and 2100-01-01 (4102444800000), for epoch numbers and for DateTime or string stamps alike. Outside the range it is unknown, `$t` stays `$null`, the lock is left. An epoch-seconds stamp (read as 1970) no longer makes a live app look "started after the lock".
+- A lock pid of zero or below is unreadable: "unreadable, left", not a dead pid.
+- Verification: parse check 0 errors. Dry runs on a copy with a fake registry and a long-lived node pid: epoch seconds 1795000000 left; epoch ms 1767225600000 removed (pid reuse); `1969-12-31T23:00:00Z` left; `2026-01-01T00:00:00Z` removed; zoneless left; `2200-01-01T00:00:00Z` left; pid -5 and 0 "unreadable, left"; dead pid removed; after-stop removal unchanged. Real VN lock re-computed read only: left (process began 2.9 s before the lock time). Not run: a real app (UNTESTED).
