@@ -4,7 +4,7 @@
 # `start` into tail/cat returns) and append to ..\logs\<id>.out.log / .err.log.
 #
 #   pwsh -File scripts\hub.ps1                      status of every service
-#   pwsh -File scripts\hub.ps1 start                start the default set (not scriptorium, not strata, not lmstudio)
+#   pwsh -File scripts\hub.ps1 start                start the default set (not scriptorium, not strata, not lmstudio); a start first deletes the app's `lock` file when its pid is gone or started after the lock
 #   pwsh -File scripts\hub.ps1 start vn-studio pixel-studio
 #   pwsh -File scripts\hub.ps1 start strata deepseek   a service with variants takes the variant after its id (default: defaultVariant)
 #   pwsh -File scripts\hub.ps1 variants [service]  list the variants (bat files) of services that have them, and the default
@@ -388,6 +388,7 @@ function Start-Service1($s, [string[]]$Chain = @(), [bool]$Named = $true) {
         # Start-Process joins arguments with spaces and does not quote them.
         $args2 = @($args2 | ForEach-Object { if ($_ -match '\s') { "`"$_`"" } else { $_ } })
         if ($s.managed) {
+            Clear-StaleLock $s -AtStart
             New-Item -ItemType Directory -Force $logs | Out-Null
             $env2 = @{}
             if ($st.env) { $st.env.PSObject.Properties | ForEach-Object { $env2[$_.Name] = $_.Value } }
@@ -428,23 +429,59 @@ function Start-Service1($s, [string[]]$Chain = @(), [bool]$Named = $true) {
 
 # After a stop (taskkill runs no shutdown code), removes the app's engine lock when the pid in it is gone.
 # Deletes only the one file <data>\<lock> named in services.json, never a lock whose pid runs.
-function Clear-StaleLock($s) {
+function Clear-StaleLock($s, [switch]$AtStart) {
     if (-not $s.lock -or -not $s.data) { return }
     $path = Join-Path (Expand $s.data) $s.lock
     if (-not (Test-Path -LiteralPath $path -PathType Leaf)) { return }
-    $lockPid = $null
-    try { $lockPid = (Get-Content -LiteralPath $path -Raw | ConvertFrom-Json).pid } catch { }
-    if ($lockPid -isnot [int] -and $lockPid -isnot [long] -and $lockPid -isnot [double]) {
+    $lock = $null; $lockPid = $null
+    try { $lock = Get-Content -LiteralPath $path -Raw | ConvertFrom-Json; $lockPid = $lock.pid } catch { }
+    $pidInt = $null
+    if ($lockPid -is [int] -or $lockPid -is [long] -or $lockPid -is [double]) {
+        try { $pidInt = [int]$lockPid } catch { }
+        if ($null -ne $pidInt -and $pidInt -le 0) { $pidInt = $null }   # zero or negative is not a real pid
+    }
+    if ($null -eq $pidInt) {
         Write-Host "$($s.id): lock $path unreadable, left"
         return
     }
-    Start-Sleep -Milliseconds 500
-    if (Get-Process -Id ([int]$lockPid) -ErrorAction SilentlyContinue) {
-        Write-Host "$($s.id): lock $path still held by pid $lockPid, left"
-    } else {
-        Remove-Item -LiteralPath $path
+    # Scriptorium writes `started`, the other apps `startedAt` (ISO string or epoch milliseconds).
+    $stamp = if ($lock.startedAt) { $lock.startedAt } elseif ($lock.started) { $lock.started } else { $null }
+    if (-not $AtStart) { Start-Sleep -Milliseconds 500 }
+    $p = Get-Process -Id $pidInt -ErrorAction SilentlyContinue
+    if (-not $p) {
+        try { Remove-Item -LiteralPath $path -ErrorAction Stop }
+        catch { Write-Host "$($s.id): lock $path could not be removed: $($_.Exception.Message), left"; return }
         Write-Host "$($s.id): removed its stale lock (pid $lockPid)"
+        return
     }
+    if ($AtStart) {
+        # A process that started after the lock was written cannot have written it (pid reuse or a reboot).
+        # Only an unambiguous lock time counts (Utc or Local DateTime, string with Z or an offset, epoch ms);
+        # a time with no zone is unknown, and then the lock is left.
+        $began = $null; $t = $null
+        try { $began = $p.StartTime.ToUniversalTime() } catch { }
+        if ($stamp) {
+            try {
+                if ($stamp -is [datetime]) { if ($stamp.Kind -ne [DateTimeKind]::Unspecified) { $t = $stamp.ToUniversalTime() } }
+                elseif ($stamp -is [string]) {
+                    if ($stamp -match 'T.*(Z|[+-]\d{2}:?\d{2})\s*$') { $t = [datetimeoffset]::Parse($stamp, [Globalization.CultureInfo]::InvariantCulture, [Globalization.DateTimeStyles]::None).UtcDateTime }
+                }
+                else { $t = [datetimeoffset]::FromUnixTimeMilliseconds([int64]$stamp).UtcDateTime }
+            } catch { $t = $null }
+            # Plausible range 2001-01-01 (epoch ms 978307200000) to 2100-01-01 (4102444800000); epoch seconds or garbage land outside and are unknown.
+            if ($t -and ($t -lt [datetime]::new(2001, 1, 1, 0, 0, 0, [DateTimeKind]::Utc) -or $t -ge [datetime]::new(2100, 1, 1, 0, 0, 0, [DateTimeKind]::Utc))) { $t = $null }
+        }
+        # An app writes its lock a few seconds after its process starts (measured 2.9 s for VN Studio on 2026-11-22), so 5 s is not "after".
+        if ($began -and $t -and $began -gt $t.AddSeconds(5)) {
+            try { Remove-Item -LiteralPath $path -ErrorAction Stop }
+            catch { Write-Host "$($s.id): lock $path could not be removed: $($_.Exception.Message), left"; return }
+            Write-Host "$($s.id): removed its stale lock (pid $lockPid is now $($p.ProcessName), started after the lock)"
+            return
+        }
+        Write-Host "$($s.id): lock $path held by running pid $lockPid ($($p.ProcessName)), left"
+        return
+    }
+    Write-Host "$($s.id): lock $path still held by pid $lockPid, left"
 }
 
 function Stop-Service1($s) {
