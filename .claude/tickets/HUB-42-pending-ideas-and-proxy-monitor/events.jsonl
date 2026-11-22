@@ -3,3 +3,5 @@
 {"ts":"2026-11-22T15:58:51Z","actor":"implement","type":"implement.started","request":"REQ-0030","ticket":"HUB-42-pending-ideas-and-proxy-monitor","detail":"hub tasks H1-H4 only, branch HUB-42_pending-ideas-and-proxy-monitor"}
 {"ts":"2026-11-22T15:58:51Z","actor":"implement","type":"verify.passed","request":"REQ-0030","ticket":"HUB-42-pending-ideas-and-proxy-monitor","detail":"H2 parse, services.json parse, dry run dead and live pid"}
 {"ts":"2026-11-22T15:58:51Z","actor":"implement","type":"changelog.written","request":"REQ-0030","ticket":"HUB-42-pending-ideas-and-proxy-monitor","detail":"hub tasks H1-H4 done; L and K not run"}
+{"ts":"2026-11-22T16:48:00Z","actor":"director-scribe","type":"checker.verdict","request":"REQ-0030","ticket":"HUB-42-pending-ideas-and-proxy-monitor","detail":"H1-H4 PASS; repo tickets PASS; L1-L5, K1-K4 not run","data":{"verdict":"PASS"}}
+{"ts":"2026-11-22T16:48:00Z","actor":"director-scribe","type":"attention.opened","request":"REQ-0030","ticket":"HUB-42-pending-ideas-and-proxy-monitor","detail":"waits on the user: merge, live steps L1-L5, live checks K1-K4","data":{"item":"A-001"}}
