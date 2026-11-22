@@ -1,0 +1,4 @@
+{"ts":"2026-11-22T17:50:00Z","actor":"planner","type":"plan.created","request":"REQ-0030","ticket":"HUB-43-open-ideas","detail":"planner wrote the plan (draft)"}
+{"ts":"2026-11-22T17:50:00Z","actor":"director-scribe","type":"plan.approved","request":"REQ-0030","ticket":"HUB-43-open-ideas","detail":"user: 'Yes' to 'approve the six plans with the recommended answers'"}
+{"ts":"2026-11-22T18:05:00Z","actor":"implement","type":"implement.started","request":"REQ-0030","ticket":"HUB-43-open-ideas","detail":"hub tasks H1, H2 on branch HUB-43_open-ideas"}
+{"ts":"2026-11-22T18:20:00Z","actor":"implement","type":"verify.passed","request":"REQ-0030","ticket":"HUB-43-open-ideas","detail":"H1 parse 0 errors, 5 dry-run cases ok, real locks read-only"}
