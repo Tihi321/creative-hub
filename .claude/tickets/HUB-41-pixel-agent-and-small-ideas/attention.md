@@ -1,5 +1,5 @@
 ## A-001 HUB-41 waits on the user: merges, live steps, the ACP proxy build
-- status: open
+- status: answered
 - asked: 2026-11-22 14:01 UTC
 - by: director
 - why: all eight HUB-41 branches are built and checked; none is merged or pushed, and the live steps wait for the user
@@ -10,4 +10,4 @@
   - (4) the user's own ACP proxy build
 - recommendation: none; each item is the user's call
 - default: nothing is merged, pushed or run live
-- answer:
+- answer: 2026-11-22 user: 'Merge and push' (14:35) and 'Yes, run all' (live steps and checks); still for the user: the ACP proxy build

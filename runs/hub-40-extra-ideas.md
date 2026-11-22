@@ -94,3 +94,35 @@ User go-ahead "Yes, run checks" (start the proxy, ComfyUI and VN Studio; run the
 - English notes from the VN critic on a rejection (no rejection happened).
 - L2 for Edu `art-critic/review.md` and Cartoon `frame-critic/*.md` (apps not started).
 - One sample only: whether Inkling still sometimes rejects the grey backing over several sprites.
+
+## N2 Scriptorium re-index 2026-11-22
+
+Plain `reindex` (the user approved: "scriptorium ok recommendation"; the full delete-and-rebuild was not done).
+
+- Code check: `src/engine/cli.ts:78-91` `reindexLibrary` only loads the registry, `MemoryService.reindexAll()` (`memory/service.ts:33`) -> `reindex()` (`memory/index.ts:316-333`: collects markdown files, `upsert` skips files whose hash is unchanged, chunks and embeds the new ones, removes rows of vanished files). `index.ts:48-51` dispatches it before the engine lock, scheduler, MCP server and job queue. No chat model call.
+- Config: `roles.md` `embeddings: acp/llama/nomic-embed-text-v1.5`; `providers.md` `acp` `base_url: http://127.0.0.1:8787/v1`. Scriptorium was down (hub.ps1 status; no Scriptorium process; `index/engine.lock` pid 19260 is stale, not running). Probe `POST /v1/embeddings` returned a 768-long vector.
+- Build: `yarn build:engine` (part of `npm run engine`), from `C:\projects\Personal\scriptorium` on master 8cec567, tree clean before and after. A first attempt with backslashes in `--data` failed on a bad path (ENOENT, nothing written); the second used `C:/Users/Infplane/Scriptorium`.
+- Backup: `C:\Users\Infplane\Scriptorium\index\library.sqlite.bak-HUB-40` (50,438,144 bytes; no -wal/-shm existed).
+- Time: about 20 s including the build. Log: `.claude\temp\hub40-reindex\reindex.log`. Exit 0, no failing files.
+
+| | files | chunks | chunks > 1800 chars | chunks with no letter/digit | longest chunk | size |
+|---|---|---|---|---|---|---|
+| before | 1448 | 6720 | 0 | 55 | 1790 | 50,438,144 |
+| after | 1449 | 6707 | 0 | 55 | 1790 | 50,610,176 |
+
+- Embedded 35 files, 1414 unchanged (skipped), 0 removed, 0 failed. dim 768.
+- The 55 no-letter/digit chunks are all still there: they sit in unchanged files that keep their old chunks. Only the full rebuild (delete `library.sqlite`) would remove them; the user decides that if search results look off.
+- End state: proxy `/healthz` ok, every provider active 0 / queued 0; Strata 8080 answers (qwen3.8-flash-next-unsloth-ud-iq4_xs); nothing started; Scriptorium still down. Nothing committed.
+
+
+## Throwaway check data deleted 2026-11-22
+
+The user said the throwaway HUB-39 check copies can go ("we do not need test copies"). Deleted exactly three:
+
+- VN Studio project `hub39-critic-check` (18 files, 7.5 MB): through the running app (`vno_delete_project`, after `vno_status` showed 0 queued and 0 running jobs).
+- Edu Studio course copy `C:\Users\Infplane\EduGames\courses\hub39-critic-check` (145 files, 47.5 MB): `Remove-Item -LiteralPath ... -Recurse -Force`; port 7463 was closed. No reparse points inside.
+- Cartoon Studio series copy `C:\Users\Infplane\CartoonStudio\series\hub39-critic-check` (265 files, 81.0 MB): same way; port 7465 was closed. No reparse points inside.
+
+Originals untouched (file count and bytes, before and after): Edu `suncev-sustav` 149 files / 47,395,092 bytes both times; Cartoon `pilot` 264 files / 81,030,809 bytes both times.
+
+No data-folder index file listed the copies. The run logs and ticket records still mention the name as history, and no `.bak-HUB-*` file was touched.
