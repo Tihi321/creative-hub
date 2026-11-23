@@ -574,15 +574,163 @@ Verdict: PASS (exit 0; files 1,449 = 1,449; separator-only 0; longest 1,790 at m
 
 State after: Scriptorium still down (`hub.ps1 status`), no leftover re-index process, the proxy `/healthz` answers `ok` with every provider (codex, antigravity, claude, gufo, strata, llama, llama-embed) at active 0 and queued 0. Strata still holds its model (`qwen3.8-flash-next-unsloth-ud-iq4_xs`, loaded, 131,072 context, 8080); the embedding server on 8083 ran beside it and did not evict it. The backup `library.sqlite.bak-HUB-44` (50,610,176 bytes, hash unchanged) stays in `C:\Users\Infplane\Scriptorium\index\`; the old index is in the Recycle Bin.
 
+## K4 Edu critic check (P-25, P-27b), 2026-11-23
+
+Worker session, approved by the user ("do all and close request"), including the temporary edit of Edu's live `roles.md`.
+
+### Local-only guarantee (before any job)
+
+09:38:34Z state: Edu up (pid 6456), queue idle (every course queued 0 / running 0, clientTasks 0); the proxy (9248) holds Strata (8080, pid 29896); ComfyUI up (17472). Proxy `settings.json` SHA-256 `1130D968...A8BBA592` (as expected).
+
+How Edu picks a model (code read, edu-game-studio master with EGS-76):
+- `router.candidates(role, ...)` (`src/engine/models/router.ts:108-133`): the course model (`models` in `course.md`, set only by `brief.model`), then the agent's own `model:`, then `registry.roleModelRefs(role)`; unavailable models dropped. Every model call goes through it (`scheduler.ts:236,344`; the art-critic `media.ts:440`; `summary.ts:11`).
+- `roleModelRefs` (`src/engine/models/registry.ts:617-632`): the role's list from `roles.md`, aliases resolved; EGS-68 adds the first `acp` row and an OpenRouter price-0 model only after a ref whose provider is local, not a client and **not `acp`** (`:621-624`). A list of `acp/...` refs only gets nothing added.
+- `roleEntries` (`registry.ts:654-685`): with `fallback_shared: false` (live `settings.md` line 7) the role's own list as it is; the `fallbacks` rows (DeepSeek first) are not added.
+- Agents: all 23 `agents/*.md` have `model:` empty. The brief carries no `model`, so the course has no `models`.
+- `roles.md` is re-read on change (`src/engine/index.ts:101` watcher, `engine.ts:635-641`: `registry.load()` and running jobs follow): no restart. Edu's log after the edit: `[engine] changed: config change config/roles.md`, no "could not reload".
+
+Temporary edit: `C:\Users\Infplane\EduGames\config\roles.md` copied to `roles.md.bak-HUB-44-k4` (original SHA-256 `AB6F43DA33BDB09BACA30B782699B73D9BE252B7B3F89749E4A19F0E5A210BD3`, 8,368 bytes, LF, no BOM); only the 21 `models:` lines of the front matter changed (edited SHA-256 `0379B93C...B83A054E`, 8,986 bytes). The OpenRouter fallback (EGS-68) needs no switch: it is not added to `acp/...` lists (above).
+
+| role | models after the edit (resolved, in order) |
+|---|---|
+| art-critic | `acp/llama/inkling-2-mini` (vision: true in `providers.md`) |
+| every other role (director, curriculum-designer, subject-expert, item-writer, misconception-designer, explainer, language-coach, game-designer, narrative-designer, art-director, composer, voice-director, translator, scene-writer, publisher, researcher, fact-checker, accessibility-reviewer, child-safety-reviewer, playtester) | `acp/strata/qwen3.8-flash-next-unsloth-ud-iq4_xs` |
+
+Edu has no MCP tool that lists a role's resolved models; the table is from the code above read against the edited file. Edu was not restarted.
+
+### The run (box 40 minutes from 09:39:58Z; used 26 minutes, stopped 10:05Z)
+
+- 09:39:58Z `edu_run_pipeline` slug `hub44-critic-check`, brief: topic "Shop signs in a small town", audience children, age 8, sourceLang en, shells `[quiz-arena]`, story none, units 1, objectivesPerUnit 1, itemsPerObjective 2, media `{art: {enabled, review}, music: {enabled: false}, voice: {enabled: false}}`, no `model`. `course.md` has no `models`.
+- Research: three `client-search` searcher tasks came in (the two questions and a follow-up "Shop signs"). I answered each with `{"results":[]}` (no search, no content), so each fell through to Wikipedia at once instead of waiting 10 minutes. Edu's log: "search provider client-search: no results for ...". Fact base: 21 facts from 3 sources (Wikipedia).
+- Steps: plan, research x2, factbase, curriculum (1 unit, 1 objective), articles (1), items (6), distractors, fact_check (pass, accuracy 10), explain, design, art_plan (5 pictures), art_generate (5 made, ComfyUI qwen-image-2.1), art_review k1 (Inkling: 5 reviewed, 3 approved, 2 sent back), art_generate-k2 (2 made). Stopped while art_review-k2 was running: `edu_stop_now {drop: true, slug}` -> paused, stopped, dropped; then `edu_resume_all` so the queue is not left paused. Job files after: queued 0, running 0, failed 0, done 15.
+- (K10, run in parallel by another worker at 09:43-09:44Z, started and stopped Scriptorium with no model call; it did not touch this run.)
+
+### What the critic wrote (`pipeline/reviews/art_review-k1.json`)
+
+| picture | verdict (relevance / clarity) | notes (short) | problems: issue / fix |
+|---|---|---|---|
+| img-article-a-u1-1 | pass (9 / 8) | the apple sign is the clear centre; minor: white margin, tiny blank price tags | none |
+| img-item-u1-q6 | pass (8 / 7) | two crates, clean vs messy shapes; minor: off-centre, star above the crate | none |
+| img-quiz-arena-bg-u1 | pass (8 / 8) | empty street of shop fronts, "no visible text"; a little too painterly | none |
+| img-quiz-arena-bg-boss | revise (7 / 4) | the dark alley matches; "The signs show text and look too bright/legible, which breaks the no-letter requirement and the dim mood." | "The signs carry readable characters, and the panels are too light for a dim, mysterious alley." / **"blank dim hanging shop signs with plain solid panels"** |
+| img-encyclopedia-plate-a-u1-1 | revise (7 / 6) | right subject; reads as a photograph; a side plaque with writing at the left | "The artwork is photorealistic rather than a clean flat illustration, and a side wall plaque with lettering enters at the left edge." / **"A flat, soft-colour illustrated close-up of one centred wooden sign with a bold coffee-cup icon and rising steam, simple shapes, clear simple street backdrop with an empty middle, full-bleed, with no side plaque or text"** |
+
+Every note, issue and fix is in English. Fix 1 is written as what to show. Fix 2 is mostly what to show but ends with a negation, "with no side plaque or text".
+
+How the redraw prompts are built (the v2 prompts in `edu_asset_list` / `assets.json`): the v1 prompt + `. Correct this: ` + the review note (`media.ts:519-520`: the notes, then each issue with its fix after `stripTextNegations`, cut at 600 characters; `pipeline-handlers.ts:858`).
+- bg-boss v2: "... Correct this: The scene matches the prompt well: ... which breaks the no-letter requirement and the dim mood. The signs carry readable characters, and the panels are too light for a dim, mysterious alley. (blank dim hanging shop signs with plain solid panels)". The fix in it equals the raw fix: there was nothing to strip (note 362 characters).
+- plate v2: "... Correct this: The main subject is right: ... (A flat, soft-colour illustrated close-up ... full-bleed, with no side plaque or". The note is exactly 600 characters. **The stripper did not remove "with no side plaque or text"**: only the 600-character cut took off the last word "text". `TEXT_NEGATION` (`src/shared/art.ts:166-170`) only matches a clause that starts with "no" or "without" (optionally after "and" or "or"). This clause starts with "with no", and "side plaque" is not one of its text words. So "with no side plaque or" reached ComfyUI.
+- Also seen: only the fix is stripped. The critic's `notes` and `issue` go into "Correct this" as they are, so words like "no-letter requirement", "readable characters" and "lettering" reach the image prompt.
+
+Verdicts:
+- P-27b (English notes): **PASS**. All 5 notes and both problems are in English.
+- P-25 (fix written as what to show): **FAIL**, 1 of 2. The bg-boss fix is positive. The plate fix ends with the negation "with no side plaque or text", although the prompt says "never as a negation".
+- The stripper removed a negation live: **FAIL**. The critic did write a text negation, and `stripTextNegations` kept it because it does not know the "with no ..." form. Part of it reached the redraw prompt, cut short by the 600-character limit, not removed. This is an Edu gap for a new EGS ticket: strip "with no X / with no X or text" clauses too, and strip or leave out the `notes` and `issue` text in "Correct this".
+
+### Cleanup (10:05-10:08Z)
+
+- The course's jobs were stopped and dropped (above). Edu has no tool that removes a course (none in its MCP tools or engine), so the folder `C:\Users\Infplane\EduGames\courses\hub44-critic-check` is **left in place** (1 unit, 7 picture versions, not built). It was not deleted by hand.
+- `edu_comfy_free` -> `{"lane":"http://127.0.0.1:8188","ok":true}`; ComfyUI vram_free 106,009,006,080 after.
+- `roles.md` restored from `roles.md.bak-HUB-44-k4`: SHA-256 `AB6F43DA33BDB09BACA30B782699B73D9BE252B7B3F89749E4A19F0E5A210BD3`, equal to the original. Edu's log: `changed: config change config/roles.md` (re-read; no restart needed, none made). The backup went to the Recycle Bin (it is gone from the folder).
+- 10:06:56Z `tiny-strata.json` -> chatcmpl-6139071ed4be4c1eb8576b6a8f21424a, **200 "OK"**, 18 / 2 tokens, 59.1 s (this request loaded Strata back after Inkling; Strata pid now 39924).
+
+### Models used
+
+- Proxy `usage.json` for 2026-11-23, before (`k4edu-usage-before.json`) -> after (`k4edu-usage-after.json`): `strata` 8 -> 23 (+15: 14 for the run, 1 tiny chat), `llama` 1,537 -> 1,543 (+6, 1 error: the 5 k1 reviews and the k2 review stopped mid-call), `gufo` 2 -> 2. No `codex`, `claude` or `antigravity` row that day. `/healthz`: every provider active 0.
+- The course's done job files name only `acp/strata/qwen3.8-flash-next-unsloth-ud-iq4_xs` (11 jobs) and `acp/llama/inkling-2-mini` (1, the art review), and no deepseek, openrouter, gemini, anthropic, claude, codex or antigravity id. Edu's log after the edit has no model fallback line. Edu's `budget.md`: "Today (2026-11-23): 0.0000 of 5 USD". Searches went to Wikipedia (free); no paid search.
+- No paid or cloud model was called; 0 USD.
+
+State after (10:08:28Z): up vn-studio 10620, edu-studio 6456 (not restarted), cartoon-studio 27596, vibetts 17740, comfyui 17472 (memory freed), strata 39924 (started by the proxy), acp-proxy 9248. Down: scriptorium, book-translator, pixel-studio, chiptune-studio, comfy-mcp, lmstudio, flow-music-mcp. Proxy `settings.json` SHA-256 unchanged (`1130D968...A8BBA592`). During the run, Edu's own engine wrote `config/budget.md` (its spend counter) and `config/factory.md` (the pause and the resume); I did not edit them.
+
+## K10 Scriptorium start check (P-32, P-34), 2026-11-23
+
+Worker session; the user, at the keyboard, answered "do all and close request" to the offer "Scriptorium start check (only on your explicit word)". Standing rule: no paid or cloud model. Edu, ComfyUI, the proxy and its local models were not touched; no live file edited, no build, no commit.
+
+### Preconditions (09:43:13Z, read-only; all held)
+
+- `jobs\queued` 0 files, `jobs\running` 0 files; `jobs\done` 4054, `jobs\failed` 4.
+- Books: 42 of 42 `stage: published`. Open ideas 7, none other than `source: generated` (the check for an open non-generated idea printed nothing). Active topics (`topics.md` rows with y/x/yes): only line 639, target 1, done 1 (full).
+- `config\factory.md`: `paused: false` (left as it was; no pause edit needed). `config\budget.md`: today 0.0000 of 20 USD (the old "Today" line was dated 2026-11-21), month 0.0104 of 40 USD, `deepseek/deepseek-flash` 0.0104 USD, 1 request; "Updated 2026-11-21T21:43:10+01:00".
+- `logs\spend\2026-11.md`: 235,569 bytes, last write 2026-11-21T20:43:10Z. Newest file under `logs\agents\`: `publisher-clara-ostrow.md`, 2026-11-16T07:47:59Z (28 files).
+- `index\engine.lock`: `{"pid":19260,"started":"2026-11-21T20:30:48.246Z"}`; pid 19260 not running. `hub.ps1 status`: scriptorium down; acp-proxy up (9248). Hub logs before: `scriptorium.out.log` 96,736,480 bytes, `scriptorium.err.log` 5,291 bytes.
+
+### Start (09:43:25Z) - `pwsh -File scripts\hub.ps1 start scriptorium -Force`, 7 s
+
+```
+scriptorium: requires acp-proxy
+acp-proxy: already up on 8787
+scriptorium: removed its stale lock (pid 19260)
+scriptorium: started (launcher pid 26664), waiting for port 7341...
+scriptorium: up at http://127.0.0.1:7341/mcp (pid 32856)
+```
+
+`hub.ps1 status` showed scriptorium up on 7341, pid 32856 (electron): the same pid as the "up at" line. New `index\engine.lock`: `{"pid":32856,"started":"2026-11-23T09:43:29.759Z"}`. `jobs\queued` and `jobs\running` still 0.
+
+### Log and tools (09:43:41Z)
+
+New lines in `scriptorium.out.log` after the 96,736,480-byte offset (1,747 bytes at that time, 2,022 after the stop; agent.state and heartbeat relays left out):
+```
+[main] engine started (pid 32856): C:\projects\Personal\scriptorium\out\engine\index.js
+[engine] data folder: C:\Users\Infplane\Scriptorium
+[engine] seed: copied 0 file(s), kept 80 existing, created 0 folder(s)
+[engine] models: acp 27 found
+[engine] mcp: listening on http://127.0.0.1:7341/mcp (no token set)
+[main] engine event: engine.ready
+[engine] warning: no new book starts: every active topic has reached its target (books in progress count toward it, and they go on). Raise a target in topics.md or switch on another topic.
+```
+No line about `config/roles.md`, `config/providers.md` or `config/settings.md`, no `recovery:`, no job line, no `DEVIATION`, no `unusable`. `scriptorium.err.log` unchanged (5,291 bytes). `hub.ps1 check scriptorium`: `scriptorium: OK, scriptorium 1.0.0, 48 tools`. The MCP status tool was not called (the session's Scriptorium MCP link was not connected; the queue counts come from the folders). Note: `hub.ps1 logs scriptorium` shows the tail of the old error log (entries from 2026-10-26: `registerSchemesAsPrivileged`, EBUSY watch on `providers.md.tmp` and `settings.md.tmp`); the err log did not grow, so those are not from this start.
+
+### Stop (09:43:51Z) - `pwsh -File scripts\hub.ps1 stop scriptorium`
+
+```
+scriptorium: stopped (pid 34404)
+scriptorium: removed its stale lock (pid 32856)
+```
+Done 09:43:54Z. `index\engine.lock` gone, port 7341 has no listener, no scriptorium/electron process left. Uptime: engine lock written 09:43:29.8Z, stop begun 09:43:51.6Z: about 22 s (about 26 s from the start command to the stop's last line).
+
+### After-checks (09:44:05Z), against the baseline
+
+| item | before | after |
+|---|---|---|
+| `jobs\queued` / `jobs\running` | 0 / 0 | 0 / 0 |
+| `jobs\done` / `jobs\failed` | 4054 / 4 | 4054 / 4 |
+| `logs\spend\2026-11.md` | 235,569 bytes, 2026-11-21T20:43:10Z | unchanged |
+| `logs\agents\` newest | 2026-11-16T07:47:59Z, 28 files | unchanged |
+| `config\budget.md` numbers | month 0.0104 USD, deepseek 1 request, per-model and per-role lists | identical; only "Updated" became 2026-11-23T10:43:30+01:00 and "Today" became (2026-11-23) 0.0000 (as the notes expected) |
+| `acp-proxy.out.log` | last write 2026-11-23T08:48:21Z | unchanged (no request in the window) |
+| proxy `/healthz` | every provider active 0, queued 0 | every provider active 0, queued 0 (uptime 3330 s then 3343 s) |
+
+### Verdicts
+
+- P-32 (stale `index\engine.lock`, pid 19260, removed by a real start): PASS. hub.ps1 printed "removed its stale lock (pid 19260)" at start, the engine wrote a new lock with its own pid, and the stop removed that one.
+- P-34 (Scriptorium reads its new prose files): PASS, as far as the log shows: `roles.md`, `providers.md` and `settings.md` were read at start with no error line (the engine logs only errors for them; `models: acp 27 found` proves `providers.md` was parsed and the acp discovery ran). The notes' stated proof is the absence of error lines, which holds.
+- No job ran, no model call was made: queue empty, spend ledger and budget numbers unchanged, no agent log touched, proxy log untouched.
+- Scriptorium is down again; acp-proxy, vn-studio, edu-studio, cartoon-studio, comfyui and vibetts were left as found.
+
+## End of round (2026-11-23)
+
+Worker session; the user, at the keyboard, answered "do all and close request" to the list of open items, and said on 2026-11-22 that throwaway checks may be deleted.
+
+Stop (Edu and Cartoon were down before the round): `edu_status` and `cts_status` showed queued 0 / running 0 for every course and series, clientTasks 0. Then `hub.ps1 stop edu-studio` and `hub.ps1 stop cartoon-studio`:
+```
+edu-studio: stopped (pid 6456)
+edu-studio: removed its stale lock (pid 6456)
+cartoon-studio: stopped (pid 27596)
+cartoon-studio: removed its stale lock (pid 27596)
+```
+
+Recycle Bin (each backup checked first: exact name, the live file beside it exists and is not empty; no other `*.bak-HUB-44*` file in the six folders):
+- `EduGames\config\providers.md.bak-HUB-44` (23,950 bytes), `CartoonStudio\config\providers.md.bak-HUB-44` (11,387), `CartoonStudio\config\settings.md.bak-HUB-44` (1,842), `PixelStudio\config\providers.md.bak-HUB-44` (12,849), `PixelStudio\config\seed-state.json.bak-HUB-44` (240), `Scriptorium\index\library.sqlite.bak-HUB-44` (50,610,176; the new `library.sqlite` is 42,094,592).
+- The throwaway course folder `EduGames\courses\hub44-critic-check` (its `course.md` topic: "Shop signs in a small town").
+- Edu job files named `hub44-critic-check`: queued 0, running 0 (nothing to recycle); `done` history of that course: 15 jobs, kept; failed 0.
+- `.claude\temp\hub44-live`, after its five `*-mushroom.png` files were copied to `runs\hub-44-pictures\` (k5r1, k5r2, k5r3, k6, s4).
+
 # Final state (2026-11-23)
 
-Services up: acp-proxy (holds Strata), vn-studio, edu-studio, cartoon-studio, comfyui, vibetts. Down: Pixel Studio, Scriptorium, Chiptune Studio, Book Translator. Everything built is merged and pushed on master in every repo; the machine was not shut down.
+Services up: acp-proxy (holds Strata), vn-studio, comfyui, vibetts. Down: scriptorium, book-translator, edu-studio, cartoon-studio, pixel-studio, chiptune-studio, comfy-mcp, flow-music-mcp, lmstudio. Everything built is merged and pushed on master in every repo; the machine was not shut down.
 
 Open items:
-- K7: the Scriptorium full re-chunk, DONE 2026-11-23 (PASS: 1,449 files, 6,707 to 6,645 chunks, separator-only 55 to 0, longest 1,790, exit 0 in 240 s; see the K7 section). Not tested: a search against the new index.
-- K10: the Scriptorium start for P-32 and P-34 (only on the user's word).
-- The Edu critic check (P-25, P-27b), which needs a temporary edit of Edu's live config.
-- K9: the user's look at the proxy window (Monitor and About, with AAP-52 and AAP-53).
-- UNTESTED: the VN negation stripper live, AAP-52's refusal after a load, AAP-53 in the window, the autostart Gufo check, PAR-26 `repeatStop` live, Cartoon's ComfyUI free, pid-reuse lock removal on a real app.
-- Cleanup: the `.bak-HUB-44` backups in the live folders and `.claude\temp\hub44-live`.
+- K9: the user's look at the proxy window (Monitor, About, Requests, Usage). Expected values: `runs\hub-43-open-ideas.md` and the HUB-44 changelog.
+- Edu finding, not built: `stripTextNegations` (`src/shared/art.ts`) matches only a clause that starts with no or without, so a fix ending "with no side plaque or text" keeps its negation, and the critic's notes and issue text reach the redraw prompt unstripped (`media.ts:519-520`). A new EGS ticket; VN Studio has the same anchored pattern: decide both together.
+- UNTESTED: the VN negation stripper live, AAP-52's refusal after a load, AAP-53 in the window, the autostart Gufo check, PAR-26 `repeatStop` live, Cartoon's ComfyUI free, pid-reuse lock removal on a real app, a search against the new Scriptorium index, a search or a job after a Scriptorium start.
 - The unbuilt extra ideas (see the ticket changelog, "Open for the user").

@@ -66,7 +66,7 @@ Outcome: everything built is merged on master and pushed. The live round of 2026
 | K5 Strata as Pixel's vision model, three runs | PASS | 3 of 3 completed (two ended by the guard), 0 USD |
 | K6 `no-files` tool set | PASS | first prompt 3,904 tokens smaller |
 | K4 VN negation stripper | UNTESTED | the critic wrote no negation |
-| K4 Edu critic | UNTESTED | a local-only run could not be guaranteed without a config edit |
+| K4 Edu critic (P-25, P-27b), 2026-11-23 | PARTLY FAIL | local-only, 0 USD: English notes PASS; 1 of 2 fixes ended with the negation "with no side plaque or text" and the stripper kept it (see "Found by the live check, not built") |
 | K8 Gufo probe | PASS | /health, /props, /slots, /metrics answer; /v1/status 404 |
 | B1 + S4 Pixel migration and a real artist run | PASS | one line `vision: true` inserted, 4 steps, completed, 0 USD |
 | S1 AAP-52 refusal after a load | UNTESTED | needs a text-only local model loaded; the early refusal was checked instead |
@@ -74,7 +74,7 @@ Outcome: everything built is merged on master and pushed. The live round of 2026
 | S2-S3 rebuilds of VN, Edu, Cartoon | PASS | |
 | S4 PAR-26 `repeatStop` live | UNTESTED | the guard did not fire |
 | K7 full Scriptorium re-chunk (09:26-09:30Z, 240 s, exit 0) | PASS | files 1,449 before and after; chunks 6,707 -> 6,645; separator-only chunks 55 -> 0; longest chunk 1,790 characters; Scriptorium not started, so a search against the new index is UNTESTED |
-| K10 | NOT RUN | held, see Deviations |
+| K10 Scriptorium start (P-32, P-34), 2026-11-23 | PASS | a real start removed the stale lock (pid 19260); no job, no model call; up about 22 s, stopped |
 
 ### Deviations
 - The stage 2 launch was denied by the permission check as possibly destructive; it was not worked around, and a reduced stage 2 ran. So K7 (Scriptorium re-chunk), K10 (Scriptorium start) and a temporary edit of Edu's live config were not run.
@@ -83,12 +83,13 @@ Outcome: everything built is merged on master and pushed. The live round of 2026
 - K4 VN took two attempts; the Pixel vision migration ran at Pixel's first model use, not at start.
 
 ### UNTESTED
-The VN critic's negation stripper live; the Edu critic (P-25, P-27b); AAP-52's refusal after a load; AAP-53 in the Monitor and About windows (K9); the autostart Gufo and Strata check; PAR-26 `repeatStop` live; Cartoon's ComfyUI free; pid-reuse lock removal on a real app; Strata's image input proven in its log; the Scriptorium re-chunk and start.
+The VN critic's negation stripper live; AAP-52's refusal after a load; AAP-53 in the Monitor and About windows (K9); the autostart Gufo and Strata check; PAR-26 `repeatStop` live; Cartoon's ComfyUI free; pid-reuse lock removal on a real app; Strata's image input proven in its log; a search against the new Scriptorium index and a job after a Scriptorium start.
 
 ## Open for the user
-- K7: DONE (2026-11-23): 1,449 files, chunks 6,707 -> 6,645, separator-only chunks 55 -> 0; a search against the new index is untested (Scriptorium not started).
-- K10: starting Scriptorium for P-32 and P-34. Never without the user's word: it resumes the whole book factory and may spend on paid models.
-- The Edu critic check (P-25, P-27b): a throwaway course whose run is local-only; needs a temporary edit of Edu's live config.
-- K9: look at the ACP proxy window (Monitor and About). Expected values: `runs/hub-43-open-ideas.md`, section "What the Monitor and About pages should show". Since then AAP-51, AAP-52 and AAP-53 changed: sizes in GiB, the dot on the chart, reason texts, the approximate mark, Gufo tiles, and the About page's image note.
-- Backups and scratch, to delete when happy: the Scriptorium index backup `C:\Users\Infplane\Scriptorium\index\library.sqlite.bak-HUB-44` (about 50 MB); the `.bak-HUB-44` files of Edu `providers.md`; Cartoon `providers.md` and `settings.md`; Pixel `providers.md` and `seed-state.json` (in the live data folders); and `.claude\temp\hub44-live` in this repo.
+- K9: look at the ACP proxy window (Monitor, About, Requests, Usage). Expected values: `runs/hub-43-open-ideas.md`, section "What the Monitor and About pages should show". Since then AAP-51, AAP-52 and AAP-53 changed: sizes in GiB, the dot on the chart, reason texts, the approximate mark, Gufo tiles, and the About page's image note.
+
+## Found by the live check, not built
+- Edu Studio (a new EGS ticket): `stripTextNegations` (`src/shared/art.ts`) matches only clauses that START with no/without, so a fix ending '..., with no side plaque or text' keeps its negation; and `media.ts:519-520` puts the critic's notes and issue text ('readable characters', 'lettering') into the redraw note unstripped, cut at 600 characters. VN Studio has the same anchored pattern by an earlier decision ('a shop sign with no text' is kept on purpose): decide both together.
+
+## Unbuilt extra ideas
 - Unbuilt extra ideas (from the request file REQ-0031, none decided): AAP-51 `architecture.input_modalities` in `/v1/models` (AAP-52 left it out: it would change Pixel's and Chiptune's fallback choice); AAP-51 Strata's `/health` `loaded: true` as its ready check (a lazy Strata would never be ready); hub planner: probe Strata's `strata_prefix` field for P-16; Monitor: a Speculation tile from spec_decode counters; Monitor: support for a Gufo started outside the app; `services.json`: a `gufo` entry; VN and Edu: mention Gufo in the seed `autostart.md`; Strata holder probe: a JSON check; Pixel: log a failed migration's warning (`setup.ts` discards the result); Pixel: run migrations at start, not at the first model call; Pixel: `migrateAcpPort` re-serializes `providers.md`; Edu: the test setup rewrites `out/live` of a running app; proxy `README.md:164` stale sentence (Strata answers after its lease since AAP-51); Pixel: `chatJson` usage lost when it fails after two repairs. Also noted: Edu's pipeline tests are timing-sensitive under load.
