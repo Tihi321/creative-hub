@@ -73,7 +73,8 @@ Outcome: everything built is merged on master and pushed. The live round of 2026
 | S1 AAP-53 in the window | UNTESTED | needs the window (K9) |
 | S2-S3 rebuilds of VN, Edu, Cartoon | PASS | |
 | S4 PAR-26 `repeatStop` live | UNTESTED | the guard did not fire |
-| K7, K10 | NOT RUN | held, see Deviations |
+| K7 full Scriptorium re-chunk (09:26-09:30Z, 240 s, exit 0) | PASS | files 1,449 before and after; chunks 6,707 -> 6,645; separator-only chunks 55 -> 0; longest chunk 1,790 characters; Scriptorium not started, so a search against the new index is UNTESTED |
+| K10 | NOT RUN | held, see Deviations |
 
 ### Deviations
 - The stage 2 launch was denied by the permission check as possibly destructive; it was not worked around, and a reduced stage 2 ran. So K7 (Scriptorium re-chunk), K10 (Scriptorium start) and a temporary edit of Edu's live config were not run.
@@ -85,9 +86,9 @@ Outcome: everything built is merged on master and pushed. The live round of 2026
 The VN critic's negation stripper live; the Edu critic (P-25, P-27b); AAP-52's refusal after a load; AAP-53 in the Monitor and About windows (K9); the autostart Gufo and Strata check; PAR-26 `repeatStop` live; Cartoon's ComfyUI free; pid-reuse lock removal on a real app; Strata's image input proven in its log; the Scriptorium re-chunk and start.
 
 ## Open for the user
-- K7: the full Scriptorium re-chunk of unchanged files (not started).
+- K7: DONE (2026-11-23): 1,449 files, chunks 6,707 -> 6,645, separator-only chunks 55 -> 0; a search against the new index is untested (Scriptorium not started).
 - K10: starting Scriptorium for P-32 and P-34. Never without the user's word: it resumes the whole book factory and may spend on paid models.
 - The Edu critic check (P-25, P-27b): a throwaway course whose run is local-only; needs a temporary edit of Edu's live config.
 - K9: look at the ACP proxy window (Monitor and About). Expected values: `runs/hub-43-open-ideas.md`, section "What the Monitor and About pages should show". Since then AAP-51, AAP-52 and AAP-53 changed: sizes in GiB, the dot on the chart, reason texts, the approximate mark, Gufo tiles, and the About page's image note.
-- Backups and scratch, to delete when happy: the `.bak-HUB-44` files of Edu `providers.md`; Cartoon `providers.md` and `settings.md`; Pixel `providers.md` and `seed-state.json` (in the live data folders); and `.claude\temp\hub44-live` in this repo.
+- Backups and scratch, to delete when happy: the Scriptorium index backup `C:\Users\Infplane\Scriptorium\index\library.sqlite.bak-HUB-44` (about 50 MB); the `.bak-HUB-44` files of Edu `providers.md`; Cartoon `providers.md` and `settings.md`; Pixel `providers.md` and `seed-state.json` (in the live data folders); and `.claude\temp\hub44-live` in this repo.
 - Unbuilt extra ideas (from the request file REQ-0031, none decided): AAP-51 `architecture.input_modalities` in `/v1/models` (AAP-52 left it out: it would change Pixel's and Chiptune's fallback choice); AAP-51 Strata's `/health` `loaded: true` as its ready check (a lazy Strata would never be ready); hub planner: probe Strata's `strata_prefix` field for P-16; Monitor: a Speculation tile from spec_decode counters; Monitor: support for a Gufo started outside the app; `services.json`: a `gufo` entry; VN and Edu: mention Gufo in the seed `autostart.md`; Strata holder probe: a JSON check; Pixel: log a failed migration's warning (`setup.ts` discards the result); Pixel: run migrations at start, not at the first model call; Pixel: `migrateAcpPort` re-serializes `providers.md`; Edu: the test setup rewrites `out/live` of a running app; proxy `README.md:164` stale sentence (Strata answers after its lease since AAP-51); Pixel: `chatJson` usage lost when it fails after two repairs. Also noted: Edu's pipeline tests are timing-sensitive under load.

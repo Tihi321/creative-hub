@@ -549,12 +549,37 @@ S5: **PASS**.
 
 End of stage 3: up acp-proxy (holds Strata), vn-studio, edu-studio, cartoon-studio, comfyui, vibetts; Pixel stopped; Scriptorium, Chiptune and Book Translator down. Left for the director and the user: K7, K9 (with AAP-53's Monitor and About), K10, the End of round, the temp folder and the `.bak-HUB-44` files.
 
+## K7 The full Scriptorium re-chunk (P-31), 2026-11-23
+
+The user approved it in their own words on 2026-11-22 ("Yes, with a backup (Recommended)") and again on 2026-11-23, at the keyboard ("Yes, run it"). Scriptorium was never started. Local embedding model only (`acp/llama/nomic-embed-text-v1.5` through the proxy on 8787), 0 USD.
+
+- 09:25Z precondition: `hub.ps1 status` showed scriptorium down; no process ran from `C:\projects\Personal\scriptorium`. `index\` held `engine.lock` (51 bytes, stale, left alone) and `library.sqlite` (50,610,176 bytes).
+- 09:26:13Z backup: `cp library.sqlite library.sqlite.bak-HUB-44` (no `-wal` or `-shm` file existed). SHA-256 of both: `6207b914ebbd9c91bb1f0bed65af23679f3aa406fbd6f90f1b4e7d9d09d9bfa0` (equal).
+- Schema read first (`select name, sql from sqlite_master`): `files(file, hash)`, `chunks(id, file, idx, book, kind, ref, text)`, plus the fts5 and vec0 tables (not touched). Counts with `.claude\temp\hub44-live\chunks.mjs` (`node:sqlite`, `readOnly: true`), before on the backup, after on the new file.
+- Old index sent to the Recycle Bin with `Microsoft.VisualBasic.FileIO.FileSystem.DeleteFile(..., 'SendToRecycleBin')`; the backup stayed.
+- 09:26:31Z re-index, Bash, in the background, whole output in `.claude\temp\hub44-live\k7-reindex.log`: `export PATH="/c/Users/Infplane/AppData/Roaming/fnm/aliases/default:$PATH"; cd /c/projects/Personal/scriptorium && npm run engine -- reindex --data C:/Users/Infplane/Scriptorium`. Ended 09:30:31Z: exit code 0, wall time 240 s (4 minutes, against about 15 estimated). The log has 1,456 lines: `index/library.sqlite: 1449 file(s) indexed, 0 unchanged, 0 removed. {"files":1449,"chunks":6645,"dim":768}` and one `embedded:` line per file; the four lines that match "error" are file names.
+
+| | before (backup) | after (new index) |
+|---|---|---|
+| files | 1,449 | 1,449 |
+| chunks | 6,707 | 6,645 |
+| separator-only chunks | 55 | 0 |
+| longest chunk (characters) | 1,790 (`books/the-silent-summit-2/chapters/ch-04.md`) | 1,790 (same file) |
+| five longest | 1,790, 1,789, 1,783, 1,778, 1,777 | the same five |
+| distinct files in `chunks` | 1,449 | 1,449 |
+
+Chunks fell by 62: the 55 separator-only chunks are gone and 7 more were merged or dropped by the new chunker; no file is missing. The longest chunk was already within 1,800 before.
+
+Verdict: PASS (exit 0; files 1,449 = 1,449; separator-only 0; longest 1,790 at most 1,800; chunk count 6,645 recorded). Not tested: a search query against the new index (Scriptorium stayed down).
+
+State after: Scriptorium still down (`hub.ps1 status`), no leftover re-index process, the proxy `/healthz` answers `ok` with every provider (codex, antigravity, claude, gufo, strata, llama, llama-embed) at active 0 and queued 0. Strata still holds its model (`qwen3.8-flash-next-unsloth-ud-iq4_xs`, loaded, 131,072 context, 8080); the embedding server on 8083 ran beside it and did not evict it. The backup `library.sqlite.bak-HUB-44` (50,610,176 bytes, hash unchanged) stays in `C:\Users\Infplane\Scriptorium\index\`; the old index is in the Recycle Bin.
+
 # Final state (2026-11-23)
 
 Services up: acp-proxy (holds Strata), vn-studio, edu-studio, cartoon-studio, comfyui, vibetts. Down: Pixel Studio, Scriptorium, Chiptune Studio, Book Translator. Everything built is merged and pushed on master in every repo; the machine was not shut down.
 
 Open items:
-- K7: the Scriptorium full re-chunk (not run).
+- K7: the Scriptorium full re-chunk, DONE 2026-11-23 (PASS: 1,449 files, 6,707 to 6,645 chunks, separator-only 55 to 0, longest 1,790, exit 0 in 240 s; see the K7 section). Not tested: a search against the new index.
 - K10: the Scriptorium start for P-32 and P-34 (only on the user's word).
 - The Edu critic check (P-25, P-27b), which needs a temporary edit of Edu's live config.
 - K9: the user's look at the proxy window (Monitor and About, with AAP-52 and AAP-53).
