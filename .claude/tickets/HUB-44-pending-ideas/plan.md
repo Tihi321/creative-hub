@@ -1,5 +1,5 @@
 ---
-status: in-progress
+status: done
 request: REQ-0031
 repos: [creative-hub, api-acp-proxy, pixel-art-generator, visual-novels-orchestrator, edu-game-studio, scriptorium, midi-generator]
 branch: HUB-44_pending-ideas
