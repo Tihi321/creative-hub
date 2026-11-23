@@ -37,3 +37,57 @@ Not run (by plan): the whole live round; R1's start against `status` for H-3 on 
 - None added.
 
 Commit status: committed on `HUB-44_pending-ideas` (not pushed, not merged).
+
+## 2026-11-23 Round summary: what was built, the live round, what is open
+
+Outcome: everything built is merged on master and pushed. The live round of 2026-11-22/23 is done except the items under "Open for the user". Full detail: `runs/hub-44-pending-ideas.md`.
+
+### Built and merged, per repo
+- api-acp-proxy: AAP-51 merge 33a76c2 (Monitor and settings leftovers; images to Strata right after a proxy start); AAP-52 merge 07bccd3 (`unsupported_content` after a lease mapped to `model_not_capable` for MCP callers, the models cache row for Strata refreshed at load, leftovers of AAP-51); AAP-53 merge 84d3f0e (Gufo tiles in the Monitor, the About image note, GiB, the dot, reason texts, the approximate mark).
+- pixel-art-generator: PAR-25 part A merge 5b63ec0 (a run that redraws the same picture stops; the repeat guard counts only steps whose tool writes the picture; optional `no-files` tool set); PAR-26 merge 820f2e9 (guard and tool-set tests, abort test, `config/app.json` in the README, `chatJson` usage of repairs, `repeatStop` in `get_agent_run`); PAR-25 part B merge 5a73ed3 (Strata as vision model: a one-line migration of `providers.md`).
+- visual-novels-orchestrator: VNO-73 merge 35ed8da (final full stop of a stripped prompt, a log line for stripped revisions); VNO-74 merge 95ce939 (Gufo health probe).
+- edu-game-studio: EGS-76 merge 36e52ef (critic fixes without text negations); EGS-77 merge 8197a08 (Gufo health probe).
+- cartoon-studio: CTS-59 merge bec990f (Gufo health probe).
+- scriptorium: SCP-69 merge f67b39a (small leftovers); SCP-70 merge 18d12fc (the second adaptation test's race).
+- midi-generator: MDI-21 merge f1d1d12 (perf test margin).
+- creative-hub: merge 8bdf7f0 (hub.ps1 H1-H3, see the entry above); the commit after it adds the run log, the ticket records, ROADMAP row 37 and the CLAUDE.md line on Pixel's vision model.
+
+### Live round verdicts (2026-11-22 22:09Z to 2026-11-23 09:05Z)
+| step | verdict | note |
+|---|---|---|
+| P0 preconditions | PASS | services as planned, every provider idle, settings hash unchanged |
+| R1 proxy rebuild; P-02 image to Strata right after a start | PASS | 200 with a description of the image |
+| R2 VN rebuild, R3 Pixel and Edu builds, Cartoon build checked | PASS | locks replaced, `vno_status`, `edu_status`, `cts_status` answer |
+| L1-L3 live prose of Edu and Cartoon | PASS | prose equals the seed, front matter hashes unchanged, `.bak-HUB-44` backups |
+| K1 starts: stale locks removed, prompts refreshed | PASS | real dead-pid locks removed on real starts |
+| K2 the 8 queued VN job files | PASS | in the Recycle Bin, `queued` empty |
+| K3 Edu ComfyUI free | PASS | lane 8188 ok |
+| K3 Cartoon ComfyUI free; autostart Gufo check | UNTESTED | no tool; ComfyUI was always up |
+| K5 Strata as Pixel's vision model, three runs | PASS | 3 of 3 completed (two ended by the guard), 0 USD |
+| K6 `no-files` tool set | PASS | first prompt 3,904 tokens smaller |
+| K4 VN negation stripper | UNTESTED | the critic wrote no negation |
+| K4 Edu critic | UNTESTED | a local-only run could not be guaranteed without a config edit |
+| K8 Gufo probe | PASS | /health, /props, /slots, /metrics answer; /v1/status 404 |
+| B1 + S4 Pixel migration and a real artist run | PASS | one line `vision: true` inserted, 4 steps, completed, 0 USD |
+| S1 AAP-52 refusal after a load | UNTESTED | needs a text-only local model loaded; the early refusal was checked instead |
+| S1 AAP-53 in the window | UNTESTED | needs the window (K9) |
+| S2-S3 rebuilds of VN, Edu, Cartoon | PASS | |
+| S4 PAR-26 `repeatStop` live | UNTESTED | the guard did not fire |
+| K7, K10 | NOT RUN | held, see Deviations |
+
+### Deviations
+- The stage 2 launch was denied by the permission check as possibly destructive; it was not worked around, and a reduced stage 2 ran. So K7 (Scriptorium re-chunk), K10 (Scriptorium start) and a temporary edit of Edu's live config were not run.
+- The session was suspended about 9 hours (22:32Z to 07:43Z); the K4 VN job finished on its own.
+- The director wrote `status: approved` and the plan events on the seven plans, because the scribe cannot see the user's messages; the user was told.
+- K4 VN took two attempts; the Pixel vision migration ran at Pixel's first model use, not at start.
+
+### UNTESTED
+The VN critic's negation stripper live; the Edu critic (P-25, P-27b); AAP-52's refusal after a load; AAP-53 in the Monitor and About windows (K9); the autostart Gufo and Strata check; PAR-26 `repeatStop` live; Cartoon's ComfyUI free; pid-reuse lock removal on a real app; Strata's image input proven in its log; the Scriptorium re-chunk and start.
+
+## Open for the user
+- K7: the full Scriptorium re-chunk of unchanged files (not started).
+- K10: starting Scriptorium for P-32 and P-34. Never without the user's word: it resumes the whole book factory and may spend on paid models.
+- The Edu critic check (P-25, P-27b): a throwaway course whose run is local-only; needs a temporary edit of Edu's live config.
+- K9: look at the ACP proxy window (Monitor and About). Expected values: `runs/hub-43-open-ideas.md`, section "What the Monitor and About pages should show". Since then AAP-51, AAP-52 and AAP-53 changed: sizes in GiB, the dot on the chart, reason texts, the approximate mark, Gufo tiles, and the About page's image note.
+- Backups and scratch, to delete when happy: the `.bak-HUB-44` files of Edu `providers.md`; Cartoon `providers.md` and `settings.md`; Pixel `providers.md` and `seed-state.json` (in the live data folders); and `.claude\temp\hub44-live` in this repo.
+- Unbuilt extra ideas (from the request file REQ-0031, none decided): AAP-51 `architecture.input_modalities` in `/v1/models` (AAP-52 left it out: it would change Pixel's and Chiptune's fallback choice); AAP-51 Strata's `/health` `loaded: true` as its ready check (a lazy Strata would never be ready); hub planner: probe Strata's `strata_prefix` field for P-16; Monitor: a Speculation tile from spec_decode counters; Monitor: support for a Gufo started outside the app; `services.json`: a `gufo` entry; VN and Edu: mention Gufo in the seed `autostart.md`; Strata holder probe: a JSON check; Pixel: log a failed migration's warning (`setup.ts` discards the result); Pixel: run migrations at start, not at the first model call; Pixel: `migrateAcpPort` re-serializes `providers.md`; Edu: the test setup rewrites `out/live` of a running app; proxy `README.md:164` stale sentence (Strata answers after its lease since AAP-51); Pixel: `chatJson` usage lost when it fails after two repairs. Also noted: Edu's pipeline tests are timing-sensitive under load.

@@ -5,3 +5,5 @@
 {"ts":"2026-11-22T21:26:40Z","actor":"implement","type":"changelog.written","request":"REQ-0031","ticket":"HUB-44-pending-ideas","detail":"changelog.md for hub tasks H1-H4"}
 {"ts":"2026-11-22T21:58:00Z","actor":"director-scribe","type":"checker.verdict","request":"REQ-0031","ticket":"HUB-44-pending-ideas","detail":"round 1 PASS for H1-H4","data":{"round":1,"verdict":"PASS","tasks":["H1","H2","H3","H4"]}}
 {"ts":"2026-11-22T21:58:00Z","actor":"director-scribe","type":"attention.opened","request":"REQ-0031","ticket":"HUB-44-pending-ideas","detail":"A-001 merge the seven branches to master and push?","data":{"item":"A-001"}}
+{"ts":"2026-11-23T09:10:00Z","actor":"director-scribe","type":"attention.answered","request":"REQ-0031","ticket":"HUB-44-pending-ideas","detail":"A-001 answered by the user: merge and push all","data":{"item":"A-001"}}
+{"ts":"2026-11-23T09:10:00Z","actor":"director-scribe","type":"attention.opened","request":"REQ-0031","ticket":"HUB-44-pending-ideas","detail":"A-002 held items: Scriptorium re-chunk, Edu config, K10, K9, shutdown","data":{"item":"A-002"}}
