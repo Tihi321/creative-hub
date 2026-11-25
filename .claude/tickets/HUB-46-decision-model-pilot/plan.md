@@ -1,5 +1,6 @@
 ---
-status: draft
+status: dropped
+request: none
 repos: [C:/projects/Personal/creative-hub, C:/projects/Personal/api-acp-proxy, C:/projects/Personal/scriptorium]
 branch: HUB-46_decision-model-pilot
 updated: 2026-11-25
@@ -60,8 +61,9 @@ All decision-model files, caches and any runtime venv live on D:. Nothing goes t
 
 - Runtime venv for step 2: `D:\DecisionModels\.venv` (uv, `UV_CACHE_DIR=D:\DecisionModels\.uv-cache`).
 - Each repo ships Python run with `trust_remote_code` (`modeling_d3.py`, `d3_engine.py`, `d3_runtime.py`, `d3_server.py`,
-  `d3_kernels.py`) and a `readout.safetensors` decision head. The GGUFs very likely do not carry that head, which makes
-  llama-server option 3 even less likely to match. Read that code before the first run.
+  `d3_kernels.py`) and a `readout.safetensors` decision head. Read on 2026-11-25: nothing malicious. The only network
+  paths are image/video URLs and Hub downloads for non-local names, both off with a local path and `HF_HUB_OFFLINE=1`.
+  The GGUFs do carry the readout head (see step 2).
 
 ## Scope
 
@@ -104,6 +106,17 @@ VN/Edu art-critic and Cartoon frame-critic (multimodal d3 could pass the clear c
   2. transformers on ROCm PyTorch.
   3. A llama-server GGUF, reading the answer token's logprobs.
   Option 3 counts only if its answers match option 1 or 2 on the same 20 cases. Record which runtime worked.
+  **Result (2026-11-25, d3-mini, notes in `.claude/temp/hub-46/runtime/notes.md`):**
+  1. vllm-sr fails on Windows (`fcntl`), so it would need WSL.
+  2. transformers 5.17 on ROCm torch 2.9.1 (AMD gfx1151 nightly index, torchvision pinned to 0.24.0) runs on the GPU:
+     9.15 GB, about 200 ms per question.
+  3. `D:\LlamaCpp\bin\ggml-org-b12681-rocm\llama-server.exe` serves d3 GGUFs **natively** at `POST /v1/systemone`
+     (log: "decision model type: vllm-d3"), with no logprob workaround. It needs `C:\Program Files\AMD\ROCm\7.2\bin` on PATH,
+     otherwise it silently runs on the CPU (the first 730-875 ms toy timings were CPU runs). It also needs `-b`/`-ub` >= the longest prompt. On three toy
+     questions (yes/no, choice, score) it gave the same answers as transformers, with probabilities within 0.007. The
+     20-case match is in `results.md`.
+  These numbers were taken while Strata held about 61 of the 64 GB VRAM, so both runs spilled into shared memory.
+  State (a) "alone" needs the proxy to have no local model loaded.
 - **Memory.** With your yes on the downloads (question 1), run each model on its own port, outside the proxy, in two
   states: (a) alone, and (b) beside Inkling plus a ComfyUI image model loaded, which is the busiest real case. Record free
   VRAM in each state. A model that does not fit in state (b) can still win, but only as "runs when the GPU is free".
@@ -121,7 +134,8 @@ VN/Edu art-critic and Cartoon frame-critic (multimodal d3 could pass the clear c
 
 - A new non-exclusive local server `decide`, which is never part of the turn-taking, like `embed`
   (`src/local-servers.ts:9-12`). It has its own port and command and runs beside whichever chat model is up. Its command is
-  whatever runtime step 2 found: a `vllm-sr serve` or Python process, or llama-server only if that passed.
+  llama-server with the d3 GGUF, built like `embed` (`llama-args.ts:56`), if it passes the 20-case match check in step 2.
+  Otherwise it is the transformers process.
 - A proxy route `/v1/decide` passes `{state, questions}` through to the sidecar's `/v1/systemone` and returns the
   probabilities. Model id `acp/decide/<name>`.
 - Settings entry and Monitor line, like `embed`.
@@ -151,9 +165,23 @@ VN/Edu art-critic and Cartoon frame-critic (multimodal d3 could pass the clear c
 
 ## Checklist
 
-- [ ] Open questions answered (model, bar, Croatian)
-- [ ] Step 1: case set built (about 50 per gate)
-- [ ] Step 2: agreement run, `results.md`, go/no-go recorded
+- [ ] Open questions answered (models: yes, the d3 family downloaded to D: 2026-11-25; bar and Croatian still open)
+- [x] Step 1: case set built (2026-11-25). 187 real cases from `~/Scriptorium/jobs/{done,failed}` in
+      `.claude/temp/hub-46/cases/`: G1 50, G2 37 (all that exist; 34 fiction), G3 50, G4 50. The script is
+      `.claude/temp/hub-46/collect/collect-cases.mjs`. The jobs keep the full prompts but only a result summary, so the
+      comparison is yes/no and choice only. The baseline mixes models; report agreement per model too.
+- [x] Step 2 runtime check (2026-11-25): llama-server Q8 is the runtime. The 20-case match vs transformers gave 1 of 20
+      answers different (a G4 near-tie), max dP 0.015. transformers runs out of memory on prompts of 19k tokens or more.
+- [x] Step 2 phase A done 2026-11-25 (`results.md`): d3-mini and d3-flash with Strata loaded. Provisional: G1 GO for d3-flash
+      (91.8%, threshold about 0.7). G2, G3 and G4 are NO-GO for both.
+- [x] Step 2 phase B done 2026-11-25 (`results.md`, "Phase B"): alone timings for mini and flash on llama Q8 (same answers, 5-35%
+      faster; G3 still 20-26 s per chapter). d3-turbo on transformers BF16: G1 91.8%, G2 67.6%, G4 81.0%; G3 only 7 of 50 chapters
+      ran (HIP failure from 14,386 tokens, reproduced after a restart; 43 not run). Turbo changes no verdict: G1 flash provisional
+      GO, G2/G3/G4 NO-GO. Not measured: turbo G3 on long chapters (needs a GGUF, none exists; ask before converting), Inkling +
+      ComfyUI state.
+- [x] Step 2: agreement run, `results.md`, go/no-go recorded (provisional; bar 90% and English only by default)
+- 2026-11-25: dropped as NO-GO on the user's word (not worth it). Steps 3-5 not started. Removed: `scripts/decision-pilot.mjs`
+      and `.claude/temp/hub-46/`. `D:\DecisionModels` (about 96 GB) is left for the user to delete; removing it was blocked here.
 - [ ] Step 3: AAP-55 merged (only after go)
 - [ ] Step 4: SCP-72 merged (only after go)
 - [ ] Step 5: live book run played back, run log, ROADMAP row moved to Done
