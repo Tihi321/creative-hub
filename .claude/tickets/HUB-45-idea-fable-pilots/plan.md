@@ -1,5 +1,5 @@
 ---
-status: approved
+status: done
 request: REQ-0033
 repos: [C:/projects/Personal/creative-hub, C:/projects/Personal/scriptorium]
 branch: HUB-45_idea-fable-pilots

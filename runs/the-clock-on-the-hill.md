@@ -163,3 +163,12 @@ Rules: The higher clock runs faster. Nobody can feel the difference; never sugge
 - After: *My clock has survived years of us hanging storm shutters on it by accident,* ... (rest of the sentence unchanged).
 - Front matter `words`: 1588 -> 1586 (story part only, split on whitespace). `book.md` `length_gate.words: 1569` is the count from the gate at the time and was left as it is. Old sentence still sits in log.md, chapters/history/, reviews/ and out/draft/ (history, not touched).
 - Outputs rebuilt without the engine: a throwaway script (`.claude/temp/HUB-45-fix/rebuild.mts`) called Scriptorium's own `BookStore.buildEpubFile` (which writes the EPUB and then `out/reader/`) with tsx; no service started, no model called. Backups in `.claude/temp/HUB-45-fix/backup/`. EPUB file list identical to the backup; `modified` date of the EPUB is new.
+
+## Audio (REQ-0035, 2026-11-25)
+
+- Voice: bm_george (George, British English, male), engine Kokoro (VibeTTS, local, $0).
+- Narration scope: title, "a Taleidea story", the story, then "What just happened" and the debrief paragraphs. Quiz, Sources, Go deeper and the disclaimer left out; no front matter, markdown marks or citation marks. Narration text: .claude/temp/REQ-0035-audio/the-clock-on-the-hill.txt
+- Words narrated: 1905
+- MP3: C:/Users/Infplane/Scriptorium/books/the-clock-on-the-hill/out/audio/the-clock-on-the-hill.mp3
+- Size: 5626357 bytes. Duration: 703 s (11:43) (ffprobe).
+- Not verified: nobody has listened to it.

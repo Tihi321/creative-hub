@@ -150,3 +150,12 @@ User's go given 2026-11-25 ("Go").
 - After: "...a fence across a road was usually built for a reason [4], and it helps to name what counts as waste before cutting: in the Toyota Production System, Taiichi Ohno categorized seven kinds of waste in mass production, among them overproduction, waiting and unneeded processing [5]." ([5] now says what key fact 5 says.)
 - Front matter `words` stays 1578 (the change is in the back matter). `book.md` `length_gate.words: 1611` untouched.
 - Outputs rebuilt without the engine: throwaway script `.claude/temp/HUB-45-fix/rebuild.mts` calling Scriptorium's own `BookStore.buildEpubFile` (EPUB, then `out/reader/`) with tsx; no service started, no model called. Backups in `.claude/temp/HUB-45-fix/backup/`. EPUB file list identical to the backup.
+
+## Audio (REQ-0035, 2026-11-25)
+
+- Voice: bf_emma (Emma, British English, female), engine Kokoro (VibeTTS, local, $0).
+- Narration scope: title, "a Taleidea story", the story, then "What just happened" and the debrief paragraphs. Quiz, Sources, Go deeper and the disclaimer left out; no front matter, markdown marks or citation marks. Narration text: .claude/temp/REQ-0035-audio/the-second-window.txt
+- Words narrated: 1914
+- MP3: C:/Users/Infplane/Scriptorium/books/the-second-window/out/audio/the-second-window.mp3
+- Size: 4602775 bytes. Duration: 575 s (9:35) (ffprobe).
+- Not verified: nobody has listened to it.

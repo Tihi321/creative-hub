@@ -152,3 +152,12 @@ All five key facts rest on Wikipedia: needs a better source before anything is p
 ## Left to do
 
 - The user's go, then plan 2.1-2.5.
+
+## Audio (REQ-0035, 2026-11-25)
+
+- Voice: af_heart (Heart, American English, female), engine Kokoro (VibeTTS, local, $0).
+- Narration scope: title, "a Taleidea story", the story, then "What just happened" and the debrief paragraphs. Quiz, Sources, Go deeper and the disclaimer left out; no front matter, markdown marks or citation marks. Narration text: .claude/temp/REQ-0035-audio/the-plain-title-page.txt
+- Words narrated: 1815
+- MP3: C:/Users/Infplane/Scriptorium/books/the-plain-title-page/out/audio/the-plain-title-page.mp3
+- Size: 4716669 bytes. Duration: 590 s (9:50) (ffprobe).
+- Not verified: nobody has listened to it.
