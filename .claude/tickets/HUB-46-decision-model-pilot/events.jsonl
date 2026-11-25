@@ -1,0 +1,17 @@
+{"ts":"2026-11-25T15:13:05Z","actor":"implement","type":"implement.started","request":null,"ticket":"HUB-46-decision-model-pilot","detail":"step 1 and runtime check on HUB-46_decision-model-pilot"}
+{"ts":"2026-11-25T15:13:39Z","actor":"implement","type":"slice.started","request":null,"ticket":"HUB-46-decision-model-pilot","detail":"collect gate cases G1-G4","data":{"tasks":["S1"]}}
+{"ts":"2026-11-25T15:13:39Z","actor":"implement","type":"slice.started","request":null,"ticket":"HUB-46-decision-model-pilot","detail":"runtime check for d3 on gfx1151","data":{"tasks":["S2-runtime"]}}
+{"ts":"2026-11-25T15:18:19Z","actor":"implement","type":"slice.done","request":null,"ticket":"HUB-46-decision-model-pilot","detail":"187 real cases from job files (G1 50, G2 37, G3 50, G4 50)","data":{"tasks":["S1"]}}
+{"ts":"2026-11-25T15:23:51Z","actor":"implement","type":"slice.done","request":null,"ticket":"HUB-46-decision-model-pilot","detail":"d3-mini runs in transformers ROCm and llama-server native; vllm-sr needs WSL","data":{"tasks":["S2-runtime"]}}
+{"ts":"2026-11-25T15:23:51Z","actor":"implement","type":"verify.passed","request":null,"ticket":"HUB-46-decision-model-pilot","detail":"case files and toy runtime answers checked"}
+{"ts":"2026-11-25T15:23:51Z","actor":"implement","type":"changelog.written","request":null,"ticket":"HUB-46-decision-model-pilot","detail":"step 1 and runtime check; status stays in-progress"}
+{"ts":"2026-11-25T15:33:21Z","actor":"implement","type":"slice.started","request":null,"ticket":"HUB-46-decision-model-pilot","detail":"step 2 phase A: d3-mini and d3-flash, busy GPU","data":{"tasks":["S2-A"]}}
+{"ts":"2026-11-25T17:12:11Z","actor":"implement","type":"slice.done","request":null,"ticket":"HUB-46-decision-model-pilot","detail":"phase A: G1 GO for d3-flash (provisional); G2-G4 NO-GO","data":{"tasks":["S2-A"]}}
+{"ts":"2026-11-25T17:12:11Z","actor":"implement","type":"verify.passed","request":null,"ticket":"HUB-46-decision-model-pilot","detail":"results.md reviewed; no leftover processes"}
+{"ts":"2026-11-25T17:12:11Z","actor":"implement","type":"changelog.written","request":null,"ticket":"HUB-46-decision-model-pilot","detail":"phase A entry; status stays in-progress"}
+{"ts":"2026-11-25T19:38:46Z","actor":"implement","type":"slice.started","request":null,"ticket":"HUB-46-decision-model-pilot","detail":"S2-B: d3-turbo and alone-state timings, Strata engine ended by user's word","data":{"tasks":["S2-B"]}}
+{"ts":"2026-11-25T21:02:41Z","actor":"implement","type":"slice.done","request":null,"ticket":"HUB-46-decision-model-pilot","detail":"S2-B done: alone timings, turbo G1/G2/G4, turbo G3 7 of 50","data":{"tasks":["S2-B"]}}
+{"ts":"2026-11-25T21:02:41Z","actor":"implement","type":"verify.passed","request":null,"ticket":"HUB-46-decision-model-pilot","detail":"results.md Phase B present, CRLF, GPU back to 0.8 GB, no stray processes"}
+{"ts":"2026-11-25T21:03:35Z","actor":"implement","type":"changelog.written","request":null,"ticket":"HUB-46-decision-model-pilot","detail":"phase B entry; steps 3-5 wait for a go"}
+{"ts":"2026-11-25T21:05:38Z","actor":"user","type":"note","request":null,"ticket":"HUB-46-decision-model-pilot","detail":"user stopped after step 2; steps 3-5 not started"}
+{"ts":"2026-11-25T21:12:28Z","actor":"user","type":"note","request":null,"ticket":"HUB-46-decision-model-pilot","detail":"dropped as NO-GO; pilot script and scratch removed, D: models left"}
