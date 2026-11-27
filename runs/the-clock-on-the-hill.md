@@ -172,3 +172,13 @@ Rules: The higher clock runs faster. Nobody can feel the difference; never sugge
 - MP3: C:/Users/Infplane/Scriptorium/books/the-clock-on-the-hill/out/audio/the-clock-on-the-hill.mp3
 - Size: 5626357 bytes. Duration: 703 s (11:43) (ffprobe).
 - Not verified: nobody has listened to it.
+
+## Sources and audio update (HUB-47, 2026-11-26)
+
+- Debrief [1]: "..., runs slightly slower than an identical clock placed higher up, and anyone comparing the two will agree on which one has fallen behind - a separate effect from the slowing caused by speed" -> "..., runs slightly slower than an identical clock placed higher up, a separate effect from the slowing caused by speed"
+- [2]: "In 1971, four caesium clocks flown on commercial airliners came back changed exactly as the idea predicted: the ones that circled eastward lost about 59 billionths of a second, and the ones that circled westward gained about 273" -> "In 1971, four caesium clocks flown around the world on commercial jets, compared with clocks at the U.S. Naval Observatory, lost about 59 billionths of a second flying eastward and gained about 273 flying westward, in good agreement with what relativity predicted for those flights"
+- [3], [4], [5]: wording kept; NIST URL updated to the non-redirecting one; [5] source swapped to Pogge (Ohio State) and Ashby (2003).
+- Sources applied: 1 Einstein-Online (Poessel) and NIST 2010; 2 Hafele and Keating, Science 177 (1972), observed and predicted; 3 NIST 2010 and Chou et al., Science 329 (2010); 4 NIST 2010; 5 Pogge and Ashby. Full list as in sources.md.
+- Rebuild evidence: outputs rebuilt without the engine (throwaway `.claude/temp/HUB-47-pilots/rebuild.mts`, `BookStore.buildEpubFile`, tsx; no service touched, no MCP call). It rewrites `out/<slug>.epub` and `out/reader/` only; `out/audio/` was checked afterwards and is intact. The new sentence and a new source are present in both `out/reader/chapter-01.xhtml` and the EPUB's `OEBPS/chapter-01.xhtml`. Checks: story part identical to the backup (diff before `## What just happened`), Go deeper and disclaimer identical, [1]-[5] in the debrief match Sources 1-5, quiz still 3 questions. Backup: `.claude/temp/HUB-47-pilots/backup/<slug>-ch-01.md`.
+- New audio: DONE (2026-11-26). Voice bm_george (Kokoro); speed 1.0 for title and story, 0.87 for the debrief (speed had effect with a `path` input); pauses 1.5 s after the title and 2 s before the debrief; durations: title 3.6 s, story 578.9 s (164 wpm), debrief 132.2 s (137 wpm), total 718.2 s; path `books/the-clock-on-the-hill/out/audio/the-clock-on-the-hill.mp3` (+ one-line `the-clock-on-the-hill.m3u`), 44.1 kHz mono 128 kbps. Not verified: nobody has listened.
+- Not verified: nobody has listened.

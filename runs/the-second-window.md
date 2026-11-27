@@ -159,3 +159,15 @@ User's go given 2026-11-25 ("Go").
 - MP3: C:/Users/Infplane/Scriptorium/books/the-second-window/out/audio/the-second-window.mp3
 - Size: 4602775 bytes. Duration: 575 s (9:35) (ffprobe).
 - Not verified: nobody has listened to it.
+
+## Sources and audio update (HUB-47, 2026-11-26)
+
+- Debrief sentence [1]: "When something is slow or broken, people's first instinct is almost always to add something - a window, an app, a rule - and hardly anyone stops to ask whether taking something away would work better" -> "When something is slow or broken, people tend to default to searching for things to add (a window, an app, a rule) and so overlook the option of taking something away"
+- [2]: "Studies that gave people a thing to fix found they reached for additions far more often than removals, especially when they were busy, hadn't been prompted ..., or only had one chance to notice the problem" -> "Across eight experiments, people were less likely to spot helpful removals when the task did not prompt them to consider removing, when they had only one chance to see that adding falls short, or when they were under heavier mental load"
+- [3]: "This isn't because people think removing is a bad idea ... so a rushed mind settles for the first thing it can add" -> "The researchers' account is that people overlook removing rather than reject it: removing ideas take more mental effort to come to mind, so people moving fast settle for the first adding idea"
+- [4], [5]: wording kept (source swapped for [4]: Chesterton, The Thing, 1929; [5] Lean Enterprise Institute kept).
+- Quiz 1 option B and answer 1: "far more often" -> "more often".
+- Sources applied: 1 Adams et al., Nature 592 (2021), doi 10.1038/s41586-021-03380-y; 2 same study; 3 McManamay, UVA Engineering, April 2021; 4 Chesterton, The Thing (1929), archive.org scan; 5 Lean Enterprise Institute, 7 Wastes. Full list as in `.claude/tickets/HUB-47-filters-fable-and-audiobooks/sources.md`.
+- Rebuild evidence: outputs rebuilt without the engine (throwaway `.claude/temp/HUB-47-pilots/rebuild.mts`, `BookStore.buildEpubFile`, tsx; no service touched, no MCP call). It rewrites `out/<slug>.epub` and `out/reader/` only; `out/audio/` was checked afterwards and is intact. The new sentence and a new source are present in both `out/reader/chapter-01.xhtml` and the EPUB's `OEBPS/chapter-01.xhtml`. Checks: story part identical to the backup (diff before `## What just happened`), Go deeper and disclaimer identical, [1]-[5] in the debrief match Sources 1-5, quiz still 3 questions. Backup: `.claude/temp/HUB-47-pilots/backup/<slug>-ch-01.md`.
+- New audio: DONE (2026-11-26). Voice bf_emma (Kokoro); speed 1.0 for title and story, 0.87 for the debrief (speed had effect with a `path` input); pauses 1.5 s after the title and 2 s before the debrief; durations: title 3.1 s, story 467.7 s (202 wpm), debrief 112.9 s (170 wpm), total 587.3 s; path `books/the-second-window/out/audio/the-second-window.mp3` (+ one-line `the-second-window.m3u`), 44.1 kHz mono 128 kbps. Not verified: nobody has listened.
+- Not verified: nobody has listened.

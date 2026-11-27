@@ -161,3 +161,14 @@ All five key facts rest on Wikipedia: needs a better source before anything is p
 - MP3: C:/Users/Infplane/Scriptorium/books/the-plain-title-page/out/audio/the-plain-title-page.mp3
 - Size: 4716669 bytes. Duration: 590 s (9:50) (ffprobe).
 - Not verified: nobody has listened to it.
+
+## Sources and audio update (HUB-47, 2026-11-26)
+
+- Debrief [1]: "in 1920, Edward Thorndike asked two commanding officers to rate their soldiers on a set of separate qualities, and found the ratings correlated too highly and too evenly, as though one overall impression had coloured every score" -> "in 1920, Edward Thorndike reported that army officers' ratings of separate qualities such as physique, intelligence and leadership correlated \"too high and too even\", as though one general impression had coloured every score"
+- [2]: "more desirable traits across the board" -> "more favourable traits and more successful lives"
+- [3], [4], [5]: wording kept, sources swapped (Efran 1974 via Yang et al. 2019; Knowledge@Wharton/Forbes 2007 and USA Today 2007; Meguerdichian et al. 2024).
+- Quiz 2 stem: "1920 study of military officers rating soldiers on separate qualities" -> "1920 study of army officers' ratings of separate qualities"; answer 2: "the two officers' ratings of their soldiers" -> "army officers' ratings".
+- Sources applied: 1 Thorndike 1920 (doi, public-domain copy, Westbury and King 2024); 2 Dion et al. 1972 via Gulati 2024 and Langlois 2000; 3 Efran 1974 via Yang 2019; 4 Forbes/Knowledge@Wharton and USA Today 2007; 5 Meguerdichian 2024. Wikipedia no longer cited.
+- Rebuild evidence: outputs rebuilt without the engine (throwaway `.claude/temp/HUB-47-pilots/rebuild.mts`, `BookStore.buildEpubFile`, tsx; no service touched, no MCP call). It rewrites `out/<slug>.epub` and `out/reader/` only; `out/audio/` was checked afterwards and is intact. The new sentence and a new source are present in both `out/reader/chapter-01.xhtml` and the EPUB's `OEBPS/chapter-01.xhtml`. Checks: story part identical to the backup (diff before `## What just happened`), Go deeper and disclaimer identical, [1]-[5] in the debrief match Sources 1-5, quiz still 3 questions. Backup: `.claude/temp/HUB-47-pilots/backup/<slug>-ch-01.md`.
+- New audio: DONE (2026-11-26). Voice af_heart (Kokoro); speed 1.0 for title and story, 0.87 for the debrief (speed had effect with a `path` input); pauses 1.5 s after the title and 2 s before the debrief; durations: title 3.2 s, story 492.6 s (190 wpm), debrief 101.3 s (145 wpm), total 600.6 s; path `books/the-plain-title-page/out/audio/the-plain-title-page.mp3` (+ one-line `the-plain-title-page.m3u`), 44.1 kHz mono 128 kbps. Not verified: nobody has listened.
+- Not verified: nobody has listened.
