@@ -182,3 +182,9 @@ Same pipeline and rules as the three soother books above (work folders `C:/ab/<s
 - the-dragon-who-collects-goodnights (no choices, 6 ch, 19.0 min): Petra af_sky, Quill bf_isabella, Bramble am_fenrir, Moss am_puck. Seconds: title 5, 174, 206, 198, 178, 190, 191.
 - the-last-lullaby-of-dragon-land (no choices, 5 ch, 19.8 min): Petra af_sky, Quillo am_liam, Grandmother Opal bf_alice, The Tumblers (group) bf_lily. Seconds: title 6, 203, 239, 274, 230, 238.
 - upside-down-petra (choice, 8 ch, 26.4 min): Petra af_sky, Pebble am_puck, Granny Mossback bf_isabella, Upside Stars af_aoede, Grumbly Stars am_liam, Dragon under the stone am_fenrir; the joint labels PETRA AND PEBBLE (3) and ALL THREE (1) are read in Petra's voice. Seconds: title 7, 210, 193, 203, 214, 184, 206, 177, 190. Choices: 1 -> 2/3, 2 -> 4/5/6, 3 -> 7/8; 4-8 end. Problem: ch08 SCENE "The Bottom of the Downward Tree" has no time part, read whole.
+
+## Redone soother books, 2026-11-28
+
+Same pipeline and rules as the soother books above (work folders `C:/ab/<slug>/drama/`, narrator bm_lewis at 0.95, cast 1.0). Unattributed lines: none. Problems: none. Not verified: nobody has listened.
+- the-ridge-of-lost-things (choice, 8 ch, 34.6 min): Pippin am_echo, Grandmother Slate bf_emma, Mirabel af_bella, Petra af_sky, Gruff am_fenrir, Tootle am_michael, Fen am_puck (same as Fen in the-cloud-herders-ladder), Nib (baby) bf_lily, Petra's Mum af_heart. Seconds: title 7, 271, 265, 264, 250, 279, 270, 248, 220. Choices: 1 -> 2/3/4, 2 -> 5/3, 3 -> 4/6, 4 -> 5/6, 5 -> 6/7, 6 -> 7/8; 7-8 end.
+- the-whistle-ring-roost (choice, 10 ch, 36.1 min): Gust am_liam, Dame Belfry af_nova, Pop am_puck, Pip af_kore, Old Thermal bf_isabella, Petra af_sky, The Tall Owl am_onyx, Pudding (chick) bf_lily. Seconds: title 7, 233, 261, 241, 207, 203, 207, 208, 215, 198, 186. Choices: 1 -> 2/3, 2 -> 4/5/6, 3 -> 4/5, 4 -> 7/6, 5 -> 7/8, 6 -> 9/10, 7 -> 9/8; 8-10 end.
